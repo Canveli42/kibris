@@ -8,3 +8,15 @@
     { "source": "/m/:slug", "destination": "/model.html?m=:slug" }
   ]
 }
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/girne-escort", "destination": "/region.html?r=girne-escort" },
+    { "source": "/lefkosa-escort", "destination": "/region.html?r=lefkosa-escort" },
+    { "source": "/magusa-escort", "destination": "/region.html?r=magusa-escort" },
+    { "source": "/iskele-escort", "destination": "/region.html?r=iskele-escort" },
+    { "source": "/guzelyurt-escort", "destination": "/region.html?r=guzelyurt-escort" },
+    { "source": "/m/:slug", "destination": "/model.html?m=:slug" }
+  ]
+}
