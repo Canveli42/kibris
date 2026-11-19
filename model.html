@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Model</title>
+<meta name="description" content="Model fotoğrafları, özellikleri ve iletişim. WhatsApp ile hemen rezervasyon.">
+<link rel="canonical" href="https://kibrisgirneescort.com/">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><div class="wrap hrow">
+  <a class="logo" href="/">Kıbrıs <span>Escort</span></a>
+  <nav>
+    <a href="/girne-escort">Girne</a><a href="/lefkosa-escort">Lefkoşa</a>
+    <a href="/magusa-escort">Mağusa</a><a href="/iskele-escort">İskele</a>
+    <a href="/fiyatlar">Fiyatlar</a><a href="/iletisim">İletişim</a>
+  </nav>
+  <a class="btn" id="waTop" href="#">WhatsApp</a>
+</div></header>
+
+<main class="wrap">
+  <div class="crumb"><a href="/">Ana sayfa</a> › <a id="crReg" href="#">Bölge</a> › <span id="crName"></span></div>
+  <h1 id="h1">Yükleniyor…</h1>
+  <div class="gal" id="gal"></div>
+  <a class="btn" id="waMain" href="#">WhatsApp'tan yaz</a>
+  <a class="btn-o" id="tgMain" href="#" style="margin-left:6px">Telegram</a>
+
+  <div class="specs" id="specs"></div>
+  <div class="about" id="about"></div>
+
+  <section class="sect">
+    <h2>Benzer modeller</h2>
+    <div class="grid" id="sim"></div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <p id="brand">Kıbrıs Escort Rezervasyon</p>
+  <p><a id="waFoot" href="#" style="color:var(--gold)">WhatsApp</a> · <a id="tgFoot" href="#" style="color:var(--gold)">Telegram</a></p>
+</div></footer>
+<a class="btn fix" id="waFix" href="#">WhatsApp'tan yaz</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB="https://accerzwswgighfgoeqv.supabase.co";
+const KEY="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG";
+const db=supabase.createClient(SB,KEY);
+const slug=new URLSearchParams(location.search).get("m")||"";
+let WA="";
+const waT=n=>"https://wa.me/"+WA+"?text="+encodeURIComponent("Merhaba, "+(n||"")+" müsait mi?");
+
+(async()=>{
+  const {data:s}=await db.from("settings").select("key,value");
+  const c={};(s||[]).forEach(r=>c[r.key]=r.value);
+  WA=c.whatsapp||"";
+  if(c.brand)document.getElementById("brand").textContent=c.brand;
+
+  const {data:m}=await db.from("models")
+    .select("*,regions(slug,name),model_photos(url,sort)")
+    .eq("slug",slug).eq("is_active",true).single();
+  if(!m){document.getElementById("h1").textContent="Model bulunamadı";return}
+
+  const nm=m.name, rn=m.regions?.name||"Kıbrıs";
+  ["waTop","waMain","waFix","waFoot"].forEach(i=>{const e=document.getElementById(i);if(e)e.href=waT(nm)});
+  if(c.telegram){const t="https://t.me/"+c.telegram;document.getElementById("tgFoot").href=t;document.getElementById("tgMain").href=t}
+
+  document.title=nm+" – "+rn+" Escort | Kıbrıs Escort";
+  document.getElementById("crReg").textContent=rn;
+  if(m.regions?.slug)document.getElementById("crReg").href="/"+m.regions.slug;
+  document.getElementById("crName").textContent=nm;
+  document.getElementById("h1").innerHTML=nm+(m.vip?' <span class="vip" style="position:static;display:inline-block">VIP</span>':"");
+  document.getElementById("about").textContent=m.about||"";
+
+  const sp=[["Yaş",m.age],["Boy",m.height?m.height+" cm":""],["Kilo",m.weight?m.weight+" kg":""],
+            ["Saç",m.hair],["Göz",m.eyes],["Ten",m.skin]];
+  document.getElementById("specs").innerHTML=sp.filter(x=>x[1])
+    .map(([k,v])=>`<div><b>${k}</b>${v}</div>`).join("");
+
+  const ph=(m.model_photos||[]).sort((a,b)=>a.sort-b.sort);
+  document.getElementById("gal").innerHTML=ph
+    .map((p,i)=>`<img src="${p.url}" alt="${nm} ${rn} escort fotoğraf ${i+1}" loading="${i?"lazy":"eager"}">`).join("");
+
+  const {data:sim}=await db.from("models").select("slug,name,age,model_photos(url,sort)")
+    .eq("is_active",true).eq("region_id",m.region_id).neq("slug",slug).limit(6);
+  document.getElementById("sim").innerHTML=(sim||[]).map(x=>{
+    const p=(x.model_photos||[])[0];
+    return `<a class="card" href="/m/${x.slug}"><div class="ph">${p?`<img src="${p.url}" alt="${x.name}" loading="lazy">`:""}</div>
+      <div class="meta"><div class="nm">${x.name}</div><div class="sp">${x.age?x.age+" yaş":""}</div></div></a>`;
+  }).join("");
+})();
+</script>
+</body>
+</html>
