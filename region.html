@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bölge Escort</title>
+<meta name="description" content="Bölgedeki escort modeller, fotoğraflı katalog ve güncel fiyatlar. Tek WhatsApp ile rezervasyon.">
+<link rel="canonical" href="https://kibrisgirneescort.com/">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><div class="wrap hrow">
+  <a class="logo" href="/">Kıbrıs <span>Escort</span></a>
+  <nav>
+    <a href="/girne-escort">Girne</a><a href="/lefkosa-escort">Lefkoşa</a>
+    <a href="/magusa-escort">Mağusa</a><a href="/iskele-escort">İskele</a>
+    <a href="/fiyatlar">Fiyatlar</a><a href="/iletisim">İletişim</a>
+  </nav>
+  <a class="btn" id="waTop" href="#">WhatsApp</a>
+</div></header>
+
+<main class="wrap">
+  <div class="crumb"><a href="/">Ana sayfa</a> › <span id="cr"></span></div>
+  <h1 id="h1">Yükleniyor…</h1>
+  <p class="lead" id="lead"></p>
+  <a class="btn" id="waMain" href="#">Katalog İste</a>
+
+  <section class="sect">
+    <h2 id="h2">Modeller</h2>
+    <div class="grid" id="models"></div>
+  </section>
+
+  <section class="sect">
+    <h2>Bu bölgede çalışma şekli</h2>
+    <div class="about" id="about"></div>
+  </section>
+
+  <section class="sect">
+    <h2>Diğer bölgeler</h2>
+    <div id="others" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <p id="brand">Kıbrıs Escort Rezervasyon</p>
+  <p><a id="waFoot" href="#" style="color:var(--gold)">WhatsApp</a> · <a id="tgFoot" href="#" style="color:var(--gold)">Telegram</a></p>
+</div></footer>
+<a class="btn fix" id="waFix" href="#">WhatsApp'tan yaz</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB="https://accerzwswgighfgoeqv.supabase.co";
+const KEY="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG";
+const db=supabase.createClient(SB,KEY);
+const slug=new URLSearchParams(location.search).get("r")||"girne-escort";
+let WA="";
+const waT=n=>"https://wa.me/"+WA+"?text="+encodeURIComponent("Merhaba, "+(n||"katalog")+" için bilgi alabilir miyim?");
+
+(async()=>{
+  const {data:s}=await db.from("settings").select("key,value");
+  const c={};(s||[]).forEach(r=>c[r.key]=r.value);
+  WA=c.whatsapp||"";
+  ["waTop","waMain","waFix","waFoot"].forEach(i=>{const e=document.getElementById(i);if(e)e.href=waT()});
+  if(c.brand)document.getElementById("brand").textContent=c.brand;
+  if(c.telegram)document.getElementById("tgFoot").href="https://t.me/"+c.telegram;
+
+  const {data:regs}=await db.from("regions").select("id,slug,name,intro").order("sort");
+  const reg=(regs||[]).find(r=>r.slug===slug)||{name:"Kıbrıs",slug:slug};
+  const nm=reg.name;
+
+  document.title=nm+" Escort | Kıbrıs Escort Rezervasyon";
+  document.getElementById("cr").textContent=nm;
+  document.getElementById("h1").innerHTML=nm+" <span style=\"color:var(--gold)\">Escort</span>";
+  document.getElementById("h2").textContent=nm+" escort modeller";
+  document.getElementById("lead").textContent=reg.intro||(nm+" bölgesinde seçkin escort modeller. Gerçek fotoğraflar, net fiyat, aynı gün rezervasyon.");
+  document.getElementById("about").textContent=nm+" içinde otel ve ev ziyareti yapılıyor. Rezervasyon WhatsApp üzerinden yürüyor; müsaitlik ve ulaşım süresi bölgeye göre değişir, önceden teyit alıyoruz.";
+  document.getElementById("waMain").textContent=nm+" Kataloğu İste";
+
+  document.getElementById("others").innerHTML=(regs||[]).filter(r=>r.slug!==slug)
+    .map(r=>`<a class="btn-o" href="/${r.slug}">${r.name}</a>`).join("");
+
+  const {data:ms}=await db.from("models")
+    .select("slug,name,age,height,vip,model_photos(url,sort)")
+    .eq("is_active",true).eq("region_id",reg.id).order("sort");
+  document.getElementById("models").innerHTML=(ms||[]).map(m=>{
+    const ph=(m.model_photos||[]).sort((a,b)=>a.sort-b.sort)[0];
+    return `<a class="card" href="/m/${m.slug}">
+      <div class="ph">${ph?`<img src="${ph.url}" alt="${m.name} ${nm} escort" loading="lazy">`:""}
+      ${m.vip?'<span class="vip">VIP</span>':""}</div>
+      <div class="meta"><div class="nm">${m.name}</div>
+      <div class="sp">${m.age?m.age+" yaş":""}${m.height?" · "+m.height+" cm":""}</div></div></a>`;
+  }).join("")||"<p style=\"color:var(--muted)\">Bu bölgede henüz model yok.</p>";
+})();
+</script>
+</body>
+</html>
