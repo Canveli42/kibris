@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Kıbrıs Escort Fiyatları 2026 | Sabit Tarife</title>
-<meta name="description" content="Kıbrıs escort fiyatları: 30 dakika 7.000 ₺, saatlik 12.000 ₺, 2 saat 17.000 ₺, 4 saat 22.000 ₺. Sabit tarife, nakit, IBAN veya kripto ödeme.">
+<meta name="description" content="Kıbrıs escort fiyatları: 30 dakika 7.000 ₺, saatlik 12.000 ₺, 2 saat 17.000 ₺, 4 saat 22.000 ₺. Sabit tarife, nakit, IBAN veya kripto ödeme, ön ödeme yok.">
 <link rel="canonical" href="https://kibrisgirneescort.com/fiyatlar">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -22,7 +22,7 @@
 <main class="wrap">
   <div class="crumb"><a href="/">Ana sayfa</a> › <span>Fiyatlar</span></div>
   <h1>Kıbrıs Escort Fiyatları</h1>
-  <p class="lead">Sabit tarife uyguluyoruz. Görüşme sırasında ek ücret çıkmaz; taksi ücreti mesafeye göre hesaplanır.</p>
+  <p class="lead">Sabit tarife uyguluyoruz. Ön ödeme yok, görüşme sırasında ek ücret çıkmaz; taksi ücreti mesafeye göre hesaplanır.</p>
 
   <div class="specs" style="grid-template-columns:1fr">
     <div><b>30 dakika</b>7.000 ₺ <span style="color:var(--muted)">· yalnızca kendi yerimizde</span></div>
@@ -44,10 +44,44 @@
 
   <div class="about">
     <b>Ödeme</b><br>
-    Nakit, IBAN/havale veya kripto (USDT). Nakit görüşme başında; havale ve kripto önceden yapılır, dekont WhatsApp'a gönderilir.
+    Nakit, IBAN/havale veya kripto (USDT). Ön ödeme yok — ödeme görüşme sırasında yapılır.
   </div>
 
   <section class="sect">
     <h2>Bölgeye göre</h2>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <a class="btn-o" href="/g
+      <a class="btn-o" href="/girne-escort">Girne</a>
+      <a class="btn-o" href="/lefkosa-escort">Lefkoşa</a>
+      <a class="btn-o" href="/magusa-escort">Mağusa</a>
+      <a class="btn-o" href="/iskele-escort">İskele</a>
+    </div>
+  </section>
+
+  <section class="sect">
+    <h2>Sık sorulanlar</h2>
+    <div class="about"><b>Gecelik program var mı?</b><br>Var, süreye ve modele göre WhatsApp'tan teklif veriyoruz.</div>
+    <div class="about"><b>Pazarlık olur mu?</b><br>Tarife sabit. 4 saat ve üzeri programlarda esneklik olabilir.</div>
+    <div class="about"><b>IBAN veya kripto ile ödeyebilir miyim?</b><br>Evet. Havale ve USDT kabul ediliyor; ödeme görüşme sırasında yapılır, ön ödeme istenmez.</div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <p id="brand">Kıbrıs Escort Rezervasyon</p>
+  <p><a id="waFoot" href="#" style="color:var(--gold)">WhatsApp</a> · <a id="tgFoot" href="#" style="color:var(--gold)">Telegram</a></p>
+</div></footer>
+<a class="btn fix" id="waFix" href="#">Fiyat sor</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const db=supabase.createClient("https://accerzwswgiqhtfgoeqv.supabase.co","sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG");
+(async()=>{
+  const {data:s}=await db.from("settings").select("key,value");
+  const c={};(s||[]).forEach(r=>c[r.key]=r.value);
+  const w="https://wa.me/"+c.whatsapp+"?text="+encodeURIComponent("Merhaba, fiyat listesini alabilir miyim?");
+  ["waTop","waFix","waFoot"].forEach(i=>document.getElementById(i).href=w);
+  if(c.brand)document.getElementById("brand").textContent=c.brand;
+  if(c.telegram)document.getElementById("tgFoot").href="https://t.me/"+c.telegram;
+})();
+</script>
+</body>
+</html>
