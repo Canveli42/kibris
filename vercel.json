@@ -1,7 +1,7 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
+    { "source": "/fiyatlar", "destination": "/fiyatlar.html" },
+    { "source": "/iletisim", "destination": "/iletisim.html" },
     { "source": "/girne-escort", "destination": "/region.html?r=girne-escort" },
     { "source": "/lefkosa-escort", "destination": "/region.html?r=lefkosa-escort" },
     { "source": "/magusa-escort", "destination": "/region.html?r=magusa-escort" },
