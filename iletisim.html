@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>İletişim | Kıbrıs Escort Rezervasyon</title>
+<meta name="description" content="WhatsApp ve Telegram ile 7/24 ulaşın. Girne, Lefkoşa, Mağusa ve İskele'de aynı gün rezervasyon.">
+<link rel="canonical" href="https://kibrisgirneescort.com/iletisim">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><div class="wrap hrow">
+  <a class="logo" href="/">Kıbrıs <span>Escort</span></a>
+  <nav>
+    <a href="/girne-escort">Girne</a><a href="/lefkosa-escort">Lefkoşa</a>
+    <a href="/magusa-escort">Mağusa</a><a href="/iskele-escort">İskele</a>
+    <a href="/fiyatlar">Fiyatlar</a><a href="/iletisim">İletişim</a>
+  </nav>
+  <a class="btn" id="waTop" href="#">WhatsApp</a>
+</div></header>
+
+<main class="wrap">
+  <div class="crumb"><a href="/">Ana sayfa</a> › <span>İletişim</span></div>
+  <h1>İletişim</h1>
+  <p class="lead">Tek mesaj yeter. Kaldığın bölgeyi yaz, uygun modellerin fotoğraflı listesini gönderiyoruz.</p>
+
+  <div class="specs" style="grid-template-columns:1fr">
+    <div><b>WhatsApp</b><a id="waBig" href="#" style="color:var(--gold)">Numaraya git</a></div>
+    <div><b>Telegram</b><a id="tgBig" href="#" style="color:var(--gold)">Kanala git</a></div>
+    <div><b>Çalışma saatleri</b>7/24</div>
+  </div>
+
+  <div class="about">
+    <b>İlk mesajda ne yazmalı?</b><br>
+    Bölge (Girne, Lefkoşa, Mağusa, İskele), tarih/saat ve kaç saatlik görüşme istediğin. Model seçmediysen "katalog" yaz, liste göndeririz.
+  </div>
+
+  <div class="about">
+    <b>Yanıt süresi</b><br>
+    Gündüz ortalama 5 dakika. Gece geç saatlerde yoğunluk olabilir, aynı gün dönüş yapılır.
+  </div>
+
+  <div class="about">
+    <b>Görüşme yerleri</b><br>
+    Girne, Lefkoşa, Mağusa ve İskele'de otel ve ev ziyareti. Güzelyurt ve Lefke için önceden yazılmalı.
+  </div>
+</main>
+
+<footer><div class="wrap">
+  <p id="brand">Kıbrıs Escort Rezervasyon</p>
+  <p><a id="waFoot" href="#" style="color:var(--gold)">WhatsApp</a> · <a id="tgFoot" href="#" style="color:var(--gold)">Telegram</a></p>
+</div></footer>
+<a class="btn fix" id="waFix" href="#">WhatsApp'tan yaz</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const db=supabase.createClient("https://accerzwswgiqhtfgoeqv.supabase.co","sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG");
+(async()=>{
+  const {data:s}=await db.from("settings").select("key,value");
+  const c={};(s||[]).forEach(r=>c[r.key]=r.value);
+  const w="https://wa.me/"+c.whatsapp+"?text="+encodeURIComponent("Merhaba, katalog alabilir miyim?");
+  ["waTop","waBig","waFix","waFoot"].forEach(i=>document.getElementById(i).href=w);
+  if(c.brand)document.getElementById("brand").textContent=c.brand;
+  if(c.telegram){const t="https://t.me/"+c.telegram;
+    document.getElementById("tgFoot").href=t;document.getElementById("tgBig").href=t}
+})();
+</script>
+</body>
+</html>
