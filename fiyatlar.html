@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kıbrıs Escort Fiyatları 2026 | Girne, Lefkoşa, Mağusa</title>
-<meta name="description" content="Kıbrıs escort fiyatları: saatlik ve gecelik ücret aralıkları, bölge farkları, ek ücretler. Şeffaf fiyat listesi, sürpriz yok.">
+<title>Kıbrıs Escort Fiyatları 2026 | Sabit Tarife</title>
+<meta name="description" content="Kıbrıs escort fiyatları: 30 dakika 7.000 ₺, saatlik 12.000 ₺, 2 saat 17.000 ₺, 4 saat 22.000 ₺. Sabit tarife, sürpriz ek ücret yok.">
 <link rel="canonical" href="https://kibrisgirneescort.com/fiyatlar">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -22,18 +22,24 @@
 <main class="wrap">
   <div class="crumb"><a href="/">Ana sayfa</a> › <span>Fiyatlar</span></div>
   <h1>Kıbrıs Escort Fiyatları</h1>
-  <p class="lead">Aşağıdaki aralıklar 2026 sezonu için geçerli. Kesin tutarı model ve süreye göre WhatsApp'tan teyit ediyoruz — görüşmede sürpriz ek ücret çıkmaz.</p>
+  <p class="lead">Sabit tarife uyguluyoruz. Görüşme sırasında ek ücret çıkmaz; taksi ücreti mesafeye göre hesaplanır.</p>
 
   <div class="specs" style="grid-template-columns:1fr">
-    <div><b>Saatlik</b>1.000 – 1.800 ₺</div>
-    <div><b>2 saat</b>1.800 – 3.000 ₺</div>
-    <div><b>Gecelik</b>5.000 – 9.000 ₺</div>
-    <div><b>Otel / ev ziyareti</b>+200 – 400 ₺ ulaşım</div>
+    <div><b>30 dakika</b>7.000 ₺ <span style="color:var(--muted)">· yalnızca kendi yerimizde</span></div>
+    <div><b>1 saat</b>12.000 ₺</div>
+    <div><b>2 saat</b>17.000 ₺</div>
+    <div><b>4 saat program</b>22.000 ₺</div>
+    <div><b>Taksi</b>Mesafeye göre hesaplanır</div>
   </div>
 
   <div class="about">
-    <b>Fiyatı ne değiştirir?</b><br>
-    Bölge, süre, modelin deneyimi ve yoğunluk. Girne ve Mağusa merkezde ulaşım ücreti alınmaz; İskele ve Güzelyurt'ta mesafe eklenir. Hafta sonu ve bayramlarda fiyat üst banda yaklaşır.
+    <b>Tarife nasıl işliyor?</b><br>
+    30 dakikalık görüşme yalnızca kendi yerimizde yapılır, eve veya otele çıkışta en az 1 saatlik tarife geçerlidir. Uzun programlarda süre önceden konuşulur.
+  </div>
+
+  <div class="about">
+    <b>Taksi ücreti</b><br>
+    Buluşma noktasına mesafe arttıkça taksi ücreti artar. Girne merkezde genelde alınmaz; İskele, Güzelyurt ve Lefke'de mesafeye göre hesaplanır.
   </div>
 
   <div class="about">
@@ -42,7 +48,7 @@
   </div>
 
   <section class="sect">
-    <h2>Bölgeye göre fiyat farkı</h2>
+    <h2>Bölgeye göre</h2>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <a class="btn-o" href="/girne-escort">Girne</a>
       <a class="btn-o" href="/lefkosa-escort">Lefkoşa</a>
@@ -53,8 +59,8 @@
 
   <section class="sect">
     <h2>Sık sorulanlar</h2>
-    <div class="about"><b>Pazarlık olur mu?</b><br>Kısa görüşmelerde sabit fiyat uyguluyoruz. 3 saat ve üzeri rezervasyonlarda indirim yapılabiliyor.</div>
-    <div class="about"><b>Ön ödeme istiyor musunuz?</b><br>Hayır. Ödeme görüşme sırasında nakit.</div>
+    <div class="about"><b>Gecelik program var mı?</b><br>Var, süreye ve modele göre WhatsApp'tan teklif veriyoruz.</div>
+    <div class="about"><b>Pazarlık olur mu?</b><br>Tarife sabit. 4 saat ve üzeri programlarda esneklik olabilir.</div>
     <div class="about"><b>Kredi kartı geçiyor mu?</b><br>Model bazlı değişiyor, WhatsApp'ta belirtiyoruz.</div>
   </section>
 </main>
@@ -70,12 +76,4 @@
 const db=supabase.createClient("https://accerzwswgiqhtfgoeqv.supabase.co","sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG");
 (async()=>{
   const {data:s}=await db.from("settings").select("key,value");
-  const c={};(s||[]).forEach(r=>c[r.key]=r.value);
-  const w="https://wa.me/"+c.whatsapp+"?text="+encodeURIComponent("Merhaba, fiyat listesini alabilir miyim?");
-  ["waTop","waFix","waFoot"].forEach(i=>document.getElementById(i).href=w);
-  if(c.brand)document.getElementById("brand").textContent=c.brand;
-  if(c.telegram)document.getElementById("tgFoot").href="https://t.me/"+c.telegram;
-})();
-</script>
-</body>
-</html>
+ 
