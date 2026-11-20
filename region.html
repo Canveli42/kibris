@@ -26,7 +26,9 @@
   <a class="btn" id="waMain" href="#">Katalog İste</a>
   <a class="btn-o" href="/fiyatlar" style="margin-left:8px">Fiyatlar</a>
 
-  <div id="body" style="margin-top:26px"></div>
+  <img class="rimg" id="rimg" src="" alt="">
+
+  <div id="body"></div>
 
   <section class="sect">
     <h2 id="sssTitle">Sık sorulanlar</h2>
@@ -52,34 +54,35 @@ const KEY="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG";
 const db=supabase.createClient(SB,KEY);
 const slug=location.pathname.replace(/^\//,"").replace(/\/$/,"")||"girne-escort";
 let WA="";
+const IMG="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/";
 const waT=()=>"https://wa.me/"+WA+"?text="+encodeURIComponent("Merhaba, "+C.nm+" için katalog alabilir miyim?");
 
 const D={
- "girne-escort":{nm:"Girne",alt:"Kyrenia",lead:"Girne, Kıbrıs'ın en hareketli kıyı kenti. Liman, casino ve sahil otelleri bir arada; gece geç saatte bile ulaşım kolay.",
+ "girne-escort":{nm:"Girne",alt:"Kyrenia",img:"VeniceAI_LKC9D9GQj7eh6u_1.png",lead:"Girne, Kıbrıs'ın en hareketli kıyı kenti. Liman, casino ve sahil otelleri bir arada; gece geç saatte bile ulaşım kolay.",
   areas:["Liman ve Kale çevresi","Zeytinlik","Karaoğlanoğlu","Alsancak","Lapta","Çatalköy","Esentepe"],
   otel:["Merit Royal / Merit Crystal Cove","Acapulco Resort","Rocks Hotel","The Colony","Dedeman"],
   metin:"Girne'de hizmet merkez, liman çevresi, Zeytinlik ve Karaoğlanoğlu'nda yoğunlaşıyor; Alsancak, Lapta, Çatalköy ve Esentepe'ye de çıkıyoruz. Otel lobisinde buluşma en sık tercih edilen yöntem — resepsiyona isim bırakmadan, doğrudan odanıza çıkış da mümkün.",
   metin2:"Merkezde taksi ücreti alınmıyor. Lapta, Alsancak ve Esentepe gibi uzak noktalarda taksi mesafeye göre hesaplanıyor ve önceden söyleniyor. Casino çıkışı ya da geç saat rezervasyonlarında 10-15 dakika önceden yazman yeterli.",
   sss:[["Girne'de nereye geliyorsunuz?","Merkez, liman, Zeytinlik, Karaoğlanoğlu, Alsancak, Lapta, Çatalköy ve Esentepe. Otel ve ev ziyareti yapılıyor."],["Casino çıkışı gelebilir misiniz?","Evet, gece dahil. Mesafe uzaksa taksi ücreti önceden bildirilir."]]},
- "lefkosa-escort":{nm:"Lefkoşa",alt:"Nicosia",lead:"Lefkoşa başkent; iş görüşmesi, öğrenci hayatı ve gece eğlencesi aynı şehirde. Hizmet 7/24.",
+ "lefkosa-escort":{nm:"Lefkoşa",alt:"Nicosia",img:"VeniceAI_LKC9D9GQj7eh6u_2.png",lead:"Lefkoşa başkent; iş görüşmesi, öğrenci hayatı ve gece eğlencesi aynı şehirde. Hizmet 7/24.",
   areas:["Dereboyu","Köşklüçiftlik","Ortaköy","Gönyeli","Hamitköy","Kumsal"],
   otel:["Merit Lefkoşa","Lord Palace","Grand Pasha","Dedeman Lefkoşa"],
   metin:"Lefkoşa'da Dereboyu, Köşklüçiftlik ve Kumsal çevresinde yoğun çalışıyoruz; Gönyeli ve Ortaköy'e de gidiyoruz. İş seyahatinde olanlar için otel lobisi ya da oda servisi şeklinde ilerlemek en pratik yol.",
   metin2:"Başkentte mesafe kısa olduğu için taksi ücreti genelde çıkmıyor; Gönyeli ve Hamitköy gibi dış mahallelerde mesafeye göre hesaplanıyor. Gündüz randevularında 1 saat önceden yazman yeterli, akşam saatleri için daha erken yazmanı öneririz.",
   sss:[["Lefkoşa'da hangi bölgelere geliyorsunuz?","Dereboyu, Köşklüçiftlik, Kumsal, Ortaköy, Gönyeli ve Hamitköy."],["Gündüz randevu olur mu?","Olur. Öğle ve ikindi saatleri müsaitlik durumuna göre ayarlanır."]]},
- "magusa-escort":{nm:"Mağusa",alt:"Gazimağusa / Famagusta",lead:"Mağusa'da üniversite çevresi, Maraş sahili ve Long Beach hattı. Sahil otelleri ve öğrenci semtleri.",
+ "magusa-escort":{nm:"Mağusa",alt:"Gazimağusa / Famagusta",img:"VeniceAI_LKC9D9GQj7eh6u_3.png",lead:"Mağusa'da üniversite çevresi, Maraş sahili ve Long Beach hattı. Sahil otelleri ve öğrenci semtleri.",
   areas:["Maraş","Sakarya","Suriçi","Long Beach","Tuzla"],
   otel:["Concorde Luxury Resort","Arkin Colony","Kaya Artemis","Long Beach Resort"],
   metin:"Mağusa'da Sakarya ve Maraş çevresinde yoğun talep var; Suriçi ve Long Beach hattına da çıkıyoruz. Üniversite çevresindeki öğrenci evleri ve apartlar için kısa süreli görüşmeler uygun.",
   metin2:"Long Beach ve Tuzla mesafe olarak ayrı düştüğü için taksi ücreti önceden hesaplanıp bildiriliyor. Maraş ve Sakarya merkezde ek ücret yok. Sahil otellerinde resepsiyonda buluşma en sorunsuz yöntem.",
   sss:[["Mağusa'da nereye geliyorsunuz?","Maraş, Sakarya, Suriçi, Long Beach ve Tuzla."],["Öğrenci evine gelir misiniz?","Evet, kısa süreli görüşmeler için de uygun."]]},
- "iskele-escort":{nm:"İskele",alt:"Trikomo",lead:"İskele, Boğaz ve Bafra hattı resort bölgesi. Ulaşım önceden planlanmalı.",
+ "iskele-escort":{nm:"İskele",alt:"Trikomo",img:"VeniceAI_fr5Ae591uBhI1Q_0.png",lead:"İskele, Boğaz ve Bafra hattı resort bölgesi. Ulaşım önceden planlanmalı.",
   areas:["İskele merkez","Boğaz","Yeniboğaziçi","Bafra"],
   otel:["Kaya Palazzo","Concorde Luxury","Bafra resortları"],
   metin:"İskele'de hizmet merkez, Boğaz ve Yeniboğaziçi hattında yoğunlaşıyor; Bafra otellerine de çıkıyoruz. Bölge yayvan olduğu için buluşma yerini ve saati netleştirmeden yola çıkmıyoruz.",
   metin2:"İskele ve Bafra'da taksi ücreti her zaman mesafeye göre hesaplanır ve önceden söylenir. Resort içindeki otellerde resepsiyon ya da oda buluşması standart. Bu bölge için en az 2 saat önceden yazmanı öneririz.",
   sss:[["Bafra'ya geliyor musunuz?","Evet, taksi ücreti mesafeye göre önceden bildirilir."],["Ne kadar önceden yazmalıyım?","En az 2 saat. Bölge yayvan, planlama gerekiyor."]]},
- "guzelyurt-escort":{nm:"Güzelyurt",alt:"Morphou / Lefke",lead:"Güzelyurt ve Lefke hattı. Narenciye bölgesi, üniversite ve sakin bir tempo.",
+ "guzelyurt-escort":{nm:"Güzelyurt",alt:"Morphou / Lefke",img:"VeniceAI_fr5Ae591uBhI1Q_1.png",lead:"Güzelyurt ve Lefke hattı. Narenciye bölgesi, üniversite ve sakin bir tempo.",
   areas:["Güzelyurt merkez","Lefke","Gemikonağı","Aydınköy"],
   otel:["Güzelyurt merkez otelleri","Lefke çevresi"],
   metin:"Güzelyurt merkez ve Lefke hattında hizmet veriyoruz. Bölge Girne ve Lefkoşa'ya uzak olduğu için burada planlı randevu mantığı işliyor; aynı gün içinde saat netleşirse sorun çıkmıyor.",
@@ -104,6 +107,10 @@ const C=D[slug]||D["girne-escort"];
   document.getElementById("waMain").textContent=C.nm+" Kataloğu İste";
   document.getElementById("sssTitle").textContent=C.nm+" escort hakkında sık sorulanlar";
 
+  const img=document.getElementById("rimg");
+  img.src=IMG+C.img;
+  img.alt=C.nm+" escort – "+C.alt+" gece ve şehir görünümü";
+
   document.getElementById("body").innerHTML=
     `<div class="about">${C.metin}</div>
      <div class="about">${C.metin2}</div>
@@ -117,11 +124,11 @@ const C=D[slug]||D["girne-escort"];
   const url="https://kibrisgirneescort.com/"+slug;
   const cl=document.querySelector('link[rel="canonical"]');if(cl)cl.href=url;
   const md=(a,k,v)=>{const e=document.createElement("meta");e.setAttribute(a,k);e.setAttribute("content",v);document.head.appendChild(e)};
-  md("property","og:url",url);md("property","og:title",title);
+  md("property","og:url",url);md("property","og:title",title);md("property","og:image",IMG+C.img);
   md("name","description",C.nm+" escort hizmeti: otel ve ev ziyareti, sabit tarife, ön ödeme yok. "+C.alt+" bölgesinde aynı gün rezervasyon.");
 
   const p1=document.createElement("script");p1.type="application/ld+json";
-  p1.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Service",serviceType:C.nm+" Escort",areaServed:C.nm,url:url,provider:{"@type":"LocalBusiness",name:"Kıbrıs Escort Rezervasyon"}});
+  p1.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Service",serviceType:C.nm+" Escort",areaServed:C.nm,url:url,image:IMG+C.img,provider:{"@type":"LocalBusiness",name:"Kıbrıs Escort Rezervasyon"}});
   document.head.appendChild(p1);
 
   const {data:regs}=await db.from("regions").select("slug,name").order("sort");
