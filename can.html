@@ -7,20 +7,27 @@
 <meta name="robots" content="noindex,nofollow">
 <link rel="stylesheet" href="/style.css">
 <style>
-body{padding:0 0 40px}
-.panel{max-width:900px;margin:0 auto;padding:20px 16px}
-.bx{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
-input,select,textarea{width:100%;background:#0e0e13;border:1px solid var(--line);color:#fff;border-radius:8px;padding:10px;font-size:14px;font-family:inherit;margin-bottom:8px}
-label{font-size:12px;color:var(--muted);display:block;margin-bottom:3px}
+body{padding:0 0 40px;background:#0f0f12}
+.panel{max-width:900px;margin:0 auto;padding:16px}
+.bx{background:#17171d;border:1px solid #26262f;border-radius:12px;padding:16px;margin-bottom:16px}
+input,select,textarea{width:100%;background:#0e0e13;border:1px solid #26262f;color:#fff;border-radius:8px;padding:11px;font-size:14px;font-family:inherit;margin-bottom:10px}
+label{font-size:12px;color:#9a9aa6;display:block;margin-bottom:4px;margin-top:8px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.item{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}
-.item a,.item button{font-size:13px;color:var(--gold);background:none;border:0;cursor:pointer;margin-left:12px}
+.item{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #26262f;padding:10px 0;font-size:14px}
+.item button{font-size:13px;color:#c9a227;background:none;border:0;cursor:pointer;margin-left:10px}
 .del{color:#e57373!important}
-h2{font-size:17px;margin-bottom:10px}
+h2{font-size:17px;margin-bottom:12px}
 .hide{display:none}
-.prev{width:100%;max-height:150px;object-fit:cover;border-radius:9px;border:1px solid var(--line);margin-bottom:8px;display:block}
-.urls a{color:var(--gold);display:block;margin-bottom:4px}
-.cnt{font-size:12px;color:var(--muted);margin-bottom:8px}
+.prev{width:100%;max-height:150px;object-fit:cover;border-radius:9px;border:1px solid #26262f;margin-bottom:8px;display:block}
+.msg{font-size:13px;margin-top:6px;min-height:18px}
+.ok{color:#81c784}.err{color:#e57373}
+.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;position:sticky;top:0;background:#0f0f12;padding:10px 0;z-index:5;border-bottom:1px solid #26262f}
+.tab{background:#17171d;border:1px solid #26262f;color:#c9c9d1;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
+.tab.on{background:#c9a227;color:#14140f;border-color:#c9a227}
+.savebar{display:flex;gap:8px;margin-top:6px}
+.savebar .btn{flex:0 0 auto}
+.urls a{color:#c9a227;display:block;margin-bottom:4px;font-size:12px;word-break:break-all}
+.cnt{font-size:12px;color:#9a9aa6;margin-bottom:8px}
 </style>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
@@ -30,100 +37,122 @@ h2{font-size:17px;margin-bottom:10px}
   <div class="bx">
     <label>E-posta</label><input id="em" type="email">
     <label>Şifre</label><input id="pw" type="password">
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAAGJrKVfzeFsacVeT" data-theme="dark" style="margin-bottom:10px"></div>
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAAGJrKVfzeFsacVeT" data-theme="dark" style="margin:10px 0"></div>
     <button class="btn" id="btnLogin">Giriş</button>
-    <p id="err" style="color:#e57373;font-size:13px;margin-top:8px"></p>
+    <p id="err" class="msg err"></p>
   </div>
 </div>
 
 <div class="panel hide" id="app">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
     <h2>Panel</h2>
     <button class="btn-o" id="btnOut">Çıkış</button>
   </div>
 
-  <div class="bx">
-    <h2>Ana sayfa görseli</h2>
-    <img class="prev" id="heroPrev">
-    <input id="heroUp" type="file" accept="image/*">
-    <p id="heroMsg" style="font-size:13px"></p>
+  <div class="tabs">
+    <button class="tab on" data-tab="tGorsel">Görseller</button>
+    <button class="tab" data-tab="tBlog">Blog yazıları</button>
+    <button class="tab" data-tab="tAyarlar">Ayarlar</button>
   </div>
 
-  <div class="bx">
-    <h2>Bölge görselleri</h2>
-    <div id="regions"></div>
-    <p id="regMsg" style="font-size:13px"></p>
-  </div>
-
-  <div class="bx">
-    <h2>Görsel aracı</h2>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Fotoğraf seç, otomatik WebP'ye çevrilip küçültülür ve yüklenir. Çıkan adresleri site dosyalarında kullanabilirsin.</p>
-    <input id="toolFiles" type="file" accept="image/*" multiple>
-    <div class="urls" id="toolUrls"></div>
-    <p id="toolMsg" style="font-size:13px;margin-top:8px"></p>
-  </div>
-
-  <div class="bx">
-    <h2>Yazılar</h2>
-    <div id="plist"></div>
-  </div>
-
-  <div class="bx">
-    <h2 id="postTitle">Yeni yazı</h2>
-    <input type="hidden" id="pid">
-    <label>Başlık</label><input id="ptitle">
-    <label>Adres (slug)</label><input id="pslug">
-    <label>Kapak görseli</label>
-    <div id="pimgWrap" class="hide">
-      <img class="prev" id="pimgPrev">
-      <button class="btn-o" id="pimgDel" style="margin-bottom:8px">Görseli kaldır</button>
+  <!-- GÖRSELLER -->
+  <div id="tGorsel">
+    <div class="bx">
+      <h2>Ana sayfa görseli</h2>
+      <img class="prev" id="heroPrev">
+      <input id="heroUp" type="file" accept="image/*">
+      <div class="savebar"><button class="btn" id="heroSave">Görseli kaydet</button></div>
+      <p id="heroMsg" class="msg"></p>
     </div>
-    <input id="pimg" type="file" accept="image/*">
-    <label>SEO açıklaması (max 160 karakter)</label>
-    <input id="pmeta" maxlength="170">
-    <div class="cnt" id="pmetaCnt">0 / 160</div>
-    <label>SSS — her satıra bir soru | cevap</label>
-    <textarea id="pfaq" rows="5" placeholder="Fiyatlar ne kadar? | 30 dakika 7000 TL, 1 saat 12000 TL.&#10;Ön ödeme var mı? | Yok, ödeme görüşme sırasında."></textarea>
-    <label>İçerik</label>
-    <textarea id="pbody" rows="14" placeholder="Paragrafları boş satırla ayır. Alt başlık için başına ## koy."></textarea>
-    <div class="row2">
-      <div><label>Yayında (1/0)</label><input id="ppub" type="number" value="0"></div>
+
+    <div class="bx">
+      <h2>Bölge görselleri</h2>
+      <div id="regions"></div>
+      <p id="regMsg" class="msg"></p>
     </div>
-    <button class="btn" id="btnPSave">Kaydet</button>
-    <button class="btn-o" id="btnPNew">Yeni</button>
-    <p id="pmsg" style="font-size:13px;margin-top:8px"></p>
+
+    <div class="bx">
+      <h2>Görsel aracı</h2>
+      <p style="font-size:13px;color:#9a9aa6;margin-bottom:8px">Fotoğraf seç, WebP'ye çevrilip küçültülür, adres verilir. Adresi kopyalayıp kullanırsın.</p>
+      <input id="toolFiles" type="file" accept="image/*" multiple>
+      <div class="urls" id="toolUrls"></div>
+      <p id="toolMsg" class="msg"></p>
+    </div>
   </div>
 
-  <div class="bx">
-    <h2>Ayarlar</h2>
-    <label>WhatsApp (905xx)</label><input id="swa">
-    <label>Telegram</label><input id="stg">
-    <label>Marka</label><input id="sbr">
-    <button class="btn" id="btnSet">Kaydet</button>
-    <p id="smsg" style="font-size:13px;margin-top:8px"></p>
+  <!-- BLOG -->
+  <div id="tBlog" class="hide">
+    <div class="bx">
+      <h2>Yazılar</h2>
+      <div id="plist"></div>
+    </div>
+
+    <div class="bx">
+      <h2 id="postTitle">Yeni yazı</h2>
+      <input type="hidden" id="pid">
+      <label>Başlık</label><input id="ptitle">
+      <label>Adres (slug)</label><input id="pslug">
+      <label>Kapak görseli</label>
+      <div id="pimgWrap" class="hide">
+        <img class="prev" id="pimgPrev">
+        <button class="btn-o" id="pimgDel" style="margin-bottom:8px">Görseli kaldır</button>
+      </div>
+      <input id="pimg" type="file" accept="image/*">
+      <label>SEO açıklaması (max 160)</label>
+      <input id="pmeta" maxlength="170">
+      <div class="cnt" id="pmetaCnt">0 / 160</div>
+      <label>SSS — her satıra bir "soru | cevap"</label>
+      <textarea id="pfaq" rows="5" placeholder="Fiyatlar ne kadar? | 30 dakika 7000 TL.&#10;Ön ödeme var mı? | Yok."></textarea>
+      <label>İçerik</label>
+      <textarea id="pbody" rows="14" placeholder="Paragrafları boş satırla ayır. Alt başlık için başına ## koy."></textarea>
+      <div class="row2">
+        <div><label>Yayında (1/0)</label><input id="ppub" type="number" value="0"></div>
+      </div>
+      <div class="savebar">
+        <button class="btn" id="btnPSave">Kaydet</button>
+        <button class="btn-o" id="btnPNew">Yeni yazı</button>
+      </div>
+      <p id="pmsg" class="msg"></p>
+    </div>
+  </div>
+
+  <!-- AYARLAR -->
+  <div id="tAyarlar" class="hide">
+    <div class="bx">
+      <h2>Ayarlar</h2>
+      <label>WhatsApp (905xx)</label><input id="swa">
+      <label>Telegram</label><input id="stg">
+      <label>Marka</label><input id="sbr">
+      <div class="savebar"><button class="btn" id="btnSet">Ayarları kaydet</button></div>
+      <p id="smsg" class="msg"></p>
+    </div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const db=supabase.createClient("https://accerzwswgiqhtfgoeqv.supabase.co","sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG");
-let regions=[],curPostImg=null;
-
+let regions=[],curPostImg=null,heroFile=null;
 const el=id=>document.getElementById(id);
 const slugify=s=>s.toLowerCase().replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const say=(id,t,ok)=>{const e=el(id);e.textContent=t;e.className="msg "+(ok?"ok":"err")};
 
-async function shrink(file,maxW,quality){
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+  document.querySelectorAll("#app > div[id^=t]").forEach(x=>x.classList.add("hide"));
+  b.classList.add("on");el(b.dataset.tab).classList.remove("hide");
+});
+
+async function shrink(file,maxW,q){
   const bmp=await createImageBitmap(file);
-  const scale=Math.min(1,maxW/bmp.width);
+  const s=Math.min(1,maxW/bmp.width);
   const c=document.createElement("canvas");
-  c.width=Math.max(1,Math.round(bmp.width*scale));
-  c.height=Math.max(1,Math.round(bmp.height*scale));
+  c.width=Math.round(bmp.width*s);c.height=Math.round(bmp.height*s);
   c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
-  return await new Promise(r=>c.toBlob(r,"image/webp",quality));
+  return await new Promise(r=>c.toBlob(r,"image/webp",q));
 }
-
-async function uploadWebp(file,bucket,maxW,quality){
-  const blob=await shrink(file,maxW,quality);
+async function uploadWebp(file,bucket,maxW,q){
+  const blob=await shrink(file,maxW,q);
   const name=Date.now()+"-"+Math.random().toString(36).slice(2,7)+".webp";
   const {error}=await db.storage.from(bucket).upload(name,blob,{contentType:"image/webp"});
   if(error)throw error;
@@ -140,13 +169,12 @@ async function start(){
   const c={};(s||[]).forEach(x=>c[x.key]=x.value);
   el("swa").value=c.whatsapp||"";el("stg").value=c.telegram||"";el("sbr").value=c.brand||"";
   if(c.hero)el("heroPrev").src=c.hero;
-  drawRegions();
-  loadPosts();
+  drawRegions();loadPosts();
 }
 
 function drawRegions(){
   el("regions").innerHTML=regions.map(r=>
-    `<div style="border-bottom:1px solid var(--line);padding:10px 0">
+    `<div style="border-bottom:1px solid #26262f;padding:10px 0">
       <b style="font-size:14px">${r.name}</b>
       ${r.img?`<img class="prev" src="${r.img}">`:""}
       <input type="file" accept="image/*" data-r="${r.id}">
@@ -154,63 +182,62 @@ function drawRegions(){
   el("regions").querySelectorAll("input[type=file]").forEach(inp=>{
     inp.onchange=async()=>{
       const f=inp.files[0];if(!f)return;
-      el("regMsg").textContent="Yükleniyor…";
+      say("regMsg","Yükleniyor…",true);
       try{
         const url=await uploadWebp(f,"img",1600,0.78);
-        await db.from("regions").update({img:url}).eq("id",inp.dataset.r);
+        const {error}=await db.from("regions").update({img:url}).eq("id",inp.dataset.r);
+        if(error)throw error;
         const rec=regions.find(x=>x.id===inp.dataset.r);if(rec)rec.img=url;
-        drawRegions();el("regMsg").textContent="Güncellendi";
-      }catch(e){el("regMsg").textContent=e.message}
+        drawRegions();say("regMsg","Güncellendi",true);
+      }catch(e){say("regMsg","HATA: "+e.message)}
     };
   });
 }
 
-el("heroUp").onchange=async()=>{
-  const f=el("heroUp").files[0];if(!f)return;
-  el("heroMsg").textContent="Yükleniyor…";
+el("heroUp").onchange=()=>{const f=el("heroUp").files[0];if(!f)return;heroFile=f;el("heroPrev").src=URL.createObjectURL(f);say("heroMsg","Seçildi, kaydet'e bas",true)};
+el("heroSave").onclick=async()=>{
+  if(!heroFile)return say("heroMsg","Önce bir görsel seç");
+  say("heroMsg","Yükleniyor…",true);
   try{
-    const url=await uploadWebp(f,"img",1800,0.8);
-    await db.from("settings").upsert({key:"hero",value:url});
-    el("heroPrev").src=url;
-    el("heroMsg").textContent="Güncellendi";
-  }catch(e){el("heroMsg").textContent=e.message}
-  el("heroUp").value="";
+    const url=await uploadWebp(heroFile,"img",1800,0.8);
+    const {error}=await db.from("settings").upsert({key:"hero",value:url});
+    if(error)throw error;
+    el("heroPrev").src=url;heroFile=null;el("heroUp").value="";
+    say("heroMsg","Kaydedildi",true);
+  }catch(e){say("heroMsg","HATA: "+e.message)}
 };
 
 el("btnLogin").onclick=async()=>{
-  el("err").textContent="";
+  say("err","");
   const tok=window.turnstile?window.turnstile.getResponse():undefined;
-  if(!tok)return el("err").textContent="Doğrulama bekleniyor…";
+  if(!tok)return say("err","Doğrulama bekleniyor…");
   const {error}=await db.auth.signInWithPassword({email:el("em").value,password:el("pw").value,options:{captchaToken:tok}});
-  if(error){if(window.turnstile)window.turnstile.reset();return el("err").textContent=error.message}
+  if(error){if(window.turnstile)window.turnstile.reset();return say("err",error.message)}
   location.reload();
 };
 el("btnOut").onclick=async()=>{await db.auth.signOut();location.reload()};
 
 el("toolFiles").onchange=async()=>{
-  const files=[...el("toolFiles").files];
-  if(!files.length)return;
-  el("toolUrls").innerHTML="";el("toolMsg").textContent="İşleniyor…";
-  let err="";
+  const files=[...el("toolFiles").files];if(!files.length)return;
+  el("toolUrls").innerHTML="";say("toolMsg","İşleniyor…",true);let err="";
   for(const f of files){
     try{
       const url=await uploadWebp(f,"img",1600,0.78);
-      const a=document.createElement("a");
-      a.href=url;a.textContent=url;a.target="_blank";
-      el("toolUrls").appendChild(a);
+      const a=document.createElement("a");a.href=url;a.textContent=url;a.target="_blank";el("toolUrls").appendChild(a);
     }catch(e){err=e.message}
   }
-  el("toolMsg").textContent=err||"Bitti. Adreslere tıklayıp kopyalayabilirsin.";
+  say("toolMsg",err?"HATA: "+err:"Bitti. Adreslere tıklayıp kopyala.",!err);
   el("toolFiles").value="";
 };
 
 async function loadPosts(){
-  const {data}=await db.from("posts").select("id,slug,title,published").order("created_at",{ascending:false});
+  const {data,error}=await db.from("posts").select("id,slug,title,published").order("created_at",{ascending:false});
+  if(error)return el("plist").innerHTML='<p class="msg err">'+error.message+'</p>';
   el("plist").innerHTML=(data||[]).map(p=>
     `<div class="item"><span>${p.title} ${p.published?"":"(taslak)"}</span>
-     <span><a href="#" data-pe="${p.id}">düzenle</a><button class="del" data-pd="${p.id}">sil</button></span></div>`
-  ).join("")||'<p style="color:var(--muted);font-size:14px">Yazı yok.</p>';
-  el("plist").querySelectorAll("[data-pe]").forEach(a=>a.onclick=e=>{e.preventDefault();editPost(a.dataset.pe)});
+     <span><button data-pe="${p.id}">düzenle</button><button class="del" data-pd="${p.id}">sil</button></span></div>`
+  ).join("")||'<p style="color:#9a9aa6;font-size:14px">Yazı yok.</p>';
+  el("plist").querySelectorAll("[data-pe]").forEach(b=>b.onclick=()=>editPost(b.dataset.pe));
   el("plist").querySelectorAll("[data-pd]").forEach(b=>b.onclick=async()=>{
     if(!confirm("Yazı silinsin mi?"))return;
     await db.from("posts").delete().eq("id",b.dataset.pd);loadPosts();
@@ -218,13 +245,8 @@ async function loadPosts(){
 }
 
 function drawPostImg(){
-  if(curPostImg){
-    el("pimgPrev").src=curPostImg;
-    el("pimgWrap").classList.remove("hide");
-  }else{
-    el("pimgPrev").removeAttribute("src");
-    el("pimgWrap").classList.add("hide");
-  }
+  if(curPostImg){el("pimgPrev").src=curPostImg;el("pimgWrap").classList.remove("hide")}
+  else{el("pimgPrev").removeAttribute("src");el("pimgWrap").classList.add("hide")}
 }
 
 el("pmeta").oninput=()=>{el("pmetaCnt").textContent=el("pmeta").value.length+" / 160"};
@@ -245,44 +267,40 @@ el("btnPNew").onclick=()=>{
   el("postTitle").textContent="Yeni yazı";el("pid").value="";
   ["ptitle","pslug","pbody","pmeta","pfaq"].forEach(i=>el(i).value="");
   el("ppub").value=0;el("pmetaCnt").textContent="0 / 160";
-  curPostImg=null;el("pimg").value="";drawPostImg();
+  curPostImg=null;el("pimg").value="";drawPostImg();say("pmsg","");
 };
 
 el("btnPSave").onclick=async()=>{
-  el("pmsg").textContent="Kaydediliyor…";
-  const title=el("ptitle").value.trim();
-  const body=el("pbody").value.trim();
-  if(!title||!body)return el("pmsg").textContent="Başlık ve içerik zorunlu";
+  say("pmsg","Kaydediliyor…",true);
+  const title=el("ptitle").value.trim(),body=el("pbody").value.trim();
+  if(!title||!body)return say("pmsg","Başlık ve içerik zorunlu");
   const slug=el("pslug").value.trim()||slugify(title);
   let img=curPostImg;
   const f=el("pimg").files[0];
-  if(f){
-    try{img=await uploadWebp(f,"img",1200,0.8)}catch(e){return el("pmsg").textContent=e.message}
-  }
+  if(f){try{img=await uploadWebp(f,"img",1200,0.8)}catch(e){return say("pmsg","HATA: "+e.message)}}
   const rec={title,body,slug,img,meta:el("pmeta").value.trim()||null,faq:el("pfaq").value.trim()||null,published:el("ppub").value==="1"};
   const id=el("pid").value;
   if(id){
     const {error}=await db.from("posts").update(rec).eq("id",id);
-    if(error)return el("pmsg").textContent=error.message;
+    if(error)return say("pmsg","HATA: "+error.message);
   }else{
     const {data,error}=await db.from("posts").insert(rec).select().single();
-    if(error)return el("pmsg").textContent=error.message;
-    el("pid").value=data.id;
-    el("postTitle").textContent="Yazıyı düzenle";
+    if(error)return say("pmsg","HATA: "+error.message);
+    el("pid").value=data.id;el("postTitle").textContent="Yazıyı düzenle";
   }
-  curPostImg=img;el("pimg").value="";drawPostImg();
-  el("pmsg").textContent="Kaydedildi";
-  loadPosts();
+  curPostImg=img;el("pimg").value="";drawPostImg();say("pmsg","Kaydedildi",true);loadPosts();
 };
 
 el("btnSet").onclick=async()=>{
-  for(const [k,v] of [["whatsapp",el("swa").value],["telegram",el("stg").value],["brand",el("sbr").value]]){
-    await db.from("settings").upsert({key:k,value:v});
-  }
-  el("smsg").textContent="Ayarlar kaydedildi";
+  say("smsg","Kaydediliyor…",true);
+  const {error}=await db.from("settings").upsert([
+    {key:"whatsapp",value:el("swa").value},
+    {key:"telegram",value:el("stg").value},
+    {key:"brand",value:el("sbr").value}
+  ]);
+  say("smsg",error?"HATA: "+error.message:"Ayarlar kaydedildi",!error);
 };
 
 start();
 </script>
-</body>
-</html>
+</body></html>
