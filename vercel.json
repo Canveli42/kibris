@@ -1,12 +1,11 @@
 {
   "redirects": [
-    { "source": "/havalimani-transfer", "has": [{"type":"host","value":"kibrisescortrezervasyon.com"}], "destination": "https://kibrisgirneescort.com/iletisim", "permanent": true },
-    { "source": "/kibris-otelleri", "has": [{"type":"host","value":"kibrisescortrezervasyon.com"}], "destination": "https://kibrisgirneescort.com/girne-escort", "permanent": true },
-    { "source": "/kibris-villa-kiralama-2", "has": [{"type":"host","value":"kibrisescortrezervasyon.com"}], "destination": "https://kibrisgirneescort.com/iskele-escort", "permanent": true },
-    { "source": "/:path*", "has": [{"type":"host","value":"kibrisescortrezervasyon.com"}], "destination": "https://kibrisgirneescort.com/:path*", "permanent": true },
-    { "source": "/:path*", "has": [{"type":"host","value":"666kibrisescort.com"}], "destination": "https://kibrisgirneescort.com/:path*", "permanent": true },
-    { "source": "/:path*", "has": [{"type":"host","value":"kibrisescortgirne.info"}], "destination": "https://kibrisgirneescort.com/:path*", "permanent": true },
-    { "source": "/:path*", "has": [{"type":"host","value":"kibrisescorts.net"}], "destination": "https://kibrisgirneescort.com/:path*", "permanent": true }
+    { "source": "/havalimani-transfer", "destination": "/iletisim", "permanent": true },
+    { "source": "/kibris-otelleri", "destination": "/girne-escort", "permanent": true },
+    { "source": "/kibris-villa-kiralama-2", "destination": "/iskele-escort", "permanent": true },
+    { "source": "/kibris-gece-hayati-2", "destination": "/", "permanent": true },
+    { "source": "/kibris-bekarliga-veda-partisi", "destination": "/", "permanent": true },
+    { "source": "/kibris-vip-hizmetler-2", "destination": "/fiyatlar", "permanent": true }
   ],
   "rewrites": [
     { "source": "/can", "destination": "/can.html" },
