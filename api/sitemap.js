@@ -14,36 +14,55 @@ const SABIT=[
 ["/guzelyurt-escort","0.6"],["/iletisim","0.6"],["/blog","0.7"],["/gizlilik","0.3"]
 ];
 
+const YAZILAR=[
+"kibris-escort-fiyatlari-nasil-isliyor","havalimani-transfer","kibris-gece-hayati","kibris-otelleri",
+"girne-escort-nasil-cagrilir","otele-escort-cagirma-rehberi","kibris-escort-fiyatlari-2026",
+"girne-gece-kulupleri-rehberi","lapta-escort-rehberi","alsancak-escort-rehberi",
+"kibris-escort-ilk-gorusme","otel-odasinda-gorusme-kurallari","kibris-escort-dolandiricilik",
+"kibris-escort-ulasim-ve-taksi","kibris-escort-otel-secimi","girne-merkez-escort-rehberi",
+"magusa-escort-maras-long-beach","iskele-escort-bogaz-bafra","gonyeli-escort-site-apart",
+"bafra-escort-resort","kibris-escort-gecelik-program","kibris-escort-vip-davet",
+"kibris-escort-turk-rus-farki","kibris-escort-yaz-sezonu","kibris-escort-lobi-mi-oda-mi",
+"kibris-escort-sabah-gorusmesi","kibris-escort-4-saat-program","kibris-escort-2-saat-program",
+"kibris-escort-30-dakika","kibris-escort-para-birimi","kibris-escort-kart-odeme",
+"kibris-escort-iban-odeme","kibris-escort-usdt-odeme","kibris-escort-kimlik-istiyor-mu"
+];
+
 function temiz(s){
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
 
 function cek(url){
-  return new Promise(function(ok,no){
-    https.get(url,{headers:{apikey:KEY,Authorization:"Bearer "+KEY}},function(r){
+  return new Promise(function(ok){
+    https.get(url,function(r){
       let d="";
       r.on("data",function(c){d+=c});
       r.on("end",function(){ok(d)});
-    }).on("error",no);
+    }).on("error",function(){ok("")});
   });
 }
 
 module.exports = async (req,res)=>{
+  let son={};
+  try{
+    const ham=await cek(SB+"/rest/v1/posts?select=slug,updated_at&apikey="+KEY);
+    const dizi=JSON.parse(ham);
+    for(let i=0;i<dizi.length;i++){
+      if(dizi[i].slug)son[dizi[i].slug]=String(dizi[i].updated_at||"").slice(0,10);
+    }
+  }catch(e){}
+
   let xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
   for(let i=0;i<SABIT.length;i++){
     xml+="<url><loc>"+BASE+SABIT[i][0]+"</loc><priority>"+SABIT[i][1]+"</priority></url>\n";
   }
 
-  try{
-    const ham=await cek(SB+"/rest/v1/posts?select=slug,updated_at,created_at&published=eq.true&order=created_at.desc");
-    const yazilar=JSON.parse(ham);
-    for(let i=0;i<yazilar.length;i++){
-      const y=yazilar[i];
-      const t=String(y.updated_at||y.created_at||"").slice(0,10);
-      xml+="<url><loc>"+BASE+"/blog/"+temiz(y.slug)+"</loc>"+(t?"<lastmod>"+t+"</lastmod>":"")+"<priority>0.7</priority></url>\n";
-    }
-  }catch(e){}
+  for(let i=0;i<YAZILAR.length;i++){
+    const s=YAZILAR[i];
+    const t=son[s];
+    xml+="<url><loc>"+BASE+"/blog/"+temiz(s)+"</loc>"+(t?"<lastmod>"+t+"</lastmod>":"")+"<priority>0.7</priority></url>\n";
+  }
 
   xml+="</urlset>";
 
