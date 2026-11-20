@@ -29,7 +29,7 @@
     <h1>Girne <span class="gold">Escort</span> ve Kıbrıs'ın Tüm Bölgeleri</h1>
     <p class="lead" style="margin:14px auto 24px">Sabit tarife, ön ödeme yok, otel ve ev ziyareti. Tek WhatsApp mesajıyla aynı gün rezervasyon.</p>
     <a class="btn" id="waHero" href="#">WhatsApp'tan yaz</a>
-    <a class="btn-o" href="/fiyatlar" style="margin-left:8px">Fiyatlar</a>
+    <a class="btn" id="tgHero" href="#">Telegram</a>
   </section>
 
   <section class="sect">
@@ -83,7 +83,7 @@
 <footer><div class="wrap">
   <p id="brand">Kıbrıs Escort Rezervasyon</p>
   <p>Girne · Lefkoşa · Mağusa · İskele · Güzelyurt</p>
-  <p><a id="waFoot" href="#" style="color:var(--gold)">WhatsApp</a> · <a id="tgFoot" href="#" style="color:var(--gold)">Telegram</a></p>
+  <p><a id="waFoot" href="#">WhatsApp</a> · <a id="tgFoot" href="#">Telegram</a></p>
 </div></footer>
 <a class="btn fix" id="waFix" href="#">WhatsApp'tan yaz</a>
 
@@ -96,6 +96,7 @@ const db=supabase.createClient("https://accerzwswgiqhtfgoeqv.supabase.co","sb_pu
   const w="https://wa.me/"+c.whatsapp+"?text="+encodeURIComponent("Merhaba, katalog alabilir miyim?");
   ["waTop","waHero","waFix","waFoot"].forEach(i=>document.getElementById(i).href=w);
   if(c.brand)document.getElementById("brand").textContent=c.brand;
+  if(c.telegram)document.getElementById("tgHero").href="https://t.me/"+c.telegram;
   if(c.telegram)document.getElementById("tgFoot").href="https://t.me/"+c.telegram;
 })();
 </script>
