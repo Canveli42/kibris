@@ -60,26 +60,29 @@
       .forEach(patch);
   }
 
-  function tgTwin(){
-    var wa = document.querySelector('a.btn[href*="wa.me"]');
-    if(!wa) return;
-    var sib = wa.parentNode.querySelector('a.tg');
-    if(sib) return;
-    var a = wa.cloneNode(true);
-    a.removeAttribute('id');
-    a.removeAttribute('data-base');
-    a.classList.add('tg');
-    a.setAttribute('href', 'https://t.me/' + TG);
-    a.textContent = 'Telegram';
-    wa.parentNode.insertBefore(a, wa.nextSibling);
-  }
-
   function style(){
     if(document.getElementById('tg-style')) return;
     var s = document.createElement('style');
     s.id = 'tg-style';
-    s.textContent = 'a.btn.tg{background:linear-gradient(180deg,#4bb8ea,#229ed9);color:#04202e;box-shadow:0 10px 26px rgba(34,158,217,.24)}';
+    s.textContent =
+      'a.btn.tg{background:linear-gradient(180deg,#4bb8ea,#229ed9);color:#04202e;' +
+      'box-shadow:0 10px 26px rgba(34,158,217,.24);display:inline-flex;align-items:center;' +
+      'justify-content:center;font-weight:700;padding:13px 26px;border-radius:999px;' +
+      'text-decoration:none;font-size:15px}';
     document.head.appendChild(s);
+  }
+
+  function tgTwin(){
+    if(document.querySelector('a.tg')) return;
+    var wa = document.querySelector('a.btn[href*="wa.me"]');
+    if(!wa) return;
+    var a = document.createElement('a');
+    a.className = 'btn tg';
+    a.setAttribute('href', 'https://t.me/' + TG);
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener');
+    a.textContent = 'Telegram';
+    wa.parentNode.insertBefore(a, wa.nextSibling);
   }
 
   document.addEventListener('DOMContentLoaded', function(){
