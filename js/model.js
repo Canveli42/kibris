@@ -1,7 +1,7 @@
 const SB="https://accerzwswgiqhtfgoeqv.supabase.co";
 const KEY="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG";
 const db=supabase.createClient(SB,KEY);
-const slug=new URLSearchParams(location.search).get("m")||"";
+const slug=(location.pathname.match(/^\/m\/([^\/]+)/)||[])[1]||new URLSearchParams(location.search).get("m")||"";
 let WA="";
 const waT=n=>"https://wa.me/"+WA+"?text="+encodeURIComponent("Merhaba, "+(n||"")+" müsait mi?");
 
