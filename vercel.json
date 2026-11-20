@@ -1,12 +1,4 @@
 {
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "has": [{ "type": "host", "value": "kibrisgirneescort.com" }],
-      "destination": "https://www.kibrisgirneescort.com/$1",
-      "permanent": true
-    }
-  ],
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
