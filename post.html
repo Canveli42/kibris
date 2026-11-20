@@ -1,28 +1,29 @@
-<!DOCTYPE html><html lang="tr"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<style>
-#body h2{font-size:21px;margin:26px 0 10px;letter-spacing:-.02em}
-#body h3{font-size:17px;margin:20px 0 8px}
-#body p{margin-bottom:14px}
-#body ul{margin:0 0 14px 20px;color:var(--muted)}
-#body li{margin-bottom:6px}
-#body strong{color:#fff}
-#body a{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
-#body a:hover{color:#fff}
-#cover{display:none;width:100%;max-width:720px;aspect-ratio:16/10;border-radius:12px;border:1px solid var(--line);margin:18px 0 0;object-fit:cover}
-.byline{font-size:13px;color:var(--muted);margin-top:6px}
-.faq2{max-width:720px;margin-top:32px}
-.faq2 h2{font-size:21px;margin-bottom:12px;letter-spacing:-.02em}
-.faq2 details{border-bottom:1px solid var(--line);padding:12px 0}
-.faq2 summary{cursor:pointer;font-weight:600;font-size:15px}
-.faq2 p{color:var(--muted);margin-top:8px;font-size:15px}
-</style>
+<!DOCTYPE html><html lang="tr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+#body h2 { font-size: 21px; margin: 26px 0px 10px; letter-spacing: -0.02em; }
+#body h3 { font-size: 17px; margin: 20px 0px 8px; }
+#body p { margin-bottom: 14px; }
+#body ul { margin: 0px 0px 14px 20px; color: var(--muted); }
+#body li { margin-bottom: 6px; }
+#body strong { color: rgb(255, 255, 255); }
+#body a { color: var(--gold); text-decoration: underline; text-underline-offset: 2px; }
+#body a:hover { color: rgb(255, 255, 255); }
+#cover { display: none; width: 100%; max-width: 720px; aspect-ratio: 16 / 10; border-radius: 12px; border: 1px solid var(--line); margin: 18px 0px 0px; object-fit: cover; }
+.byline { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.faq2 { max-width: 720px; margin-top: 32px; }
+.faq2 h2 { font-size: 21px; margin-bottom: 12px; letter-spacing: -0.02em; }
+.faq2 details { border-bottom: 1px solid var(--line); padding: 12px 0px; }
+.faq2 summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+.faq2 p { color: var(--muted); margin-top: 8px; font-size: 15px; }</style>
+
+
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Kıbrıs Escort Rehberi | RedKıbrıs</title>
 <meta name="description" content="Kıbrıs escort rehberi.">
 <link rel="icon" href="https://kibrisgirneescort.com/favicon.png">
-<link rel="canonical" href="https://kibrisgirneescort.com/blog">
-<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co" crossorigin>
+<link rel="canonical" href="https://kibrisgirneescort.com/">
+<script>document.querySelector('link[rel="canonical"]').href="https://kibrisgirneescort.com"+location.pathname.replace(/\.html$/,"")</script>
+<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin="">
 <link rel="stylesheet" href="https://kibrisgirneescort.com/style.css">
 </head>
 <body>
@@ -40,7 +41,7 @@
   <div class="crumb"><a href="https://kibrisgirneescort.com/">Ana sayfa</a> › <a href="https://kibrisgirneescort.com/blog">Blog</a> › <span id="cr"></span></div>
   <h1 id="h1">Yükleniyor…</h1>
   <p class="byline" id="byline"></p>
-  <img id="cover" alt="" fetchpriority="high" decoding="async">
+  <img id="cover" alt="" width="1200" height="750" fetchpriority="high" decoding="async">
   <article id="body" style="max-width:720px;margin-top:22px"></article>
 
   <section class="faq2" id="faq"></section>
@@ -67,7 +68,7 @@
 <script>
 const SB="https://accerzwswgiqhtfgoeqv.supabase.co";
 const H={apikey:"sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG",Authorization:"Bearer sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG"};
-const slug=location.pathname.replace(/^\/blog\//,"").replace(/\/$/,"");
+const slug=location.pathname.replace(/^\/blog\//,"").replace(/\.html$/,"").replace(/\/$/,"");
 
 function fmt(t){
   return t
@@ -162,7 +163,7 @@ function fmt(t){
   if(p.img)setMeta("property","og:image",p.img);
 
   const ld=document.createElement("script");ld.type="application/ld+json";
-  ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Article",headline:p.title,description:desc,datePublished:p.created_at,dateModified:p.created_at,url:url,image:p.img?[p.img]:undefined,author:{"@type":"Person",name:"Can"},publisher:{"@type":"Organization",name:(c.brand||"RedKıbrıs")}});
+  ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Article",headline:p.title,description:desc,datePublished:p.created_at,dateModified:p.updated_at||p.created_at,url:url,image:p.img?[p.img]:undefined,author:{"@type":"Person",name:"Can"},publisher:{"@type":"Organization",name:(c.brand||"RedKıbrıs")}});
   document.head.appendChild(ld);
 
   const bc=document.createElement("script");bc.type="application/ld+json";
@@ -186,5 +187,7 @@ function fmt(t){
   }catch(e){}
 })();
 </script>
-<script src="https://kibrisgirneescort.com/js/analytics.js" defer></script>
+<script src="https://kibrisgirneescort.com/js/analytics.js" defer=""></script>
+
+<div class="kvkk">Ölçüm için çerez kullanıyoruz. <a href="https://kibrisgirneescort.com/gizlilik">Detay</a><div class="kvkk-b"><button class="kvkk-y">Kabul et</button><button class="kvkk-n">Sadece gerekli</button></div></div>
 </body></html>
