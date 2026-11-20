@@ -8,6 +8,7 @@
     { "source": "/kibris-vip-hizmetler-2", "destination": "/fiyatlar", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/", "destination": "/anasayfa.html" },
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
     { "source": "/can", "destination": "/can.html" },
     { "source": "/blog", "destination": "/blog.html" },
