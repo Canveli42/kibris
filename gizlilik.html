@@ -340,3 +340,54 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
 </script>
 </body>
 </html>
+<a href="region.html?b=guzelyurt">Güzelyurt Escort</a>
+        </div>
+        <div>
+          <h4>Site</h4>
+          <a href="/">Ana Sayfa</a>
+          <a href="blog.html">Blog</a>
+          <a href="fiyatlar.html">Fiyatlar</a>
+          <a href="iletisim.html">İletişim</a>
+          <a href="gizlilik.html">Gizlilik</a>
+        </div>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>Kıbrıs Escort · Girne Escort · Lefkoşa Escort · Mağusa Escort · İskele Escort · Güzelyurt Escort</span>
+      <span>© 2026 · Can</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var SB='https://accerzwswgiqhtfgoeqv.supabase.co';
+  var KEY='sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
+  function digits(s){ return String(s).replace(/[^0-9]/g,''); }
+  fetch(SB+'/rest/v1/settings?select=*',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}})
+    .then(function(r){ return r.ok?r.json():null; })
+    .then(function(rows){
+      if(!rows) return;
+      var cfg={};
+      (Array.isArray(rows)?rows:[rows]).forEach(function(row){
+        if(!row||typeof row!=='object') return;
+        var k=row.key||row.name;
+        if(k) cfg[k]=row.value;
+        else Object.keys(row).forEach(function(kk){ cfg[kk]=row[kk]; });
+      });
+      var wa=digits(cfg.whatsapp||cfg.wa||cfg.phone||'');
+      var mail=cfg.email||cfg.mail||'';
+      if(wa){
+        var u='https://wa.me/'+wa;
+        var t=document.getElementById('waTop'); if(t) t.href=u;
+        var v=document.getElementById('waVal'); if(v){ v.href=u; v.textContent='+'+wa; }
+      }
+      if(mail){
+        var m=document.getElementById('mailVal'); if(m){ m.href='mailto:'+mail; m.textContent=mail; }
+      }
+    })
+    .catch(function(){});
+})();
+</script>
+</body>
+</html>
