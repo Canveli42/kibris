@@ -75,6 +75,26 @@ h2{font-size:17px;margin-bottom:10px}
   </div>
 
   <div class="bx">
+    <h2>Yazılar</h2>
+    <div id="plist"></div>
+  </div>
+
+  <div class="bx">
+    <h2 id="postTitle">Yeni yazı</h2>
+    <input type="hidden" id="pid">
+    <label>Başlık</label><input id="ptitle">
+    <label>Adres (slug)</label><input id="pslug">
+    <label>İçerik</label>
+    <textarea id="pbody" rows="12" placeholder="Paragrafları boş satırla ayır. Alt başlık için başına ## koy."></textarea>
+    <div class="row2">
+      <div><label>Yayında (1/0)</label><input id="ppub" type="number" value="0"></div>
+    </div>
+    <button class="btn" id="btnPSave">Kaydet</button>
+    <button class="btn-o" id="btnPNew">Yeni</button>
+    <p id="pmsg" style="font-size:13px;margin-top:8px"></p>
+  </div>
+
+  <div class="bx">
     <h2>Ayarlar</h2>
     <label>WhatsApp (905xx)</label><input id="swa">
     <label>Telegram</label><input id="stg">
@@ -101,7 +121,7 @@ async function start(){
   const {data:s}=await db.from("settings").select("key,value");
   const c={};(s||[]).forEach(x=>c[x.key]=x.value);
   el("swa").value=c.whatsapp||"";el("stg").value=c.telegram||"";el("sbr").value=c.brand||"";
-  load();
+  load();loadPosts();
 }
 
 el("btnLogin").onclick=async()=>{
@@ -178,7 +198,7 @@ el("btnSave").onclick=async()=>{
     const f=files[i];
     const path=mid+"/"+Date.now()+"-"+i+"."+(f.name.split(".").pop()||"jpg");
     const {error:ue}=await db.storage.from("foto").upload(path,f);
-    if(ue)return el("msg").textContent=ue.message;
+    if(ue)return el("pmsg").textContent=ue.message;
     const {data:{publicUrl}}=db.storage.from("foto").getPublicUrl(path);
     await db.from("model_photos").insert({model_id:mid,url:publicUrl,sort:curPhotos.length+i});
   }
@@ -188,14 +208,26 @@ el("btnSave").onclick=async()=>{
   if(el("fid").value)edit(el("fid").value);
 };
 
-el("btnSet").onclick=async()=>{
-  for(const [k,v] of [["whatsapp",el("swa").value],["telegram",el("stg").value],["brand",el("sbr").value]]){
-    await db.from("settings").upsert({key:k,value:v});
-  }
-  el("msg").textContent="Ayarlar kaydedildi";
-};
+async function loadPosts(){
+  const {data}=await db.from("posts").select("id,slug,title,published").order("created_at",{ascending:false});
+  el("plist").innerHTML=(data||[]).map(p=>
+    `<div class="item"><span>${p.title} ${p.published?"":"(taslak)"}</span>
+     <span><a href="#" data-pe="${p.id}">düzenle</a><button class="del" data-pd="${p.id}">sil</button></span></div>`
+  ).join("")||'<p style="color:var(--muted);font-size:14px">Yazı yok.</p>';
+  el("plist").querySelectorAll("[data-pe]").forEach(a=>a.onclick=e=>{e.preventDefault();editPost(a.dataset.pe)});
+  el("plist").querySelectorAll("[data-pd]").forEach(b=>b.onclick=async()=>{
+    if(!confirm("Yazı silinsin mi?"))return;
+    await db.from("posts").delete().eq("id",b.dataset.pd);loadPosts();
+  });
+}
 
-start();
-</script>
-</body>
-</html>
+async function editPost(id){
+  const {data:p}=await db.from("posts").select("*").eq("id",id).single();
+  el("postTitle").textContent="Yazıyı düzenle";
+  el("pid").value=p.id;el("ptitle").value=p.title;el("pslug").value=p.slug;
+  el("pbody").value=p.body;el("ppub").value=p.published?1:0;
+  window.scrollTo(0,0);
+}
+
+el("btnPNew").onclick=()=>{
+  el("postTitle").textContent="
