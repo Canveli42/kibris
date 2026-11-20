@@ -25,10 +25,8 @@
   <div class="gal" id="gal"></div>
   <a class="btn" id="waMain" href="#">WhatsApp'tan yaz</a>
   <a class="btn-o" id="tgMain" href="#" style="margin-left:6px">Telegram</a>
-
   <div class="specs" id="specs"></div>
   <div class="about" id="about"></div>
-
   <section class="sect">
     <h2>Benzer modeller</h2>
     <div class="grid" id="sim"></div>
@@ -42,31 +40,6 @@
 <a class="btn fix" id="waFix" href="#">WhatsApp'tan yaz</a>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SB="https://accerzwswgiqhtfgoeqv.supabase.co";
-const KEY="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG";
-const db=supabase.createClient(SB,KEY);
-const slug=new URLSearchParams(location.search).get("m")||"";
-let WA="";
-const waT=n=>"https://wa.me/"+WA+"?text="+encodeURIComponent("Merhaba, "+(n||"")+" müsait mi?");
-
-(async()=>{
-  const {data:s}=await db.from("settings").select("key,value");
-  const c={};(s||[]).forEach(r=>c[r.key]=r.value);
-  WA=c.whatsapp||"";
-  if(c.brand)document.getElementById("brand").textContent=c.brand;
-
-  const {data:m}=await db.from("models")
-    .select("*,regions(slug,name),model_photos(url,sort)")
-    .eq("slug",slug).eq("is_active",true).single();
-  if(!m){document.getElementById("h1").textContent="Model bulunamadı";return}
-
-  const nm=m.name, rn=m.regions?.name||"Kıbrıs";
-  ["waTop","waMain","waFix","waFoot"].forEach(i=>{const e=document.getElementById(i);if(e)e.href=waT(nm)});
-  if(c.telegram){const t="https://t.me/"+c.telegram;document.getElementById("tgFoot").href=t;document.getElementById("tgMain").href=t}
-
-  document.title=nm+" – "+rn+" Escort | Kıbrıs Escort";
-  document.getElementById("crReg").textContent=rn;
-  if(m.regions?.slug)document.getElementById("crReg").href="/"+m.regions.slug;
-  document.getElementById("crName").textContent=nm;
-  document.getElementById("h1").innerHTML=nm+(
+<script src="/js/model.js"></script>
+</body>
+</html>
