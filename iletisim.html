@@ -3,27 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>İletişim | Kıbrıs Escort Rezervasyon</title>
+<title>İletişim | Kıbrıs Escort – RedKıbrıs</title>
 <meta name="description" content="WhatsApp, Telegram ve telefon ile 7/24 ulaşın. Girne, Lefkoşa, Mağusa ve İskele'de aynı gün rezervasyon.">
+<link rel="icon" href="/favicon.png">
 <link rel="canonical" href="https://kibrisgirneescort.com/iletisim">
-<link rel="stylesheet" href="https://kibrisgirneescort.com/style.css">
+<link rel="stylesheet" href="/style.css">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","name":"Kıbrıs Escort Rezervasyon","url":"https://kibrisgirneescort.com/","image":"https://kibrisgirneescort.com/favicon.png","telephone":"+905515420755","priceRange":"7000-30000 TRY","areaServed":["Girne","Lefkoşa","Mağusa","İskele","Güzelyurt"],"address":{"@type":"PostalAddress","streetAddress":"Gönen Sokak, Nur Court 7 Sitesi, Kat 2, Daire 5","addressLocality":"Girne","addressRegion":"Girne","postalCode":"99300","addressCountry":"CY"},"geo":{"@type":"GeoCoordinates","latitude":35.3417,"longitude":33.3192},"openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"}}
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"RedKıbrıs","url":"https://kibrisgirneescort.com/","image":"https://kibrisgirneescort.com/favicon.png","telephone":"+905515420755","priceRange":"7000-30000 TRY","areaServed":["Girne","Lefkoşa","Mağusa","İskele","Güzelyurt"],"address":{"@type":"PostalAddress","streetAddress":"Gönen Sokak, Nur Court 7 Sitesi, Kat 2, Daire 5","addressLocality":"Girne","addressRegion":"Girne","postalCode":"99300","addressCountry":"CY"},"geo":{"@type":"GeoCoordinates","latitude":35.3417,"longitude":33.3192},"openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"}}
 </script>
 </head>
 <body>
 <header><div class="wrap hrow">
-  <a class="logo" href="https://kibrisgirneescort.com/">Kıbrıs <span>Escort</span></a>
+  <a class="logo" href="/">Kıbrıs <span>Escort</span></a>
   <nav>
-    <a href="https://kibrisgirneescort.com/girne-escort">Girne</a><a href="https://kibrisgirneescort.com/lefkosa-escort">Lefkoşa</a>
-    <a href="https://kibrisgirneescort.com/magusa-escort">Mağusa</a><a href="https://kibrisgirneescort.com/iskele-escort">İskele</a>
-    <a href="https://kibrisgirneescort.com/fiyatlar">Fiyatlar</a><a href="https://kibrisgirneescort.com/blog">Blog</a><a href="https://kibrisgirneescort.com/iletisim">İletişim</a>
+    <a href="/girne-escort">Girne</a><a href="/lefkosa-escort">Lefkoşa</a>
+    <a href="/magusa-escort">Mağusa</a><a href="/iskele-escort">İskele</a>
+    <a href="/fiyatlar">Fiyatlar</a><a href="/blog">Blog</a><a href="/iletisim">İletişim</a>
   </nav>
   <a class="btn" id="waTop" href="#">WhatsApp</a>
 </div></header>
 
 <main class="wrap">
-  <div class="crumb"><a href="https://kibrisgirneescort.com/">Ana sayfa</a> › <span>İletişim</span></div>
+  <div class="crumb"><a href="/">Ana sayfa</a> › <span>İletişim</span></div>
   <h1>İletişim</h1>
   <p class="lead">Tek mesaj yeter. Kaldığın bölgeyi yaz, uygun modellerin fotoğraflı listesini gönderiyoruz.</p>
 
@@ -57,10 +58,10 @@
 </main>
 
 <footer><div class="wrap">
-  <p id="brand">Kıbrıs Escort Rezervasyon</p>
+  <p id="brand">RedKıbrıs · Kıbrıs Escort</p>
   <p>Girne merkez · <a href="tel:+905515420755" style="color:var(--gold)">+90 551 542 07 55</a></p>
-  <p><a href="https://kibrisgirneescort.com/blog" style="color:var(--gold)">Blog</a> · <a id="waFoot" href="#" style="color:var(--gold)">WhatsApp</a> · <a id="tgFoot" href="#" style="color:var(--gold)">Telegram</a></p>
-  <p><a href="https://kibrisgirneescort.com/gizlilik" style="color:var(--gold)">Gizlilik ve KVKK</a></p>
+  <p><a href="/blog" style="color:var(--gold)">Blog</a> · <a id="waFoot" href="#" style="color:var(--gold)">WhatsApp</a> · <a id="tgFoot" href="#" style="color:var(--gold)">Telegram</a></p>
+  <p><a href="/gizlilik" style="color:var(--gold)">Gizlilik ve KVKK</a></p>
   <p style="margin-top:8px;font-size:12px;opacity:.6">© 2026 · Can</p>
 </div></footer>
 <a class="btn fix" id="waFix" href="#">WhatsApp'tan yaz</a>
@@ -73,10 +74,11 @@ const db=supabase.createClient("https://accerzwswgiqhtfgoeqv.supabase.co","sb_pu
   const c={};(s||[]).forEach(r=>c[r.key]=r.value);
   const w="https://wa.me/"+c.whatsapp+"?text="+encodeURIComponent("Merhaba, katalog alabilir miyim?");
   ["waTop","waBig","waFix","waFoot"].forEach(i=>document.getElementById(i).href=w);
-  if(c.brand)document.getElementById("brand").textContent=c.brand;
+  if(c.brand)document.getElementById("brand").textContent=c.brand+" · Kıbrıs Escort";
   if(c.telegram){const t="https://t.me/"+c.telegram;
     document.getElementById("tgFoot").href=t;document.getElementById("tgBig").href=t}
 })();
 </script>
+<script src="/js/analytics.js" defer></script>
 </body>
 </html>
