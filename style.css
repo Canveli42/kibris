@@ -58,3 +58,5 @@ footer{border-top:1px solid var(--line);margin-top:46px;padding:26px 0;font-size
 #waTop{background:var(--wa)!important;color:#fff!important}
 #waHero,#waCta,#waMain{background:var(--wa)!important;color:#fff!important}
 #tgHero,#tgMain{background:var(--tg)!important;color:#fff!important;border:0}
+#waHero,#waCta,#waMain{background:var(--wa)!important;color:#fff!important}
+#tgHero,#tgMain{background:var(--tg)!important;color:#fff!important;border:0}
