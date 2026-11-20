@@ -24,6 +24,8 @@ label{font-size:12px;color:var(--muted);display:block;margin-bottom:3px}
 .thumbs button{position:absolute;top:2px;right:2px;background:#000a;color:#fff;border:0;border-radius:5px;font-size:11px;padding:2px 6px;cursor:pointer}
 h2{font-size:17px;margin-bottom:10px}
 .hide{display:none}
+.urls{font-size:12px;word-break:break-all;color:var(--muted);margin-top:8px}
+.urls a{color:var(--gold);display:block;margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -42,6 +44,14 @@ h2{font-size:17px;margin-bottom:10px}
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
     <h2>Panel</h2>
     <button class="btn-o" id="btnOut">Çıkış</button>
+  </div>
+
+  <div class="bx">
+    <h2>Görsel aracı</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Fotoğraf seç, otomatik WebP'ye çevrilip küçültülür ve yüklenir. Çıkan adresleri site dosyalarında kullanabilirsin.</p>
+    <input id="toolFiles" type="file" accept="image/*" multiple>
+    <div class="urls" id="toolUrls"></div>
+    <p id="toolMsg" style="font-size:13px;margin-top:8px"></p>
   </div>
 
   <div class="bx">
@@ -69,7 +79,7 @@ h2{font-size:17px;margin-bottom:10px}
       <div><label>VIP (1/0)</label><input id="fvip" type="number" value="0"></div>
       <div><label>Sıra</label><input id="fsort" type="number" value="0"></div>
     </div>
-    <label>Fotoğraf ekle</label><input id="fupload" type="file" accept="image/*" multiple>
+    <label>Fotoğraf ekle (otomatik küçültülür)</label><input id="fupload" type="file" accept="image/*" multiple>
     <div class="thumbs" id="thumbs"></div>
     <button class="btn" id="btnSave">Kaydet</button>
     <button class="btn-o" id="btnNew">Yeni</button>
@@ -113,6 +123,25 @@ let regions=[],curPhotos=[];
 const el=id=>document.getElementById(id);
 const slugify=s=>s.toLowerCase().replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 
+async function shrink(file,maxW,quality){
+  const bmp=await createImageBitmap(file);
+  const scale=Math.min(1,maxW/bmp.width);
+  const c=document.createElement("canvas");
+  c.width=Math.max(1,Math.round(bmp.width*scale));
+  c.height=Math.max(1,Math.round(bmp.height*scale));
+  c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
+  return await new Promise(r=>c.toBlob(r,"image/webp",quality));
+}
+
+async function uploadWebp(file,prefix,maxW,quality){
+  const blob=await shrink(file,maxW,quality);
+  const name=prefix+"/"+Date.now()+"-"+Math.random().toString(36).slice(2,7)+".webp";
+  const {error}=await db.storage.from(prefix==="img"?"img":"foto").upload(name,blob,{contentType:"image/webp"});
+  if(error)throw error;
+  const bucket=prefix==="img"?"img":"foto";
+  return db.storage.from(bucket).getPublicUrl(name).data.publicUrl;
+}
+
 async function start(){
   const {data:{session}}=await db.auth.getSession();
   if(!session)return;
@@ -135,6 +164,22 @@ el("btnLogin").onclick=async()=>{
   location.reload();
 };
 el("btnOut").onclick=async()=>{await db.auth.signOut();location.reload()};
+
+el("toolFiles").onchange=async()=>{
+  const files=[...el("toolFiles").files];
+  if(!files.length)return;
+  el("toolUrls").innerHTML="";el("toolMsg").textContent="İşleniyor…";
+  for(const f of files){
+    try{
+      const url=await uploadWebp(f,"img",1600,0.78);
+      const a=document.createElement("a");
+      a.href=url;a.textContent=url;a.target="_blank";
+      el("toolUrls").appendChild(a);
+    }catch(e){el("toolMsg").textContent=e.message}
+  }
+  el("toolMsg").textContent="Bitti. Adreslere tıklayıp kopyalayabilirsin.";
+  el("toolFiles").value="";
+};
 
 async function load(){
   const {data}=await db.from("models").select("id,slug,name,is_active,regions(name)").order("sort");
@@ -197,14 +242,12 @@ el("btnSave").onclick=async()=>{
     el("fid").value=data.id;
   }
   const mid=el("fid").value;
-  const files=el("fupload").files;
+  const files=[...el("fupload").files];
   for(let i=0;i<files.length;i++){
-    const f=files[i];
-    const path=mid+"/"+Date.now()+"-"+i+"."+(f.name.split(".").pop()||"jpg");
-    const {error:ue}=await db.storage.from("foto").upload(path,f);
-    if(ue)return el("msg").textContent=ue.message;
-    const {data:{publicUrl}}=db.storage.from("foto").getPublicUrl(path);
-    await db.from("model_photos").insert({model_id:mid,url:publicUrl,sort:curPhotos.length+i});
+    try{
+      const url=await uploadWebp(files[i],mid,1200,0.78);
+      await db.from("model_photos").insert({model_id:mid,url:url,sort:curPhotos.length+i});
+    }catch(e){return el("msg").textContent=e.message}
   }
   el("fupload").value="";
   el("msg").textContent="Kaydedildi";
