@@ -9,6 +9,8 @@
   ],
   "rewrites": [
     { "source": "/can", "destination": "/can.html" },
+    { "source": "/blog", "destination": "/blog.html" },
+    { "source": "/blog/:slug", "destination": "/post.html?p=:slug" },
     { "source": "/fiyatlar", "destination": "/fiyatlar.html" },
     { "source": "/iletisim", "destination": "/iletisim.html" },
     { "source": "/girne-escort", "destination": "/region.html?r=girne-escort" },
