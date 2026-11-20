@@ -5,7 +5,7 @@
 <meta name="description" content="Kıbrıs'ta escort hizmeti: otel ve ev ziyareti, sabit tarife, aynı gün rezervasyon.">
 <link rel="icon" href="https://kibrisgirneescort.com/favicon.png">
 <link rel="canonical" href="https://kibrisgirneescort.com/">
-<script>document.querySelector('link[rel="canonical"]').href="https://kibrisgirneescort.com"+location.pathname</script>
+<script>document.querySelector('link[rel="canonical"]').href="https://kibrisgirneescort.com"+location.pathname.replace(/\.html$/,"")</script>
 <link rel="stylesheet" href="https://kibrisgirneescort.com/style.css">
 </head>
 <body>
@@ -54,7 +54,7 @@
 const SB="https://accerzwswgiqhtfgoeqv.supabase.co";
 const KEY="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG";
 const q=async p=>{const r=await fetch(SB+"/rest/v1/"+p,{headers:{apikey:KEY,Authorization:"Bearer "+KEY}});return await r.json()};
-const slug=location.pathname.replace(/^\//,"").replace(/\/$/,"")||"girne-escort";
+const slug=location.pathname.replace(/^\//,"").replace(/\.html$/,"").replace(/\/$/,"")||"girne-escort";
 let WA="";
 const waT=()=>"https://wa.me/"+WA+"?text="+encodeURIComponent("Merhaba, "+C.nm+" için katalog alabilir miyim?");
 
@@ -225,8 +225,8 @@ const C=D[slug]||D["girne-escort"];
      <div class="about"><b>Tarife</b><br>30 dk 7.000 ₺ (kendi yerimizde) · 1 saat 12.000 ₺ · 2 saat 17.000 ₺ · 4 saat 22.000 ₺ · taksi mesafeye göre</div>
      <div class="about"><a href="/blog/kibris-gece-hayati" style="color:var(--gold)">Kıbrıs gece hayatı rehberi</a> · <a href="/blog/kibris-otelleri" style="color:var(--gold)">otel çevresinde görüşme</a> · <a href="/fiyatlar" style="color:var(--gold)">tarife</a></div>`;
 
-  document.getElementById("sss").innerHTML=C.sss.map(([q,a])=>
-    `<div class="about"><b>${q}</b><br>${a}</div>`).join("");
+  document.getElementById("sss").innerHTML=C.sss.map(([soru,cevap])=>
+    `<div class="about"><b>${soru}</b><br>${cevap}</div>`).join("");
 
   const url="https://kibrisgirneescort.com/"+slug;
   const cl=document.querySelector('link[rel="canonical"]');if(cl)cl.href=url;
