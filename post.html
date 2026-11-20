@@ -14,7 +14,10 @@
 #body ul{margin:0 0 14px 20px;color:var(--muted)}
 #body li{margin-bottom:6px}
 #body strong{color:#fff}
+#body a{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
+#body a:hover{color:#fff}
 #cover{display:none;width:100%;max-width:720px;border-radius:12px;border:1px solid var(--line);margin:18px 0 0;object-fit:cover}
+.byline{font-size:13px;color:var(--muted);margin-top:6px}
 .faq2{max-width:720px;margin-top:32px}
 .faq2 h2{font-size:21px;margin-bottom:12px;letter-spacing:-.02em}
 .faq2 details{border-bottom:1px solid var(--line);padding:12px 0}
@@ -28,7 +31,7 @@
   <nav>
     <a href="/girne-escort">Girne</a><a href="/lefkosa-escort">Lefkoşa</a>
     <a href="/magusa-escort">Mağusa</a><a href="/iskele-escort">İskele</a>
-    <a href="/fiyatlar">Fiyatlar</a><a href="/iletisim">İletişim</a>
+    <a href="/fiyatlar">Fiyatlar</a><a href="/blog">Blog</a><a href="/iletisim">İletişim</a>
   </nav>
   <a class="btn" id="waTop" href="#">WhatsApp</a>
 </div></header>
@@ -36,7 +39,7 @@
 <main class="wrap">
   <div class="crumb"><a href="/">Ana sayfa</a> › <a href="/blog">Blog</a> › <span id="cr"></span></div>
   <h1 id="h1">Yükleniyor…</h1>
-  <p class="lead" id="meta"></p>
+  <p class="byline" id="byline"></p>
   <img id="cover" alt="">
   <article id="body" style="max-width:720px;margin-top:22px"></article>
 
@@ -57,14 +60,19 @@
 <footer><div class="wrap">
   <p id="brand">Kıbrıs Escort Rezervasyon</p>
   <p><a id="waFoot" href="#" style="color:var(--gold)">WhatsApp</a> · <a id="tgFoot" href="#" style="color:var(--gold)">Telegram</a></p>
-</div></footer>
+</footer></div>
 <a class="btn fix" id="waFix" href="#">WhatsApp'tan yaz</a>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const db=supabase.createClient("https://accerzwswgiqhtfgoeqv.supabase.co","sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG");
 const slug=location.pathname.replace(/^\/blog\//,"").replace(/\/$/,"");
-const inline=t=>t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+
+function fmt(t){
+  return t
+    .replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,'<a href="$2">$1</a>');
+}
 
 (async()=>{
   const {data:s}=await db.from("settings").select("key,value");
@@ -80,11 +88,18 @@ const inline=t=>t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
   document.title=p.title+" | Kıbrıs Escort";
   document.getElementById("cr").textContent=p.title;
   document.getElementById("h1").textContent=p.title;
-  document.getElementById("meta").textContent=new Date(p.created_at).toLocaleDateString("tr-TR");
+
+  const d=new Date(p.created_at);
+  const gun=d.toLocaleDateString("tr-TR",{day:"numeric",month:"long",year:"numeric"});
+  const kelime=p.body.split(/\s+/).length;
+  const dk=Math.max(2,Math.round(kelime/200));
+  document.getElementById("byline").textContent=
+    "Kıbrıs Escort Rezervasyon · "+gun+" · "+dk+" dk okuma";
 
   if(p.img){
     const cv=document.getElementById("cover");
-    cv.src=p.img;cv.alt=p.title+" - Kıbrıs escort";
+    cv.src=p.img;
+    cv.alt=p.title;
     cv.style.display="block";
   }
 
@@ -92,11 +107,11 @@ const inline=t=>t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
   for(const raw of p.body.split("\n")){
     const b=raw.trim();
     if(!b){if(inUl){html+="</ul>";inUl=false}continue}
-    if(b.startsWith("## ")){if(inUl){html+="</ul>";inUl=false}html+=`<h2>${inline(b.slice(3))}</h2>`;continue}
-    if(b.startsWith("### ")){if(inUl){html+="</ul>";inUl=false}html+=`<h3>${inline(b.slice(4))}</h3>`;continue}
-    if(b.startsWith("- ")){if(!inUl){html+="<ul>";inUl=true}html+=`<li>${inline(b.slice(2))}</li>`;continue}
+    if(b.startsWith("## ")){if(inUl){html+="</ul>";inUl=false}html+=`<h2>${fmt(b.slice(3))}</h2>`;continue}
+    if(b.startsWith("### ")){if(inUl){html+="</ul>";inUl=false}html+=`<h3>${fmt(b.slice(4))}</h3>`;continue}
+    if(b.startsWith("- ")){if(!inUl){html+="<ul>";inUl=true}html+=`<li>${fmt(b.slice(2))}</li>`;continue}
     if(inUl){html+="</ul>";inUl=false}
-    html+=`<p>${inline(b)}</p>`;
+    html+=`<p>${fmt(b)}</p>`;
   }
   if(inUl)html+="</ul>";
   document.getElementById("body").innerHTML=html;
@@ -112,11 +127,20 @@ const inline=t=>t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
 
   const url="https://kibrisgirneescort.com/blog/"+slug;
   const cl=document.querySelector('link[rel="canonical"]');if(cl)cl.href=url;
-  const md=(a,k,v)=>{const e=document.createElement("meta");e.setAttribute(a,k);e.setAttribute("content",v);document.head.appendChild(e)};
-  md("property","og:url",url);md("property","og:title",p.title);md("property","og:type","article");
-  if(p.img)md("property","og:image",p.img);
-  const desc=(p.meta||p.body.replace(/[#*\n]/g," ")).slice(0,158);
-  md("name","description",desc);md("property","og:description",desc);
+
+  const desc=(p.meta||p.body.replace(/[#*\[\]\(\)]/g," ").replace(/https?:\/\/\S+/g,"").replace(/\s+/g," ").trim()).slice(0,158);
+
+  const setMeta=(attr,name,val)=>{
+    let e=document.head.querySelector(`meta[${attr}="${name}"]`);
+    if(!e){e=document.createElement("meta");e.setAttribute(attr,name);document.head.appendChild(e)}
+    e.setAttribute("content",val);
+  };
+  setMeta("property","og:url",url);
+  setMeta("property","og:title",p.title);
+  setMeta("property","og:type","article");
+  setMeta("name","description",desc);
+  setMeta("property","og:description",desc);
+  if(p.img)setMeta("property","og:image",p.img);
 
   const ld=document.createElement("script");ld.type="application/ld+json";
   ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Article",headline:p.title,description:desc,datePublished:p.created_at,dateModified:p.created_at,url:url,image:p.img?[p.img]:undefined,author:{"@type":"Organization",name:"Kıbrıs Escort Rezervasyon"},publisher:{"@type":"Organization",name:"Kıbrıs Escort Rezervasyon"}});
