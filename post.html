@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yazı</title>
+<meta name="description" content="Kıbrıs escort rehberi.">
+<link rel="canonical" href="https://kibrisgirneescort.com/blog">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><div class="wrap hrow">
+  <a class="logo" href="/">Kıbrıs <span>Escort</span></a>
+  <nav>
+    <a href="/girne-escort">Girne</a><a href="/lefkosa-escort">Lefkoşa</a>
+    <a href="/magusa-escort">Mağusa</a><a href="/iskele-escort">İskele</a>
+    <a href="/fiyatlar">Fiyatlar</a><a href="/iletisim">İletişim</a>
+  </nav>
+  <a class="btn" id="waTop" href="#">WhatsApp</a>
+</div></header>
+
+<main class="wrap">
+  <div class="crumb"><a href="/">Ana sayfa</a> › <a href="/blog">Blog</a> › <span id="cr"></span></div>
+  <h1 id="h1">Yükleniyor…</h1>
+  <p class="lead" id="meta"></p>
+  <article id="body" style="max-width:720px;margin-top:22px"></article>
+
+  <div class="about" style="margin-top:32px">
+    <b>Sorun mu var, katalog mu lazım?</b><br>
+    WhatsApp'tan yaz, kaldığın bölgeye göre liste gönderiyoruz.
+    <br><br><a class="btn" id="waCta" href="#">WhatsApp'tan yaz</a>
+  </div>
+
+  <section class="sect">
+    <h2>Diğer yazılar</h2>
+    <div id="more" style="display:flex;flex-direction:column;gap:8px"></div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <p id="brand">Kıbrıs Escort Rezervasyon</p>
+  <p><a id="waFoot" href="#" style="color:var(--gold)">WhatsApp</a> · <a id="tgFoot" href="#" style="color:var(--gold)">Telegram</a></p>
+</div></footer>
+<a class="btn fix" id="waFix" href="#">WhatsApp'tan yaz</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const db=supabase.createClient("https://accerzwswgiqhtfgoeqv.supabase.co","sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG");
+const slug=location.pathname.replace(/^\/blog\//,"").replace(/\/$/,"");
+
+(async()=>{
+  const {data:s}=await db.from("settings").select("key,value");
+  const c={};(s||[]).forEach(r=>c[r.key]=r.value);
+  const w="https://wa.me/"+c.whatsapp+"?text="+encodeURIComponent("Merhaba, katalog alabilir miyim?");
+  ["waTop","waCta","waFix","waFoot"].forEach(i=>document.getElementById(i).href=w);
+  if(c.brand)document.getElementById("brand").textContent=c.brand;
+  if(c.telegram)document.getElementById("tgFoot").href="https://t.me/"+c.telegram;
+
+  const {data:p}=await db.from("posts").select("*").eq("slug",slug).eq("published",true).single();
+  if(!p){document.getElementById("h1").textContent="Yazı bulunamadı";return}
+
+  document.title=p.title+" | Kıbrıs Escort";
+  document.getElementById("cr").textContent=p.title;
+  document.getElementById("h1").textContent=p.title;
+  document.getElementById("meta").textContent=new Date(p.created_at).toLocaleDateString("tr-TR");
+
+  document.getElementById("body").innerHTML=p.body.split(/\n{2,}/).map(b=>{
+    b=b.trim();
+    if(!b)return "";
+    if(b.startsWith("## "))return `<h2 style="font-size:20px;margin:22px 0 8px">${b.slice(3)}</h2>`;
+    if(b.startsWith("### "))return `<h3 style="font-size:17px;margin:18px 0 6px">${b.slice(4)}</h3>`;
+    if(b.startsWith("- "))return `<ul style="margin:10px 0 10px 20px;color:var(--muted)">${b.split(/\n/).map(l=>`<li>${l.replace(/^-\s*/,"")}</li>`).join("")}</ul>`;
+    return `<p style="margin-bottom:12px">${b.replace(/\n/g," ")}</p>`;
+  }).join("");
+
+  const url="https://kibrisgirneescort.com/blog/"+slug;
+  const cl=document.querySelector('link[rel="canonical"]');if(cl)cl.href=url;
+  const md=(a,k,v)=>{const e=document.createElement("meta");e.setAttribute(a,k);e.setAttribute("content",v);document.head.appendChild(e)};
+  md("property","og:url",url);md("property","og:title",p.title);md("property","og:type","article");
+  md("name","description",p.body.slice(0,158));
+
+  const ld=document.createElement("script");ld.type="application/ld+json";
+  ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Article",headline:p.title,datePublished:p.created_at,dateModified:p.created_at,url:url,author:{"@type":"Organization",name:"Kıbrıs Escort Rezervasyon"},publisher:{"@type":"Organization",name:"Kıbrıs Escort Rezervasyon"}});
+  document.head.appendChild(ld);
+
+  const {data:m}=await db.from("posts").select("slug,title").eq("published",true).neq("slug",slug).order("created_at",{ascending:false}).limit(5);
+  document.getElementById("more").innerHTML=(m||[]).map(x=>`<a href="/blog/${x.slug}" style="color:var(--gold)">${x.title}</a>`).join("")||'<span style="color:var(--muted)">Yazı yok.</span>';
+})();
+</script>
+</body>
+</html>
