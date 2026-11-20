@@ -8,6 +8,9 @@
     { "source": "/kibris-vip-hizmetler-2", "destination": "/fiyatlar", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/favicon.ico", "destination": "https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/VeniceAI_So2w6SjHzvpRQj_0.png" },
+    { "source": "/favicon.png", "destination": "https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/VeniceAI_So2w6SjHzvpRQj_0.png" },
+    { "source": "/apple-touch-icon.png", "destination": "https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/VeniceAI_So2w6SjHzvpRQj_0.png" },
     { "source": "/can", "destination": "/can.html" },
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/blog/:slug", "destination": "/post.html?p=:slug" },
