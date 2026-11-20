@@ -159,8 +159,8 @@ function fmt(t){
 
   const bc=document.createElement("script");bc.type="application/ld+json";
   bc.textContent=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:[
-    {"@type":"ListItem",position:1,name:"Ana sayfa",item":"https://kibrisgirneescort.com/"},
-    {"@type":"ListItem",position:2,name:"Blog",item":"https://kibrisgirneescort.com/blog"},
+    {"@type":"ListItem",position:1,name:"Ana sayfa",item:"https://kibrisgirneescort.com/"},
+    {"@type":"ListItem",position:2,name:"Blog",item:"https://kibrisgirneescort.com/blog"},
     {"@type":"ListItem",position:3,name:p.title,item:url}
   ]});
   document.head.appendChild(bc);
@@ -175,5 +175,6 @@ function fmt(t){
   document.getElementById("more").innerHTML=(m||[]).map(x=>`<a href="/blog/${x.slug}" style="color:var(--gold)">${x.title}</a>`).join("")||'<span style="color:var(--muted)">Yazı yok.</span>';
 })();
 </script>
+<script src="/js/analytics.js" defer></script>
 </body>
 </html>
