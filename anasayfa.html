@@ -279,13 +279,7 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
         <h2>Hangi <span>bölgedesin</span>?</h2>
         <p>Her bölge kendi sayfasında listelenir. Girne merkezde taksi ücreti yok; diğer bölgelerde mesafeye göre eklenir ve önceden söylenir.</p>
       </div>
-      <div class="rgrid" id="rgrid">
-        <a class="rcard" href="region.html?b=girne"><small>Merkez</small><span>Girne</span></a>
-        <a class="rcard" href="region.html?b=lefkosa"><small>Başkent</small><span>Lefkoşa</span></a>
-        <a class="rcard" href="region.html?b=magusa"><small>Doğu</small><span>Mağusa</span></a>
-        <a class="rcard" href="region.html?b=iskele"><small>Sahil</small><span>İskele</span></a>
-        <a class="rcard" href="region.html?b=guzelyurt"><small>Batı</small><span>Güzelyurt</span></a>
-      </div>
+      <div class="rgrid" id="rgrid"></div>
     </div>
   </section>
 
@@ -429,22 +423,43 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
     })
     .catch(function(){});
 
+  var BOLGELER=[
+    {s:'girne',n:'Girne',t:'Merkez'},
+    {s:'lefkosa',n:'Lefkoşa',t:'Başkent'},
+    {s:'magusa',n:'Mağusa',t:'Doğu'},
+    {s:'iskele',n:'İskele',t:'Sahil'},
+    {s:'guzelyurt',n:'Güzelyurt',t:'Batı'}
+  ];
+
+  (function(){
+    var grid=document.getElementById('rgrid');
+    if(!grid) return;
+    grid.innerHTML=BOLGELER.map(function(b){
+      return '<a class="rcard" data-b="'+b.s+'" href="region.html?b='+b.s+'">'+
+        '<small>'+b.t+'</small><span>'+b.n+'</span></a>';
+    }).join('');
+  })();
+
   fetch(SB+'/rest/v1/regions?select=*',{headers:H})
     .then(function(r){ return r.ok?r.json():null; })
     .then(function(rows){
       if(!rows||!rows.length) return;
       var grid=document.getElementById('rgrid');
-      var html='';
-      rows.slice(0,5).forEach(function(r){
-        var slug=r.slug||r.b||r.key||'';
-        var name=r.name||r.title||r.ad||'';
+      if(!grid) return;
+      rows.forEach(function(r){
+        var s=String(r.slug||r.b||r.key||'').toLowerCase();
         var img=r.image||r.cover||r.img||'';
-        if(!slug||!name) return;
-        html+='<a class="rcard" href="region.html?b='+encodeURIComponent(slug)+'">'+
-          (img?'<img src="'+esc(img)+'" alt="'+esc(name)+' escort" loading="lazy">':'')+
-          '<small>Bölge</small><span>'+esc(name)+'</span></a>';
+        if(!s||!img) return;
+        var hit=null;
+        BOLGELER.forEach(function(b){ if(s.indexOf(b.s)>-1) hit=b.s; });
+        if(!hit) return;
+        var card=grid.querySelector('[data-b="'+hit+'"]');
+        if(card&&!card.querySelector('img')){
+          var im=document.createElement('img');
+          im.src=img; im.alt=hit+' escort'; im.loading='lazy';
+          card.insertBefore(im,card.firstChild);
+        }
       });
-      if(html) grid.innerHTML=html;
     })
     .catch(function(){});
 
@@ -470,9 +485,8 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
 
   var last=localStorage.getItem('kibris_bolge');
   if(last){
-    document.querySelectorAll('.rcard').forEach(function(a){
-      if(a.getAttribute('href')&&a.getAttribute('href').indexOf(last)>-1) a.style.borderColor='rgba(216,184,120,.65)';
-    });
+    var cur=document.querySelector('[data-b="'+last+'"]');
+    if(cur) cur.style.borderColor='rgba(216,184,120,.65)';
   }
 })();
 </script>
