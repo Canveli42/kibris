@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sayfa bulunamadı | Kıbrıs Escort</title>
-<meta name="robots" content="noindex,follow">
-<link rel="icon" href="/favicon.png">
-<link rel="stylesheet" href="/style.css">
+<!DOCTYPE html><html lang="tr"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
 .nf{padding:70px 0 60px;text-align:center}
 .nf h1{font-size:76px;line-height:1;letter-spacing:-.04em;margin-bottom:10px}
@@ -17,12 +10,21 @@
 .nf .row a:hover{border-color:var(--gold);color:#fff}
 .nf .big{margin-top:22px;display:inline-block}
 </style>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sayfa bulunamadı | Kıbrıs Escort</title>
+<meta name="robots" content="noindex,follow">
+<link rel="icon" href="https://kibrisgirneescort.com/favicon.png">
+<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co" crossorigin>
+<link rel="stylesheet" href="https://kibrisgirneescort.com/style.css">
 </head>
 <body>
 <header><div class="wrap"><div class="hrow">
-  <a class="logo" href="/">Kıbrıs <span>Escort</span></a>
-  <nav><a href="/girne-escort">Girne</a><a href="/lefkosa-escort">Lefkoşa</a><a href="/magusa-escort">Mağusa</a><a href="/fiyatlar">Fiyatlar</a><a href="/iletisim">İletişim</a></nav>
-  <a class="btn" id="waTop" href="#">WhatsApp</a>
+  <a class="logo" href="https://kibrisgirneescort.com/">Kıbrıs <span>Escort</span></a>
+  <nav>
+    <a href="https://kibrisgirneescort.com/girne-escort">Girne</a><a href="https://kibrisgirneescort.com/lefkosa-escort">Lefkoşa</a>
+    <a href="https://kibrisgirneescort.com/magusa-escort">Mağusa</a><a href="https://kibrisgirneescort.com/fiyatlar">Fiyatlar</a><a href="https://kibrisgirneescort.com/iletisim">İletişim</a>
+  </nav>
+  <a class="btn" id="waTop" href="https://wa.me/905515420755?text=Merhaba%2C%20katalog%20alabilir%20miyim%3F">WhatsApp</a>
 </div></div></header>
 
 <main class="wrap">
@@ -30,35 +32,36 @@
     <h1>4<span>0</span>4</h1>
     <p>Aradığın sayfa yok. Adres değişmiş ya da yazımda hata olabilir. Aşağıdan devam edebilirsin.</p>
     <div class="row">
-      <a href="/">Ana sayfa</a>
-      <a href="/girne-escort">Girne escort</a>
-      <a href="/lefkosa-escort">Lefkoşa escort</a>
-      <a href="/magusa-escort">Mağusa escort</a>
-      <a href="/iskele-escort">İskele escort</a>
-      <a href="/fiyatlar">Fiyatlar</a>
-      <a href="/blog">Blog</a>
-      <a href="/iletisim">İletişim</a>
+      <a href="https://kibrisgirneescort.com/">Ana sayfa</a>
+      <a href="https://kibrisgirneescort.com/girne-escort">Girne escort</a>
+      <a href="https://kibrisgirneescort.com/lefkosa-escort">Lefkoşa escort</a>
+      <a href="https://kibrisgirneescort.com/magusa-escort">Mağusa escort</a>
+      <a href="https://kibrisgirneescort.com/iskele-escort">İskele escort</a>
+      <a href="https://kibrisgirneescort.com/fiyatlar">Fiyatlar</a>
+      <a href="https://kibrisgirneescort.com/blog">Blog</a>
+      <a href="https://kibrisgirneescort.com/iletisim">İletişim</a>
     </div>
-    <a class="btn big" id="waFix" href="#">WhatsApp'tan yaz</a>
+    <a class="btn big" id="waFix" href="https://wa.me/905515420755?text=Merhaba%2C%20katalog%20alabilir%20miyim%3F">WhatsApp'tan yaz</a>
   </section>
 </main>
 
 <footer><div class="wrap">
-  <p>Kıbrıs Escort Rezervasyon</p>
+  <p>RedKıbrıs · Kıbrıs Escort</p>
   <p>Girne · Lefkoşa · Mağusa · İskele · Güzelyurt</p>
-  <p><a href="/gizlilik" style="color:var(--gold)">Gizlilik ve KVKK</a></p>
+  <p><a href="https://kibrisgirneescort.com/gizlilik" style="color:var(--gold)">Gizlilik ve KVKK</a></p>
 </div></footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const db=supabase.createClient("https://accerzwswgighfgoeqv.supabase.co","sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG");
 (async()=>{
-  const {data:s}=await db.from("settings").select("key,value");
-  const c={};(s||[]).forEach(r=>c[r.key]=r.value);
-  if(!c.whatsapp)return;
-  const u="https://wa.me/"+c.whatsapp+"?text="+encodeURIComponent("Merhaba, katalog hakkında bilgi alabilir miyim?");
-  ["waTop","waFix"].forEach(i=>document.getElementById(i).href=u);
+  try{
+    const r=await fetch("https://accerzwswgiqhtfgoeqv.supabase.co/rest/v1/settings?select=key,value",{headers:{apikey:"sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG",Authorization:"Bearer sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG"}});
+    const s=await r.json();
+    const c={};(s||[]).forEach(x=>c[x.key]=x.value);
+    if(!c.whatsapp)return;
+    const u="https://wa.me/"+c.whatsapp+"?text="+encodeURIComponent("Merhaba, katalog hakkında bilgi alabilir miyim?");
+    ["waTop","waFix"].forEach(i=>{const e=document.getElementById(i);if(e)e.href=u});
+  }catch(e){}
 })();
 </script>
-</body>
-</html>
+<script src="https://kibrisgirneescort.com/js/analytics.js" defer></script>
+</body></html>
