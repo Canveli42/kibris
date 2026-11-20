@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gizlilik Politikası ve KVKK | Kıbrıs Escort</title>
+<meta name="description" content="Kıbrıs Escort rezervasyon sitesinin gizlilik politikası ve KVKK kapsamında kişisel verilerin işlenmesine ilişkin bilgilendirme.">
+<link rel="canonical" href="https://kibrisgirneescort.com/gizlilik">
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/style.css">
+<style>
+.doc{padding:34px 0 50px;max-width:760px}
+.doc h1{font-size:30px;letter-spacing:-.02em;margin-bottom:6px}
+.doc .upd{color:var(--muted);font-size:13px;margin-bottom:26px}
+.doc h2{font-size:17px;margin:26px 0 8px}
+.doc p,.doc li{color:#cfcfd6;font-size:15px}
+.doc ul{padding-left:20px;margin-top:6px}
+.doc li{margin-bottom:5px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="hrow">
+  <a class="logo" href="/">Kıbrıs <span>Escort</span></a>
+  <nav><a href="/girne-escort">Girne</a><a href="/lefkosa-escort">Lefkoşa</a><a href="/magusa-escort">Mağusa</a><a href="/fiyatlar">Fiyatlar</a><a href="/iletisim">İletişim</a></nav>
+  <a class="btn" id="waTop" href="#">WhatsApp</a>
+</div></div></header>
+
+<main class="wrap">
+  <article class="doc">
+    <h1>Gizlilik Politikası ve KVKK Aydınlatma Metni</h1>
+    <p class="upd">Son güncelleme: 20 Kasım 2026</p>
+
+    <p>Bu site, Kıbrıs genelinde eşlik hizmeti rezervasyonu için hazırlanmıştır. Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında hangi verilerin toplandığını, neden toplandığını ve haklarını açıklar.</p>
+
+    <h2>1. Hangi veriler işleniyor</h2>
+    <p>Sitede üyelik yoktur. Buna karşılık şu veriler işlenebilir:</p>
+    <ul>
+      <li>WhatsApp, Telegram veya telefon üzerinden paylaştığın ad, görüşme saati ve bölge tercihi</li>
+      <li>Rezervasyon için verdiğin adres ya da otel bilgisi</li>
+      <li>Siteyi ziyaret ettiğinde tarayıcının ilettiği teknik veriler: IP adresi, cihaz ve tarayıcı türü, gelinen sayfa</li>
+      <li>Çerezler ve benzeri yerel depolama kayıtları</li>
+    </ul>
+
+    <h2>2. İşleme amacı</h2>
+    <p>Toplanan veriler yalnızca rezervasyonu planlamak, görüşmeyi organize etmek, talebini yanıtlamak ve siteyi iyileştirmek için kullanılır. Verilerin pazarlama amacıyla üçüncü taraflara satılması söz konusu değildir.</p>
+
+    <h2>3. Ödeme bilgileri</h2>
+    <p>Sitede ön ödeme alınmaz. Ödeme görüşme sırasında nakit, IBAN havalesi veya kripto ile yapılır. IBAN ile ödeme tercih edersen, dekontta görünen isim dışında bir kayıt tutulmaz. Kripto ödemelerinde cüzdan adresleri dışında kişisel veri işlenmez.</p>
+
+    <h2>4. Çerezler</h2>
+    <p>Site; dil, son görüntülenen bölge gibi tercihleri hatırlamak ve trafik ölçümü yapmak için tarayıcı depolaması ve çerez kullanabilir. Tarayıcı ayarlarından çerezleri silebilir ya da engelleyebilirsin; sitenin temel işlevleri çalışmaya devam eder.</p>
+
+    <h2>5. Barındırma ve alt yükleniciler</h2>
+    <p>Site Vercel altyapısında barındırılır, veriler Supabase üzerinde tutulur. Her iki hizmet de sunucularını yurt dışında işletir; bu nedenle veriler yurt dışına aktarılabilir. Mesajlaşma WhatsApp ve Telegram altyapısı üzerinden yürür ve bu platformların kendi gizlilik politikaları geçerlidir.</p>
+
+    <h2>6. Saklama süresi</h2>
+    <p>Rezervasyon yazışmaları, olası bir tekrar talebini karşılamak için makul süre saklanır. Süre sonunda silinir veya anonim hale getirilir.</p>
+
+    <h2>7. Hakların</h2>
+    <p>KVKK madde 11 uyarınca; verilerinin işlenip işlenmediğini öğrenme, işlenmişse bilgi talep etme, düzeltilmesini veya silinmesini isteme ve işlemeye itiraz etme hakkına sahipsin. Talebini WhatsApp veya Telegram üzerinden iletebilirsin; en kısa sürede yanıtlanır.</p>
+
+    <h2>8. İletişim</h2>
+    <p>Gizlilikle ilgili her konuda <a href="/iletisim" style="color:var(--gold)">iletişim sayfasındaki</a> kanallardan bize ulaşabilirsin.</p>
+  </article>
+</main>
+
+<footer><div class="wrap">
+  <p>Kıbrıs Escort Rezervasyon</p>
+  <p>Girne · Lefkoşa · Mağusa · İskele · Güzelyurt</p>
+  <p><a href="/gizlilik" style="color:var(--gold)">Gizlilik ve KVKK</a></p>
+</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const db=supabase.createClient("https://accerzwswgighfgoeqv.supabase.co","sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG");
+(async()=>{
+  const {data:s}=await db.from("settings").select("key,value");
+  const c={};(s||[]).forEach(r=>c[r.key]=r.value);
+  if(!c.whatsapp)return;
+  document.getElementById("waTop").href="https://wa.me/"+c.whatsapp+"?text="+encodeURIComponent("Merhaba, katalog hakkında bilgi alabilir miyim?");
+})();
+</script>
+</body>
+</html>
