@@ -3,13 +3,15 @@ const KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
 const BASE = 'https://www.kibrisgirneescort.com';
 const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 
+const STATIC = '2026-11-20';
+
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 
 const day = d => {
   const t = new Date(d);
-  return isNaN(t) ? new Date().toISOString().slice(0, 10) : t.toISOString().slice(0, 10);
+  return isNaN(t) ? STATIC : t.toISOString().slice(0, 10);
 };
 
 const u = (loc, lastmod, freq, pri) =>
@@ -41,39 +43,47 @@ const BOLGELER = [
 ];
 
 module.exports = async (req, res) => {
-  const today = new Date().toISOString().slice(0, 10);
   const urls = [];
-
-  urls.push(u(BASE + '/', today, 'daily', '1.0'));
-  urls.push(u(BASE + '/fiyatlar', today, 'weekly', '0.9'));
-  urls.push(u(BASE + '/blog', today, 'daily', '0.8'));
-
-  BOLGELER.forEach(b => {
-    urls.push(u(BASE + '/' + b[0], today, 'weekly', b[1]));
-  });
+  let posts = [];
+  let enSon = STATIC;
 
   try {
     const r = await fetch(
-      SB + '/rest/v1/posts?select=*&order=created_at.desc&limit=1000',
+      SB + '/rest/v1/posts?select=*&published=eq.true&order=created_at.desc&limit=1000',
       { headers: H }
     );
     if (r.ok) {
       const rows = await r.json();
-      (Array.isArray(rows) ? rows : []).forEach(p => {
-        const slug = p.slug || p.id;
-        if (!slug) return;
-        urls.push(u(
-          BASE + '/blog/' + encodeURIComponent(slug),
-          day(p.updated_at || p.created_at || today),
-          'monthly',
-          '0.6'
-        ));
-      });
+      posts = Array.isArray(rows) ? rows : [];
     }
   } catch (e) {}
 
-  urls.push(u(BASE + '/iletisim', today, 'monthly', '0.6'));
-  urls.push(u(BASE + '/gizlilik', today, 'yearly', '0.3'));
+  posts.forEach(p => {
+    const t = p.updated_at || p.created_at;
+    if (t && day(t) > enSon) enSon = day(t);
+  });
+
+  urls.push(u(BASE + '/', enSon, 'daily', '1.0'));
+  urls.push(u(BASE + '/fiyatlar', STATIC, 'weekly', '0.9'));
+  urls.push(u(BASE + '/blog', enSon, 'daily', '0.8'));
+
+  BOLGELER.forEach(b => {
+    urls.push(u(BASE + '/' + b[0], STATIC, 'weekly', b[1]));
+  });
+
+  posts.forEach(p => {
+    const slug = p.slug || p.id;
+    if (!slug) return;
+    urls.push(u(
+      BASE + '/blog/' + encodeURIComponent(slug),
+      day(p.updated_at || p.created_at || STATIC),
+      'monthly',
+      '0.6'
+    ));
+  });
+
+  urls.push(u(BASE + '/iletisim', STATIC, 'monthly', '0.6'));
+  urls.push(u(BASE + '/gizlilik', STATIC, 'yearly', '0.3'));
 
   res.setHeader('Content-Type', 'application/xml; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=1800, stale-while-revalidate=86400');
