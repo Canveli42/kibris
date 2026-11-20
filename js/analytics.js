@@ -36,14 +36,27 @@
     gtag("consent","update",{ad_storage:"granted",ad_user_data:"granted",ad_personalization:"granted",analytics_storage:"granted"});
   }
 
+  function temizle(){
+    var bs=document.querySelectorAll(".kvkk");
+    for(var i=0;i<bs.length;i++)bs[i].remove();
+  }
+
   function bant(){
     var v=localStorage.getItem(KEY);
-    if(v==="1"){onay();return}
-    if(v==="0")return;
-    var d=document.createElement("div");
-    d.className="kvkk";
-    d.innerHTML='Ölçüm için çerez kullanıyoruz. <a href="/gizlilik">Detay</a><div class="kvkk-b"><button class="kvkk-y">Kabul et</button><button class="kvkk-n">Sadece gerekli</button></div>';
-    document.body.appendChild(d);
+    if(v==="1"){onay();temizle();return}
+    if(v==="0"){temizle();return}
+
+    var bs=document.querySelectorAll(".kvkk");
+    if(!bs.length){
+      var y=document.createElement("div");
+      y.className="kvkk";
+      y.innerHTML='Ölçüm için çerez kullanıyoruz. <a href="/gizlilik">Detay</a><div class="kvkk-b"><button class="kvkk-y">Kabul et</button><button class="kvkk-n">Sadece gerekli</button></div>';
+      document.body.appendChild(y);
+      bs=document.querySelectorAll(".kvkk");
+    }
+    for(var i=1;i<bs.length;i++)bs[i].remove();
+
+    var d=bs[0];
     d.querySelector(".kvkk-y").onclick=function(){localStorage.setItem(KEY,"1");d.remove();onay()};
     d.querySelector(".kvkk-n").onclick=function(){localStorage.setItem(KEY,"0");d.remove()};
   }
