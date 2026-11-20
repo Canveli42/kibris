@@ -13,27 +13,23 @@ const PAGES = [
   ["guzelyurt-escort", 0.6], ["iletisim", 0.6], ["blog", 0.7], ["gizlilik", 0.3]
 ];
 
-const get = async (path) => {
-  try {
-    const r = await fetch(SB + path + "&apikey=" + KEY);
-    return r.ok ? await r.json() : [];
-  } catch (e) { return []; }
-};
-
 export default async function handler(req, res) {
-  const [posts, models] = await Promise.all([
-    get("/rest/v1/posts?select=slug,created_at&published=eq.true&order=created_at.desc"),
-    get("/rest/v1/models?select=slug&is_active=eq.true&order=sort")
-  ]);
+  let posts = [];
+  try {
+    const r = await fetch(
+      SB + "/rest/v1/posts?select=slug,created_at&published=eq.true&order=created_at.desc&apikey=" + KEY
+    );
+    if (r.ok) posts = await r.json();
+  } catch (e) {}
 
   const url = (loc, pri, lastmod) =>
     `<url><loc>${BASE}/${loc}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ""}<priority>${pri}</priority></url>`;
 
   const body =
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    PAGES.map(([p, pr]) => url(p, pr)).join("\n") + "\n" +
-    posts.map(p => url("blog/" + p.slug, 0.7, (p.created_at || "").slice(0, 10))).join("\n") + "\n" +
-    models.map(m => url("m/" + m.slug, 0.6)).join("\n") +
+    PAGES.map(([p, pr]) => url(p, pr)).join("\n") +
+    "\n" +
+    posts.map(p => url("blog/" + p.slug, 0.7, (p.created_at || "").slice(0, 10))).join("\n") +
     "\n</urlset>";
 
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
