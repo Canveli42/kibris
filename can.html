@@ -6,7 +6,6 @@
 <title>Panel</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="stylesheet" href="/style.css">
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <style>
 body{padding:0 0 40px}
 .panel{max-width:900px;margin:0 auto;padding:20px 16px}
@@ -25,7 +24,10 @@ label{font-size:12px;color:var(--muted);display:block;margin-bottom:3px}
 h2{font-size:17px;margin-bottom:10px}
 .hide{display:none}
 .prev{width:100%;max-height:150px;object-fit:cover;border-radius:9px;border:1px solid var(--line);margin-bottom:8px;display:block}
+.urls a{color:var(--gold);display:block;margin-bottom:4px}
+.cnt{font-size:12px;color:var(--muted);margin-bottom:8px}
 </style>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 <div class="panel" id="login">
@@ -56,6 +58,14 @@ h2{font-size:17px;margin-bottom:10px}
     <h2>Bölge görselleri</h2>
     <div id="regions"></div>
     <p id="regMsg" style="font-size:13px"></p>
+  </div>
+
+  <div class="bx">
+    <h2>Görsel aracı</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Fotoğraf seç, otomatik WebP'ye çevrilip küçültülür ve yüklenir. Çıkan adresleri site dosyalarında kullanabilirsin.</p>
+    <input id="toolFiles" type="file" accept="image/*" multiple>
+    <div class="urls" id="toolUrls"></div>
+    <p id="toolMsg" style="font-size:13px;margin-top:8px"></p>
   </div>
 
   <div class="bx">
@@ -100,8 +110,19 @@ h2{font-size:17px;margin-bottom:10px}
     <input type="hidden" id="pid">
     <label>Başlık</label><input id="ptitle">
     <label>Adres (slug)</label><input id="pslug">
+    <label>Kapak görseli</label>
+    <div id="pimgWrap" class="hide">
+      <img class="prev" id="pimgPrev">
+      <button class="btn-o" id="pimgDel" style="margin-bottom:8px">Görseli kaldır</button>
+    </div>
+    <input id="pimg" type="file" accept="image/*">
+    <label>SEO açıklaması (max 160 karakter)</label>
+    <input id="pmeta" maxlength="170">
+    <div class="cnt" id="pmetaCnt">0 / 160</div>
+    <label>SSS — her satıra bir soru | cevap</label>
+    <textarea id="pfaq" rows="5" placeholder="Fiyatlar ne kadar? | 30 dakika 7000 TL, 1 saat 12000 TL.&#10;Ön ödeme var mı? | Yok, ödeme görüşme sırasında."></textarea>
     <label>İçerik</label>
-    <textarea id="pbody" rows="12" placeholder="Paragrafları boş satırla ayır. Alt başlık için başına ## koy."></textarea>
+    <textarea id="pbody" rows="14" placeholder="Paragrafları boş satırla ayır. Alt başlık için başına ## koy."></textarea>
     <div class="row2">
       <div><label>Yayında (1/0)</label><input id="ppub" type="number" value="0"></div>
     </div>
@@ -122,7 +143,7 @@ h2{font-size:17px;margin-bottom:10px}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const db=supabase.createClient("https://accerzwswgiqhtfgoeqv.supabase.co","sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG");
-let regions=[],curPhotos=[];
+let regions=[],curPhotos=[],curPostImg=null;
 
 const el=id=>document.getElementById(id);
 const slugify=s=>s.toLowerCase().replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
@@ -202,6 +223,23 @@ el("btnLogin").onclick=async()=>{
   location.reload();
 };
 el("btnOut").onclick=async()=>{await db.auth.signOut();location.reload()};
+
+el("toolFiles").onchange=async()=>{
+  const files=[...el("toolFiles").files];
+  if(!files.length)return;
+  el("toolUrls").innerHTML="";el("toolMsg").textContent="İşleniyor…";
+  let err="";
+  for(const f of files){
+    try{
+      const url=await uploadWebp(f,"img",1600,0.78);
+      const a=document.createElement("a");
+      a.href=url;a.textContent=url;a.target="_blank";
+      el("toolUrls").appendChild(a);
+    }catch(e){err=e.message}
+  }
+  el("toolMsg").textContent=err||"Bitti. Adreslere tıklayıp kopyalayabilirsin.";
+  el("toolFiles").value="";
+};
 
 async function load(){
   const {data}=await db.from("models").select("id,slug,name,is_active,regions(name)").order("sort");
@@ -290,17 +328,36 @@ async function loadPosts(){
   });
 }
 
+function drawPostImg(){
+  if(curPostImg){
+    el("pimgPrev").src=curPostImg;
+    el("pimgWrap").classList.remove("hide");
+  }else{
+    el("pimgPrev").removeAttribute("src");
+    el("pimgWrap").classList.add("hide");
+  }
+}
+
+el("pmeta").oninput=()=>{el("pmetaCnt").textContent=el("pmeta").value.length+" / 160"};
+
+el("pimgDel").onclick=()=>{curPostImg=null;el("pimg").value="";drawPostImg()};
+
 async function editPost(id){
   const {data:p}=await db.from("posts").select("*").eq("id",id).single();
   el("postTitle").textContent="Yazıyı düzenle";
   el("pid").value=p.id;el("ptitle").value=p.title;el("pslug").value=p.slug;
   el("pbody").value=p.body;el("ppub").value=p.published?1:0;
+  el("pmeta").value=p.meta||"";el("pfaq").value=p.faq||"";
+  el("pmetaCnt").textContent=(p.meta||"").length+" / 160";
+  curPostImg=p.img||null;el("pimg").value="";drawPostImg();
   window.scrollTo(0,0);
 }
 
 el("btnPNew").onclick=()=>{
   el("postTitle").textContent="Yeni yazı";el("pid").value="";
-  ["ptitle","pslug","pbody"].forEach(i=>el(i).value="");el("ppub").value=0;
+  ["ptitle","pslug","pbody","pmeta","pfaq"].forEach(i=>el(i).value="");
+  el("ppub").value=0;el("pmetaCnt").textContent="0 / 160";
+  curPostImg=null;el("pimg").value="";drawPostImg();
 };
 
 el("btnPSave").onclick=async()=>{
@@ -309,12 +366,23 @@ el("btnPSave").onclick=async()=>{
   const body=el("pbody").value.trim();
   if(!title||!body)return el("pmsg").textContent="Başlık ve içerik zorunlu";
   const slug=el("pslug").value.trim()||slugify(title);
-  const rec={title,body,slug,published:el("ppub").value==="1"};
+  let img=curPostImg;
+  const f=el("pimg").files[0];
+  if(f){
+    try{img=await uploadWebp(f,"img",1200,0.8)}catch(e){return el("pmsg").textContent=e.message}
+  }
+  const rec={title,body,slug,img,meta:el("pmeta").value.trim()||null,faq:el("pfaq").value.trim()||null,published:el("ppub").value==="1"};
   const id=el("pid").value;
-  const {error}=id
-    ? await db.from("posts").update(rec).eq("id",id)
-    : await db.from("posts").insert(rec);
-  if(error)return el("pmsg").textContent=error.message;
+  if(id){
+    const {error}=await db.from("posts").update(rec).eq("id",id);
+    if(error)return el("pmsg").textContent=error.message;
+  }else{
+    const {data,error}=await db.from("posts").insert(rec).select().single();
+    if(error)return el("pmsg").textContent=error.message;
+    el("pid").value=data.id;
+    el("postTitle").textContent="Yazıyı düzenle";
+  }
+  curPostImg=img;el("pimg").value="";drawPostImg();
   el("pmsg").textContent="Kaydedildi";
   loadPosts();
 };
