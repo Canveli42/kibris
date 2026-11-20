@@ -1,3 +1,4 @@
+const https=require("https");
 const SB="https://accerzwswgiqhtfgoeqv.supabase.co";
 const KEY="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG";
 const BASE="https://kibrisgirneescort.com";
@@ -17,30 +18,34 @@ function temiz(s){
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
 
+function cek(url){
+  return new Promise(function(ok,no){
+    https.get(url,{headers:{apikey:KEY,Authorization:"Bearer "+KEY}},function(r){
+      let d="";
+      r.on("data",function(c){d+=c});
+      r.on("end",function(){ok(d)});
+    }).on("error",no);
+  });
+}
+
 module.exports = async (req,res)=>{
   let xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
-  try{
-    for(let i=0;i<SABIT.length;i++){
-      xml+="<url><loc>"+BASE+SABIT[i][0]+"</loc><priority>"+SABIT[i][1]+"</priority></url>\n";
-    }
-
-    try{
-      const r=await fetch(SB+"/rest/v1/posts?select=slug,updated_at,created_at&published=eq.true&order=created_at.desc",{headers:{apikey:KEY,Authorization:"Bearer "+KEY}});
-      const yazilar=await r.json();
-      if(Array.isArray(yazilar)){
-        for(let i=0;i<yazilar.length;i++){
-          const y=yazilar[i];
-          const t=String(y.updated_at||y.created_at||"").slice(0,10);
-          xml+="<url><loc>"+BASE+"/blog/"+temiz(y.slug)+"</loc>"+(t?"<lastmod>"+t+"</lastmod>":"")+"<priority>0.7</priority></url>\n";
-        }
-      }
-    }catch(e){}
-
-    xml+="</urlset>";
-  }catch(e){
-    xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>"+BASE+"/</loc></url></urlset>";
+  for(let i=0;i<SABIT.length;i++){
+    xml+="<url><loc>"+BASE+SABIT[i][0]+"</loc><priority>"+SABIT[i][1]+"</priority></url>\n";
   }
+
+  try{
+    const ham=await cek(SB+"/rest/v1/posts?select=slug,updated_at,created_at&published=eq.true&order=created_at.desc");
+    const yazilar=JSON.parse(ham);
+    for(let i=0;i<yazilar.length;i++){
+      const y=yazilar[i];
+      const t=String(y.updated_at||y.created_at||"").slice(0,10);
+      xml+="<url><loc>"+BASE+"/blog/"+temiz(y.slug)+"</loc>"+(t?"<lastmod>"+t+"</lastmod>":"")+"<priority>0.7</priority></url>\n";
+    }
+  }catch(e){}
+
+  xml+="</urlset>";
 
   res.statusCode=200;
   res.setHeader("Content-Type","application/xml; charset=utf-8");
