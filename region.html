@@ -52,7 +52,7 @@
 const SB="https://accerzwswgiqhtfgoeqv.supabase.co";
 const KEY="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG";
 const db=supabase.createClient(SB,KEY);
-const slug=new URLSearchParams(location.search).get("r")||"girne-escort";
+const slug=location.pathname.replace(/^\//,"")||new URLSearchParams(location.search).get("r")||"girne-escort";
 let WA="";
 const waT=n=>"https://wa.me/"+WA+"?text="+encodeURIComponent("Merhaba, "+(n||"katalog")+" için bilgi alabilir miyim?");
 
