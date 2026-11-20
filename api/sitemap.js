@@ -13,30 +13,37 @@ const SABIT=[
 ["/guzelyurt-escort","0.6"],["/iletisim","0.6"],["/blog","0.7"],["/gizlilik","0.3"]
 ];
 
-function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function temiz(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
 
-module.exports = async function handler(req,res){
-  let yazilar=[];
+module.exports = async (req,res)=>{
+  let xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
+
   try{
-    const r=await fetch(SB+"/rest/v1/posts?select=slug,updated_at,created_at&published=eq.true&order=created_at.desc",{
-      headers:{apikey:KEY,Authorization:"Bearer "+KEY}
-    });
-    yazilar=await r.json();
-  }catch(e){}
+    for(let i=0;i<SABIT.length;i++){
+      xml+="<url><loc>"+BASE+SABIT[i][0]+"</loc><priority>"+SABIT[i][1]+"</priority></url>\n";
+    }
 
-  const p=["<?xml version=\"1.0\" encoding=\"UTF-8\"?>","<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">"];
+    try{
+      const r=await fetch(SB+"/rest/v1/posts?select=slug,updated_at,created_at&published=eq.true&order=created_at.desc",{headers:{apikey:KEY,Authorization:"Bearer "+KEY}});
+      const yazilar=await r.json();
+      if(Array.isArray(yazilar)){
+        for(let i=0;i<yazilar.length;i++){
+          const y=yazilar[i];
+          const t=String(y.updated_at||y.created_at||"").slice(0,10);
+          xml+="<url><loc>"+BASE+"/blog/"+temiz(y.slug)+"</loc>"+(t?"<lastmod>"+t+"</lastmod>":"")+"<priority>0.7</priority></url>\n";
+        }
+      }
+    }catch(e){}
 
-  for(const [yol,oncelik] of SABIT){
-    p.push("<url><loc>"+BASE+yol+"</loc><priority>"+oncelik+"</priority></url>");
+    xml+="</urlset>";
+  }catch(e){
+    xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>"+BASE+"/</loc></url></urlset>";
   }
 
-  for(const y of (yazilar||[])){
-    const t=(y.updated_at||y.created_at||"").slice(0,10);
-    p.push("<url><loc>"+BASE+"/blog/"+esc(y.slug)+"</loc>"+(t?"<lastmod>"+t+"</lastmod>":"")+"<priority>0.7</priority></url>");
-  }
-
-  p.push("</urlset>");
-
+  res.statusCode=200;
   res.setHeader("Content-Type","application/xml; charset=utf-8");
-  res.status(200).send(p.join("\n"));
+  res.setHeader("Cache-Control","public, s-maxage=3600, stale-while-revalidate=86400");
+  res.end(xml);
 };
