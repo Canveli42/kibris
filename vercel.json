@@ -5,11 +5,11 @@
     { "source": "/ǉskele-escort", "destination": "/iskele-escort", "permanent": true },
     { "source": "/%C7%89skele-escort", "destination": "/iskele-escort", "permanent": true },
     { "source": "/havalimani-transfer", "destination": "/iletisim", "permanent": true },
-    { "source": "/kibris-otelleri", "destination": "/girne-escort", "permanent": true },
-    { "source": "/kibris-villa-kiralama-2", "destination": "/iskele-escort", "permanent": true },
-    { "source": "/kibris-gece-hayati-2", "destination": "/", "permanent": true },
-    { "source": "/kibris-bekarliga-veda-partisi", "destination": "/", "permanent": true },
-    { "source": "/kibris-vip-hizmetler-2", "destination": "/fiyatlar", "permanent": true }
+    { "source": "/kibris-otelleri", "destination": "/otele-escort", "permanent": true },
+    { "source": "/kibris-villa-kiralama-2", "destination": "/eve-gelen-escort", "permanent": true },
+    { "source": "/kibris-gece-hayati-2", "destination": "/gecelik-escort", "permanent": true },
+    { "source": "/kibris-bekarliga-veda-partisi", "destination": "/vip-escort", "permanent": true },
+    { "source": "/kibris-vip-hizmetler-2", "destination": "/vip-escort", "permanent": true }
   ],
   "rewrites": [
     { "source": "/can", "destination": "/can.html" },
@@ -24,6 +24,22 @@
     { "source": "/magusa-escort", "destination": "/region.html?r=magusa-escort" },
     { "source": "/iskele-escort", "destination": "/region.html?r=iskele-escort" },
     { "source": "/guzelyurt-escort", "destination": "/region.html?r=guzelyurt-escort" },
+    { "source": "/lapta-escort", "destination": "/region.html?r=lapta-escort" },
+    { "source": "/alsancak-escort", "destination": "/region.html?r=alsancak-escort" },
+    { "source": "/karaoglanoglu-escort", "destination": "/region.html?r=karaoglanoglu-escort" },
+    { "source": "/catalkoy-escort", "destination": "/region.html?r=catalkoy-escort" },
+    { "source": "/esentepe-escort", "destination": "/region.html?r=esentepe-escort" },
+    { "source": "/long-beach-escort", "destination": "/region.html?r=long-beach-escort" },
+    { "source": "/bafra-escort", "destination": "/region.html?r=bafra-escort" },
+    { "source": "/gonyeli-escort", "destination": "/region.html?r=gonyeli-escort" },
+    { "source": "/bellapais-escort", "destination": "/region.html?r=bellapais-escort" },
+    { "source": "/otele-escort", "destination": "/region.html?r=otele-escort" },
+    { "source": "/eve-gelen-escort", "destination": "/region.html?r=eve-gelen-escort" },
+    { "source": "/ogrenci-escort", "destination": "/region.html?r=ogrenci-escort" },
+    { "source": "/gecelik-escort", "destination": "/region.html?r=gecelik-escort" },
+    { "source": "/vip-escort", "destination": "/region.html?r=vip-escort" },
+    { "source": "/turk-escort", "destination": "/region.html?r=turk-escort" },
+    { "source": "/rus-escort", "destination": "/region.html?r=rus-escort" },
     { "source": "/m/:slug", "destination": "/model.html?m=:slug" }
   ]
 }
