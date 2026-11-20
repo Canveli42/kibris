@@ -3,6 +3,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" },
     { "source": "/blog/:slug", "destination": "/post.html?slug=:slug" },
 
     { "source": "/girne-escort", "destination": "/region.html?slug=girne-escort" },
@@ -43,7 +44,7 @@
       ]
     },
     {
-      "source": "/(.*)\\.(css|js|svg|png|jpg|jpeg|webp|woff2)",
+      "source": "/js/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=604800" }
       ]
