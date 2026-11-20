@@ -35,7 +35,6 @@
     { "source": "/vip-escort", "destination": "/region.html?r=vip-escort" },
     { "source": "/ogrenci-escort", "destination": "/region.html?r=ogrenci-escort" },
     { "source": "/turk-escort", "destination": "/region.html?r=turk-escort" },
-    { "source": "/rus-escort", "destination": "/region.html?r=rus-escort" },
-    { "source": "/m/:slug", "destination": "/model.html?m=:slug" }
+    { "source": "/rus-escort", "destination": "/region.html?r=rus-escort" }
   ]
 }
