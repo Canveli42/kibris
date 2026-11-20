@@ -31,6 +31,7 @@
   <div class="crumb"><a href="https://kibrisgirneescort.com/">Ana sayfa</a> › <a href="https://kibrisgirneescort.com/blog">Blog</a> › <span id="cr"></span></div>
   <h1 id="h1">Yükleniyor…</h1>
   <p class="lead" id="meta"></p>
+  <img class="rimg" id="cover" style="display:none" alt="">
   <article id="body" style="max-width:720px;margin-top:22px"></article>
 
   <div class="about" style="margin-top:32px">
@@ -47,7 +48,7 @@
 
 <footer><div class="wrap">
   <p id="brand">Kıbrıs Escort Rezervasyon</p>
-  <p>Girne · Lefkoşa · Mağusa · İskele · Güzelyurt</p>
+  <p>Girne merkez · <a href="tel:+905515420755" style="color:var(--gold)">+90 551 542 07 55</a></p>
   <p><a href="https://kibrisgirneescort.com/blog" style="color:var(--gold)">Blog</a> · <a id="waFoot" href="#" style="color:var(--gold)">WhatsApp</a> · <a id="tgFoot" href="#" style="color:var(--gold)">Telegram</a></p>
   <p><a href="https://kibrisgirneescort.com/gizlilik" style="color:var(--gold)">Gizlilik ve KVKK</a></p>
   <p style="margin-top:8px;font-size:12px;opacity:.6">© 2026 · Can</p>
@@ -76,6 +77,11 @@ const inline=t=>t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
   document.getElementById("h1").textContent=p.title;
   document.getElementById("meta").textContent=new Date(p.created_at).toLocaleDateString("tr-TR");
 
+  if(p.img){
+    const cv=document.getElementById("cover");
+    cv.src=p.img;cv.alt=p.title;cv.style.display="block";
+  }
+
   let html="",inUl=false;
   for(const raw of p.body.split("\n")){
     const b=raw.trim();
@@ -93,10 +99,11 @@ const inline=t=>t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
   const cl=document.querySelector('link[rel="canonical"]');if(cl)cl.href=url;
   const md=(a,k,v)=>{const e=document.createElement("meta");e.setAttribute(a,k);e.setAttribute("content",v);document.head.appendChild(e)};
   md("property","og:url",url);md("property","og:title",p.title);md("property","og:type","article");
+  if(p.img)md("property","og:image",p.img);
   md("name","description",p.body.replace(/[#*\n]/g," ").slice(0,158));
 
   const ld=document.createElement("script");ld.type="application/ld+json";
-  ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Article",headline:p.title,datePublished:p.created_at,dateModified:p.created_at,url:url,author:{"@type":"Organization",name:"Kıbrıs Escort Rezervasyon"},publisher:{"@type":"Organization",name:"Kıbrıs Escort Rezervasyon"}});
+  ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Article",headline:p.title,image:p.img||undefined,datePublished:p.created_at,dateModified:p.created_at,url:url,author:{"@type":"Organization",name:"Kıbrıs Escort Rezervasyon"},publisher:{"@type":"Organization",name:"Kıbrıs Escort Rezervasyon"}});
   document.head.appendChild(ld);
 
   const {data:m}=await db.from("posts").select("slug,title").eq("published",true).neq("slug",slug).order("created_at",{ascending:false}).limit(5);
