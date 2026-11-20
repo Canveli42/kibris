@@ -6,6 +6,7 @@
 <title>Panel</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="stylesheet" href="/style.css">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <style>
 body{padding:0 0 40px}
 .panel{max-width:900px;margin:0 auto;padding:20px 16px}
@@ -31,6 +32,7 @@ h2{font-size:17px;margin-bottom:10px}
   <div class="bx">
     <label>E-posta</label><input id="em" type="email">
     <label>Şifre</label><input id="pw" type="password">
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAAAGJzKvEzeP5acVeT" data-theme="dark" style="margin-bottom:10px"></div>
     <button class="btn" id="btnLogin">Giriş</button>
     <p id="err" style="color:#e57373;font-size:13px;margin-top:8px"></p>
   </div>
@@ -126,8 +128,10 @@ async function start(){
 
 el("btnLogin").onclick=async()=>{
   el("err").textContent="";
-  const {error}=await db.auth.signInWithPassword({email:el("em").value,password:el("pw").value});
-  if(error)return el("err").textContent=error.message;
+  const tok=window.turnstile?window.turnstile.getResponse():undefined;
+  if(!tok)return el("err").textContent="Doğrulama bekleniyor…";
+  const {error}=await db.auth.signInWithPassword({email:el("em").value,password:el("pw").value,options:{captchaToken:tok}});
+  if(error){if(window.turnstile)window.turnstile.reset();return el("err").textContent=error.message}
   location.reload();
 };
 el("btnOut").onclick=async()=>{await db.auth.signOut();location.reload()};
@@ -198,7 +202,7 @@ el("btnSave").onclick=async()=>{
     const f=files[i];
     const path=mid+"/"+Date.now()+"-"+i+"."+(f.name.split(".").pop()||"jpg");
     const {error:ue}=await db.storage.from("foto").upload(path,f);
-    if(ue)return el("pmsg").textContent=ue.message;
+    if(ue)return el("msg").textContent=ue.message;
     const {data:{publicUrl}}=db.storage.from("foto").getPublicUrl(path);
     await db.from("model_photos").insert({model_id:mid,url:publicUrl,sort:curPhotos.length+i});
   }
@@ -230,4 +234,34 @@ async function editPost(id){
 }
 
 el("btnPNew").onclick=()=>{
-  el("postTitle").textContent="
+  el("postTitle").textContent="Yeni yazı";el("pid").value="";
+  ["ptitle","pslug","pbody"].forEach(i=>el(i).value="");el("ppub").value=0;
+};
+
+el("btnPSave").onclick=async()=>{
+  el("pmsg").textContent="Kaydediliyor…";
+  const title=el("ptitle").value.trim();
+  const body=el("pbody").value.trim();
+  if(!title||!body)return el("pmsg").textContent="Başlık ve içerik zorunlu";
+  const slug=el("pslug").value.trim()||slugify(title);
+  const rec={title,body,slug,published:el("ppub").value==="1"};
+  const id=el("pid").value;
+  const {error}=id
+    ? await db.from("posts").update(rec).eq("id",id)
+    : await db.from("posts").insert(rec);
+  if(error)return el("pmsg").textContent=error.message;
+  el("pmsg").textContent="Kaydedildi";
+  loadPosts();
+};
+
+el("btnSet").onclick=async()=>{
+  for(const [k,v] of [["whatsapp",el("swa").value],["telegram",el("stg").value],["brand",el("sbr").value]]){
+    await db.from("settings").upsert({key:k,value:v});
+  }
+  el("msg").textContent="Ayarlar kaydedildi";
+};
+
+start();
+</script>
+</body>
+</html>
