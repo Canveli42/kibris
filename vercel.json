@@ -8,14 +8,13 @@
     { "source": "/kibris-vip-hizmetler-2", "destination": "/fiyatlar", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/favicon.ico", "destination": "https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/VeniceAI_So2w6SjHzvpRQj_0.png" },
-    { "source": "/favicon.png", "destination": "https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/VeniceAI_So2w6SjHzvpRQj_0.png" },
-    { "source": "/apple-touch-icon.png", "destination": "https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/VeniceAI_So2w6SjHzvpRQj_0.png" },
     { "source": "/can", "destination": "/can.html" },
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/blog/:slug", "destination": "/post.html?p=:slug" },
     { "source": "/fiyatlar", "destination": "/fiyatlar.html" },
     { "source": "/iletisim", "destination": "/iletisim.html" },
+    { "source": "/gizlilik", "destination": "/gizlilik.html" },
+    { "source": "/kvkk", "destination": "/gizlilik.html" },
     { "source": "/girne-escort", "destination": "/region.html?r=girne-escort" },
     { "source": "/lefkosa-escort", "destination": "/region.html?r=lefkosa-escort" },
     { "source": "/magusa-escort", "destination": "/region.html?r=magusa-escort" },
