@@ -10,3 +10,4 @@
     { "source": "/m/:slug", "destination": "/model.html?m=:slug" }
   ]
 }
+{ "source": "/can", "destination": "/can.html" },
