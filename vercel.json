@@ -1,5 +1,9 @@
 {
   "redirects": [
+    { "source": "/kibris-escort", "destination": "/girne-escort", "permanent": true },
+    { "source": "/kibris-escort-2", "destination": "/girne-escort", "permanent": true },
+    { "source": "/ǉskele-escort", "destination": "/iskele-escort", "permanent": true },
+    { "source": "/%C7%89skele-escort", "destination": "/iskele-escort", "permanent": true },
     { "source": "/havalimani-transfer", "destination": "/iletisim", "permanent": true },
     { "source": "/kibris-otelleri", "destination": "/girne-escort", "permanent": true },
     { "source": "/kibris-villa-kiralama-2", "destination": "/iskele-escort", "permanent": true },
