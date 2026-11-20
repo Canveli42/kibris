@@ -35,7 +35,6 @@ h1,h2,h3{margin:0 0 .5em;line-height:1.22;letter-spacing:-.01em}
 p{margin:0 0 1em}
 .wrap{width:min(1120px,100%);margin:0 auto;padding:0 18px}
 
-/* HEADER */
 .site-header{
   position:sticky;top:0;z-index:60;
   background:rgba(10,16,32,.94);
@@ -80,7 +79,6 @@ nav a.on{color:#141008;background:var(--gold);border-color:var(--gold);font-weig
   .btn-katalog{margin-left:6px}
 }
 
-/* HERO */
 .hero{
   position:relative;overflow:hidden;
   display:flex;align-items:center;
@@ -118,8 +116,8 @@ nav a.on{color:#141008;background:var(--gold);border-color:var(--gold);font-weig
 .btn.ghost{background:rgba(10,16,32,.5);color:var(--gold2);border:1px solid var(--line);box-shadow:none;backdrop-filter:blur(6px)}
 .btn.ghost:hover{border-color:var(--gold)}
 .btn.wa{background:linear-gradient(180deg,#3ae07d,var(--wa));color:#05270f;box-shadow:0 10px 26px rgba(37,211,102,.24)}
+.btn.tg{background:linear-gradient(180deg,#4bb8ea,var(--tg));color:#04202e;box-shadow:0 10px 26px rgba(34,158,217,.24)}
 
-/* STATS */
 .stats{border-bottom:1px solid var(--line);background:var(--bg2)}
 .stats .wrap{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
 .stats div{
@@ -130,14 +128,12 @@ nav a.on{color:#141008;background:var(--gold);border-color:var(--gold);font-weig
 .stats span{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 @media(min-width:760px){.stats .wrap{grid-template-columns:repeat(4,1fr)}}
 
-/* SECTIONS */
 section{padding:clamp(40px,6.5vw,72px) 0}
 .sec-head{max-width:66ch;margin-bottom:30px}
 .sec-head h2{font-size:clamp(23px,4vw,36px)}
 .sec-head h2 span{color:var(--gold)}
 .sec-head p{color:var(--muted);margin-bottom:0}
 
-/* REGIONS */
 .rgrid{display:grid;gap:14px;grid-template-columns:1fr 1fr}
 @media(min-width:700px){.rgrid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:980px){.rgrid{grid-template-columns:repeat(5,1fr)}}
@@ -152,14 +148,12 @@ section{padding:clamp(40px,6.5vw,72px) 0}
 .rcard small{position:relative;z-index:2;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2)}
 .rcard:hover{border-color:rgba(216,184,120,.6)}
 
-/* WHY */
 .why{display:grid;gap:14px;grid-template-columns:1fr}
 @media(min-width:760px){.why{grid-template-columns:repeat(3,1fr)}}
 .why div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
 .why h3{font-size:16px;color:var(--gold2)}
 .why p{color:var(--muted);font-size:14.5px;margin:0}
 
-/* POSTS */
 .pgrid{display:grid;gap:18px;grid-template-columns:1fr}
 @media(min-width:640px){.pgrid{grid-template-columns:1fr 1fr}}
 @media(min-width:960px){.pgrid{grid-template-columns:repeat(3,1fr)}}
@@ -178,7 +172,6 @@ section{padding:clamp(40px,6.5vw,72px) 0}
 .pcard .meta{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
 .more{margin-top:26px}
 
-/* FAQ */
 .faq{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:0 18px;max-width:860px}
 .faq details{border-bottom:1px solid var(--line);padding:16px 0}
 .faq details:last-child{border-bottom:0}
@@ -188,7 +181,6 @@ section{padding:clamp(40px,6.5vw,72px) 0}
 .faq details[open] summary::after{content:"–"}
 .faq p{color:var(--muted);font-size:14.5px;margin:10px 0 0}
 
-/* CTA */
 .cta{
   border:1px solid var(--line);border-radius:20px;
   background:radial-gradient(700px 260px at 80% 0%,rgba(216,184,120,.16),transparent 70%),var(--panel2);
@@ -198,7 +190,6 @@ section{padding:clamp(40px,6.5vw,72px) 0}
 .cta p{color:var(--muted);max-width:52ch;margin:0 auto 22px}
 .cta .acts{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 
-/* FOOTER */
 footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26px;margin-top:10px}
 .f-in{display:flex;flex-wrap:wrap;gap:22px;justify-content:space-between}
 .f-brand{max-width:34ch}
@@ -237,14 +228,14 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
     <a class="btn-katalog" id="waTop" href="https://wa.me/905338888888" target="_blank" rel="noopener">Katalog</a>
     <nav aria-label="Ana menü">
       <a href="/" class="on">Ana Sayfa</a>
-      <a href="region.html?b=girne">Girne</a>
-      <a href="region.html?b=lefkosa">Lefkoşa</a>
-      <a href="region.html?b=magusa">Mağusa</a>
-      <a href="region.html?b=iskele">İskele</a>
-      <a href="region.html?b=guzelyurt">Güzelyurt</a>
-      <a href="blog.html">Blog</a>
-      <a href="fiyatlar.html">Fiyatlar</a>
-      <a href="iletisim.html">İletişim</a>
+      <a href="/girne-escort">Girne</a>
+      <a href="/lefkosa-escort">Lefkoşa</a>
+      <a href="/magusa-escort">Mağusa</a>
+      <a href="/iskele-escort">İskele</a>
+      <a href="/guzelyurt-escort">Güzelyurt</a>
+      <a href="/blog">Blog</a>
+      <a href="/fiyatlar">Fiyatlar</a>
+      <a href="/iletisim">İletişim</a>
     </nav>
   </div>
 </header>
@@ -259,6 +250,7 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
       <p class="lead">Ada genelinde bağımsız escort rehberi. Bölgeni seç, güncel listeye bak, tek mesajla rezervasyonu bağla. Kapora yok, uzun form yok, sadece yazışma.</p>
       <div class="hero-acts">
         <a class="btn wa" id="waHero" href="https://wa.me/905338888888" target="_blank" rel="noopener">WhatsApp’tan yaz</a>
+        <a class="btn tg" id="tgHero" href="https://t.me/redkibris" target="_blank" rel="noopener">Telegram</a>
         <a class="btn ghost" href="#bolgeler">Bölge seç</a>
       </div>
     </div>
@@ -313,7 +305,7 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
         <p>Adadaki gece hayatı, bölge rehberleri ve rezervasyon pratikleri.</p>
       </div>
       <div class="pgrid" id="pgrid"></div>
-      <div class="more"><a class="btn ghost" href="blog.html">Tüm yazılar</a></div>
+      <div class="more"><a class="btn ghost" href="/blog">Tüm yazılar</a></div>
     </div>
   </section>
 
@@ -337,7 +329,7 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
         </details>
         <details>
           <summary>Fiyatlar ne kadar?</summary>
-          <p>30 dakika 7.000 ₺, 1 saat 12.000 ₺, 2 saat 17.000 ₺, 4 saat 22.000 ₺. Girne merkez dışında taksi ücreti mesafeye göre eklenir. Ayrıntı için <a href="fiyatlar.html">fiyatlar sayfasına</a> bak.</p>
+          <p>30 dakika 7.000 ₺, 1 saat 12.000 ₺, 2 saat 17.000 ₺, 4 saat 22.000 ₺. Girne merkez dışında taksi ücreti mesafeye göre eklenir. Ayrıntı için <a href="/fiyatlar">fiyatlar sayfasına</a> bak.</p>
         </details>
         <details>
           <summary>Nasıl rezervasyon yapıyorum?</summary>
@@ -354,7 +346,8 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
         <p>Bölgeni ve saati yaz, gerisini biz ayarlayalım. Kısa bir mesaj yeterli.</p>
         <div class="acts">
           <a class="btn wa" id="waCta" href="https://wa.me/905338888888" target="_blank" rel="noopener">WhatsApp</a>
-          <a class="btn ghost" href="iletisim.html">İletişim</a>
+          <a class="btn tg" id="tgCta" href="https://t.me/redkibris" target="_blank" rel="noopener">Telegram</a>
+          <a class="btn ghost" href="/iletisim">İletişim</a>
         </div>
       </div>
     </div>
@@ -372,19 +365,19 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
       <div class="f-cols">
         <div>
           <h4>Bölgeler</h4>
-          <a href="region.html?b=girne">Girne Escort</a>
-          <a href="region.html?b=lefkosa">Lefkoşa Escort</a>
-          <a href="region.html?b=magusa">Mağusa Escort</a>
-          <a href="region.html?b=iskele">İskele Escort</a>
-          <a href="region.html?b=guzelyurt">Güzelyurt Escort</a>
+          <a href="/girne-escort">Girne Escort</a>
+          <a href="/lefkosa-escort">Lefkoşa Escort</a>
+          <a href="/magusa-escort">Mağusa Escort</a>
+          <a href="/iskele-escort">İskele Escort</a>
+          <a href="/guzelyurt-escort">Güzelyurt Escort</a>
         </div>
         <div>
           <h4>Site</h4>
           <a href="/">Ana Sayfa</a>
-          <a href="blog.html">Blog</a>
-          <a href="fiyatlar.html">Fiyatlar</a>
-          <a href="iletisim.html">İletişim</a>
-          <a href="gizlilik.html">Gizlilik</a>
+          <a href="/blog">Blog</a>
+          <a href="/fiyatlar">Fiyatlar</a>
+          <a href="/iletisim">İletişim</a>
+          <a href="/gizlilik">Gizlilik</a>
         </div>
       </div>
     </div>
@@ -415,11 +408,19 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
         else Object.keys(row).forEach(function(kk){ cfg[kk]=row[kk]; });
       });
       var wa=digits(cfg.whatsapp||cfg.wa||cfg.phone||'');
-      if(!wa) return;
-      var u='https://wa.me/'+wa;
-      ['waTop','waHero','waCta'].forEach(function(id){
-        var a=document.getElementById(id); if(a) a.href=u;
-      });
+      if(wa){
+        var u='https://wa.me/'+wa;
+        ['waTop','waHero','waCta'].forEach(function(id){
+          var a=document.getElementById(id); if(a) a.href=u;
+        });
+      }
+      var tg=String(cfg.telegram||cfg.tg||'').replace(/^@/,'');
+      if(tg){
+        var t='https://t.me/'+tg;
+        ['tgHero','tgCta'].forEach(function(id){
+          var a=document.getElementById(id); if(a) a.href=t;
+        });
+      }
     })
     .catch(function(){});
 
@@ -435,7 +436,7 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
     var grid=document.getElementById('rgrid');
     if(!grid) return;
     grid.innerHTML=BOLGELER.map(function(b){
-      return '<a class="rcard" data-b="'+b.s+'" href="region.html?b='+b.s+'">'+
+      return '<a class="rcard" data-b="'+b.s+'" href="/'+b.s+'-escort">'+
         '<small>'+b.t+'</small><span>'+b.n+'</span></a>';
     }).join('');
   })();
@@ -475,8 +476,8 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
         var exc=p.excerpt||p.ozet||'';
         if(!slug||!title) return;
         html+='<article class="pcard">'+
-          (cover?'<a class="thumb" href="post.html?p='+encodeURIComponent(slug)+'"><img src="'+esc(cover)+'" alt="'+esc(title)+'" loading="lazy"></a>':'')+
-          '<div class="in"><div class="meta">Blog</div><h3><a href="post.html?p='+encodeURIComponent(slug)+'">'+esc(title)+'</a></h3>'+
+          (cover?'<a class="thumb" href="/blog/'+encodeURIComponent(slug)+'"><img src="'+esc(cover)+'" alt="'+esc(title)+'" loading="lazy"></a>':'')+
+          '<div class="in"><div class="meta">Blog</div><h3><a href="/blog/'+encodeURIComponent(slug)+'">'+esc(title)+'</a></h3>'+
           '<p>'+esc(exc).slice(0,140)+'</p></div></article>';
       });
       if(html) g.innerHTML=html;
@@ -490,5 +491,6 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
   }
 })();
 </script>
+<script src="/js/iletisim.js" defer></script>
 </body>
 </html>
