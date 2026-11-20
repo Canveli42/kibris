@@ -7,6 +7,14 @@
 <meta name="description" content="Kıbrıs escort rehberi.">
 <link rel="canonical" href="https://kibrisgirneescort.com/blog">
 <link rel="stylesheet" href="/style.css">
+<style>
+#body h2{font-size:21px;margin:26px 0 10px;letter-spacing:-.02em}
+#body h3{font-size:17px;margin:20px 0 8px}
+#body p{margin-bottom:14px}
+#body ul{margin:0 0 14px 20px;color:var(--muted)}
+#body li{margin-bottom:6px}
+#body strong{color:#fff}
+</style>
 </head>
 <body>
 <header><div class="wrap hrow">
@@ -47,6 +55,7 @@
 <script>
 const db=supabase.createClient("https://accerzwswgiqhtfgoeqv.supabase.co","sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG");
 const slug=location.pathname.replace(/^\/blog\//,"").replace(/\/$/,"");
+const inline=t=>t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
 
 (async()=>{
   const {data:s}=await db.from("settings").select("key,value");
@@ -64,20 +73,24 @@ const slug=location.pathname.replace(/^\/blog\//,"").replace(/\/$/,"");
   document.getElementById("h1").textContent=p.title;
   document.getElementById("meta").textContent=new Date(p.created_at).toLocaleDateString("tr-TR");
 
-  document.getElementById("body").innerHTML=p.body.split(/\n{2,}/).map(b=>{
-    b=b.trim();
-    if(!b)return "";
-    if(b.startsWith("## "))return `<h2 style="font-size:20px;margin:22px 0 8px">${b.slice(3)}</h2>`;
-    if(b.startsWith("### "))return `<h3 style="font-size:17px;margin:18px 0 6px">${b.slice(4)}</h3>`;
-    if(b.startsWith("- "))return `<ul style="margin:10px 0 10px 20px;color:var(--muted)">${b.split(/\n/).map(l=>`<li>${l.replace(/^-\s*/,"")}</li>`).join("")}</ul>`;
-    return `<p style="margin-bottom:12px">${b.replace(/\n/g," ")}</p>`;
-  }).join("");
+  let html="",inUl=false;
+  for(const raw of p.body.split("\n")){
+    const b=raw.trim();
+    if(!b){if(inUl){html+="</ul>";inUl=false}continue}
+    if(b.startsWith("## ")){if(inUl){html+="</ul>";inUl=false}html+=`<h2>${inline(b.slice(3))}</h2>`;continue}
+    if(b.startsWith("### ")){if(inUl){html+="</ul>";inUl=false}html+=`<h3>${inline(b.slice(4))}</h3>`;continue}
+    if(b.startsWith("- ")){if(!inUl){html+="<ul>";inUl=true}html+=`<li>${inline(b.slice(2))}</li>`;continue}
+    if(inUl){html+="</ul>";inUl=false}
+    html+=`<p>${inline(b)}</p>`;
+  }
+  if(inUl)html+="</ul>";
+  document.getElementById("body").innerHTML=html;
 
   const url="https://kibrisgirneescort.com/blog/"+slug;
   const cl=document.querySelector('link[rel="canonical"]');if(cl)cl.href=url;
   const md=(a,k,v)=>{const e=document.createElement("meta");e.setAttribute(a,k);e.setAttribute("content",v);document.head.appendChild(e)};
   md("property","og:url",url);md("property","og:title",p.title);md("property","og:type","article");
-  md("name","description",p.body.slice(0,158));
+  md("name","description",p.body.replace(/[#*\n]/g," ").slice(0,158));
 
   const ld=document.createElement("script");ld.type="application/ld+json";
   ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Article",headline:p.title,datePublished:p.created_at,dateModified:p.created_at,url:url,author:{"@type":"Organization",name:"Kıbrıs Escort Rezervasyon"},publisher:{"@type":"Organization",name:"Kıbrıs Escort Rezervasyon"}});
