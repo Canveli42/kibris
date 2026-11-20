@@ -15,7 +15,7 @@ const SABIT=[
 
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
 
-export default async function handler(req,res){
+module.exports = async function handler(req,res){
   let yazilar=[];
   try{
     const r=await fetch(SB+"/rest/v1/posts?select=slug,updated_at,created_at&published=eq.true&order=created_at.desc",{
@@ -39,4 +39,4 @@ export default async function handler(req,res){
 
   res.setHeader("Content-Type","application/xml; charset=utf-8");
   res.status(200).send(p.join("\n"));
-}
+};
