@@ -1,7 +1,13 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "headers": [
+    { "source": "/style.css", "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800" }] },
+    { "source": "/js/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800" }] },
+    { "source": "/api/sitemap", "headers": [{ "key": "Cache-Control", "value": "public, s-maxage=3600, stale-while-revalidate=86400" }] }
+  ],
   "rewrites": [
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" },
     { "source": "/blog/:slug", "destination": "/post?slug=:slug" },
     { "source": "/girne-escort", "destination": "/region?slug=girne-escort" },
     { "source": "/lefkosa-escort", "destination": "/region?slug=lefkosa-escort" },
