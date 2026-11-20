@@ -58,9 +58,9 @@
 </main>
 
 <footer><div class="wrap">
-  <p id="brand">Kıbrıs Escort Rezervasyon</p>
+  <p id="brand">RedKıbrıs · Kıbrıs Escort</p>
   <p><a id="waFoot" href="#" style="color:var(--gold)">WhatsApp</a> · <a id="tgFoot" href="#" style="color:var(--gold)">Telegram</a></p>
-</footer></div>
+</div></footer>
 <a class="btn fix" id="waFix" href="#">WhatsApp'tan yaz</a>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -79,13 +79,13 @@ function fmt(t){
   const c={};(s||[]).forEach(r=>c[r.key]=r.value);
   const w="https://wa.me/"+c.whatsapp+"?text="+encodeURIComponent("Merhaba, katalog alabilir miyim?");
   ["waTop","waCta","waFix","waFoot"].forEach(i=>document.getElementById(i).href=w);
-  if(c.brand)document.getElementById("brand").textContent=c.brand;
+  if(c.brand)document.getElementById("brand").textContent=c.brand+" · Kıbrıs Escort";
   if(c.telegram)document.getElementById("tgFoot").href="https://t.me/"+c.telegram;
 
   const {data:p}=await db.from("posts").select("*").eq("slug",slug).eq("published",true).single();
   if(!p){document.getElementById("h1").textContent="Yazı bulunamadı";return}
 
-  document.title=p.title+" | Kıbrıs Escort";
+  document.title=p.title+" | RedKıbrıs";
   document.getElementById("cr").textContent=p.title;
   document.getElementById("h1").textContent=p.title;
 
@@ -94,7 +94,7 @@ function fmt(t){
   const kelime=p.body.split(/\s+/).length;
   const dk=Math.max(2,Math.round(kelime/200));
   document.getElementById("byline").textContent=
-    "Kıbrıs Escort Rezervasyon · "+gun+" · "+dk+" dk okuma";
+    "Can · "+(c.brand||"RedKıbrıs")+" · "+gun+" · "+dk+" dk okuma";
 
   if(p.img){
     const cv=document.getElementById("cover");
@@ -143,7 +143,7 @@ function fmt(t){
   if(p.img)setMeta("property","og:image",p.img);
 
   const ld=document.createElement("script");ld.type="application/ld+json";
-  ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Article",headline:p.title,description:desc,datePublished:p.created_at,dateModified:p.created_at,url:url,image:p.img?[p.img]:undefined,author:{"@type":"Organization",name:"Kıbrıs Escort Rezervasyon"},publisher:{"@type":"Organization",name:"Kıbrıs Escort Rezervasyon"}});
+  ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Article",headline:p.title,description:desc,datePublished:p.created_at,dateModified:p.created_at,url:url,image:p.img?[p.img]:undefined,author:{"@type":"Person",name:"Can"},publisher:{"@type":"Organization",name:(c.brand||"RedKıbrıs")}});
   document.head.appendChild(ld);
 
   if(faqPairs.length){
