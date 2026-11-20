@@ -1,3 +1,28 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/blog/:slug", "destination": "/post.html?slug=:slug" },
+    { "source": "/girne-escort", "destination": "/region.html?slug=girne-escort" },
+    { "source": "/lefkosa-escort", "destination": "/region.html?slug=lefkosa-escort" },
+    { "source": "/magusa-escort", "destination": "/region.html?slug=magusa-escort" },
+    { "source": "/iskele-escort", "destination": "/region.html?slug=iskele-escort" },
+    { "source": "/guzelyurt-escort", "destination": "/region.html?slug=guzelyurt-escort" },
+    { "source": "/otele-escort", "destination": "/region.html?slug=otele-escort" },
+    { "source": "/eve-gelen-escort", "destination": "/region.html?slug=eve-gelen-escort" },
+    { "source": "/gecelik-escort", "destination": "/region.html?slug=gecelik-escort" },
+    { "source": "/vip-escort", "destination": "/region.html?slug=vip-escort" },
+    { "source": "/ogrenci-escort", "destination": "/region.html?slug=ogrenci-escort" },
+    { "source": "/turk-escort", "destination": "/region.html?slug=turk-escort" },
+    { "source": "/rus-escort", "destination": "/region.html?slug=rus-escort" },
+    { "source": "/karaoglanoglu-escort", "destination": "/region.html?slug=karaoglanoglu-escort" },
+    { "source": "/alsancak-escort", "destination": "/region.html?slug=alsancak-escort" },
+    { "source": "/lapta-escort", "destination": "/region.html?slug=lapta-escort" },
+    { "source": "/catalkoy-escort", "destination": "/region.html?slug=catalkoy-escort" },
+    { "source": "/bellapais-escort", "destination": "/region.html?slug=bellapais-escort" },
+    { "source": "/esentepe-escort", "destination": "/region.html?slug=esentepe-escort" },
+    { "source": "/long-beach-escort", "destination": "/region.html?slug=long-beach-escort" },
+    { "source": "/bafra-escort", "destination": "/region.html?slug=bafra-escort" },
+    { "source": "/gonyeli-escort", "destination": "/region.html?slug=gonyeli-escort" }
+  ]
 }
