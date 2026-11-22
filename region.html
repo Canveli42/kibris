@@ -508,81 +508,83 @@ const D={
   metin2:"Yabancı uyruklu eşlikte aynı gün müsaitlik sınırlı, en az yarım gün önceden yazmanı öneririz. Taksi ücreti mesafeye göre hesaplanır ve önceden söylenir.",
   sss:[["Rus escort var mı?","Var, müsaitliğe göre. Önceden yazman gerekir."],["İngilizce konuşuyor mu?","Talebe göre ayarlanıyor."],["Ne kadar önceden yazmalıyım?","En az yarım gün önceden."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."]]}
 };
+
 const C=D[slug]||D["girne-escort"];
 const waT=()=>"https://wa.me/"+WA+"?text="+encodeURIComponent("Merhaba, "+C.nm+" için katalog alabilir miyim?");
+const setMeta=(a,k,v)=>{let e=document.head.querySelector(`meta[${a}="${k}"]`);if(!e){e=document.createElement("meta");e.setAttribute(a,k);document.head.appendChild(e)}e.setAttribute("content",v)};
 
+/* 1) İÇERİK ÖNCE — ağ hatası sayfayı boş bırakmasın */
+const nmE=/Escort/i.test(C.nm)?C.nm:C.nm+" Escort";
+const title=nmE+" | "+C.alt+" Escort – RedKıbrıs";
+document.title=title;
+document.getElementById("cr").textContent=C.nm;
+document.getElementById("h1").innerHTML=nmE+' <span style="font-size:.55em;color:var(--muted);font-weight:400">'+C.alt+"</span>";
+document.getElementById("lead").textContent=C.lead;
+document.getElementById("waMain").textContent=C.nm+" Kataloğu İste";
+document.getElementById("sssTitle").textContent=C.nm+" hakkında sık sorulanlar";
+
+document.getElementById("body").innerHTML=
+  `<div class="about">${C.metin}</div>
+   <div class="about">${C.metin2}</div>
+   <div class="about"><b>Hizmet verdiğimiz noktalar</b><br>${C.areas.join(" · ")}</div>
+   <div class="about"><b>Sık çalıştığımız oteller</b><br>${C.otel.join(" · ")}</div>
+   <h2>${C.nm} escort fiyatları</h2>
+   <div class="about"><b>30 dakika — 7.000 ₺</b><br>Yalnızca kendi yerimizde. Kısa görüşme.</div>
+   <div class="about"><b>1 saat — 12.000 ₺</b><br>Otel ve eve çıkışta en çok seçilen süre; adrese çıkışta en alt sınır.</div>
+   <div class="about"><b>2 saat — 17.000 ₺</b><br>Yemek ya da gece programı eklemek isteyenler için.</div>
+   <div class="about"><b>4 saat — 22.000 ₺</b><br>Uzun eşlik ve gece planı.</div>
+   <div class="about">Tarife sabit, pazarlık yok, kapıda değişmiyor. Tek değişken taksi: ${C.nm} merkezde çoğu zaman alınmıyor, uzak hatlarda mesafeye göre hesaplanıp önceden söyleniyor. Tam liste <a href="/fiyatlar">fiyatlar sayfasında</a>.</div>
+   ${C.ek||""}
+   <div class="about"><a href="/blog/kibris-gece-hayati">Kıbrıs gece hayatı rehberi</a> · <a href="/blog/kibris-otelleri">otel çevresinde görüşme</a> · <a href="/fiyatlar">tarife</a></div>
+   <p class="guncel">Son güncelleme: 22 Kasım 2026</p>`;
+
+document.getElementById("sss").innerHTML=C.sss.map(([soru,cevap])=>
+  `<div class="about"><b>${soru}</b><br>${cevap}</div>`).join("");
+
+document.getElementById("others").innerHTML=Object.keys(D).filter(k=>k!==slug)
+  .map(k=>`<a class="btn-o" href="/${k}">${D[k].nm}</a>`).join("");
+
+const url="https://www.kibrisgirneescort.com/"+slug;
+const cl=document.querySelector('link[rel="canonical"]');if(cl)cl.href=url;
+
+const desc=nmE+" – "+C.alt+". Sabit tarife, kapora yok, otel ve eve çıkış. "+C.nm+" merkezde taksi ücreti alınmıyor, aynı gün rezervasyon yapılıyor.";
+let dm=document.querySelector('meta[name="description"]');
+if(dm)dm.setAttribute("content",desc);
+else{const m=document.createElement("meta");m.setAttribute("name","description");m.setAttribute("content",desc);document.head.appendChild(m)}
+
+setMeta("property","og:url",url);setMeta("property","og:title",title);
+
+const ld=document.getElementById("ldService");
+if(ld)ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Service",serviceType:nmE,areaServed:C.areas,url:url,provider:{"@type":"LocalBusiness",name:"RedKıbrıs"}});
+
+const bc=document.getElementById("ldCrumb");
+if(bc)bc.textContent=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:[
+  {"@type":"ListItem",position:1,name:"Ana sayfa",item:"https://www.kibrisgirneescort.com/"},
+  {"@type":"ListItem",position:2,name:C.nm,item:url}]});
+
+const ldf=document.createElement("script");
+ldf.type="application/ld+json";
+ldf.textContent=JSON.stringify({"@context":"https://schema.org","@type":"FAQPage",mainEntity:C.sss.map(([s,a])=>({"@type":"Question",name:s,acceptedAnswer":{"@type":"Answer",text:a}}))});
+document.head.appendChild(ldf);
+
+/* 2) AĞ İŞLERİ — hata olsa bile içerik yerinde kalır */
 (async()=>{
-  const s=await q("settings?select=key,value");
-  const c={};(s||[]).forEach(r=>c[r.key]=r.value);
-  WA=c.whatsapp||"";
-  ["waTop","waMain","waFix","waFoot"].forEach(i=>{const e=document.getElementById(i);if(e)e.href=waT()});
-  if(c.telegram)document.getElementById("tgFoot").href="https://t.me/"+c.telegram;
+  try{
+    const s=await q("settings?select=key,value");
+    const c={};(s||[]).forEach(r=>c[r.key]=r.value);
+    WA=c.whatsapp||"";
+    ["waTop","waMain","waFix","waFoot"].forEach(i=>{const e=document.getElementById(i);if(e)e.href=waT()});
+    if(c.telegram)document.getElementById("tgFoot").href="https://t.me/"+c.telegram;
 
-  const regs=await q("regions?select=id,slug,name,img&order=sort");
-  const reg=(regs||[]).find(r=>r.slug===slug)||{name:C.nm,slug:slug,img:""};
-
-  const nmE=/Escort/i.test(C.nm)?C.nm:C.nm+" Escort";
-  const title=nmE+" | "+C.alt+" Escort – RedKıbrıs";
-  document.title=title;
-  document.getElementById("cr").textContent=C.nm;
-  document.getElementById("h1").innerHTML=nmE+' <span style="font-size:.55em;color:var(--muted);font-weight:400">'+C.alt+"</span>";
-  document.getElementById("lead").textContent=C.lead;
-  document.getElementById("waMain").textContent=C.nm+" Kataloğu İste";
-  document.getElementById("sssTitle").textContent=C.nm+" hakkında sık sorulanlar";
-
-  if(reg.img){
-    const img=document.getElementById("rimg");
-    img.src=reg.img; img.alt=C.nm+" escort – "+C.alt;
-    img.style.display="block";
-  }else{
-    document.getElementById("rimg").style.display="none";
-  }
-
-  document.getElementById("body").innerHTML=
-    `<div class="about">${C.metin}</div>
-     <div class="about">${C.metin2}</div>
-     <div class="about"><b>Hizmet verdiğimiz noktalar</b><br>${C.areas.join(" · ")}</div>
-     <div class="about"><b>Sık çalıştığımız oteller</b><br>${C.otel.join(" · ")}</div>
-     <h2>${C.nm} escort fiyatları</h2>
-     <div class="about"><b>30 dakika — 7.000 ₺</b><br>Yalnızca kendi yerimizde. Kısa görüşme.</div>
-     <div class="about"><b>1 saat — 12.000 ₺</b><br>Otel ve eve çıkışta en çok seçilen süre; adrese çıkışta en alt sınır.</div>
-     <div class="about"><b>2 saat — 17.000 ₺</b><br>Yemek ya da gece programı eklemek isteyenler için.</div>
-     <div class="about"><b>4 saat — 22.000 ₺</b><br>Uzun eşlik ve gece planı.</div>
-     <div class="about">Tarife sabit, pazarlık yok, kapıda değişmiyor. Tek değişken taksi: ${C.nm} merkezde çoğu zaman alınmıyor, uzak hatlarda mesafeye göre hesaplanıp önceden söyleniyor. Tam liste <a href="/fiyatlar">fiyatlar sayfasında</a>.</div>
-     ${C.ek||""}
-     <div class="about"><a href="/blog/kibris-gece-hayati">Kıbrıs gece hayatı rehberi</a> · <a href="/blog/kibris-otelleri">otel çevresinde görüşme</a> · <a href="/fiyatlar">tarife</a></div>
-     <p class="guncel">Son güncelleme: 22 Kasım 2026</p>`;
-
-  document.getElementById("sss").innerHTML=C.sss.map(([soru,cevap])=>
-    `<div class="about"><b>${soru}</b><br>${cevap}</div>`).join("");
-
-  const url="https://www.kibrisgirneescort.com/"+slug;
-  const cl=document.querySelector('link[rel="canonical"]');if(cl)cl.href=url;
-
-  const desc=nmE+" – "+C.alt+". Sabit tarife, kapora yok, otel ve eve çıkış. "+C.nm+" merkezde taksi ücreti alınmıyor, aynı gün rezervasyon yapılıyor.";
-  let dm=document.querySelector('meta[name="description"]');
-  if(dm)dm.setAttribute("content",desc);
-  else{const m=document.createElement("meta");m.setAttribute("name","description");m.setAttribute("content",desc);document.head.appendChild(m)}
-
-  const setMeta=(a,k,v)=>{let e=document.head.querySelector(`meta[${a}="${k}"]`);if(!e){e=document.createElement("meta");e.setAttribute(a,k);document.head.appendChild(e)}e.setAttribute("content",v)};
-  setMeta("property","og:url",url);setMeta("property","og:title",title);
-  if(reg.img)setMeta("property","og:image",reg.img);
-
-  const ld=document.getElementById("ldService");
-  if(ld)ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Service",serviceType:nmE,areaServed:C.areas,url:url,image:reg.img||undefined,provider:{"@type":"LocalBusiness",name:"RedKıbrıs"}});
-
-  const bc=document.getElementById("ldCrumb");
-  if(bc)bc.textContent=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:[
-    {"@type":"ListItem",position:1,name:"Ana sayfa",item:"https://www.kibrisgirneescort.com/"},
-    {"@type":"ListItem",position:2,name:C.nm,item:url}]});
-
-  const ldf=document.createElement("script");
-  ldf.type="application/ld+json";
-  ldf.textContent=JSON.stringify({"@context":"https://schema.org","@type":"FAQPage",mainEntity:C.sss.map(([s,a])=>({"@type":"Question",name:s,acceptedAnswer":{"@type":"Answer",text:a}}))});
-  document.head.appendChild(ldf);
-
-  document.getElementById("others").innerHTML=Object.keys(D).filter(k=>k!==slug)
-    .map(k=>`<a class="btn-o" href="/${k}">${D[k].nm}</a>`).join("");
+    const regs=await q("regions?select=id,slug,name,img&order=sort");
+    const reg=(regs||[]).find(r=>r.slug===slug);
+    if(reg&&reg.img){
+      const img=document.getElementById("rimg");
+      img.src=reg.img;img.alt=C.nm+" escort – "+C.alt;img.style.display="block";
+      setMeta("property","og:image",reg.img);
+      if(ld)ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Service",serviceType:nmE,areaServed:C.areas,url:url,image:reg.img,provider:{"@type":"LocalBusiness",name:"RedKıbrıs"}});
+    }
+  }catch(e){}
 })();
 </script>
 <script src="/js/iletisim.js" defer></script>
