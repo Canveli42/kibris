@@ -114,20 +114,32 @@ nav a.on{color:#141008;background:var(--gold);border-color:var(--gold);font-weig
 }
 .hero-acts{display:flex;flex-wrap:wrap;gap:12px}
 
-/* TELEFON: yazı görselin üstünde, güçlü karartma ile */
+/* TELEFON: görsel üstte bant, altı zemine yumuşak geçiş, yazı temiz zeminde */
 @media(max-width:760px){
-  .hero{align-items:flex-end;min-height:clamp(440px,82vh,600px)}
-  .hero-bg{object-position:64% 16%}
-  .hero::before{
-    background:
-      linear-gradient(0deg,rgba(8,13,26,.98) 0%,rgba(8,13,26,.93) 28%,rgba(8,13,26,.62) 54%,rgba(8,13,26,.32) 78%,rgba(8,13,26,.48) 100%),
-      linear-gradient(90deg,rgba(8,13,26,.5),transparent 75%);
+  .hero{display:block;min-height:0;background:var(--bg)}
+  .hero-bg{
+    position:relative!important;inset:auto!important;
+    width:100%;height:clamp(240px,64vw,340px);
+    object-fit:cover;object-position:63% 16%;
   }
-  .hero .wrap{padding-top:24px;padding-bottom:26px}
-  .badge{font-size:10.5px;padding:6px 11px;margin-bottom:12px;background:rgba(8,13,26,.72)}
-  .hero h1{font-size:clamp(25px,7.8vw,32px);max-width:100%;letter-spacing:-.02em}
-  .hero .lead{font-size:14.5px;margin-bottom:18px}
+  .hero::before{
+    background:linear-gradient(180deg,
+      rgba(10,16,32,.35) 0,
+      transparent 16vw,
+      rgba(10,16,32,.42) 48vw,
+      rgba(10,16,32,.93) 64vw,
+      var(--bg) 72vw,
+      var(--bg) 100%);
+  }
+  .hero .wrap{padding-top:20px;padding-bottom:30px;margin-top:-44px}
+  .badge{
+    font-size:10.5px;padding:6px 12px;margin-bottom:12px;
+    background:rgba(9,14,26,.9);border-color:rgba(216,184,120,.4);
+  }
+  .hero h1{font-size:clamp(26px,8vw,33px);max-width:100%;letter-spacing:-.02em;text-shadow:none}
+  .hero .lead{font-size:15px;max-width:100%;margin-bottom:18px;text-shadow:none}
   .hero-acts .btn{flex:1 1 auto;justify-content:center;font-size:14px;padding:12px 18px}
+  .hero-acts .btn.ghost{flex:1 1 100%}
 }
 
 .btn{
