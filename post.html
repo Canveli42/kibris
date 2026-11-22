@@ -85,6 +85,7 @@ footer #waFoot, footer #tgFoot { padding: 5px 11px; border-radius: 8px; color: #
   .crumb { padding-top: 16px; }
 }
 a.btn.tg { background: linear-gradient(#4bb8ea,#229ed9); color: #04202e; box-shadow: 0 10px 26px rgba(34,158,217,.24); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; padding: 13px 26px; border-radius: 999px; text-decoration: none; font-size: 15px; }
+.about .btn.tg { margin-top: 10px; }
 </style>
 </head>
 <body>
@@ -102,7 +103,6 @@ a.btn.tg { background: linear-gradient(#4bb8ea,#229ed9); color: #04202e; box-sha
     </span>
   </a>
   <a class="btn" id="waTop" href="https://wa.me/905515420755?text=Merhaba%2C%20RedK%C4%B1br%C4%B1s%27tan%20yaz%C4%B1yorum.%20Bilgi%20almak%20istiyorum." target="_blank" rel="noopener" data-base="https://wa.me/905515420755">Katalog</a>
-  <a class="cta-tg" href="https://t.me/kibrisescortvip" target="_blank" rel="noopener">Telegram'dan yaz</a>
   <a class="btn tg" href="https://t.me/kibrisescortvip?text=Merhaba%2C%20RedK%C4%B1br%C4%B1s%27tan%20yaz%C4%B1yorum.%20Bilgi%20almak%20istiyorum." target="_blank" rel="noopener" data-base="https://t.me/kibrisescortvip">Telegram</a>
   <nav>
     <a href="https://www.kibrisgirneescort.com/">Ana Sayfa</a>
@@ -126,6 +126,7 @@ a.btn.tg { background: linear-gradient(#4bb8ea,#229ed9); color: #04202e; box-sha
     <b>Sorun mu var, katalog mu lazım?</b><br>
     WhatsApp'tan yaz, kaldığın bölgeye göre liste gönderiyoruz.
     <br><br><a class="btn" id="waCta" href="https://wa.me/905515420755?text=Merhaba%2C%20RedK%C4%B1br%C4%B1s%27tan%20yaz%C4%B1yorum.%20Bilgi%20almak%20istiyorum." target="_blank" rel="noopener" data-base="https://wa.me/905515420755">WhatsApp'tan yaz</a>
+    <br><a class="btn tg" href="https://t.me/kibrisescortvip?text=Merhaba%2C%20RedK%C4%B1br%C4%B1s%27tan%20yaz%C4%B1yorum.%20Bilgi%20almak%20istiyorum." target="_blank" rel="noopener" data-base="https://t.me/kibrisescortvip">Telegram'dan yaz</a>
   </div>
 
   <section class="sect">
@@ -193,7 +194,7 @@ function fmt(t){
 
   const d=new Date(p.created_at);
   const gun=d.toLocaleDateString("tr-TR",{day:"numeric",month:"long",year:"numeric"});
-  const duzMetin=p.body.replace(/\[([^\]]+)\]\([^)]+\)/g,"$1").replace(/^#+\s*/gm,"");
+  const duzMetin=(p.body||"").replace(/<[^>]+>/g," ").replace(/\[([^\]]+)\]\([^)]+\)/g,"$1").replace(/^#+\s*/gm,"");
   const dk=Math.max(1,Math.round(duzMetin.split(/\s+/).filter(Boolean).length/180));
   document.getElementById("byline").textContent="Can · RedKıbrıs · "+gun+" · "+dk+" dk okuma";
 
@@ -202,20 +203,37 @@ function fmt(t){
     cv.src=p.img; cv.alt=p.title; cv.style.display="block";
   }
 
-  let html="",inUl=false;
-  for(const raw of p.body.split("\n")){
-    const b=raw.trim();
-    if(!b){if(inUl){html+="</ul>";inUl=false}continue}
-    if(b.startsWith("## ")){if(inUl){html+="</ul>";inUl=false}html+=`<h2>${fmt(b.slice(3))}</h2>`;continue}
-    if(b.startsWith("### ")){if(inUl){html+="</ul>";inUl=false}html+=`<h3>${fmt(b.slice(4))}</h3>`;continue}
-    if(b.startsWith("- ")){if(!inUl){html+="<ul>";inUl=true}html+=`<li>${fmt(b.slice(2))}</li>`;continue}
-    if(inUl){html+="</ul>";inUl=false}
-    html+=`<p>${fmt(b)}</p>`;
+  const hedef=document.getElementById("body");
+  if(/<(h2|h3|p|ul|div)[\s>]/i.test(p.body||"")){
+    hedef.innerHTML=p.body;
+  }else{
+    let html="",inUl=false;
+    for(const raw of (p.body||"").split("\n")){
+      const b=raw.trim();
+      if(!b){if(inUl){html+="</ul>";inUl=false}continue}
+      if(b.startsWith("## ")){if(inUl){html+="</ul>";inUl=false}html+=`<h2>${fmt(b.slice(3))}</h2>`;continue}
+      if(b.startsWith("### ")){if(inUl){html+="</ul>";inUl=false}html+=`<h3>${fmt(b.slice(4))}</h3>`;continue}
+      if(b.startsWith("- ")){if(!inUl){html+="<ul>";inUl=true}html+=`<li>${fmt(b.slice(2))}</li>`;continue}
+      if(inUl){html+="</ul>";inUl=false}
+      html+=`<p>${fmt(b)}</p>`;
+    }
+    if(inUl)html+="</ul>";
+    hedef.innerHTML=html;
   }
-  if(inUl)html+="</ul>";
-  document.getElementById("body").innerHTML=html;
 
-  const faqPairs=(p.faq||"").split("\n").map(l=>l.split("|").map(x=>x.trim())).filter(a=>a[0]&&a[1]);
+  let faqPairs=[];
+  if(Array.isArray(p.faq)){
+    faqPairs=p.faq.map(x=>[x.q,x.a]);
+  }else if(p.faq){
+    try{
+      const j=JSON.parse(p.faq);
+      if(Array.isArray(j))faqPairs=j.map(x=>[x.q,x.a]);
+    }catch(e){
+      faqPairs=(p.faq||"").split("\n").map(l=>l.split("|").map(x=>x.trim()));
+    }
+  }
+  faqPairs=faqPairs.filter(a=>a[0]&&a[1]);
+
   if(faqPairs.length){
     document.getElementById("faq").innerHTML="<h2>Sık sorulan sorular</h2>"+
       faqPairs.map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p></details>`).join("");
@@ -224,7 +242,7 @@ function fmt(t){
   const url="https://www.kibrisgirneescort.com/blog/"+slug;
   const cl=document.querySelector('link[rel="canonical"]');if(cl)cl.href=url;
 
-  const desc=(p.meta||p.body.replace(/[#*\[\]\(\)]/g," ").replace(/https?:\/\/\S+/g,"").replace(/\s+/g," ").trim()).slice(0,158);
+  const desc=(p.meta||(p.body||"").replace(/<[^>]+>/g," ").replace(/[#*\[\]\(\)]/g," ").replace(/https?:\/\/\S+/g,"").replace(/\s+/g," ").trim()).slice(0,158);
 
   const setMeta=(attr,name,val)=>{
     let e=document.head.querySelector(`meta[${attr}="${name}"]`);
