@@ -1,133 +1,77 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<style rel="stylesheet" type="text/css">@charset "utf-8";
-
-:root { --ink: #0b121b; --soft: #0a0f18; --line: #22303f; --card: #111823; --muted: #8b97a5; --gold: #d8b878; --gold-d: #eed3a1; --txt: #f2f5f8; --champ2: #f3ddb4; --wa: #25d366; --tg: #229ed9; }
-
-* { box-sizing: border-box; margin: 0px; padding: 0px; }
-
-body { background: var(--soft); color: var(--txt); font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; line-height: 1.68; padding-bottom: 96px; }
-
-a { color: inherit; text-decoration: none; }
-
-img { max-width: 100%; display: block; }
-
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
-
-.wrap { max-width: 820px; margin: 0px auto; padding: 0px 18px; }
-
-header { position: sticky; top: 0px; z-index: 40; background: rgba(11, 18, 27, 0.96); border-bottom: 1px solid rgb(27, 42, 58); backdrop-filter: blur(10px); }
-
-header::after { content: ""; position: absolute; left: 0px; right: 0px; bottom: -1px; height: 1px; background: linear-gradient(90deg,transparent,var(--gold),transparent); opacity: 0.55; }
-
-.hrow { max-width: 1080px; margin: 0px auto; height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0px 18px; }
-
-.logo.rk { display: flex; align-items: center; gap: 10px; min-width: 0px; }
-
-.rk-mark { width: 42px; height: 42px; flex: 0 0 42px; }
-
-.rk-t { display: flex; flex-direction: column; line-height: 1.1; }
-
-.rk-w { font-family: Georgia, serif; font-size: 19px; letter-spacing: 0.4px; color: rgb(246, 242, 234); white-space: nowrap; }
-
-.rk-w em { font-style: normal; color: rgb(224, 35, 63); }
-
-.rk-s { font-size: 8.5px; letter-spacing: 1.7px; text-transform: uppercase; color: var(--gold); white-space: nowrap; margin-top: 2px; }
-
-nav { display: none; gap: 18px; font-size: 14px; color: rgb(147, 161, 176); }
-
-nav a:hover { color: var(--gold-d); }
-
-@media (min-width: 860px) {
-  nav { display: flex; }
-}
-
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; background: linear-gradient(180deg,var(--champ2),var(--gold)); color: rgb(18, 26, 36); font-weight: 700; border: 0px; border-radius: 11px; padding: 11px 18px; font-size: 14px; white-space: nowrap; box-shadow: rgba(216, 184, 120, 0.75) 0px 6px 18px -8px; cursor: pointer; transition: 0.2s; }
-
-.btn:hover { transform: translateY(-1px); }
-
-.btn-o { display: inline-block; background: rgb(14, 22, 31); border: 1px solid var(--line); color: var(--txt); border-radius: 11px; padding: 11px 15px; font-size: 13.5px; font-weight: 600; text-align: center; }
-
-.btn-o:hover { border-color: var(--gold); color: var(--gold-d); }
-
-#waTop, #waFix, #waMain, #waFoot { display: inline-flex; align-items: center; gap: 7px; border-radius: 11px; font-weight: 700; box-shadow: rgba(37, 211, 102, 0.32) 0px 5px 16px; background: var(--wa) !important; color: rgb(255, 255, 255) !important; }
-
-#tgFoot { display: inline-flex; align-items: center; gap: 7px; border-radius: 11px; font-weight: 700; background: var(--tg) !important; color: rgb(255, 255, 255) !important; }
-
-.crumb { font-size: 13px; color: var(--muted); padding: 22px 0px 0px; }
-
-.crumb a { color: var(--gold-d); }
-
-h1 { font-size: clamp(25px, 4.4vw, 36px); line-height: 1.16; letter-spacing: -0.035em; font-weight: 800; margin: 10px 0px 12px; color: rgb(255, 255, 255); }
-
-.lead { color: var(--muted); font-size: 16px; margin-bottom: 22px; }
-
-h2 { font-size: 20px; color: rgb(255, 255, 255); border-left: 3px solid var(--gold); padding-left: 12px; margin: 30px 0px 14px; }
-
-.rimg { width: 100%; max-height: 400px; object-fit: cover; border-radius: 14px; border: 1px solid var(--line); margin: 22px 0px; background: rgb(22, 32, 44); }
-
-.about { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin: 12px 0px; font-size: 15px; }
-
-.about b { color: rgb(255, 255, 255); }
-
-.about a { color: var(--gold-d); }
-
-#body ul { margin: 0px 0px 14px 20px; color: var(--txt); }
-
-#body li { margin-bottom: 6px; }
-
-.guncel { font-size: 12px; color: var(--muted); margin-top: 10px; }
-
-.sect { padding: 6px 0px; }
-
-footer { background: rgb(8, 12, 18); border-top: 1px solid var(--line); color: rgb(147, 161, 176); margin-top: 40px; padding: 26px 0px 34px; font-size: 13px; }
-
-footer .wrap { max-width: 1080px; }
-
-footer a { color: var(--gold-d); }
-
-footer p + p { margin-top: 4px; }
-
-footer #brand { color: rgb(255, 255, 255); font-weight: 700; }
-
-footer #waFoot, footer #tgFoot { padding: 5px 11px; border-radius: 8px; color: rgb(255, 255, 255) !important; }
-
-.fix { position: fixed; bottom: 14px; left: 14px; right: 14px; justify-content: center; z-index: 50; border-radius: 12px; font-weight: 700; box-shadow: rgba(0, 0, 0, 0.5) 0px 8px 24px; background: var(--wa) !important; color: rgb(255, 255, 255) !important; }
-
-@media (min-width: 860px) {
-  #waFix { display: none !important; }
-}
-
-@media (max-width: 859px) {
-  .hrow { flex-wrap: wrap; height: auto; padding: 8px 14px 0px; gap: 10px; }
-  .logo.rk { order: 1; }
-  #waTop { order: 2; margin-left: auto; font-size: 13px; padding: 9px 13px !important; }
-  nav { order: 3; display: flex; width: 100%; overflow-x: auto; gap: 8px; padding: 9px 0px 10px; scrollbar-width: none; }
-  nav::-webkit-scrollbar { display: none; }
-  nav a { flex: 0 0 auto; background: rgb(14, 22, 31); border: 1px solid var(--line); border-radius: 999px; padding: 7px 13px; font-size: 13px; color: var(--txt); }
-  .rk-mark { width: 34px; height: 34px; flex: 0 0 34px; }
-  .rk-w { font-size: 15px; }
-  .rk-s { font-size: 7.5px; letter-spacing: 1.2px; }
-  .rimg { max-height: 280px; }
-  .crumb { padding-top: 16px; }
-}
-
-a.btn.tg { background: linear-gradient(rgb(75, 184, 234), rgb(34, 158, 217)); color: rgb(4, 32, 46); box-shadow: rgba(34, 158, 217, 0.24) 0px 10px 26px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; padding: 13px 26px; border-radius: 999px; text-decoration: none; font-size: 15px; }</style>
-<style rel="stylesheet" type="text/css">@charset "utf-8";
-
-a.btn.tg { background: linear-gradient(rgb(75, 184, 234), rgb(34, 158, 217)); color: rgb(4, 32, 46); box-shadow: rgba(34, 158, 217, 0.24) 0px 10px 26px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; padding: 13px 26px; border-radius: 999px; text-decoration: none; font-size: 15px; }</style>
-
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kıbrıs Escort – Girne, Lefkoşa, Mağusa, İskele, Güzelyurt | RedKıbrıs</title>
-<meta name="description" content="Kıbrıs escort: Girne, Lefkoşa, Mağusa, İskele ve Güzelyurt. Sabit tarife, kapora yok, otel ve eve çıkış. Bölge sayfasından tarife ve müsaitliği gör.">
+<title>Kıbrıs Escort – RedKıbrıs</title>
+<meta name="description" content="Kıbrıs escort rehberi: Girne, Lefkoşa, Mağusa, İskele ve Güzelyurt. Sabit tarife, kapora yok, otel ve eve çıkış. Taksi ücreti mesafeye göre önceden söylenir.">
 <meta property="og:title" content="Kıbrıs Escort – RedKıbrıs">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2 62 32 32 62 2 32Z' fill='%230b121b' stroke='%23d8b878' stroke-width='3'/%3E%3Cpath d='M32 10 54 32 32 54 10 32Z' fill='%23f4efe3'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='23' font-weight='700' fill='%23b3122a' text-anchor='middle'%3ERK%3C/text%3E%3C/svg%3E">
-
-<script type="application/ld+json" id="ldService">{"@context":"https://schema.org","@type":"Service","serviceType":"Kıbrıs Escort","areaServed":["Girne","Lefkoşa","Mağusa","İskele","Güzelyurt"],"url":"https://www.kibrisgirneescort.com/","provider":{"@type":"LocalBusiness","name":"RedKıbrıs"}}</script>
-<script type="application/ld+json" id="ldCrumb">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ana sayfa","item":"https://www.kibrisgirneescort.com/"}]}</script>
+<style>
+:root{--ink:#0b121b;--soft:#0a0f18;--line:#22303f;--card:#111823;--muted:#8b97a5;--gold:#d8b878;--gold-d:#eed3a1;--txt:#f2f5f8;--champ2:#f3ddb4;--wa:#25d366;--tg:#229ed9}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--soft);color:var(--txt);font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;line-height:1.68;padding-bottom:96px}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+.wrap{max-width:820px;margin:0 auto;padding:0 18px}
+header{position:sticky;top:0;z-index:40;background:rgba(11,18,27,.96);border-bottom:1px solid #1b2a3a;backdrop-filter:blur(10px)}
+header::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.55}
+.hrow{max-width:1080px;margin:0 auto;height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 18px}
+.logo.rk{display:flex;align-items:center;gap:10px;min-width:0}
+.rk-mark{width:42px;height:42px;flex:0 0 42px}
+.rk-t{display:flex;flex-direction:column;line-height:1.1}
+.rk-w{font-family:Georgia,serif;font-size:19px;letter-spacing:.4px;color:#f6f2ea;white-space:nowrap}
+.rk-w em{font-style:normal;color:#e0233f}
+.rk-s{font-size:8.5px;letter-spacing:1.7px;text-transform:uppercase;color:var(--gold);white-space:nowrap;margin-top:2px}
+nav{display:none;gap:18px;font-size:14px;color:#93a1b0}
+nav a:hover{color:var(--gold-d)}
+@media(min-width:860px){nav{display:flex}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(180deg,var(--champ2),var(--gold));color:#121a24;font-weight:700;border:0;border-radius:11px;padding:11px 18px;font-size:14px;white-space:nowrap;box-shadow:0 6px 18px -8px rgba(216,184,120,.75);cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-o{display:inline-block;background:#0e161f;border:1px solid var(--line);color:var(--txt);border-radius:11px;padding:11px 15px;font-size:13.5px;font-weight:600;text-align:center}
+.btn-o:hover{border-color:var(--gold);color:var(--gold-d)}
+#waTop,#waFix,#waMain,#waFoot{display:inline-flex;align-items:center;gap:7px;border-radius:11px;font-weight:700;box-shadow:0 5px 16px rgba(37,211,102,.32);background:var(--wa)!important;color:#fff!important}
+#tgFoot{display:inline-flex;align-items:center;gap:7px;border-radius:11px;font-weight:700;background:var(--tg)!important;color:#fff!important}
+.crumb{font-size:13px;color:var(--muted);padding:22px 0 0}
+.crumb a{color:var(--gold-d)}
+h1{font-size:clamp(25px,4.4vw,36px);line-height:1.16;letter-spacing:-.035em;font-weight:800;margin:10px 0 12px;color:#fff}
+.lead{color:var(--muted);font-size:16px;margin-bottom:22px}
+h2{font-size:20px;color:#fff;border-left:3px solid var(--gold);padding-left:12px;margin:30px 0 14px}
+.rimg{width:100%;max-height:400px;object-fit:cover;border-radius:14px;border:1px solid var(--line);margin:22px 0;background:#16202c}
+.about{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:12px 0;font-size:15px}
+.about b{color:#fff}
+.about a{color:var(--gold-d)}
+#body ul{margin:0 0 14px 20px;color:var(--txt)}
+#body li{margin-bottom:6px}
+.guncel{font-size:12px;color:var(--muted);margin-top:10px}
+.sect{padding:6px 0}
+footer{background:#080c12;border-top:1px solid var(--line);color:#93a1b0;margin-top:40px;padding:26px 0 34px;font-size:13px}
+footer .wrap{max-width:1080px}
+footer a{color:var(--gold-d)}
+footer p+p{margin-top:4px}
+footer #brand{color:#fff;font-weight:700}
+footer #waFoot,footer #tgFoot{padding:5px 11px;border-radius:8px;color:#fff!important}
+.fix{position:fixed;bottom:14px;left:14px;right:14px;justify-content:center;z-index:50;border-radius:12px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.5);background:var(--wa)!important;color:#fff!important}
+@media(min-width:860px){#waFix{display:none!important}}
+@media(max-width:859px){
+.hrow{flex-wrap:wrap;height:auto;padding:8px 14px 0;gap:10px}
+.logo.rk{order:1}
+#waTop{order:2;margin-left:auto;font-size:13px;padding:9px 13px!important}
+nav{order:3;display:flex;width:100%;overflow-x:auto;gap:8px;padding:9px 0 10px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:0 0 auto;background:#0e161f;border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px;color:var(--txt)}
+.rk-mark{width:34px;height:34px;flex:0 0 34px}
+.rk-w{font-size:15px}
+.rk-s{font-size:7.5px;letter-spacing:1.2px}
+.rimg{max-height:280px}
+.crumb{padding-top:16px}
+}
+a.btn.tg{background:linear-gradient(#4bb8ea,#229ed9);color:#04202e;box-shadow:0 10px 26px rgba(34,158,217,.24);display:inline-flex;align-items:center;justify-content:center;font-weight:700;padding:13px 26px;border-radius:999px;text-decoration:none;font-size:15px}
+</style>
+<script type="application/ld+json" id="ldService">{"@context":"https://schema.org","@type":"Service","serviceType":"Girne Escort","areaServed":["Liman ve Kale çevresi","Zeytinlik","Karaoğlanoğlu","Alsancak","Lapta","Çatalköy","Esentepe"],"url":"https://www.kibrisgirneescort.com/girne-escort","provider":{"@type":"LocalBusiness","name":"RedKıbrıs"}}</script>
+<script type="application/ld+json" id="ldCrumb">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ana sayfa","item":"https://www.kibrisgirneescort.com/"},{"@type":"ListItem","position":2,"name":"Girne","item":"https://www.kibrisgirneescort.com/girne-escort"}]}</script>
 </head>
 <body>
 <header><div class="hrow">
@@ -140,8 +84,8 @@ a.btn.tg { background: linear-gradient(rgb(75, 184, 234), rgb(34, 158, 217)); co
     </svg>
     <span class="rk-t"><span class="rk-w">Red<em>Kıbrıs</em></span><span class="rk-s">Kıbrıs Escort</span></span>
   </a>
-  <a class="btn" id="waTop" href="https://wa.me/905515420755?text=Merhaba%2C%20RedK%C4%B1br%C4%B1s%20b%C3%B6lge%20sayfas%C4%B1ndan%20yaz%C4%B1yorum.%20Bilgi%20almak%20istiyorum." target="_blank" rel="noopener" data-base="https://wa.me/905515420755">Katalog</a>
-  <a class="btn tg" href="https://t.me/kibrisescortvip?text=Merhaba%2C%20RedK%C4%B1br%C4%B1s%20b%C3%B6lge%20sayfas%C4%B1ndan%20yaz%C4%B1yorum.%20Bilgi%20almak%20istiyorum." target="_blank" rel="noopener" data-base="https://t.me/kibrisescortvip">Telegram</a>
+  <a class="btn" id="waTop" href="https://wa.me/905515420755" target="_blank" rel="noopener" data-base="https://wa.me/905515420755">Katalog</a>
+  <a class="btn tg" href="https://t.me/kibrisescortvip" target="_blank" rel="noopener" data-base="https://t.me/kibrisescortvip">Telegram</a>
   <nav>
     <a href="https://www.kibrisgirneescort.com/">Ana Sayfa</a>
     <a href="https://www.kibrisgirneescort.com/girne-escort">Girne</a><a href="https://www.kibrisgirneescort.com/lefkosa-escort">Lefkoşa</a>
@@ -153,21 +97,73 @@ a.btn.tg { background: linear-gradient(rgb(75, 184, 234), rgb(34, 158, 217)); co
 </div></header>
 
 <main class="wrap">
-  <div class="crumb"><a href="https://www.kibrisgirneescort.com/">Ana sayfa</a> › <span id="cr">Kıbrıs</span></div>
-  <h1 id="h1">Kıbrıs Escort</h1>
-  <p class="lead" id="lead">Kıbrıs escort: Girne, Lefkoşa, Mağusa, İskele ve Güzelyurt. Sabit tarife, kapora yok, otel ve eve çıkış.</p>
+  <div class="crumb"><a href="https://www.kibrisgirneescort.com/">Ana sayfa</a> › <span id="cr">Girne</span></div>
+  <h1 id="h1">Girne Escort <span style="font-size:.55em;color:var(--muted);font-weight:400">Kyrenia</span></h1>
+  <p class="lead" id="lead">Girne escort: liman, casino ve sahil otelleri aynı şehirde. Taksi mesafeye göre, otel ve eve çıkış yapılıyor, kapora alınmıyor.</p>
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
-    <a class="btn" id="waMain" href="https://wa.me/905515420755?text=Merhaba%2C%20RedK%C4%B1br%C4%B1s%20b%C3%B6lge%20sayfas%C4%B1ndan%20yaz%C4%B1yorum.%20Bilgi%20almak%20istiyorum." target="_blank" rel="noopener" data-base="https://wa.me/905515420755">Katalog İste</a>
+    <a class="btn" id="waMain" href="https://wa.me/905515420755" target="_blank" rel="noopener" data-base="https://wa.me/905515420755">Girne Kataloğu İste</a>
     <a class="btn-o" href="https://www.kibrisgirneescort.com/fiyatlar">Fiyatlar</a>
   </div>
 
   <img class="rimg" id="rimg" alt="" width="1200" height="700" decoding="async" style="display:none">
 
-  <div id="body"><div class="about">Bölge seçiliyor…</div></div>
+  <div id="body"><div class="about">Girne, Kıbrıs'ta escort hizmetinin en yoğun çalıştığı şehir: liman, casino ve sahil otelleri birkaç dakika içinde. Hizmet merkez, liman çevresi, Zeytinlik ve Karaoğlanoğlu'nda yoğunlaşıyor; Alsancak, Lapta, Çatalköy ve Esentepe'ye de çıkıyoruz. Otel lobisinde buluşma en sık tercih edilen yöntem — resepsiyona isim bırakmadan, doğrudan odanıza çıkış da mümkün.</div>
+   <div class="about">Taksi ücreti her yöne mesafeye göre hesaplanıyor ve önceden söyleniyor, kapıda değişmiyor. Casino çıkışı ya da geç saat rezervasyonlarında 10-15 dakika önceden yazman yeterli. Ön ödeme ve kapora yok; ödeme görüşme sırasında nakit, IBAN veya USDT ile yapılıyor.</div>
+   <div class="about"><b>Hizmet verdiğimiz noktalar</b><br>Liman ve Kale çevresi · Zeytinlik · Karaoğlanoğlu · Alsancak · Lapta · Çatalköy · Esentepe</div>
+   <div class="about"><b>Sık çalıştığımız oteller</b><br>Merit Royal / Merit Crystal Cove · Acapulco Resort · Rocks Hotel · The Colony · Dedeman</div>
+   <h2>Girne Escort fiyatları</h2>
+   <div class="about"><b>30 dakika — 7.000 ₺</b><br>Yalnızca kendi yerimizde. Kısa görüşme.</div>
+   <div class="about"><b>1 saat — 12.000 ₺</b><br>Otel ve eve çıkışta en çok seçilen süre; adrese çıkışta en alt sınır.</div>
+   <div class="about"><b>2 saat — 17.000 ₺</b><br>Yemek ya da gece programı eklemek isteyenler için.</div>
+   <div class="about"><b>4 saat — 22.000 ₺</b><br>Uzun eşlik ve gece planı.</div>
+   <div class="about">Tarife sabit, pazarlık yok, kapıda değişmiyor. Tek değişken taksi: her yöne mesafeye göre hesaplanıp önceden söyleniyor. Tam liste <a href="https://www.kibrisgirneescort.com/fiyatlar">fiyatlar sayfasında</a>.</div>
+   <h2>Girne'de hangi noktada nasıl buluşuluyor</h2>
+     <div class="about"><b>Liman ve Kale çevresi</b><br>Yürünebilir olduğu için en kolay buluşulan hat. Akşam yemeğinden sonra liman barlarına geçmek isteyenlerin ilk tercihi. Araç gerekmiyor; taksi ücreti mesafeye göre hesaplanıp önceden söyleniyor. Liman kalabalığında kaybolmamak için buluşma noktasını kapı ya da giriş olarak değil, karşındaki mekânın adıyla netleştiriyoruz.</div>
+     <div class="about"><b>Zeytinlik</b><br>Merkeze yakın, site ve apart ağırlıklı. Kapıda isim bırakılması gereken sitelerde önceden haber veriyorsun, resepsiyona ismini bildiriyoruz. Zeytinlik'te de taksi ücreti mesafeye göre hesaplanıp önceden söyleniyor.</div>
+     <div class="about"><b>Karaoğlanoğlu</b><br>Sahil otelleri ve plaj hattı. Merkeze en yakın sahil noktası olduğu için ulaşım 10-15 dakika; taksi ücreti mesafeye göre önceden söyleniyor. Plaj sonrası gündüz görüşmesi de burada rahat çalışıyor. Bölge rehberi <a href="/blog/girne-merkez-escort-rehberi">Girne merkez</a> yazısında.</div>
+     <div class="about"><b>Alsancak</b><br>Site içi villalar ağırlıklı, kapıda isim bırakılması gerekebilir. Merkezden 10-15 dakika; taksi ücreti mesafeye göre hesaplanıp önceden söyleniyor. Karaman ve sahil siteleri en sık çalıştığımız noktalar. Detay: <a href="/blog/alsancak-escort-rehberi">Alsancak escort rehberi</a>.</div>
+     <div class="about"><b>Lapta</b><br>Sahil hattı uzun olduğu için buluşma noktasını mutlaka önceden netleştiriyoruz. Mare Monte ve Karaağaç çevresi. Butik otel ve villalarda lobi ya da kapı buluşması. Detay: <a href="/blog/lapta-escort-rehberi">Lapta escort rehberi</a>.</div>
+     <div class="about"><b>Çatalköy ve Bellapais</b><br>Yamaç villalar, dar yollar. Konum linki göndermen işi hızlandırır; adres tarifiyle kapıda zaman kaybedilmiyor. Taksi ücreti önceden bildirilir.</div>
+     <div class="about"><b>Esentepe</b><br>Girne'nin en doğusu, en uzak hattımız. Planlı randevu mantığı işliyor, en az 1 saat önceden yazman gerekir. Site ve otel girişlerinde isim bildiriyoruz.</div>
+
+     <h2>Otel içinde nasıl ilerliyoruz</h2>
+     <div class="about">Merit Royal, Merit Crystal Cove, Acapulco, Rocks, The Colony ve Dedeman'da en sorunsuz yöntem lobide buluşmak. Resepsiyona isim bırakmadan doğrudan odana çıkış istiyorsan önceden söylüyorsun, ona göre ilerliyoruz. Büyük otellerde lobi kalabalık olabildiği için buluşma noktasını "asansör yanı", "giriş kapısı" gibi net tarif ediyoruz — "lobide görüşürüz" demek yetmiyor. Otel detayları için <a href="/blog/kibris-otelleri">otel çevresinde görüşme</a> ve <a href="/blog/kibris-escort-lobi-mi-oda-mi">lobi mi oda mı</a> yazılarına bakabilirsin.</div>
+
+     <h2>Saat dilimlerine göre müsaitlik</h2>
+     <div class="about"><b>Öğle 12:00-15:00</b><br>En sakin aralık. Aynı gün müsaitlik yüksek, 30-45 dakika önceden yazman yeterli. Otel ve plaj çevresinde gündüz görüşmesi bu saatlerde rahat.</div>
+     <div class="about"><b>Akşam 18:00-22:00</b><br>En yoğun aralık. 1-2 saat önceden yazman gerekiyor. Yemekli program isteyenler bu saatleri seçiyor.</div>
+     <div class="about"><b>Gece 22:00-02:00</b><br>Casino ve bar çıkışı talebi burada toplanıyor. 10-15 dakika önceden yazman yeterli; mesafe uzaksa taksi ücreti önceden söylenir.</div>
+     <div class="about"><b>02:00 sonrası</b><br>Müsaitlik düşer. Uzak noktalarda (Esentepe, Lapta, Çatalköy) 30 dakika önceden yazman gerekir, aksi hâlde bekleme olur.</div>
+
+     <h2>İlk kez yazacaksan</h2>
+     <div class="about">Mesajda üç şeyi yaz: bölge, saat, süre. "Girne, bu akşam 21:00, 1 saat" yeterli. Bunlara otel adı ya da konum linki eklemen işi bitirir. Uzun tanıtım paragrafı yazmana gerek yok.</div>
+     <div class="about">Süre seçimi: 30 dakika yalnızca kendi yerimizde, otele veya eve çıkışta en az 1 saat. Gece planı kuruyorsan 4 saat mantıklı, tek mekâna gideceksen 2 saat yeter.</div>
+     <div class="about">Ödeme görüşme sırasında: nakit, IBAN veya USDT. Ön ödeme, kapora yok. Kısa görüşmede ATM aramak zaman kaybı, nakit hazır git.</div>
+
+     <h2>Ulaşım ve taksi</h2>
+     <div class="about">Taksi ücreti her yöne mesafeye göre hesaplanıyor ve her zaman önceden söyleniyor — kapıda değişmiyor. Gece 01:00 sonrası merkezde taksi bulmak kolay, kırsalda zor; dönüş için şoför numarası almanı öneririz. Detaylar <a href="/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
+
+     <h2>Girne'de en sık yapılan hatalar</h2>
+     <ul>
+       <li>Uzak noktaya (Esentepe, Lapta) son 10 dakikada yazmak.</li>
+       <li>Otel adı vermeden "lobide görüşelim" demek — büyük otellerde bulunmuyor.</li>
+       <li>Otele 30 dakika istemek; adrese çıkışta en az 1 saat geçerli.</li>
+       <li>Casino çıkışında kalabalık lobide buluşma noktası seçmek.</li>
+       <li>Nakit getirmemek, görüşme ortasında ATM aramak.</li>
+       <li>Site girişinde isim bildirilmesi gerektiğini önceden söylememek.</li>
+     </ul>
+
+     <h2>Girne'de gece planı</h2>
+     <div class="about">Liman ve Kale arkası gece için doğru adresler; kulüpler geç saatte açılır, casino 24 saat. Planı yemekle başlat, ulaşımı ve kıyafeti baştan konuş. Mekân masrafı görüşme ücretine dahil değil. Gece planının tamamı <a href="/blog/kibris-gece-hayati">Kıbrıs gece hayatı</a> ve <a href="/blog/girne-gece-kulupleri-rehberi">Girne gece kulüpleri</a> yazılarında. Tatil planı yapıyorsan <a href="/blog/kibris-tatil-rehberi-2026">Kıbrıs tatil rehberi</a> bölge bölge nerede kalınacağını anlatıyor.</div>
+
+     <h2>Kyrenia escort — for visitors</h2>
+     <div class="about"><i>Kyrenia (Girne) is the coastal town where most of the island's escort bookings happen. Incall is in the centre, outcall goes to your hotel or apartment. No deposit, no prepayment, cash at the meeting. Taxi is quoted up front by distance. WhatsApp us your area, time and duration and we send the girls who are free tonight.</i></div>
+   <div class="about"><a href="https://www.kibrisgirneescort.com/blog/kibris-gece-hayati">Kıbrıs gece hayatı rehberi</a> · <a href="https://www.kibrisgirneescort.com/blog/kibris-otelleri">otel çevresinde görüşme</a> · <a href="https://www.kibrisgirneescort.com/fiyatlar">tarife</a></div>
+   <p class="guncel">Son güncelleme: 22 Kasım 2026</p></div>
 
   <section class="sect">
-    <h2 id="sssTitle">Sık sorulanlar</h2>
-    <div id="sss"></div>
+    <h2 id="sssTitle">Girne Escort hakkında sık sorulanlar</h2>
+    <div id="sss"><div class="about"><b>Girne escort fiyatları ne kadar?</b><br>30 dakika 7.000 ₺, 1 saat 12.000 ₺, 2 saat 17.000 ₺, 4 saat 22.000 ₺. Tarife sabit, kapıda değişmez.</div><div class="about"><b>Girne'de nereye geliyorsunuz?</b><br>Merkez, liman, Zeytinlik, Karaoğlanoğlu, Alsancak, Lapta, Çatalköy, Bellapais ve Esentepe. Otel ve ev ziyareti yapılıyor.</div><div class="about"><b>Casino çıkışı gelebilir misiniz?</b><br>Evet, gece dahil. Taksi ücreti mesafeye göre önceden bildirilir.</div><div class="about"><b>Hangi otellere geliyorsunuz?</b><br>Merit Royal, Merit Crystal Cove, Acapulco, Rocks, The Colony ve Dedeman başta olmak üzere sahil ve merkez otelleri.</div><div class="about"><b>Resepsiyona isim bırakılıyor mu?</b><br>İstersen bırakılmaz. Önceden söylersen doğrudan odana çıkış yapılıyor.</div><div class="about"><b>Taksi ücreti nasıl?</b><br>Her yöne mesafeye göre hesaplanır ve önceden söylenir, kapıda değişmez.</div><div class="about"><b>Otele 30 dakika olur mu?</b><br>Olmaz. 30 dakika yalnızca kendi yerimizde; adrese çıkışta en az 1 saat geçerli.</div><div class="about"><b>Ne kadar önceden yazmalıyım?</b><br>Merkezde 10-15 dakika yeterli. Uzak noktalarda ve gece 02:00 sonrası 30-60 dakika önceden yazman gerekir.</div><div class="about"><b>Ödeme nasıl yapılıyor?</b><br>Görüşme sırasında nakit, IBAN veya USDT. Ön ödeme ve kapora yok.</div><div class="about"><b>Yabancı uyruklu escort var mı?</b><br>Var, İngilizce ve Rusça görüşme mümkün. Müsaitlik sınırlı olduğu için erken yazman gerekir.</div></div>
   </section>
 
   <section class="sect">
@@ -194,16 +190,16 @@ const slug=_qs.get("slug")||_qs.get("b")||location.pathname.replace(/^\//,"").re
 let WA="";
 
 const D={
- "girne-escort":{nm:"Girne",alt:"Kyrenia",lead:"Girne escort: liman, casino ve sahil otelleri aynı şehirde. Merkezde taksi ücreti yok, otel ve eve çıkış yapılıyor, kapora alınmıyor.",
+ "girne-escort":{nm:"Girne",alt:"Kyrenia",lead:"Girne escort: liman, casino ve sahil otelleri aynı şehirde. Taksi mesafeye göre, otel ve eve çıkış yapılıyor, kapora alınmıyor.",
   areas:["Liman ve Kale çevresi","Zeytinlik","Karaoğlanoğlu","Alsancak","Lapta","Çatalköy","Esentepe"],
   otel:["Merit Royal / Merit Crystal Cove","Acapulco Resort","Rocks Hotel","The Colony","Dedeman"],
   metin:"Girne, Kıbrıs'ta escort hizmetinin en yoğun çalıştığı şehir: liman, casino ve sahil otelleri birkaç dakika içinde. Hizmet merkez, liman çevresi, Zeytinlik ve Karaoğlanoğlu'nda yoğunlaşıyor; Alsancak, Lapta, Çatalköy ve Esentepe'ye de çıkıyoruz. Otel lobisinde buluşma en sık tercih edilen yöntem — resepsiyona isim bırakmadan, doğrudan odanıza çıkış da mümkün.",
-  metin2:"Merkezde taksi ücreti alınmıyor. Lapta, Alsancak ve Esentepe gibi uzak noktalarda taksi mesafeye göre hesaplanıyor ve önceden söyleniyor. Casino çıkışı ya da geç saat rezervasyonlarında 10-15 dakika önceden yazman yeterli. Ön ödeme ve kapora yok; ödeme görüşme sırasında nakit, IBAN veya USDT ile yapılıyor.",
+  metin2:"Taksi ücreti her yöne mesafeye göre hesaplanıyor ve önceden söyleniyor, kapıda değişmiyor. Casino çıkışı ya da geç saat rezervasyonlarında 10-15 dakika önceden yazman yeterli. Ön ödeme ve kapora yok; ödeme görüşme sırasında nakit, IBAN veya USDT ile yapılıyor.",
   ek:`<h2>Girne'de hangi noktada nasıl buluşuluyor</h2>
-     <div class="about"><b>Liman ve Kale çevresi</b><br>Yürünebilir olduğu için en kolay buluşulan hat. Akşam yemeğinden sonra liman barlarına geçmek isteyenlerin ilk tercihi. Araç gerekmiyor, taksi ücreti çıkmıyor. Liman kalabalığında kaybolmamak için buluşma noktasını kapı ya da giriş olarak değil, karşındaki mekânın adıyla netleştiriyoruz.</div>
-     <div class="about"><b>Zeytinlik</b><br>Merkeze yakın, site ve apart ağırlıklı. Kapıda isim bırakılması gereken sitelerde önceden haber veriyorsun, resepsiyona ismini bildiriyoruz. Zeytinlik'te genelde taksi ücreti çıkmıyor.</div>
-     <div class="about"><b>Karaoğlanoğlu</b><br>Sahil otelleri ve plaj hattı. Merkeze en yakın sahil noktası olduğu için ulaşım 10-15 dakika ve çoğu zaman ücretsiz. Plaj sonrası gündüz görüşmesi de burada rahat çalışıyor. Bölge rehberi <a href="/blog/girne-merkez-escort-rehberi">Girne merkez</a> yazısında.</div>
-     <div class="about"><b>Alsancak</b><br>Site içi villalar ağırlıklı, kapıda isim bırakılması gerekebilir. Merkezden 10-15 dakika; taksi ücreti mesafeye göre hesaplanıp önceden söylenir. Karaman ve sahil siteleri en sık çalıştığımız noktalar. Detay: <a href="/blog/alsancak-escort-rehberi">Alsancak escort rehberi</a>.</div>
+     <div class="about"><b>Liman ve Kale çevresi</b><br>Yürünebilir olduğu için en kolay buluşulan hat. Akşam yemeğinden sonra liman barlarına geçmek isteyenlerin ilk tercihi. Araç gerekmiyor; taksi ücreti mesafeye göre hesaplanıp önceden söyleniyor. Liman kalabalığında kaybolmamak için buluşma noktasını kapı ya da giriş olarak değil, karşındaki mekânın adıyla netleştiriyoruz.</div>
+     <div class="about"><b>Zeytinlik</b><br>Merkeze yakın, site ve apart ağırlıklı. Kapıda isim bırakılması gereken sitelerde önceden haber veriyorsun, resepsiyona ismini bildiriyoruz. Zeytinlik'te de taksi ücreti mesafeye göre hesaplanıp önceden söyleniyor.</div>
+     <div class="about"><b>Karaoğlanoğlu</b><br>Sahil otelleri ve plaj hattı. Merkeze en yakın sahil noktası olduğu için ulaşım 10-15 dakika; taksi ücreti mesafeye göre önceden söyleniyor. Plaj sonrası gündüz görüşmesi de burada rahat çalışıyor. Bölge rehberi <a href="/blog/girne-merkez-escort-rehberi">Girne merkez</a> yazısında.</div>
+     <div class="about"><b>Alsancak</b><br>Site içi villalar ağırlıklı, kapıda isim bırakılması gerekebilir. Merkezden 10-15 dakika; taksi ücreti mesafeye göre hesaplanıp önceden söyleniyor. Karaman ve sahil siteleri en sık çalıştığımız noktalar. Detay: <a href="/blog/alsancak-escort-rehberi">Alsancak escort rehberi</a>.</div>
      <div class="about"><b>Lapta</b><br>Sahil hattı uzun olduğu için buluşma noktasını mutlaka önceden netleştiriyoruz. Mare Monte ve Karaağaç çevresi. Butik otel ve villalarda lobi ya da kapı buluşması. Detay: <a href="/blog/lapta-escort-rehberi">Lapta escort rehberi</a>.</div>
      <div class="about"><b>Çatalköy ve Bellapais</b><br>Yamaç villalar, dar yollar. Konum linki göndermen işi hızlandırır; adres tarifiyle kapıda zaman kaybedilmiyor. Taksi ücreti önceden bildirilir.</div>
      <div class="about"><b>Esentepe</b><br>Girne'nin en doğusu, en uzak hattımız. Planlı randevu mantığı işliyor, en az 1 saat önceden yazman gerekir. Site ve otel girişlerinde isim bildiriyoruz.</div>
@@ -223,7 +219,7 @@ const D={
      <div class="about">Ödeme görüşme sırasında: nakit, IBAN veya USDT. Ön ödeme, kapora yok. Kısa görüşmede ATM aramak zaman kaybı, nakit hazır git.</div>
 
      <h2>Ulaşım ve taksi</h2>
-     <div class="about">Merkez, liman, Zeytinlik ve Karaoğlanoğlu'nda taksi ücreti çıkmıyor. Alsancak, Lapta, Çatalköy, Bellapais ve Esentepe'de mesafeye göre hesaplanıyor ve her zaman önceden söyleniyor — kapıda değişmiyor. Gece 01:00 sonrası merkezde taksi bulmak kolay, kırsalda zor; dönüş için şoför numarası almanı öneririz. Detaylar <a href="/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
+     <div class="about">Taksi ücreti her yöne mesafeye göre hesaplanıyor ve her zaman önceden söyleniyor — kapıda değişmiyor. Gece 01:00 sonrası merkezde taksi bulmak kolay, kırsalda zor; dönüş için şoför numarası almanı öneririz. Detaylar <a href="/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
 
      <h2>Girne'de en sık yapılan hatalar</h2>
      <ul>
@@ -239,26 +235,26 @@ const D={
      <div class="about">Liman ve Kale arkası gece için doğru adresler; kulüpler geç saatte açılır, casino 24 saat. Planı yemekle başlat, ulaşımı ve kıyafeti baştan konuş. Mekân masrafı görüşme ücretine dahil değil. Gece planının tamamı <a href="/blog/kibris-gece-hayati">Kıbrıs gece hayatı</a> ve <a href="/blog/girne-gece-kulupleri-rehberi">Girne gece kulüpleri</a> yazılarında. Tatil planı yapıyorsan <a href="/blog/kibris-tatil-rehberi-2026">Kıbrıs tatil rehberi</a> bölge bölge nerede kalınacağını anlatıyor.</div>
 
      <h2>Kyrenia escort — for visitors</h2>
-     <div class="about"><i>Kyrenia (Girne) is the coastal town where most of the island's escort bookings happen. Incall is in the centre, outcall goes to your hotel or apartment. No deposit, no prepayment, cash at the meeting. WhatsApp us your area, time and duration and we send the girls who are free tonight.</i></div>`,
+     <div class="about"><i>Kyrenia (Girne) is the coastal town where most of the island's escort bookings happen. Incall is in the centre, outcall goes to your hotel or apartment. No deposit, no prepayment, cash at the meeting. Taxi is quoted up front by distance. WhatsApp us your area, time and duration and we send the girls who are free tonight.</i></div>`,
   sss:[["Girne escort fiyatları ne kadar?","30 dakika 7.000 ₺, 1 saat 12.000 ₺, 2 saat 17.000 ₺, 4 saat 22.000 ₺. Tarife sabit, kapıda değişmez."],
        ["Girne'de nereye geliyorsunuz?","Merkez, liman, Zeytinlik, Karaoğlanoğlu, Alsancak, Lapta, Çatalköy, Bellapais ve Esentepe. Otel ve ev ziyareti yapılıyor."],
-       ["Casino çıkışı gelebilir misiniz?","Evet, gece dahil. Mesafe uzaksa taksi ücreti önceden bildirilir."],
+       ["Casino çıkışı gelebilir misiniz?","Evet, gece dahil. Taksi ücreti mesafeye göre önceden bildirilir."],
        ["Hangi otellere geliyorsunuz?","Merit Royal, Merit Crystal Cove, Acapulco, Rocks, The Colony ve Dedeman başta olmak üzere sahil ve merkez otelleri."],
        ["Resepsiyona isim bırakılıyor mu?","İstersen bırakılmaz. Önceden söylersen doğrudan odana çıkış yapılıyor."],
-       ["Girne merkezde taksi ücreti var mı?","Yok. Alsancak, Lapta, Çatalköy, Bellapais ve Esentepe'de mesafeye göre alınır ve önceden söylenir."],
+       ["Taksi ücreti nasıl?","Her yöne mesafeye göre hesaplanır ve önceden söylenir, kapıda değişmez."],
        ["Otele 30 dakika olur mu?","Olmaz. 30 dakika yalnızca kendi yerimizde; adrese çıkışta en az 1 saat geçerli."],
        ["Ne kadar önceden yazmalıyım?","Merkezde 10-15 dakika yeterli. Uzak noktalarda ve gece 02:00 sonrası 30-60 dakika önceden yazman gerekir."],
        ["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT. Ön ödeme ve kapora yok."],
        ["Yabancı uyruklu escort var mı?","Var, İngilizce ve Rusça görüşme mümkün. Müsaitlik sınırlı olduğu için erken yazman gerekir."]]},
 
- "lefkosa-escort":{nm:"Lefkoşa",alt:"Nicosia",lead:"Lefkoşa escort: başkentte iş görüşmesi, öğrenci hayatı ve gece eğlencesi aynı şehirde. Otel ve eve çıkış yapılıyor, kapora alınmıyor.",
+ "lefkosa-escort":{nm:"Lefkoşa",alt:"Nicosia",lead:"Lefkoşa escort: başkentte iş görüşmesi, öğrenci hayatı ve gece eğlencesi aynı şehirde. Taksi mesafeye göre, otel ve eve çıkış yapılıyor, kapora alınmıyor.",
   areas:["Dereboyu","Köşklüçiftlik","Kumsal","Gönyeli","Hamitköy","Ortaköy"],
   otel:["Merit Lefkoşa","Lord Palace","Grand Pasha","Dedeman Lefkoşa"],
   metin:"Lefkoşa'da escort hizmeti Dereboyu, Köşklüçiftlik ve Kumsal çevresinde yoğunlaşıyor; Gönyeli ve Ortaköy'e de gidiyoruz. İş seyahatinde olanlar için en pratik yol otel lobisinde buluşmak — resepsiyona isim bırakmadan doğrudan odana çıkış da mümkün.",
-  metin2:"Başkentte mesafeler kısa olduğu için merkez mahallelerde taksi ücreti çıkmıyor; Gönyeli ve Hamitköy gibi dış mahallelerde mesafeye göre hesaplanıp önceden söyleniyor. Gündüz randevularda 1 saat önceden yazman yeterli, akşam saatleri için daha erken yazmanı öneririz. Ödeme görüşme sırasında, kapora yok.",
+  metin2:"Başkentte mesafeler kısa olsa da taksi ücreti her yöne mesafeye göre hesaplanıp önceden söyleniyor. Gündüz randevularda 1 saat önceden yazman yeterli, akşam saatleri için daha erken yazmanı öneririz. Ödeme görüşme sırasında, kapora yok.",
   ek:`<h2>Lefkoşa'da hangi noktada nasıl buluşuluyor</h2>
      <div class="about"><b>Dereboyu</b><br>Başkentin gece hattı; barlar, restoranlar ve kafeler burada. Akşam 21:00 sonrası cadde kalabalık, buluşma noktasını mekân adıyla ver. "Caddeye çık, görüşürüz" demek işe yaramıyor.</div>
-     <div class="about"><b>Köşklüçiftlik</b><br>Merkeze yakın, apart ve ofis ağırlıklı. Gündüz görüşmeleri için en pratik hat, taksi ücreti çıkmıyor.</div>
+     <div class="about"><b>Köşklüçiftlik</b><br>Merkeze yakın, apart ve ofis ağırlıklı. Gündüz görüşmeleri için en pratik hat; taksi ücreti mesafeye göre önceden söyleniyor.</div>
      <div class="about"><b>Kumsal</b><br>Üniversite çevresi, öğrenci apartları. Kısa süreli görüşmelerde giriş genelde serbest, kapıda sorun çıkmıyor. Detay: <a href="/blog/ogrenci-escort">öğrenci escort</a>.</div>
      <div class="about"><b>Gönyeli ve Hamitköy</b><br>Site ağırlıklı, kapıda isim verilmesi gerekebilir. Önceden haber verirsen resepsiyona ismini bildiriyoruz. Bu iki mahallede taksi ücreti mesafeye göre hesaplanır ve önceden söylenir.</div>
      <div class="about"><b>Ortaköy</b><br>Sakin, villa ve site karışık. Adres tarifiyle uğraşmamak için konum linki gönder.</div>
@@ -278,7 +274,7 @@ const D={
      <div class="about">Ödeme görüşme sırasında: nakit, IBAN veya USDT. Ön ödeme ve kapora yok. Lefkoşa'da ATM yoğun ama gece geç saatte kapalı olanlar var, nakit hazır git.</div>
 
      <h2>Ulaşım ve taksi</h2>
-     <div class="about">Merkez mahallelerde mesafe kısa, taksi ücreti çıkmıyor. Gönyeli, Hamitköy ve Ortaköy'de mesafeye göre hesaplanıp önceden söyleniyor. Gece 01:00 sonrası Dereboyu'nda taksi bulmak kolay, dış mahallelerde zor; dönüş için şoför numarası al. Detaylar <a href="/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
+     <div class="about">Mesafe kısa olsa da taksi ücreti her yöne mesafeye göre hesaplanıp önceden söyleniyor. Gece 01:00 sonrası Dereboyu'nda taksi bulmak kolay, dış mahallelerde zor; dönüş için şoför numarası al. Detaylar <a href="/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
 
      <h2>Lefkoşa'da en sık yapılan hatalar</h2>
      <ul>
@@ -293,13 +289,13 @@ const D={
      <div class="about">Gece hayatı Dereboyu hattında toplanıyor; mekânlar geç saatte açılıyor ve kıyafet beklentisi var. Planı yemekle başlat, ulaşımı baştan konuş. Mekân masrafı görüşme ücretine dahil değil. Gece planı için <a href="/blog/kibris-gece-hayati">Kıbrıs gece hayatı</a> yazısına bak.</div>
 
      <h2>Nicosia escort — for visitors</h2>
-     <div class="about"><i>Nicosia is the business side of the island: hotel lobbies, offices and late bars along Dereboyu. Incall in the centre, outcall to your hotel room. No deposit, cash at the meeting. Send your area, time and duration on WhatsApp.</i></div>`,
+     <div class="about"><i>Nicosia is the business side of the island: hotel lobbies, offices and late bars along Dereboyu. Incall in the centre, outcall to your hotel room. No deposit, cash at the meeting. Taxi is quoted up front by distance. Send your area, time and duration on WhatsApp.</i></div>`,
   sss:[["Lefkoşa escort fiyatları ne kadar?","30 dakika 7.000 ₺, 1 saat 12.000 ₺, 2 saat 17.000 ₺, 4 saat 22.000 ₺. Tarife sabit."],
        ["Lefkoşa'da hangi bölgelere geliyorsunuz?","Dereboyu, Köşklüçiftlik, Kumsal, Ortaköy, Gönyeli ve Hamitköy."],
        ["Gündüz randevu olur mu?","Olur. Öğle ve ikindi saatleri müsaitlik durumuna göre ayarlanır."],
        ["Hangi otellere geliyorsunuz?","Merit Lefkoşa, Lord Palace, Grand Pasha ve Dedeman Lefkoşa başta olmak üzere merkez otelleri."],
        ["Resepsiyona isim bırakılıyor mu?","İstersen bırakılmaz, önceden söylersen doğrudan odana çıkış yapılır."],
-       ["Lefkoşa merkezde taksi ücreti var mı?","Yok. Gönyeli, Hamitköy ve Ortaköy'de mesafeye göre alınır ve önceden söylenir."],
+       ["Taksi ücreti nasıl?","Her yöne mesafeye göre hesaplanır ve önceden söylenir."],
        ["Otele 30 dakika olur mu?","Olmaz. 30 dakika yalnızca kendi yerimizde; adrese çıkışta en az 1 saat."],
        ["Ne kadar önceden yazmalıyım?","Merkezde 15-20 dakika yeterli. Akşam saatlerinde ve dış mahallelerde 1 saat önceden yaz."],
        ["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT. Ön ödeme yok."]]},
@@ -308,12 +304,12 @@ const D={
   areas:["Maraş","Sakarya","Suriçi","Long Beach","Tuzla"],
   otel:["Concorde Luxury Resort","Arkin Colony","Kaya Artemis","Long Beach Resort"],
   metin:"Mağusa'da escort talebi Sakarya ve Maraş çevresinde yoğun; Suriçi ve Long Beach hattına da çıkıyoruz. Üniversite çevresindeki öğrenci evleri ve apartlar için kısa süreli görüşmeler uygun, giriş genelde serbest.",
-  metin2:"Long Beach ve Tuzla mesafe olarak ayrı düştüğü için taksi ücreti önceden hesaplanıp bildiriliyor. Maraş ve Sakarya merkezde ek ücret yok. Sahil otellerinde resepsiyonda buluşmak en sorunsuz yöntem; odaya çıkış istiyorsan önceden söylemen yeterli. Ön ödeme ve kapora alınmıyor.",
+  metin2:"Taksi ücreti her yöne mesafeye göre hesaplanıp önceden bildiriliyor. Sahil otellerinde resepsiyonda buluşmak en sorunsuz yöntem; odaya çıkış istiyorsan önceden söylemen yeterli. Ön ödeme ve kapora alınmıyor.",
   ek:`<h2>Mağusa'da hangi noktada nasıl buluşuluyor</h2>
      <div class="about"><b>Maraş</b><br>Kapalı Maraş'ın hemen yanındaki sahil hattı. Yaz aylarında plaj trafiği yoğun, gündüz görüşmesi için en rahat nokta. Buluşmayı bina girişinde değil, karşıdaki kafe ya da market önünde yapıyoruz.</div>
      <div class="about"><b>Sakarya</b><br>Üniversite çevresi, apart ve öğrenci evleri ağırlıklı. Kısa süreli görüşmelerde giriş genelde serbest. Akşam saatlerinde cadde kalabalık, buluşma noktasını net ver. Detay: <a href="/blog/ogrenci-escort">öğrenci escort</a>.</div>
      <div class="about"><b>Suriçi</b><br>Tarihi çevre, dar sokaklar ve taş binalar. Araç girişi sınırlı olduğu için buluşma noktasını sur dışında belirleyip birlikte yürümek daha pratik.</div>
-     <div class="about"><b>Long Beach</b><br>Resort hattı, otel içi görüşme. Mesafe ayrı düştüğü için taksi ücreti önceden söylenir, kapıda değişmez. Bölge sayfası <a href="/long-beach-escort">Long Beach escort</a>.</div>
+     <div class="about"><b>Long Beach</b><br>Resort hattı, otel içi görüşme. Taksi ücreti mesafeye göre önceden söylenir, kapıda değişmez. Bölge sayfası <a href="/long-beach-escort">Long Beach escort</a>.</div>
      <div class="about"><b>Tuzla</b><br>Sahil köyü, sakin. Planlı randevu mantığı işliyor, en az 45 dakika önceden yazman gerekir.</div>
 
      <h2>Otel içinde nasıl ilerliyoruz</h2>
@@ -331,7 +327,7 @@ const D={
      <div class="about">Ödeme görüşme sırasında: nakit, IBAN veya USDT. Ön ödeme yok. Öğrenci çevresinde ATM yoğun, nakit hazır git.</div>
 
      <h2>Ulaşım ve taksi</h2>
-     <div class="about">Maraş ve Sakarya merkezde taksi ücreti çıkmıyor. Long Beach ve Tuzla'da mesafeye göre hesaplanıp önceden söyleniyor. Gece dönüş için şoför numarası almanı öneririz. Detaylar <a href="/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
+     <div class="about">Taksi ücreti her yöne mesafeye göre hesaplanıp önceden söyleniyor. Gece dönüş için şoför numarası almanı öneririz. Detaylar <a href="/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
 
      <h2>Mağusa'da en sık yapılan hatalar</h2>
      <ul>
@@ -346,13 +342,13 @@ const D={
      <div class="about">Sakarya hattı gece için doğru adres, mekânlar geç saatte açılıyor. Planı yemekle başlat, ulaşımı baştan konuş. Mekân masrafı görüşme ücretine dahil değil. Genel gece rehberi için <a href="/blog/kibris-gece-hayati">Kıbrıs gece hayatı</a> yazısına bak.</div>
 
      <h2>Famagusta escort — for visitors</h2>
-     <div class="about"><i>Famagusta (Mağusa) has two sides: the beach strip at Maraş and Long Beach, and the student district around Sakarya. Incall in the centre, outcall to your hotel. No deposit, cash at the meeting. WhatsApp your area, time and duration.</i></div>`,
+     <div class="about"><i>Famagusta (Mağusa) has two sides: the beach strip at Maraş and Long Beach, and the student district around Sakarya. Incall in the centre, outcall to your hotel. No deposit, cash at the meeting. Taxi is quoted up front by distance. WhatsApp your area, time and duration.</i></div>`,
   sss:[["Mağusa escort fiyatları ne kadar?","30 dakika 7.000 ₺, 1 saat 12.000 ₺, 2 saat 17.000 ₺, 4 saat 22.000 ₺. Tarife sabit."],
        ["Mağusa'da nereye geliyorsunuz?","Maraş, Sakarya, Suriçi, Long Beach ve Tuzla."],
        ["Öğrenci evine gelir misiniz?","Evet, kısa süreli görüşmeler için de uygun."],
        ["Hangi otellere geliyorsunuz?","Concorde Luxury, Arkin Colony, Kaya Artemis ve Long Beach Resort."],
        ["Resepsiyona isim bırakılıyor mu?","İstersen bırakılmaz, doğrudan odaya çıkış yapılabilir."],
-       ["Long Beach'te taksi ücreti var mı?","Var, mesafeye göre hesaplanır ve önceden söylenir."],
+       ["Taksi ücreti nasıl?","Her yöne mesafeye göre hesaplanır ve önceden söylenir."],
        ["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],
        ["Ne kadar önceden yazmalıyım?","Merkezde 15-20 dakika. Long Beach ve Tuzla'da 45 dakika."],
        ["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."]]},
@@ -363,8 +359,8 @@ const D={
   metin:"İskele'de escort hizmeti merkez, Boğaz ve Yeniboğaziçi hattında yoğunlaşıyor; Bafra otellerine de çıkıyoruz. Bölge yayvan olduğu için buluşma yerini ve saati netleştirmeden yola çıkmıyoruz.",
   metin2:"İskele ve Bafra'da taksi ücreti her zaman mesafeye göre hesaplanır ve önceden söylenir. Resort içindeki otellerde resepsiyon ya da oda buluşması standart; bazı tesisler ziyaretçi kaydı istiyor, bunu önceden soruyoruz. Bu bölge için en az 2 saat önceden yazmanı öneririz. Kapora alınmıyor.",
   ek:`<h2>İskele'de hangi noktada nasıl buluşuluyor</h2>
-     <div class="about"><b>İskele merkez</b><br>Küçük merkez, her şey yürüme mesafesinde. Buluşma için en kolay nokta meydan çevresi; kısa görüşmelerde taksi ücreti çıkmıyor.</div>
-     <div class="about"><b>Boğaz</b><br>Sahil hattı, resort oteller burada. Otel lobisinde buluşma standart. Mesafe nedeniyle taksi ücreti önceden söylenir.</div>
+     <div class="about"><b>İskele merkez</b><br>Küçük merkez, her şey yürüme mesafesinde. Buluşma için en kolay nokta meydan çevresi; taksi ücreti mesafeye göre önceden söyleniyor.</div>
+     <div class="about"><b>Boğaz</b><br>Sahil hattı, resort oteller burada. Otel lobisinde buluşma standart. Taksi ücreti mesafeye göre önceden söylenir.</div>
      <div class="about"><b>Yeniboğaziçi</b><br>Köy dokusu, villa ve site karışık. Adres tarifi yerine konum linki gönder, kapıda arama olmasın.</div>
      <div class="about"><b>Bafra</b><br>Turizm bölgesi, büyük resortlar. Otel kaydı isteyebiliyor, önceden sorup haber veriyoruz. En uzak hattımız, en az 2 saat önceden yazman gerekir. Bölge sayfası <a href="/bafra-escort">Bafra escort</a>.</div>
 
@@ -383,7 +379,7 @@ const D={
      <div class="about">Ödeme görüşme sırasında: nakit, IBAN veya USDT. Ön ödeme yok. Bölgede ATM seyrek, nakit hazır git.</div>
 
      <h2>Ulaşım ve taksi</h2>
-     <div class="about">İskele merkezde kısa mesafelerde taksi çıkmıyor; Boğaz, Yeniboğaziçi ve Bafra'da her zaman mesafeye göre hesaplanıp önceden söyleniyor. Dönüş için şoför numarası almanı öneririz. Detaylar <a href="/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
+     <div class="about">Taksi ücreti her yöne mesafeye göre hesaplanıp önceden söyleniyor. Dönüş için şoför numarası almanı öneririz. Detaylar <a href="/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
 
      <h2>İskele'de en sık yapılan hatalar</h2>
      <ul>
@@ -405,7 +401,7 @@ const D={
        ["Hangi otellere geliyorsunuz?","Kaya Palazzo, Concorde Luxury ve Bafra resortları."],
        ["Otel kaydı ister mi?","Bazı resortlar istiyor, önceden sorup haber veriyoruz."],
        ["Resepsiyona isim bırakılıyor mu?","İstersen bırakılmaz, doğrudan odaya çıkış yapılabilir."],
-       ["İskele merkezde taksi var mı?","Kısa mesafede yok. Boğaz ve Bafra'da mesafeye göre alınır."],
+       ["Taksi ücreti nasıl?","Her yöne mesafeye göre hesaplanır ve önceden söylenir."],
        ["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],
        ["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."]]},
 
@@ -415,7 +411,7 @@ const D={
   metin:"Güzelyurt merkez ve Lefke hattında escort hizmeti veriyoruz. Bölge Girne ve Lefkoşa'ya uzak olduğu için burada planlı randevu mantığı işliyor; aynı gün içinde saat netleşirse sorun çıkmıyor.",
   metin2:"Güzelyurt'ta taksi ücreti her zaman mesafeye göre hesaplanır ve önceden bildirilir. Lefke ve Gemikonağı için daha erken yazman gerekir. Merkezde kısa süreli görüşmeler de mümkün. Ön ödeme ve kapora alınmıyor.",
   ek:`<h2>Güzelyurt'ta hangi noktada nasıl buluşuluyor</h2>
-     <div class="about"><b>Güzelyurt merkez</b><br>Küçük ve sakin merkez, yürünebilir. Buluşma için meydan çevresi en pratik; kısa mesafede taksi ücreti çıkmıyor.</div>
+     <div class="about"><b>Güzelyurt merkez</b><br>Küçük ve sakin merkez, yürünebilir. Buluşma için meydan çevresi en pratik; taksi ücreti mesafeye göre önceden söyleniyor.</div>
      <div class="about"><b>Lefke</b><br>Üniversite çevresi, öğrenci apartları. Giriş genelde serbest. Mesafe uzun olduğu için en az 1 saat önceden yazman gerekir.</div>
      <div class="about"><b>Gemikonağı</b><br>Sahil köyü, sakin. Konum linki göndermen işi hızlandırır, adres tarifiyle kapıda zaman kaybedilmiyor.</div>
      <div class="about"><b>Aydınköy ve çevre köyler</b><br>Narenciye bahçeleri arasında dağınık yerleşim. Planlı randevu şart, yol tarifi yerine konum linki kullanıyoruz.</div>
@@ -434,7 +430,7 @@ const D={
      <div class="about">Ödeme görüşme sırasında: nakit, IBAN veya USDT. Ön ödeme yok. Bölgede ATM az, nakit hazır git.</div>
 
      <h2>Ulaşım ve taksi</h2>
-     <div class="about">Güzelyurt merkezde kısa mesafede taksi çıkmıyor; Lefke, Gemikonağı ve köylerde mesafeye göre hesaplanıp önceden söyleniyor. Dönüş için şoför numarası al. Detaylar <a href="/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
+     <div class="about">Taksi ücreti her yöne mesafeye göre hesaplanıp önceden söyleniyor. Dönüş için şoför numarası al. Detaylar <a href="/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
 
      <h2>Güzelyurt'ta en sık yapılan hatalar</h2>
      <ul>
@@ -449,12 +445,12 @@ const D={
      <div class="about">Gece hayatı sınırlı; birkaç kafe ve bar dışında seçenek az, bu yüzden plan genelde otel ya da ev içinde kuruluyor. Ulaşımı baştan konuş, dönüş aracını ayarla. Genel rehber <a href="/blog/kibris-gece-hayati">Kıbrıs gece hayatı</a> yazısında.</div>
 
      <h2>Morphou escort — for visitors</h2>
-     <div class="about"><i>Morphou (Güzelyurt) is the quiet west: citrus groves, Lefke university and a small town centre. Book ahead — distances are long. Send a location pin, taxi is quoted up front, no deposit.</i></div>`,
+     <div class="about"><i>Morphou (Güzelyurt) is the quiet west: citrus groves, Lefke university and a small town centre. Book ahead — distances are long. Send a location pin, taxi is quoted up front by distance, no deposit.</i></div>`,
   sss:[["Güzelyurt escort fiyatları ne kadar?","30 dakika 7.000 ₺, 1 saat 12.000 ₺, 2 saat 17.000 ₺, 4 saat 22.000 ₺. Tarife sabit."],
        ["Lefke'ye geliyor musunuz?","Evet, taksi ücreti önceden bildirilir."],
        ["Aynı gün olur mu?","Saat netleşirse olur, ancak erken yazman daha sağlıklı."],
        ["Gemikonağı'na geliyor musunuz?","Evet, konum linki gönderirsen sorun olmaz."],
-       ["Güzelyurt merkezde taksi var mı?","Kısa mesafede yok. Lefke ve köylerde mesafeye göre alınır."],
+       ["Taksi ücreti nasıl?","Her yöne mesafeye göre hesaplanır ve önceden söylenir."],
        ["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],
        ["Ne kadar önceden yazmalıyım?","Merkezde 1 saat, Lefke ve Gemikonağı'nda 1,5 saat."],
        ["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."],
@@ -472,12 +468,12 @@ const D={
   metin:"Alsancak'ta villa ve site içi görüşmeler yaygın. Siteye giriş için kapıda isim vermen gerekiyorsa önceden haber ver, isim bildiriyoruz. Merkezden araçla 10 dakika mesafede.",
   metin2:"Alsancak için taksi ücreti mesafeye göre hesaplanır, önceden söylenir. Karaman ve sahil siteleri en sık gittiğimiz noktalar. Gündüz randevularda 30 dakika önceden yazman yeterli.",
   sss:[["Siteye girişte sorun olur mu?","Hayır. Kapıda isim verilmesi gerekiyorsa önceden bildiriyoruz."],["Alsancak'a ne kadar sürede gelirsiniz?","Merkezden 10-15 dakika. Önceden yazılırsa bekleme olmaz."],["Taksi ücreti alınıyor mu?","Mesafeye göre, önceden söylenir."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."]]},
- "karaoglanoglu-escort":{nm:"Karaoğlanoğlu",alt:"Karaoğlanoğlu",lead:"Karaoğlanoğlu escort: merkeze en yakın sahil hattı. Otel ve plaj çevresi, çoğu zaman taksi ücreti yok.",
+ "karaoglanoglu-escort":{nm:"Karaoğlanoğlu",alt:"Karaoğlanoğlu",lead:"Karaoğlanoğlu escort: merkeze en yakın sahil hattı. Otel ve plaj çevresi, taksi mesafeye göre.",
   areas:["Karaoğlanoğlu caddesi","Deniz kenarı otelleri","Escape plaj çevresi"],
   otel:["Rocks Hotel","Escape Beach çevresi","Sahil otelleri"],
-  metin:"Karaoğlanoğlu merkeze çok yakın olduğu için ulaşım hızlı; çoğu zaman taksi ücreti çıkmıyor. Sahil otellerinde lobi buluşması, apartmanlarda ise doğrudan kapıya çıkış yapılıyor.",
+  metin:"Karaoğlanoğlu merkeze çok yakın olduğu için ulaşım hızlı; taksi ücreti mesafeye göre önceden söyleniyor. Sahil otellerinde lobi buluşması, apartmanlarda ise doğrudan kapıya çıkış yapılıyor.",
   metin2:"Bu hatta genelde 10-15 dakika içinde varıyoruz. Yaz sezonunda sahil trafiği yoğun olabildiği için akşam saatlerinde biraz daha erken yazmanı öneririz. Kapora alınmıyor.",
-  sss:[["Karaoğlanoğlu'nda taksi alınır mı?","Merkeze yakın olduğu için genelde alınmaz."],["Plajdan sonra görüşme olur mu?","Olur, gündüz de çalışıyoruz."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Hangi otellere geliyorsunuz?","Rocks Hotel ve sahil otelleri başta olmak üzere."]]},
+  sss:[["Taksi ücreti alınıyor mu?","Evet, mesafeye göre hesaplanır ve önceden söylenir."],["Plajdan sonra görüşme olur mu?","Olur, gündüz de çalışıyoruz."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Hangi otellere geliyorsunuz?","Rocks Hotel ve sahil otelleri başta olmak üzere."]]},
  "catalkoy-escort":{nm:"Çatalköy",alt:"Çatalköy",lead:"Çatalköy escort: yamaç villalar ve Bellapais yolu. Konum linki ile hızlı buluşma, kapora yok.",
   areas:["Çatalköy merkez","Bellapais yolu","Yamaç villaları","Sahil alt hattı"],
   otel:["Çatalköy villaları","Bellapais çevresi","Butik konaklama"],
@@ -505,9 +501,9 @@ const D={
  "gonyeli-escort":{nm:"Gönyeli",alt:"Gönyeli / Lefkoşa",lead:"Gönyeli escort: site ve öğrenci apartları ağırlıklı, Lefkoşa merkeze yakın. Kapıda isim bildiriliyor, kapora yok.",
   areas:["Gönyeli merkez","Site içleri","Üniversite çevresi","Hamitköy yolu"],
   otel:["Gönyeli apartları","Site konaklamaları","Merkez oteller"],
-  metin:"Gönyeli'de site ve apart görüşmeleri yaygın. Lefkoşa merkeze yakın olduğu için ulaşım kısa sürüyor, çoğu randevuda taksi ücreti çıkmıyor.",
+  metin:"Gönyeli'de site ve apart görüşmeleri yaygın. Lefkoşa merkeze yakın olduğu için ulaşım kısa sürüyor; taksi ücreti mesafeye göre önceden söyleniyor.",
   metin2:"Siteye girişte isim verilmesi gerekiyorsa önceden haber ver. Gönyeli için 30 dakika önceden yazman yeterli, akşam saatlerinde biraz daha erken yazmanı öneririz.",
-  sss:[["Gönyeli'ye geliyor musunuz?","Evet, site ve apartlara."],["Taksi alınır mı?","Merkeze yakın olduğu için genelde alınmaz."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."]]},
+  sss:[["Gönyeli'ye geliyor musunuz?","Evet, site ve apartlara."],["Taksi alınır mı?","Evet, mesafeye göre hesaplanır ve önceden söylenir."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."]]},
  "bellapais-escort":{nm:"Bellapais",alt:"Bellapais Manastırı çevresi",lead:"Bellapais escort: tarihi manastır ve yamaç villalar. Konum linki şart, kapora yok.",
   areas:["Manastır çevresi","Yamaç villaları","Bellapais yolu"],
   otel:["Bellapais butik konaklama","Yamaç villaları"],
@@ -518,13 +514,13 @@ const D={
   areas:["Girne","Lefkoşa","Mağusa","İskele","Long Beach","Bafra"],
   otel:["Merit","Acapulco","Rocks","Kaya Palazzo","Concorde"],
   metin:"Otel görüşmesinde en sık kullanılan yöntem lobide buluşmak; resepsiyona isim bırakmadan doğrudan odana çıkmak istiyorsan önceden haber ver, ona göre ilerliyoruz. Büyük otellerde lobi kalabalık olabildiği için buluşma noktasını net tarif ediyoruz.",
-  metin2:"Otel kaydı isteyen resortlarda önceden sorup haber veriyoruz. Merkezde taksi ücreti alınmıyor; İskele, Bafra ve Esentepe gibi uzak noktalarda mesafeye göre hesaplanıp önceden söyleniyor. Kapora alınmıyor.",
+  metin2:"Otel kaydı isteyen resortlarda önceden sorup haber veriyoruz. Taksi ücreti her yöne mesafeye göre hesaplanıp önceden söyleniyor. Kapora alınmıyor.",
   sss:[["Resepsiyona isim bırakılıyor mu?","İstersen bırakılmaz, doğrudan odana çıkış yapılabilir."],["Hangi otellere geliyorsunuz?","Girne, Lefkoşa, Mağusa, İskele ve Bafra'daki otellere."],["Otel kaydı ister mi?","Bazı resortlar istiyor, önceden sorup haber veriyoruz."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."]]},
  "eve-gelen-escort":{nm:"Eve Gelen Escort",alt:"Ev ve villa ziyareti",lead:"Eve gelen escort: kendi evine ya da villaya. Site girişinde isim bildiriliyor, kapora yok.",
   areas:["Girne","Lefkoşa","Mağusa","İskele","Lapta","Çatalköy"],
   otel:["Villalar","Site içi daireler","Öğrenci apartları"],
   metin:"Ev görüşmesinde kapıda arama olmaması için siteye giriş bilgisini önceden alıyoruz; gerekiyorsa kapıya isim bildiriyoruz. Villa ve müstakil evlerde bu adım gerekmiyor.",
-  metin2:"Ev ziyaretlerinde taksi ücreti mesafeye göre hesaplanır ve önceden söylenir. Girne merkezde genelde alınmaz. Adresi tarif etmek yerine konum linki göndermen işi hızlandırır.",
+  metin2:"Ev ziyaretlerinde taksi ücreti mesafeye göre hesaplanır ve önceden söylenir. Adresi tarif etmek yerine konum linki göndermen işi hızlandırır.",
   sss:[["Siteye girişte sorun çıkar mı?","Hayır, önceden bilgi verirsen kapıya isim bırakıyoruz."],["Evde görüşme ücreti farklı mı?","Hayır, tarife aynı. Sadece taksi mesafeye göre değişir."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."]]},
  "ogrenci-escort":{nm:"Öğrenci Escort",alt:"Üniversite çevresi",lead:"Öğrenci escort: üniversite çevresinde genç eşlik. Kısa görüşmeye uygun, kapora yok.",
   areas:["Lefkoşa","Gönyeli","Mağusa","Girne"],
@@ -583,7 +579,7 @@ document.getElementById("body").innerHTML=
    <div class="about"><b>1 saat — 12.000 ₺</b><br>Otel ve eve çıkışta en çok seçilen süre; adrese çıkışta en alt sınır.</div>
    <div class="about"><b>2 saat — 17.000 ₺</b><br>Yemek ya da gece programı eklemek isteyenler için.</div>
    <div class="about"><b>4 saat — 22.000 ₺</b><br>Uzun eşlik ve gece planı.</div>
-   <div class="about">Tarife sabit, pazarlık yok, kapıda değişmiyor. Tek değişken taksi: ${C.nm} merkezde çoğu zaman alınmıyor, uzak hatlarda mesafeye göre hesaplanıp önceden söyleniyor. Tam liste <a href="/fiyatlar">fiyatlar sayfasında</a>.</div>
+   <div class="about">Tarife sabit, pazarlık yok, kapıda değişmiyor. Tek değişken taksi: her yöne mesafeye göre hesaplanıp önceden söyleniyor. Tam liste <a href="/fiyatlar">fiyatlar sayfasında</a>.</div>
    ${C.ek||""}
    <div class="about"><a href="/blog/kibris-gece-hayati">Kıbrıs gece hayatı rehberi</a> · <a href="/blog/kibris-otelleri">otel çevresinde görüşme</a> · <a href="/fiyatlar">tarife</a></div>
    <p class="guncel">Son güncelleme: 22 Kasım 2026</p>`;
@@ -599,7 +595,7 @@ const cl=document.querySelector('link[rel="canonical"]');
 if(cl)cl.href=url;
 else{const l=document.createElement("link");l.rel="canonical";l.href=url;document.head.appendChild(l)}
 
-const desc=nmE+" – "+C.alt+". Sabit tarife, kapora yok, otel ve eve çıkış. "+C.nm+" merkezde taksi ücreti alınmıyor, aynı gün rezervasyon yapılıyor.";
+const desc=nmE+" – "+C.alt+". Sabit tarife, kapora yok, otel ve eve çıkış. Taksi ücreti mesafeye göre önceden söylenir, kapıda değişmez.";
 let dm=document.querySelector('meta[name="description"]');
 if(dm)dm.setAttribute("content",desc);
 else{const m=document.createElement("meta");m.setAttribute("name","description");m.setAttribute("content",desc);document.head.appendChild(m)}
@@ -640,6 +636,5 @@ document.head.appendChild(ldf);
 })();
 </script>
 <script src="https://www.kibrisgirneescort.com/js/iletisim.js" defer></script>
-
 </body>
 </html>
