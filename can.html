@@ -13,27 +13,20 @@
 :root{--k:#c9a227;--k2:#e8c766;--bg:#0b0b0f;--c:#13131b;--c2:#171721;--line:rgba(201,162,39,.18);--t:#ececf2;--s:#8f8fa0}
 body{margin:0;min-height:100vh;background:radial-gradient(900px 480px at 50% -12%,rgba(201,162,39,.11),transparent 62%),var(--bg);color:var(--t);font:15px/1.55 -apple-system,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 h1,h2,h3{font-family:Georgia,serif;font-weight:700;letter-spacing:-.01em;margin:0 0 .5em}
-h2{font-size:17px}h3{font-size:14px}
+h2{font-size:17px}
 p{margin:0 0 1em}
 a{color:var(--k2)}
-.top{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:rgba(11,11,15,.86);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+.top{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(11,11,15,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
 .brand{display:flex;align-items:center;gap:10px;font-family:Georgia,serif;font-size:16px;letter-spacing:.06em}
 .brand i{width:20px;height:20px;background:linear-gradient(160deg,var(--k2),var(--k));clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%)}
 .brand b{color:var(--k)}
-.mwrap{position:relative}
-.mbtn{display:flex;align-items:center;gap:8px;background:var(--c2);border:1px solid var(--line);color:var(--t);font:600 13.5px/1 inherit;padding:10px 14px;border-radius:10px;cursor:pointer}
-.mbtn:hover{border-color:var(--k)}
-.menu{position:absolute;right:0;top:calc(100% + 8px);min-width:196px;background:#101018;border:1px solid var(--line);border-radius:12px;padding:6px;box-shadow:0 22px 50px rgba(0,0,0,.6);z-index:70}
-.menu button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--t);font:14px/1 inherit;padding:11px 12px;border-radius:8px;cursor:pointer}
-.menu button:hover{background:#1b1b26}
-.menu hr{border:0;border-top:1px solid var(--line);margin:6px 2px}
-.menu .cikis{color:#e58b8b}
-main{max-width:900px;margin:0 auto;padding:22px 16px 80px}
+main{max-width:920px;margin:0 auto;padding:16px 16px 90px}
 .bx{background:linear-gradient(180deg,var(--c2),var(--c));border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 18px 40px -30px rgba(0,0,0,.9)}
 .alt{color:var(--s);font-size:13px}
 label{display:block;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--s);margin:12px 0 6px}
 input,select,textarea{width:100%;background:#0c0c12;border:1px solid #262633;color:var(--t);border-radius:9px;padding:11px;font:14px/1.4 inherit;outline:none}
 input:focus,select:focus,textarea:focus{border-color:var(--k)}
+textarea{resize:vertical}
 .btn{background:linear-gradient(180deg,var(--k2),var(--k));color:#15130a;border:0;border-radius:9px;padding:11px 18px;font:700 14px/1 inherit;cursor:pointer}
 .btn:hover{filter:brightness(1.1)}
 .btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
@@ -43,28 +36,31 @@ input:focus,select:focus,textarea:focus{border-color:var(--k)}
 .hide{display:none!important}
 .msg{font-size:13px;margin-top:8px;min-height:17px}
 .ok{color:#7fd39a}.err{color:#e58b8b}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:49px;z-index:40;background:rgba(11,11,15,.94);backdrop-filter:blur(10px);padding:10px 0 12px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.tab{background:#15151d;border:1px solid var(--line);color:#b9b9c6;padding:9px 15px;border-radius:9px;font:600 13px/1 inherit;cursor:pointer}
+.tab:hover{color:var(--t)}
+.tab.on{background:linear-gradient(180deg,var(--k2),var(--k));color:#15130a;border-color:var(--k)}
 .drop{border:1.5px dashed #2c2c3a;border-radius:14px;padding:28px 14px;text-align:center;color:var(--s);cursor:pointer;transition:.15s;font-size:14px}
 .drop:hover,.drop.ust{border-color:var(--k);background:rgba(201,162,39,.05);color:var(--t)}
 .drop b{color:var(--k)}
 .cubuk{height:8px;background:#0c0c12;border:1px solid #262633;border-radius:99px;overflow:hidden;margin:12px 0}
 .cubuk i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--k),var(--k2));transition:width .2s}
-.kayit{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:#08080c;border:1px solid #262633;border-radius:10px;padding:10px;height:150px;overflow:auto;white-space:pre-wrap;color:#a8a8b8;margin-top:8px}
+.kayit{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:#08080c;border:1px solid #262633;border-radius:10px;padding:10px;height:140px;overflow:auto;white-space:pre-wrap;color:#a8a8b8;margin-top:8px}
 .kayit .ok{color:#7fd39a}.kayit .err{color:#e58b8b}
 .sat{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #22222e;font-size:13px}
 .sat img{width:40px;height:40px;object-fit:cover;border-radius:8px;background:#000;flex:none}
 .sat .ad{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:rtl;text-align:left;color:#cfcfda}
 .sat .bo{color:var(--s);flex:none;font-variant-numeric:tabular-nums}
-.sat .yok{color:#7fd39a;font-size:12px}
-.arac{display:grid;gap:10px;grid-template-columns:1fr}
+.sat input[type=checkbox]{width:16px;height:16px;flex:none;accent-color:var(--k);margin:0}
 .urun{display:flex;align-items:center;gap:10px;background:#0c0c12;border:1px solid #262633;border-radius:10px;padding:8px;margin-bottom:8px;font-size:12px}
 .urun img{width:44px;height:44px;object-fit:cover;border-radius:7px;flex:none;background:#000}
 .urun span{flex:1;word-break:break-all;color:#b6b6c6;font-family:ui-monospace,monospace;font-size:11px}
-.stat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--s)}
+.stat{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--s)}
 .stat b{color:var(--t);font-variant-numeric:tabular-nums}
-.giris{max-width:400px;margin:70px auto}
+.giris{max-width:400px;margin:60px auto}
 .ikili{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .uc{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-@media(max-width:520px){.uc{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.uc{grid-template-columns:1fr 1fr}.tabs{top:47px}}
 </style>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
@@ -72,16 +68,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--k)}
 
 <header class="top">
   <div class="brand"><i></i> RED<b>KIBRIS</b></div>
-  <div class="mwrap">
-    <button class="mbtn" id="mBtn">Menü <span style="color:var(--s)">▾</span></button>
-    <div class="menu hide" id="mList">
-      <button data-v="vArac">Görsel aracı</button>
-      <button data-v="vSik">Sıkıştırma</button>
-      <button data-v="vAyar">Ayarlar</button>
-      <hr>
-      <button class="cikis" id="btnOut">Çıkış</button>
-    </div>
-  </div>
+  <button class="ghost mini hide" id="btnOut">Çıkış</button>
 </header>
 
 <main>
@@ -98,8 +85,14 @@ input:focus,select:focus,textarea:focus{border-color:var(--k)}
 
   <section id="app" class="hide">
 
-    <!-- GÖRSEL ARACI -->
-    <div class="bx" id="vArac">
+    <div class="tabs">
+      <button class="tab on" data-v="vArac">Görsel aracı</button>
+      <button class="tab" data-v="vSik">Sıkıştırma</button>
+      <button class="tab" data-v="vTemiz">Temizlik</button>
+      <button class="tab" data-v="vAyar">Ayarlar</button>
+    </div>
+
+    <div class="bx view" id="vArac">
       <h2>Görsel aracı</h2>
       <p class="alt">Dosya bırak veya seç. Seçili hedefe göre küçültülüp webp olarak yüklenir, adres listelenir.</p>
       <label>Hedef</label>
@@ -122,10 +115,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--k)}
       <p class="alt" style="margin-top:6px">Repoda duran eski görselleri taşımak için.</p>
     </div>
 
-    <!-- SIKIŞTIRMA -->
-    <div class="bx hide" id="vSik">
+    <div class="bx view hide" id="vSik">
       <h2>Tüm görselleri sıkıştır</h2>
-      <p class="alt">Bucket'taki bütün görselleri <b>1400px / %72</b> ile yeniden yazar. Yol korunur, sitedeki bağlantılar bozulmaz. 80 KB altı atlanır.</p>
+      <p class="alt">Bucket'taki bütün görselleri <b>1400px / %72</b> ile yeniden yazar. Yol korunur, bağlantılar bozulmaz. 80 KB altı atlanır.</p>
       <div class="stat" id="stDepo"><span>yükleniyor…</span></div>
       <div class="ikili" style="margin-top:12px">
         <button class="btn" id="btnTum">Tümünü sıkıştır</button>
@@ -134,7 +126,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--k)}
       <div class="cubuk"><i id="cbSik"></i></div>
       <div class="stat" id="stSik"></div>
       <div class="kayit" id="kayitSik"></div>
-
       <label style="margin-top:18px">Dosyalar</label>
       <div class="uc">
         <input id="ara" placeholder="Ara…">
@@ -149,8 +140,26 @@ input:focus,select:focus,textarea:focus{border-color:var(--k)}
       <p id="listeMsg" class="msg"></p>
     </div>
 
-    <!-- AYARLAR -->
-    <div class="bx hide" id="vAyar">
+    <div class="bx view hide" id="vTemiz">
+      <h2>Temizlik</h2>
+      <p class="alt">Birebir aynı dosyaları ve hiçbir yerde kullanılmayan görselleri bulur. Silmeden önce listeler.</p>
+      <label>Korunacak ek adresler</label>
+      <textarea id="koru" rows="4" placeholder="index.html, region.html gibi sayfalarda geçen görsel URL'lerini ya da sayfa içeriğini buraya yapıştır."></textarea>
+      <p class="alt" style="margin-top:6px">Statik sayfalar taranmaz. Oralardaki görseller silinmesin diye yapıştır, sonra tara.</p>
+      <div class="ikili">
+        <button class="btn" id="btnKullanilmayan">Kullanılmayanları bul</button>
+        <button class="btn" id="btnKopya">Kopyaları bul</button>
+      </div>
+      <div class="cubuk"><i id="cbTemiz"></i></div>
+      <p id="temizMsg" class="msg"></p>
+      <div id="temizListe"></div>
+      <div class="ikili" id="temizActs" style="margin-top:10px">
+        <button class="ghost" id="btnSec">Seçimi ters çevir</button>
+        <button class="btn" id="btnSilSec">Seçilenleri sil</button>
+      </div>
+    </div>
+
+    <div class="bx view hide" id="vAyar">
       <h2>Ayarlar</h2>
       <label>WhatsApp (905xx)</label><input id="swa">
       <label>Telegram</label><input id="stg">
@@ -176,18 +185,14 @@ const slug=s=>s.toLowerCase().replace(/[^a-z0-9.]+/g,"-").replace(/^-+|-+$/g,"")
 const say=(id,t,ok)=>{const e=el(id);e.textContent=t;e.className="msg "+(ok?"ok":"err")};
 function yaz(kutu,t,tur){const d=document.createElement("div");if(tur)d.className=tur;d.textContent=t;kutu.appendChild(d);kutu.scrollTop=kutu.scrollHeight}
 
-/* menü */
-el("mBtn").onclick=e=>{e.stopPropagation();el("mList").classList.toggle("hide")};
-document.addEventListener("click",()=>el("mList").classList.add("hide"));
-el("mList").onclick=e=>e.stopPropagation();
-document.querySelectorAll("#mList [data-v]").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll("#app > div").forEach(d=>d.classList.add("hide"));
-  el(b.dataset.v).classList.remove("hide");
-  el("mList").classList.add("hide");
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+  document.querySelectorAll("#app .view").forEach(x=>x.classList.add("hide"));
+  b.classList.add("on");el(b.dataset.v).classList.remove("hide");
   if(b.dataset.v==="vSik")listeCek();
+  if(b.dataset.v==="vTemiz")depoYaz();
 });
 
-/* sıkıştırma */
 async function sikistir(f,maxW,q){
   const bm=await createImageBitmap(f);
   const s=Math.min(1,maxW/bm.width);
@@ -200,10 +205,11 @@ async function sikistir(f,maxW,q){
   return b;
 }
 
-/* oturum */
 function ac(){
-  oturum=true;el("login").classList.add("hide");el("app").classList.remove("hide");
-  document.querySelectorAll("#app > div").forEach(d=>d.classList.add("hide"));
+  oturum=true;el("login").classList.add("hide");el("app").classList.remove("hide");el("btnOut").classList.remove("hide");
+  document.querySelectorAll("#app .view").forEach(x=>x.classList.add("hide"));
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+  document.querySelector(".tab").classList.add("on");
   el("vArac").classList.remove("hide");
   ayarYukle();
 }
@@ -220,7 +226,6 @@ el("btnLogin").onclick=async()=>{
 };
 el("btnOut").onclick=async()=>{await db.auth.signOut();location.reload()};
 
-/* ayarlar */
 async function ayarYukle(){
   const {data}=await db.from("settings").select("key,value");
   const c={};(data||[]).forEach(x=>c[x.key]=x.value);
@@ -236,10 +241,8 @@ el("btnSet").onclick=async()=>{
   say("sMsg",error?"HATA: "+error.message:"Kaydedildi",!error);
 };
 
-/* hedef */
 el("hedef").onchange=()=>{const[w,q]=el("hedef").value.split("|");hedefW=+w;hedefQ=+q};
 
-/* yükleme */
 const drop=el("drop");
 drop.onclick=()=>el("dosyalar").click();
 drop.ondragover=e=>{e.preventDefault();drop.classList.add("ust")};
@@ -286,12 +289,10 @@ el("btnUrl").onclick=async()=>{
     const r=await fetch(u);if(!r.ok)throw new Error("HTTP "+r.status);
     const b=await r.blob();
     const f=new File([b],u.split("/").pop()||"gorsel.jpg",{type:b.type||"image/jpeg"});
-    await yukle([f]);
-    el("urlAl").value="";
+    await yukle([f]);el("urlAl").value="";
   }catch(e){say("yukMsg","HATA: "+e.message)}
 };
 
-/* liste */
 async function listAll(onek=""){
   let out=[],ofs=0;
   while(true){
@@ -315,10 +316,13 @@ async function listeCek(){
   el("liste").innerHTML='<p class="alt">Yükleniyor…</p>';
   try{
     veri=await listAll();
-    const top=veri.reduce((a,f)=>a+f.boyut,0);
-    el("stDepo").innerHTML="<span><b>"+veri.length+"</b> dosya</span><span><b>"+boy(top)+"</b> toplam</span>";
-    ciz();
+    depoYaz();ciz();
   }catch(e){el("liste").innerHTML='<p class="alt">Liste alınamadı: '+e.message+'</p>';el("stDepo").innerHTML="<span>hata</span>"}
+}
+
+function depoYaz(){
+  const top=veri.reduce((a,f)=>a+f.boyut,0);
+  el("stDepo").innerHTML="<span><b>"+veri.length+"</b> dosya</span><span><b>"+boy(top)+"</b> toplam</span>";
 }
 
 function ciz(){
@@ -343,7 +347,7 @@ function ciz(){
       if(!confirm(f.yol+" silinsin mi?"))return;
       const {error}=await db.storage.from(BUCKET).remove([f.yol]);
       if(error)return alert(error.message);
-      veri=veri.filter(x=>x.yol!==f.yol);listeCek();
+      veri=veri.filter(x=>x.yol!==f.yol);depoYaz();ciz();
     };
     row.append(k,t,d);frag.appendChild(row);
   });
@@ -364,11 +368,10 @@ async function tek(f,btn){
     const {error:e2}=await db.storage.from(BUCKET).upload(f.yol,blob,{contentType:"image/webp",cacheControl:"31536000",upsert:true});
     if(e2)throw e2;
     btn.textContent=boy(eski-blob.size)+" ↓";
-    f.boyut=blob.size;listeCek();
+    f.boyut=blob.size;depoYaz();ciz();
   }catch(e){btn.textContent="Hata";btn.disabled=false;alert(e.message)}
 }
 
-/* toplu */
 el("btnDurdur").onclick=()=>{durdu=true};
 el("btnTum").onclick=async()=>{
   if(!confirm("Bucket'taki tüm görseller yeniden sıkıştırılacak. Devam?"))return;
@@ -377,7 +380,7 @@ el("btnTum").onclick=async()=>{
   let isler=[];
   try{isler=(await listAll()).filter(f=>f.boyut>80000)}
   catch(e){yaz(el("kayitSik"),"Liste alınamadı: "+e.message,"err");el("btnTum").disabled=false;el("btnDurdur").disabled=true;return}
-  if(!isler.length){yaz(el("kayitSik"),"Sıkıştırılacak dosya yok (hepsi 80 KB altı ya da bucket boş).","ok");el("btnTum").disabled=false;el("btnDurdur").disabled=true;return}
+  if(!isler.length){yaz(el("kayitSik"),"Sıkıştırılacak dosya yok.","ok");el("btnTum").disabled=false;el("btnDurdur").disabled=true;return}
   let i=0,bitti=0,kazanc=0,atlanan=0,hata=0;
   async function isci(){
     while(i<isler.length&&!durdu){
@@ -402,8 +405,108 @@ el("btnTum").onclick=async()=>{
   }
   await Promise.all([isci(),isci()]);
   yaz(el("kayitSik"),(durdu?"Durduruldu. ":"Bitti. ")+"Toplam "+boy(kazanc)+" kazanç, "+atlanan+" zaten küçük, "+hata+" hata.","ok");
-  el("btnTum").disabled=false;el("btnDurdur").disabled=true;
-  listeCek();
+  el("btnTum").disabled=false;el("btnDurdur").disabled=true;listeCek();
+};
+
+/* ---------- TEMİZLİK ---------- */
+let temizVeri=[],korunan=new Set();
+
+function topla(metin){
+  if(!metin)return;
+  const re=/\/img\/([^\s"'()<>?#]+)/g;let m;
+  while((m=re.exec(metin))){
+    const p=m[1].replace(/^\/+/,"");
+    korunan.add(p);try{korunan.add(decodeURIComponent(p))}catch(e){}
+  }
+}
+
+async function kullanimHaritasi(){
+  korunan=new Set();
+  topla(el("koru").value);
+  try{
+    const {data:p}=await db.from("posts").select("img,body,meta,faq");
+    (p||[]).forEach(x=>{topla(x.img);topla(x.body);topla(x.meta);topla(x.faq)});
+    const {data:s}=await db.from("settings").select("value");
+    (s||[]).forEach(x=>topla(x.value));
+    const {data:r}=await db.from("regions").select("img");
+    (r||[]).forEach(x=>topla(x.img));
+  }catch(e){say("temizMsg","Veritabanı okunamadı: "+e.message)}
+  return korunan;
+}
+
+function temizCiz(){
+  el("temizListe").innerHTML="";
+  if(!temizVeri.length){el("temizListe").innerHTML='<p class="alt" style="padding:8px 0">Sonuç yok.</p>';return}
+  const frag=document.createDocumentFragment();
+  temizVeri.forEach(x=>{
+    const row=document.createElement("div");row.className="sat";
+    const url=db.storage.from(BUCKET).getPublicUrl(x.yol).data.publicUrl;
+    row.innerHTML='<input type="checkbox" '+(x.sec?"checked":"")+' data-yol="'+x.yol+'"><img loading="lazy" src="'+url+'" alt=""><span class="ad">'+x.yol+'</span><span class="bo">'+boy(x.boyut)+'</span>';
+    row.querySelector("input").onchange=e=>{x.sec=e.target.checked};
+    frag.appendChild(row);
+  });
+  el("temizListe").appendChild(frag);
+}
+
+el("btnKullanilmayan").onclick=async()=>{
+  say("temizMsg","Taranıyor…",true);el("temizListe").innerHTML="";
+  try{
+    veri=await listAll();
+    const kul=await kullanimHaritasi();
+    temizVeri=veri.filter(f=>!kul.has(f.yol)&&!kul.has(f.ad)).map(f=>({...f,sec:true}));
+    temizCiz();
+    say("temizMsg",temizVeri.length?temizVeri.length+" kullanılmayan görsel bulundu. Listeyi kontrol et, gerekirse işaretleri kaldır.":"Kullanılmayan görsel yok.",true);
+  }catch(e){say("temizMsg","HATA: "+e.message)}
+};
+
+el("btnKopya").onclick=async()=>{
+  say("temizMsg","Taranıyor…",true);el("temizListe").innerHTML="";
+  try{
+    veri=await listAll();
+    const kul=await kullanimHaritasi();
+    const gruplar={};
+    veri.forEach(f=>{if(f.boyut>0)(gruplar[f.boyut]=gruplar[f.boyut]||[]).push(f)});
+    const adaylar=Object.values(gruplar).filter(g=>g.length>1).flat();
+    temizVeri=[];let islenen=0;
+    for(const g of Object.values(gruplar)){
+      if(g.length<2)continue;
+      const h={};
+      for(const f of g){
+        const {data}=await db.storage.from(BUCKET).download(f.yol);
+        const buf=await data.arrayBuffer();
+        const hex=[...new Uint8Array(await crypto.subtle.digest("SHA-256",buf))].map(b=>b.toString(16).padStart(2,"0")).join("");
+        (h[hex]=h[hex]||[]).push(f);
+        islenen++;
+        el("cbTemiz").style.width=(islenen/adaylar.length*100)+"%";
+      }
+      Object.values(h).forEach(grup=>{
+        if(grup.length<2)return;
+        const koru=grup.find(f=>kul.has(f.yol))||grup[0];
+        grup.forEach(f=>{if(f!==koru)temizVeri.push({...f,sec:true})});
+      });
+    }
+    temizCiz();
+    say("temizMsg",temizVeri.length?temizVeri.length+" fazla kopya bulundu. Her grupta bir dosya korunuyor, kalanlar işaretli.":"Kopya yok.",true);
+  }catch(e){say("temizMsg","HATA: "+e.message)}
+};
+
+el("btnSec").onclick=()=>{
+  temizVeri.forEach(x=>x.sec=!x.sec);temizCiz();
+};
+
+el("btnSilSec").onclick=async()=>{
+  const sec=temizVeri.filter(x=>x.sec).map(x=>x.yol);
+  if(!sec.length)return say("temizMsg","Seçim yok.");
+  if(!confirm(sec.length+" dosya kalıcı olarak silinsin mi?"))return;
+  el("cbTemiz").style.width="0%";
+  for(let i=0;i<sec.length;i+=20){
+    const {error}=await db.storage.from(BUCKET).remove(sec.slice(i,i+20));
+    if(error)return say("temizMsg","HATA: "+error.message);
+    el("cbTemiz").style.width=(Math.min(i+20,sec.length)/sec.length*100)+"%";
+  }
+  temizVeri=temizVeri.filter(x=>!x.sec);
+  temizCiz();listeCek();
+  say("temizMsg",sec.length+" dosya silindi.",true);
 };
 </script>
 </body></html>
