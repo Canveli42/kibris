@@ -9,34 +9,67 @@ body{margin:0;background:#0a0f18;color:#f2f5f8;font:15px/1.6 system-ui,sans-seri
 h1{font-size:22px;margin:0 0 6px}
 p{color:#8b97a5;margin:0 0 16px}
 button{background:linear-gradient(#f3ddb4,#d8b878);color:#121a24;border:0;border-radius:10px;padding:12px 20px;font-weight:700;font-size:15px;cursor:pointer}
+button.ghost{background:#111823;border:1px solid #22303f;color:#eed3a1}
 button:disabled{opacity:.5;cursor:default}
+input{width:100%;background:#0e161f;border:1px solid #22303f;border-radius:9px;padding:11px 12px;color:#f2f5f8;font:inherit;margin-bottom:10px}
+#gate{max-width:340px;margin:60px auto;background:#111823;border:1px solid #22303f;border-radius:14px;padding:22px}
 #drop{border:2px dashed #22303f;border-radius:14px;padding:26px;text-align:center;color:#8b97a5;margin:18px 0;background:#111823}
 #drop.on{border-color:#d8b878;color:#eed3a1}
 #log{background:#111823;border:1px solid #22303f;border-radius:10px;padding:12px;font:12.5px/1.7 ui-monospace,monospace;max-height:420px;overflow:auto;white-space:pre-wrap}
 .ok{color:#6ee7a0}.bad{color:#ff8080}.mut{color:#8b97a5}
 #sum{font-weight:700;color:#eed3a1;margin:12px 0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
 </style></head><body><div class="wrap">
-<h1>Görsel sıkıştırıcı</h1>
-<p>Bucket'taki tüm görselleri WebP olarak, en fazla 1200px genişlik ve %70 kaliteyle yeniden yazar. Küçük olanlara dokunmaz.</p>
-<button id="go">Tüm görselleri sıkıştır</button>
-<div id="sum"></div>
-<div id="drop">Yeni görsel(leri) buraya bırak — sıkıştırıp yükler</div>
-<div id="log"></div>
-<input id="file" type="file" accept="image/*" multiple hidden>
+
+<div id="gate">
+  <h1 style="font-size:18px">Giriş</h1>
+  <p style="font-size:13px">Sadece panel hesabı yazabilir.</p>
+  <input id="em" type="email" placeholder="E-posta" autocomplete="username">
+  <input id="pw" type="password" placeholder="Şifre" autocomplete="current-password">
+  <button id="login" style="width:100%">Giriş yap</button>
+  <p id="gmsg" style="font-size:13px;color:#ff8080;margin:10px 0 0"></p>
+</div>
+
+<div id="app" hidden>
+  <div class="top">
+    <h1>Görsel sıkıştırıcı</h1>
+    <button class="ghost" id="out">Çıkış</button>
+  </div>
+  <p>Bucket'taki tüm görselleri WebP olarak, en fazla 1200px genişlik ve %70 kaliteyle yeniden yazar. Küçük olanlara dokunmaz.</p>
+  <button id="go">Tüm görselleri sıkıştır</button>
+  <div id="sum"></div>
+  <div id="drop">Yeni görsel(leri) buraya bırak — sıkıştırıp yükler</div>
+  <div id="log"></div>
+  <input id="file" type="file" accept="image/*" multiple hidden>
+</div>
+
 <script>
 const SB="https://accerzwswgiqhtfgoeqv.supabase.co";
 const KEY="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG";
 const B="img", MAXW=1200, Q=0.7, MIN=80000;
-const H={apikey:KEY,Authorization:"Bearer "+KEY};
+const H=()=>({apikey:KEY,Authorization:"Bearer "+(sessionStorage.getItem("tok")||KEY)});
 const logEl=document.getElementById("log");
 let saved=0, done=0, fail=0;
 const say=(t,c)=>{logEl.insertAdjacentHTML("beforeend",'<div class="'+(c||"")+'">'+t+'</div>');logEl.scrollTop=logEl.scrollHeight};
 const kb=n=>Math.round(n/1024)+" KB";
 
+document.getElementById("login").addEventListener("click",async()=>{
+  const em=document.getElementById("em").value.trim(), pw=document.getElementById("pw").value;
+  const m=document.getElementById("gmsg"); m.textContent="";
+  const r=await fetch(SB+"/auth/v1/token?grant_type=password",{method:"POST",headers:{apikey:KEY,"Content-Type":"application/json"},body:JSON.stringify({email:em,password:pw})});
+  const j=await r.json();
+  if(!r.ok||!j.access_token){m.textContent=j.error_description||j.msg||"Giriş başarısız";return}
+  sessionStorage.setItem("tok",j.access_token);
+  document.getElementById("gate").hidden=true;
+  document.getElementById("app").hidden=false;
+});
+document.getElementById("out").addEventListener("click",()=>{sessionStorage.removeItem("tok");location.reload()});
+if(sessionStorage.getItem("tok")){document.getElementById("gate").hidden=true;document.getElementById("app").hidden=false}
+
 async function listAll(){
   let out=[], off=0;
   while(true){
-    const r=await fetch(SB+"/storage/v1/object/list/"+B,{method:"POST",headers:{...H,"Content-Type":"application/json"},body:JSON.stringify({prefix:"",limit:100,offset:off,sortBy:{column:"name",order:"asc"}})});
+    const r=await fetch(SB+"/storage/v1/object/list/"+B,{method:"POST",headers:{...H(),"Content-Type":"application/json"},body:JSON.stringify({prefix:"",limit:100,offset:off,sortBy:{column:"name",order:"asc"}})});
     if(!r.ok){say("Liste alınamadı: "+r.status,"bad");break}
     const a=await r.json();
     if(!Array.isArray(a)||!a.length)break;
@@ -57,8 +90,8 @@ async function shrink(blob){
 }
 
 async function upload(name,blob){
-  const r=await fetch(SB+"/storage/v1/object/"+B+"/"+encodeURIComponent(name),{method:"POST",headers:{...H,"Content-Type":"image/webp","x-upsert":"true","cache-control":"max-age=31536000"},body:blob});
-  if(!r.ok)throw new Error(await r.text());
+  const r=await fetch(SB+"/storage/v1/object/"+B+"/"+encodeURIComponent(name),{method:"POST",headers:{...H(),"Content-Type":"image/webp","x-upsert":"true","cache-control":"max-age=31536000"},body:blob});
+  if(!r.ok)throw new Error(r.status===401?"oturum düştü, yenile":await r.text());
 }
 
 async function handle(name,url){
@@ -91,7 +124,6 @@ document.getElementById("go").addEventListener("click",async()=>{
   };
   await Promise.all([worker(),worker()]);
   b.disabled=false;
-  document.getElementById("sum").textContent="Bitti: "+done+" dosya, "+kb(saved)+" kazanç, "+fail+" hata";
 });
 
 const drop=document.getElementById("drop"), fi=document.getElementById("file");
