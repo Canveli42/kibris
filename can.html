@@ -1,318 +1,409 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <link rel="apple-touch-icon" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Panel</title>
+<title>Panel · RedKıbrıs</title>
 <meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0b0b0f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0b0f'/%3E%3Cpath d='M16 5l9 9-9 13-9-13z' fill='%23c9a227'/%3E%3C/svg%3E">
 <style>
-body{padding:0 0 40px;background:#0f0f12}
-.panel{max-width:900px;margin:0 auto;padding:16px}
-.bx{background:#17171d;border:1px solid #26262f;border-radius:12px;padding:16px;margin-bottom:16px}
-input,select,textarea{width:100%;background:#0e0e13;border:1px solid #26262f;color:#fff;border-radius:8px;padding:11px;font-size:14px;font-family:inherit;margin-bottom:10px}
-label{font-size:12px;color:#9a9aa6;display:block;margin-bottom:4px;margin-top:8px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.item{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #26262f;padding:10px 0;font-size:14px}
-.item button{font-size:13px;color:#c9a227;background:none;border:0;cursor:pointer;margin-left:10px}
-.del{color:#e57373!important}
-h2{font-size:17px;margin-bottom:12px}
-.hide{display:none}
-.prev{width:100%;max-height:150px;object-fit:cover;border-radius:9px;border:1px solid #26262f;margin-bottom:8px;display:block}
-.msg{font-size:13px;margin-top:6px;min-height:18px}
-.ok{color:#81c784}.err{color:#e57373}
-.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;position:sticky;top:0;background:#0f0f12;padding:10px 0;z-index:5;border-bottom:1px solid #26262f}
-.tab{background:#17171d;border:1px solid #26262f;color:#c9c9d1;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
-.tab.on{background:#c9a227;color:#14140f;border-color:#c9a227}
-.savebar{display:flex;gap:8px;margin-top:6px}
-.savebar .btn{flex:0 0 auto}
-.urls a{color:#c9a227;display:block;margin-bottom:4px;font-size:12px;word-break:break-all}
-.cnt{font-size:12px;color:#9a9aa6;margin-bottom:8px}
+*{box-sizing:border-box}
+:root{--k:#c9a227;--k2:#e8c766;--bg:#0b0b0f;--c:#13131b;--c2:#171721;--line:rgba(201,162,39,.18);--t:#ececf2;--s:#8f8fa0}
+body{margin:0;min-height:100vh;background:radial-gradient(900px 480px at 50% -12%,rgba(201,162,39,.11),transparent 62%),var(--bg);color:var(--t);font:15px/1.55 -apple-system,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Georgia,serif;font-weight:700;letter-spacing:-.01em;margin:0 0 .5em}
+h2{font-size:17px}h3{font-size:14px}
+p{margin:0 0 1em}
+a{color:var(--k2)}
+.top{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:rgba(11,11,15,.86);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+.brand{display:flex;align-items:center;gap:10px;font-family:Georgia,serif;font-size:16px;letter-spacing:.06em}
+.brand i{width:20px;height:20px;background:linear-gradient(160deg,var(--k2),var(--k));clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%)}
+.brand b{color:var(--k)}
+.mwrap{position:relative}
+.mbtn{display:flex;align-items:center;gap:8px;background:var(--c2);border:1px solid var(--line);color:var(--t);font:600 13.5px/1 inherit;padding:10px 14px;border-radius:10px;cursor:pointer}
+.mbtn:hover{border-color:var(--k)}
+.menu{position:absolute;right:0;top:calc(100% + 8px);min-width:196px;background:#101018;border:1px solid var(--line);border-radius:12px;padding:6px;box-shadow:0 22px 50px rgba(0,0,0,.6);z-index:70}
+.menu button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--t);font:14px/1 inherit;padding:11px 12px;border-radius:8px;cursor:pointer}
+.menu button:hover{background:#1b1b26}
+.menu hr{border:0;border-top:1px solid var(--line);margin:6px 2px}
+.menu .cikis{color:#e58b8b}
+main{max-width:900px;margin:0 auto;padding:22px 16px 80px}
+.bx{background:linear-gradient(180deg,var(--c2),var(--c));border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 18px 40px -30px rgba(0,0,0,.9)}
+.alt{color:var(--s);font-size:13px}
+label{display:block;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--s);margin:12px 0 6px}
+input,select,textarea{width:100%;background:#0c0c12;border:1px solid #262633;color:var(--t);border-radius:9px;padding:11px;font:14px/1.4 inherit;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--k)}
+.btn{background:linear-gradient(180deg,var(--k2),var(--k));color:#15130a;border:0;border-radius:9px;padding:11px 18px;font:700 14px/1 inherit;cursor:pointer}
+.btn:hover{filter:brightness(1.1)}
+.btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.ghost{background:#1b1b26;color:var(--t);border:1px solid var(--line);border-radius:9px;padding:10px 14px;font:600 13px/1 inherit;cursor:pointer}
+.ghost:hover{border-color:var(--k)}
+.mini{padding:6px 10px;font-size:12px}
+.hide{display:none!important}
+.msg{font-size:13px;margin-top:8px;min-height:17px}
+.ok{color:#7fd39a}.err{color:#e58b8b}
+.drop{border:1.5px dashed #2c2c3a;border-radius:14px;padding:28px 14px;text-align:center;color:var(--s);cursor:pointer;transition:.15s;font-size:14px}
+.drop:hover,.drop.ust{border-color:var(--k);background:rgba(201,162,39,.05);color:var(--t)}
+.drop b{color:var(--k)}
+.cubuk{height:8px;background:#0c0c12;border:1px solid #262633;border-radius:99px;overflow:hidden;margin:12px 0}
+.cubuk i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--k),var(--k2));transition:width .2s}
+.kayit{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:#08080c;border:1px solid #262633;border-radius:10px;padding:10px;height:150px;overflow:auto;white-space:pre-wrap;color:#a8a8b8;margin-top:8px}
+.kayit .ok{color:#7fd39a}.kayit .err{color:#e58b8b}
+.sat{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #22222e;font-size:13px}
+.sat img{width:40px;height:40px;object-fit:cover;border-radius:8px;background:#000;flex:none}
+.sat .ad{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:rtl;text-align:left;color:#cfcfda}
+.sat .bo{color:var(--s);flex:none;font-variant-numeric:tabular-nums}
+.sat .yok{color:#7fd39a;font-size:12px}
+.arac{display:grid;gap:10px;grid-template-columns:1fr}
+.urun{display:flex;align-items:center;gap:10px;background:#0c0c12;border:1px solid #262633;border-radius:10px;padding:8px;margin-bottom:8px;font-size:12px}
+.urun img{width:44px;height:44px;object-fit:cover;border-radius:7px;flex:none;background:#000}
+.urun span{flex:1;word-break:break-all;color:#b6b6c6;font-family:ui-monospace,monospace;font-size:11px}
+.stat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--s)}
+.stat b{color:var(--t);font-variant-numeric:tabular-nums}
+.giris{max-width:400px;margin:70px auto}
+.ikili{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.uc{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+@media(max-width:520px){.uc{grid-template-columns:1fr 1fr}}
 </style>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
-<div class="panel" id="login">
-  <h2>Panel girişi</h2>
-  <div class="bx">
-    <label>E-posta</label><input id="em" type="email">
-    <label>Şifre</label><input id="pw" type="password">
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAAGJrKVfzeFsacVeT" data-theme="dark" style="margin:10px 0"></div>
-    <button class="btn" id="btnLogin">Giriş</button>
+
+<header class="top">
+  <div class="brand"><i></i> RED<b>KIBRIS</b></div>
+  <div class="mwrap">
+    <button class="mbtn" id="mBtn">Menü <span style="color:var(--s)">▾</span></button>
+    <div class="menu hide" id="mList">
+      <button data-v="vArac">Görsel aracı</button>
+      <button data-v="vSik">Sıkıştırma</button>
+      <button data-v="vAyar">Ayarlar</button>
+      <hr>
+      <button class="cikis" id="btnOut">Çıkış</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="bx giris" id="login">
+    <h2>Panel girişi</h2>
+    <p class="alt">Yetkili hesap gerekir.</p>
+    <label>E-posta</label><input id="em" type="email" autocomplete="username">
+    <label>Şifre</label><input id="pw" type="password" autocomplete="current-password">
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAAGJrKVfzeFsacVeT" data-theme="dark" style="margin:12px 0"></div>
+    <button class="btn" id="btnLogin" style="width:100%">Giriş</button>
     <p id="err" class="msg err"></p>
-  </div>
-</div>
+  </section>
 
-<div class="panel hide" id="app">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-    <h2>Panel</h2>
-    <button class="btn-o" id="btnOut">Çıkış</button>
-  </div>
+  <section id="app" class="hide">
 
-  <div class="tabs">
-    <button class="tab on" data-tab="tGorsel">Görseller</button>
-    <button class="tab" data-tab="tBlog">Blog yazıları</button>
-    <button class="tab" data-tab="tAyarlar">Ayarlar</button>
-  </div>
-
-  <!-- GÖRSELLER -->
-  <div id="tGorsel">
-    <div class="bx">
-      <h2>Ana sayfa görseli</h2>
-      <img class="prev" id="heroPrev">
-      <input id="heroUp" type="file" accept="image/*">
-      <div class="savebar"><button class="btn" id="heroSave">Görseli kaydet</button></div>
-      <p id="heroMsg" class="msg"></p>
-    </div>
-
-    <div class="bx">
-      <h2>Bölge görselleri</h2>
-      <div id="regions"></div>
-      <p id="regMsg" class="msg"></p>
-    </div>
-
-    <div class="bx">
+    <!-- GÖRSEL ARACI -->
+    <div class="bx" id="vArac">
       <h2>Görsel aracı</h2>
-      <p style="font-size:13px;color:#9a9aa6;margin-bottom:8px">Fotoğraf seç, WebP'ye çevrilip küçültülür, adres verilir. Adresi kopyalayıp kullanırsın.</p>
-      <input id="toolFiles" type="file" accept="image/*" multiple>
-      <div class="urls" id="toolUrls"></div>
-      <p id="toolMsg" class="msg"></p>
-    </div>
-  </div>
-
-  <!-- BLOG -->
-  <div id="tBlog" class="hide">
-    <div class="bx">
-      <h2>Yazılar</h2>
-      <div id="plist"></div>
-    </div>
-
-    <div class="bx">
-      <h2 id="postTitle">Yeni yazı</h2>
-      <input type="hidden" id="pid">
-      <label>Başlık</label><input id="ptitle">
-      <label>Adres (slug)</label><input id="pslug">
-      <label>Kapak görseli</label>
-      <div id="pimgWrap" class="hide">
-        <img class="prev" id="pimgPrev">
-        <button class="btn-o" id="pimgDel" style="margin-bottom:8px">Görseli kaldır</button>
+      <p class="alt">Dosya bırak veya seç. Seçili hedefe göre küçültülüp webp olarak yüklenir, adres listelenir.</p>
+      <label>Hedef</label>
+      <select id="hedef">
+        <option value="1600|0.72">Hero — 1600px / %72</option>
+        <option value="1400|0.72" selected>Bölge &amp; galeri — 1400px / %72</option>
+        <option value="1200|0.72">Kapak — 1200px / %72</option>
+      </select>
+      <div class="drop" id="drop" style="margin-top:12px">Dosyaları buraya bırak<br><b>veya seçmek için tıkla</b></div>
+      <input id="dosyalar" type="file" accept="image/*" multiple hidden>
+      <div class="cubuk"><i id="cbYuk"></i></div>
+      <div class="stat" id="stYuk"></div>
+      <div id="urunler"></div>
+      <p id="yukMsg" class="msg"></p>
+      <label>URL'den al</label>
+      <div class="ikili">
+        <input id="urlAl" placeholder="https://…/eski-gorsel.jpg">
+        <button class="ghost" id="btnUrl">Getir ve yükle</button>
       </div>
-      <input id="pimg" type="file" accept="image/*">
-      <label>SEO açıklaması (max 160)</label>
-      <input id="pmeta" maxlength="170">
-      <div class="cnt" id="pmetaCnt">0 / 160</div>
-      <label>SSS — her satıra bir "soru | cevap"</label>
-      <textarea id="pfaq" rows="5" placeholder="Fiyatlar ne kadar? | 30 dakika 7000 TL.&#10;Ön ödeme var mı? | Yok."></textarea>
-      <label>İçerik</label>
-      <textarea id="pbody" rows="14" placeholder="Paragrafları boş satırla ayır. Alt başlık için başına ## koy."></textarea>
-      <div class="row2">
-        <div><label>Yayında (1/0)</label><input id="ppub" type="number" value="0"></div>
-      </div>
-      <div class="savebar">
-        <button class="btn" id="btnPSave">Kaydet</button>
-        <button class="btn-o" id="btnPNew">Yeni yazı</button>
-      </div>
-      <p id="pmsg" class="msg"></p>
+      <p class="alt" style="margin-top:6px">Repoda duran eski görselleri taşımak için.</p>
     </div>
-  </div>
 
-  <!-- AYARLAR -->
-  <div id="tAyarlar" class="hide">
-    <div class="bx">
+    <!-- SIKIŞTIRMA -->
+    <div class="bx hide" id="vSik">
+      <h2>Tüm görselleri sıkıştır</h2>
+      <p class="alt">Bucket'taki bütün görselleri <b>1400px / %72</b> ile yeniden yazar. Yol korunur, sitedeki bağlantılar bozulmaz. 80 KB altı atlanır.</p>
+      <div class="stat" id="stDepo"><span>yükleniyor…</span></div>
+      <div class="ikili" style="margin-top:12px">
+        <button class="btn" id="btnTum">Tümünü sıkıştır</button>
+        <button class="ghost" id="btnDurdur" disabled>Durdur</button>
+      </div>
+      <div class="cubuk"><i id="cbSik"></i></div>
+      <div class="stat" id="stSik"></div>
+      <div class="kayit" id="kayitSik"></div>
+
+      <label style="margin-top:18px">Dosyalar</label>
+      <div class="uc">
+        <input id="ara" placeholder="Ara…">
+        <select id="sirala">
+          <option value="ad">Ada göre</option>
+          <option value="buyuk">En büyük önce</option>
+          <option value="kucuk">En küçük önce</option>
+        </select>
+        <button class="ghost" id="btnYenile">Yenile</button>
+      </div>
+      <div id="liste"></div>
+      <p id="listeMsg" class="msg"></p>
+    </div>
+
+    <!-- AYARLAR -->
+    <div class="bx hide" id="vAyar">
       <h2>Ayarlar</h2>
       <label>WhatsApp (905xx)</label><input id="swa">
       <label>Telegram</label><input id="stg">
       <label>Marka</label><input id="sbr">
-      <div class="savebar"><button class="btn" id="btnSet">Ayarları kaydet</button></div>
-      <p id="smsg" class="msg"></p>
+      <button class="btn" id="btnSet" style="margin-top:14px">Kaydet</button>
+      <p id="sMsg" class="msg"></p>
     </div>
-  </div>
-</div>
+
+  </section>
+</main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const db=supabase.createClient("https://accerzwswgiqhtfgoeqv.supabase.co","sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG");
-let regions=[],curPostImg=null,heroFile=null;
+const URL_="https://accerzwswgiqhtfgoeqv.supabase.co";
+const KEY="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG";
+const BUCKET="img";
+const db=supabase.createClient(URL_,KEY);
 const el=id=>document.getElementById(id);
-const slugify=s=>s.toLowerCase().replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+let oturum=false,durdu=false,veri=[],hedefW=1400,hedefQ=0.72;
+
+const boy=b=>b<1024?b+" B":b<1048576?(b/1024).toFixed(0)+" KB":(b/1048576).toFixed(2)+" MB";
+const slug=s=>s.toLowerCase().replace(/[^a-z0-9.]+/g,"-").replace(/^-+|-+$/g,"").replace(/\.[a-z0-9]+$/,"");
 const say=(id,t,ok)=>{const e=el(id);e.textContent=t;e.className="msg "+(ok?"ok":"err")};
+function yaz(kutu,t,tur){const d=document.createElement("div");if(tur)d.className=tur;d.textContent=t;kutu.appendChild(d);kutu.scrollTop=kutu.scrollHeight}
 
-function faqToText(v){
-  if(!v)return "";
-  try{const j=JSON.parse(v);if(Array.isArray(j))return j.map(x=>x.q+" | "+x.a).join("\n")}catch(e){}
-  return v;
-}
-function textToFaq(t){
-  const lines=t.split("\n").map(l=>l.trim()).filter(Boolean);
-  if(!lines.length)return null;
-  const arr=lines.map(l=>{const i=l.indexOf("|");return i<0?{q:l,a:""}:{q:l.slice(0,i).trim(),a:l.slice(i+1).trim()}}).filter(x=>x.q);
-  return arr.length?JSON.stringify(arr):null;
-}
-
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
-  document.querySelectorAll("#app > div[id^=t]").forEach(x=>x.classList.add("hide"));
-  b.classList.add("on");el(b.dataset.tab).classList.remove("hide");
+/* menü */
+el("mBtn").onclick=e=>{e.stopPropagation();el("mList").classList.toggle("hide")};
+document.addEventListener("click",()=>el("mList").classList.add("hide"));
+el("mList").onclick=e=>e.stopPropagation();
+document.querySelectorAll("#mList [data-v]").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("#app > div").forEach(d=>d.classList.add("hide"));
+  el(b.dataset.v).classList.remove("hide");
+  el("mList").classList.add("hide");
+  if(b.dataset.v==="vSik")listeCek();
 });
 
-async function shrink(file,maxW,q){
-  const bmp=await createImageBitmap(file);
-  const s=Math.min(1,maxW/bmp.width);
+/* sıkıştırma */
+async function sikistir(f,maxW,q){
+  const bm=await createImageBitmap(f);
+  const s=Math.min(1,maxW/bm.width);
   const c=document.createElement("canvas");
-  c.width=Math.round(bmp.width*s);c.height=Math.round(bmp.height*s);
-  c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
-  return await new Promise(r=>c.toBlob(r,"image/webp",q));
-}
-async function uploadWebp(file,bucket,maxW,q){
-  const blob=await shrink(file,maxW,q);
-  const name=Date.now()+"-"+Math.random().toString(36).slice(2,7)+".webp";
-  const {error}=await db.storage.from(bucket).upload(name,blob,{contentType:"image/webp",cacheControl:"31536000"});
-  if(error)throw error;
-  return db.storage.from(bucket).getPublicUrl(name).data.publicUrl;
+  c.width=Math.max(1,Math.round(bm.width*s));c.height=Math.max(1,Math.round(bm.height*s));
+  const cx=c.getContext("2d");cx.imageSmoothingQuality="high";cx.drawImage(bm,0,0,c.width,c.height);
+  if(bm.close)bm.close();
+  const b=await new Promise(r=>c.toBlob(r,"image/webp",q));
+  if(!b)throw new Error("dönüştürme başarısız");
+  return b;
 }
 
-async function start(){
-  const {data:{session}}=await db.auth.getSession();
-  if(!session)return;
-  el("login").classList.add("hide");el("app").classList.remove("hide");
-  const {data:r}=await db.from("regions").select("id,slug,name,img").order("sort");
-  regions=r||[];
-  const {data:s}=await db.from("settings").select("key,value");
-  const c={};(s||[]).forEach(x=>c[x.key]=x.value);
-  el("swa").value=c.whatsapp||"";el("stg").value=c.telegram||"";el("sbr").value=c.brand||"";
-  if(c.hero)el("heroPrev").src=c.hero;
-  drawRegions();loadPosts();
+/* oturum */
+function ac(){
+  oturum=true;el("login").classList.add("hide");el("app").classList.remove("hide");
+  document.querySelectorAll("#app > div").forEach(d=>d.classList.add("hide"));
+  el("vArac").classList.remove("hide");
+  ayarYukle();
 }
-
-function drawRegions(){
-  el("regions").innerHTML=regions.map(r=>
-    `<div style="border-bottom:1px solid #26262f;padding:10px 0">
-      <b style="font-size:14px">${r.name}</b>
-      ${r.img?`<img class="prev" src="${r.img}">`:""}
-      <input type="file" accept="image/*" data-r="${r.id}">
-    </div>`).join("");
-  el("regions").querySelectorAll("input[type=file]").forEach(inp=>{
-    inp.onchange=async()=>{
-      const f=inp.files[0];if(!f)return;
-      say("regMsg","Yükleniyor…",true);
-      try{
-        const url=await uploadWebp(f,"img",1400,0.72);
-        const {error}=await db.from("regions").update({img:url}).eq("id",inp.dataset.r);
-        if(error)throw error;
-        const rec=regions.find(x=>x.id===inp.dataset.r);if(rec)rec.img=url;
-        drawRegions();say("regMsg","Güncellendi",true);
-      }catch(e){say("regMsg","HATA: "+e.message)}
-    };
-  });
-}
-
-el("heroUp").onchange=()=>{const f=el("heroUp").files[0];if(!f)return;heroFile=f;el("heroPrev").src=URL.createObjectURL(f);say("heroMsg","Seçildi, kaydet'e bas",true)};
-el("heroSave").onclick=async()=>{
-  if(!heroFile)return say("heroMsg","Önce bir görsel seç");
-  say("heroMsg","Yükleniyor…",true);
-  try{
-    const url=await uploadWebp(heroFile,"img",1600,0.72);
-    const {error}=await db.from("settings").upsert({key:"hero",value:url});
-    if(error)throw error;
-    el("heroPrev").src=url;heroFile=null;el("heroUp").value="";
-    say("heroMsg","Kaydedildi",true);
-  }catch(e){say("heroMsg","HATA: "+e.message)}
-};
+db.auth.getSession().then(({data})=>{if(data.session)ac()});
+db.auth.onAuthStateChange((_e,s)=>{if(s)ac()});
 
 el("btnLogin").onclick=async()=>{
   say("err","");
   const tok=window.turnstile?window.turnstile.getResponse():undefined;
   if(!tok)return say("err","Doğrulama bekleniyor…");
-  const {error}=await db.auth.signInWithPassword({email:el("em").value,password:el("pw").value,options:{captchaToken:tok}});
-  if(error){if(window.turnstile)window.turnstile.reset();return say("err",error.message)}
-  location.reload();
+  const {error}=await db.auth.signInWithPassword({email:el("em").value.trim(),password:el("pw").value,options:{captchaToken:tok}});
+  if(error){if(window.turnstile)window.turnstile.reset();return say("err",error.message==="Invalid login credentials"?"E-posta veya şifre yanlış.":error.message)}
+  ac();
 };
 el("btnOut").onclick=async()=>{await db.auth.signOut();location.reload()};
 
-el("toolFiles").onchange=async()=>{
-  const files=[...el("toolFiles").files];if(!files.length)return;
-  el("toolUrls").innerHTML="";say("toolMsg","İşleniyor…",true);let err="";
-  for(const f of files){
-    try{
-      const url=await uploadWebp(f,"img",1400,0.72);
-      const a=document.createElement("a");a.href=url;a.textContent=url;a.target="_blank";el("toolUrls").appendChild(a);
-    }catch(e){err=e.message}
-  }
-  say("toolMsg",err?"HATA: "+err:"Bitti. Adreslere tıklayıp kopyala.",!err);
-  el("toolFiles").value="";
-};
-
-async function loadPosts(){
-  const {data,error}=await db.from("posts").select("id,slug,title,published").order("created_at",{ascending:false});
-  if(error)return el("plist").innerHTML='<p class="msg err">'+error.message+'</p>';
-  el("plist").innerHTML=(data||[]).map(p=>
-    `<div class="item"><span>${p.title} ${p.published?"":"(taslak)"}</span>
-     <span><button data-pe="${p.id}">düzenle</button><button class="del" data-pd="${p.id}">sil</button></span></div>`
-  ).join("")||'<p style="color:#9a9aa6;font-size:14px">Yazı yok.</p>';
-  el("plist").querySelectorAll("[data-pe]").forEach(b=>b.onclick=()=>editPost(b.dataset.pe));
-  el("plist").querySelectorAll("[data-pd]").forEach(b=>b.onclick=async()=>{
-    if(!confirm("Yazı silinsin mi?"))return;
-    await db.from("posts").delete().eq("id",b.dataset.pd);loadPosts();
-  });
+/* ayarlar */
+async function ayarYukle(){
+  const {data}=await db.from("settings").select("key,value");
+  const c={};(data||[]).forEach(x=>c[x.key]=x.value);
+  el("swa").value=c.whatsapp||"";el("stg").value=c.telegram||"";el("sbr").value=c.brand||"";
 }
-
-function drawPostImg(){
-  if(curPostImg){el("pimgPrev").src=curPostImg;el("pimgWrap").classList.remove("hide")}
-  else{el("pimgPrev").removeAttribute("src");el("pimgWrap").classList.add("hide")}
-}
-
-el("pmeta").oninput=()=>{el("pmetaCnt").textContent=el("pmeta").value.length+" / 160"};
-el("pimgDel").onclick=()=>{curPostImg=null;el("pimg").value="";drawPostImg()};
-
-async function editPost(id){
-  const {data:p}=await db.from("posts").select("*").eq("id",id).single();
-  el("postTitle").textContent="Yazıyı düzenle";
-  el("pid").value=p.id;el("ptitle").value=p.title;el("pslug").value=p.slug;
-  el("pbody").value=p.body;el("ppub").value=p.published?1:0;
-  el("pmeta").value=p.meta||"";el("pfaq").value=faqToText(p.faq);
-  el("pmetaCnt").textContent=(p.meta||"").length+" / 160";
-  curPostImg=p.img||null;el("pimg").value="";drawPostImg();
-  window.scrollTo(0,0);
-}
-
-el("btnPNew").onclick=()=>{
-  el("postTitle").textContent="Yeni yazı";el("pid").value="";
-  ["ptitle","pslug","pbody","pmeta","pfaq"].forEach(i=>el(i).value="");
-  el("ppub").value=0;el("pmetaCnt").textContent="0 / 160";
-  curPostImg=null;el("pimg").value="";drawPostImg();say("pmsg","");
-};
-
-el("btnPSave").onclick=async()=>{
-  say("pmsg","Kaydediliyor…",true);
-  const title=el("ptitle").value.trim(),body=el("pbody").value.trim();
-  if(!title||!body)return say("pmsg","Başlık ve içerik zorunlu");
-  const slug=el("pslug").value.trim()||slugify(title);
-  let img=curPostImg;
-  const f=el("pimg").files[0];
-  if(f){try{img=await uploadWebp(f,"img",1200,0.72)}catch(e){return say("pmsg","HATA: "+e.message)}}
-  const rec={title,body,slug,img,meta:el("pmeta").value.trim()||null,faq:textToFaq(el("pfaq").value),published:el("ppub").value==="1"};
-  const id=el("pid").value;
-  if(id){
-    const {error}=await db.from("posts").update(rec).eq("id",id);
-    if(error)return say("pmsg","HATA: "+error.message);
-  }else{
-    const {data,error}=await db.from("posts").insert(rec).select().single();
-    if(error)return say("pmsg","HATA: "+error.message);
-    el("pid").value=data.id;el("postTitle").textContent="Yazıyı düzenle";
-  }
-  curPostImg=img;el("pimg").value="";drawPostImg();say("pmsg","Kaydedildi",true);loadPosts();
-};
-
 el("btnSet").onclick=async()=>{
-  say("smsg","Kaydediliyor…",true);
+  say("sMsg","Kaydediliyor…",true);
   const {error}=await db.from("settings").upsert([
-    {key:"whatsapp",value:el("swa").value},
-    {key:"telegram",value:el("stg").value},
-    {key:"brand",value:el("sbr").value}
+    {key:"whatsapp",value:el("swa").value.trim()},
+    {key:"telegram",value:el("stg").value.trim()},
+    {key:"brand",value:el("sbr").value.trim()}
   ]);
-  say("smsg",error?"HATA: "+error.message:"Ayarlar kaydedildi",!error);
+  say("sMsg",error?"HATA: "+error.message:"Kaydedildi",!error);
 };
 
-start();
+/* hedef */
+el("hedef").onchange=()=>{const[w,q]=el("hedef").value.split("|");hedefW=+w;hedefQ=+q};
+
+/* yükleme */
+const drop=el("drop");
+drop.onclick=()=>el("dosyalar").click();
+drop.ondragover=e=>{e.preventDefault();drop.classList.add("ust")};
+drop.ondragleave=()=>drop.classList.remove("ust");
+drop.ondrop=e=>{e.preventDefault();drop.classList.remove("ust");yukle([...e.dataTransfer.files])};
+el("dosyalar").onchange=()=>{yukle([...el("dosyalar").files]);el("dosyalar").value=""};
+
+function urunEkle(url){
+  const d=document.createElement("div");d.className="urun";
+  const i=document.createElement("img");i.src=url;i.alt="";
+  const s=document.createElement("span");s.textContent=url;
+  const b=document.createElement("button");b.className="ghost mini";b.textContent="Kopyala";
+  b.onclick=async()=>{try{await navigator.clipboard.writeText(url);b.textContent="Kopyalandı"}catch{prompt("URL",url)}setTimeout(()=>b.textContent="Kopyala",1300)};
+  d.append(i,s,b);el("urunler").prepend(d);
+}
+
+async function yukle(files){
+  const gecerli=files.filter(f=>/^image\//.test(f.type));
+  if(!gecerli.length)return;
+  el("urunler").innerHTML="";say("yukMsg","");
+  let bitti=0,kazanc=0;
+  for(const f of gecerli){
+    try{
+      const blob=await sikistir(f,hedefW,hedefQ);
+      const ad=Date.now()+"-"+slug(f.name)+".webp";
+      const {error}=await db.storage.from(BUCKET).upload(ad,blob,{contentType:"image/webp",cacheControl:"31536000"});
+      if(error)throw error;
+      kazanc+=Math.max(0,f.size-blob.size);
+      const url=db.storage.from(BUCKET).getPublicUrl(ad).data.publicUrl;
+      urunEkle(url);
+      try{await navigator.clipboard.writeText(url)}catch(e){}
+      say("yukMsg","✓ "+ad+" · "+boy(f.size)+" → "+boy(blob.size)+" · adres kopyalandı",true);
+    }catch(e){say("yukMsg","✕ "+f.name+" · "+e.message)}
+    bitti++;
+    el("cbYuk").style.width=(bitti/gecerli.length*100)+"%";
+    el("stYuk").innerHTML="<span><b>"+bitti+"/"+gecerli.length+"</b> · "+boy(kazanc)+" kazanç</span>";
+  }
+}
+
+el("btnUrl").onclick=async()=>{
+  const u=el("urlAl").value.trim();if(!u)return;
+  say("yukMsg","Getiriliyor…",true);
+  try{
+    const r=await fetch(u);if(!r.ok)throw new Error("HTTP "+r.status);
+    const b=await r.blob();
+    const f=new File([b],u.split("/").pop()||"gorsel.jpg",{type:b.type||"image/jpeg"});
+    await yukle([f]);
+    el("urlAl").value="";
+  }catch(e){say("yukMsg","HATA: "+e.message)}
+};
+
+/* liste */
+async function listAll(onek=""){
+  let out=[],ofs=0;
+  while(true){
+    const {data,error}=await db.storage.from(BUCKET).list(onek,{limit:1000,offset:ofs,sortBy:{column:"name",order:"asc"}});
+    if(error)throw error;
+    if(!data.length)break;
+    for(const f of data){
+      if(f.name===".emptyFolderPlaceholder")continue;
+      const yol=onek?onek+"/"+f.name:f.name;
+      if(f.id===null||f.id===undefined)out.push(...await listAll(yol));
+      else if(/\.(jpe?g|png|webp)$/i.test(f.name))out.push({ad:f.name,yol,boyut:f.metadata?.size||0});
+    }
+    if(data.length<1000)break;
+    ofs+=1000;
+  }
+  return out;
+}
+
+async function listeCek(){
+  if(!oturum)return;
+  el("liste").innerHTML='<p class="alt">Yükleniyor…</p>';
+  try{
+    veri=await listAll();
+    const top=veri.reduce((a,f)=>a+f.boyut,0);
+    el("stDepo").innerHTML="<span><b>"+veri.length+"</b> dosya</span><span><b>"+boy(top)+"</b> toplam</span>";
+    ciz();
+  }catch(e){el("liste").innerHTML='<p class="alt">Liste alınamadı: '+e.message+'</p>';el("stDepo").innerHTML="<span>hata</span>"}
+}
+
+function ciz(){
+  const q=el("ara").value.trim().toLowerCase();
+  let v=q?veri.filter(f=>f.yol.toLowerCase().includes(q)):[...veri];
+  const s=el("sirala").value;
+  if(s==="buyuk")v.sort((a,b)=>b.boyut-a.boyut);
+  if(s==="kucuk")v.sort((a,b)=>a.boyut-b.boyut);
+  el("liste").innerHTML="";
+  if(!v.length){el("liste").innerHTML='<p class="alt" style="padding:8px 0">'+(veri.length?"Aramaya uyan yok.":"Bucket boş.")+'</p>';return}
+  const frag=document.createDocumentFragment();
+  v.forEach(f=>{
+    const row=document.createElement("div");row.className="sat";
+    const url=db.storage.from(BUCKET).getPublicUrl(f.yol).data.publicUrl;
+    row.innerHTML='<img loading="lazy" src="'+url+'" alt=""><span class="ad">'+f.yol+'</span><span class="bo">'+boy(f.boyut)+'</span>';
+    const k=document.createElement("button");k.className="ghost mini";k.textContent="Kopyala";
+    k.onclick=async()=>{try{await navigator.clipboard.writeText(url);k.textContent="Kopyalandı"}catch{prompt("URL",url)}setTimeout(()=>k.textContent="Kopyala",1300)};
+    const t=document.createElement("button");t.className="ghost mini";t.textContent="Sıkıştır";
+    t.onclick=()=>tek(f,t);
+    const d=document.createElement("button");d.className="ghost mini";d.textContent="Sil";d.style.color="#e58b8b";
+    d.onclick=async()=>{
+      if(!confirm(f.yol+" silinsin mi?"))return;
+      const {error}=await db.storage.from(BUCKET).remove([f.yol]);
+      if(error)return alert(error.message);
+      veri=veri.filter(x=>x.yol!==f.yol);listeCek();
+    };
+    row.append(k,t,d);frag.appendChild(row);
+  });
+  el("liste").appendChild(frag);
+}
+el("ara").oninput=ciz;
+el("sirala").onchange=ciz;
+el("btnYenile").onclick=listeCek;
+
+async function tek(f,btn){
+  btn.disabled=true;btn.textContent="…";
+  try{
+    const {data,error}=await db.storage.from(BUCKET).download(f.yol);
+    if(error)throw error;
+    const eski=data.size;
+    const blob=await sikistir(data,1400,0.72);
+    if(blob.size>=eski*0.98){btn.textContent="Gerek yok";btn.disabled=false;return}
+    const {error:e2}=await db.storage.from(BUCKET).upload(f.yol,blob,{contentType:"image/webp",cacheControl:"31536000",upsert:true});
+    if(e2)throw e2;
+    btn.textContent=boy(eski-blob.size)+" ↓";
+    f.boyut=blob.size;listeCek();
+  }catch(e){btn.textContent="Hata";btn.disabled=false;alert(e.message)}
+}
+
+/* toplu */
+el("btnDurdur").onclick=()=>{durdu=true};
+el("btnTum").onclick=async()=>{
+  if(!confirm("Bucket'taki tüm görseller yeniden sıkıştırılacak. Devam?"))return;
+  durdu=false;el("btnTum").disabled=true;el("btnDurdur").disabled=false;
+  el("kayitSik").innerHTML="";el("cbSik").style.width="0%";
+  let isler=[];
+  try{isler=(await listAll()).filter(f=>f.boyut>80000)}
+  catch(e){yaz(el("kayitSik"),"Liste alınamadı: "+e.message,"err");el("btnTum").disabled=false;el("btnDurdur").disabled=true;return}
+  if(!isler.length){yaz(el("kayitSik"),"Sıkıştırılacak dosya yok (hepsi 80 KB altı ya da bucket boş).","ok");el("btnTum").disabled=false;el("btnDurdur").disabled=true;return}
+  let i=0,bitti=0,kazanc=0,atlanan=0,hata=0;
+  async function isci(){
+    while(i<isler.length&&!durdu){
+      const f=isler[i++];
+      try{
+        const {data,error}=await db.storage.from(BUCKET).download(f.yol);
+        if(error)throw error;
+        const eski=data.size;
+        const blob=await sikistir(data,1400,0.72);
+        if(blob.size>=eski*0.95){atlanan++}
+        else{
+          const {error:e2}=await db.storage.from(BUCKET).upload(f.yol,blob,{contentType:"image/webp",cacheControl:"31536000",upsert:true});
+          if(e2)throw e2;
+          kazanc+=eski-blob.size;
+          yaz(el("kayitSik"),"✓ "+f.yol+" · "+boy(eski)+" → "+boy(blob.size),"ok");
+        }
+      }catch(e){hata++;yaz(el("kayitSik"),"✕ "+f.yol+" · "+e.message,"err")}
+      bitti++;
+      el("cbSik").style.width=(bitti/isler.length*100)+"%";
+      el("stSik").innerHTML="<span><b>"+bitti+"/"+isler.length+"</b> · <b>"+boy(kazanc)+"</b> kazanç · "+atlanan+" atlandı · "+hata+" hata</span>";
+    }
+  }
+  await Promise.all([isci(),isci()]);
+  yaz(el("kayitSik"),(durdu?"Durduruldu. ":"Bitti. ")+"Toplam "+boy(kazanc)+" kazanç, "+atlanan+" zaten küçük, "+hata+" hata.","ok");
+  el("btnTum").disabled=false;el("btnDurdur").disabled=true;
+  listeCek();
+};
 </script>
 </body></html>
