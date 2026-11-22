@@ -137,6 +137,18 @@ const el=id=>document.getElementById(id);
 const slugify=s=>s.toLowerCase().replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 const say=(id,t,ok)=>{const e=el(id);e.textContent=t;e.className="msg "+(ok?"ok":"err")};
 
+function faqToText(v){
+  if(!v)return "";
+  try{const j=JSON.parse(v);if(Array.isArray(j))return j.map(x=>x.q+" | "+x.a).join("\n")}catch(e){}
+  return v;
+}
+function textToFaq(t){
+  const lines=t.split("\n").map(l=>l.trim()).filter(Boolean);
+  if(!lines.length)return null;
+  const arr=lines.map(l=>{const i=l.indexOf("|");return i<0?{q:l,a:""}:{q:l.slice(0,i).trim(),a:l.slice(i+1).trim()}}).filter(x=>x.q);
+  return arr.length?JSON.stringify(arr):null;
+}
+
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
   document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
   document.querySelectorAll("#app > div[id^=t]").forEach(x=>x.classList.add("hide"));
@@ -154,7 +166,7 @@ async function shrink(file,maxW,q){
 async function uploadWebp(file,bucket,maxW,q){
   const blob=await shrink(file,maxW,q);
   const name=Date.now()+"-"+Math.random().toString(36).slice(2,7)+".webp";
-  const {error}=await db.storage.from(bucket).upload(name,blob,{contentType:"image/webp"});
+  const {error}=await db.storage.from(bucket).upload(name,blob,{contentType:"image/webp",cacheControl:"31536000"});
   if(error)throw error;
   return db.storage.from(bucket).getPublicUrl(name).data.publicUrl;
 }
@@ -184,7 +196,7 @@ function drawRegions(){
       const f=inp.files[0];if(!f)return;
       say("regMsg","Yükleniyor…",true);
       try{
-        const url=await uploadWebp(f,"img",1600,0.78);
+        const url=await uploadWebp(f,"img",1400,0.72);
         const {error}=await db.from("regions").update({img:url}).eq("id",inp.dataset.r);
         if(error)throw error;
         const rec=regions.find(x=>x.id===inp.dataset.r);if(rec)rec.img=url;
@@ -199,7 +211,7 @@ el("heroSave").onclick=async()=>{
   if(!heroFile)return say("heroMsg","Önce bir görsel seç");
   say("heroMsg","Yükleniyor…",true);
   try{
-    const url=await uploadWebp(heroFile,"img",1800,0.8);
+    const url=await uploadWebp(heroFile,"img",1600,0.72);
     const {error}=await db.from("settings").upsert({key:"hero",value:url});
     if(error)throw error;
     el("heroPrev").src=url;heroFile=null;el("heroUp").value="";
@@ -222,7 +234,7 @@ el("toolFiles").onchange=async()=>{
   el("toolUrls").innerHTML="";say("toolMsg","İşleniyor…",true);let err="";
   for(const f of files){
     try{
-      const url=await uploadWebp(f,"img",1600,0.78);
+      const url=await uploadWebp(f,"img",1400,0.72);
       const a=document.createElement("a");a.href=url;a.textContent=url;a.target="_blank";el("toolUrls").appendChild(a);
     }catch(e){err=e.message}
   }
@@ -257,7 +269,7 @@ async function editPost(id){
   el("postTitle").textContent="Yazıyı düzenle";
   el("pid").value=p.id;el("ptitle").value=p.title;el("pslug").value=p.slug;
   el("pbody").value=p.body;el("ppub").value=p.published?1:0;
-  el("pmeta").value=p.meta||"";el("pfaq").value=p.faq||"";
+  el("pmeta").value=p.meta||"";el("pfaq").value=faqToText(p.faq);
   el("pmetaCnt").textContent=(p.meta||"").length+" / 160";
   curPostImg=p.img||null;el("pimg").value="";drawPostImg();
   window.scrollTo(0,0);
@@ -277,8 +289,8 @@ el("btnPSave").onclick=async()=>{
   const slug=el("pslug").value.trim()||slugify(title);
   let img=curPostImg;
   const f=el("pimg").files[0];
-  if(f){try{img=await uploadWebp(f,"img",1200,0.8)}catch(e){return say("pmsg","HATA: "+e.message)}}
-  const rec={title,body,slug,img,meta:el("pmeta").value.trim()||null,faq:el("pfaq").value.trim()||null,published:el("ppub").value==="1"};
+  if(f){try{img=await uploadWebp(f,"img",1200,0.72)}catch(e){return say("pmsg","HATA: "+e.message)}}
+  const rec={title,body,slug,img,meta:el("pmeta").value.trim()||null,faq:textToFaq(el("pfaq").value),published:el("ppub").value==="1"};
   const id=el("pid").value;
   if(id){
     const {error}=await db.from("posts").update(rec).eq("id",id);
