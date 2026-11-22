@@ -87,21 +87,15 @@ input[type=file]{padding:9px;font-size:13px}
   <section id="app" class="hide">
 
     <div class="tabs">
-      <button class="tab on" data-v="vArac">Görsel aracı</button>
+      <button class="tab on" data-v="vArac">Görsel yükle</button>
       <button class="tab" data-v="vSik">Sıkıştırma</button>
       <button class="tab" data-v="vTemiz">Temizlik</button>
       <button class="tab" data-v="vAyar">Ayarlar</button>
     </div>
 
     <div class="bx view" id="vArac">
-      <h2>Görsel aracı</h2>
-      <p class="alt">Dosya seç veya kutuya bırak. Seçili hedefe göre küçültülüp webp olarak bucket'a yüklenir, adres listelenir ve kopyalanır.</p>
-      <label>Hedef</label>
-      <select id="hedef">
-        <option value="1600|0.72">Hero — 1600px / %72</option>
-        <option value="1400|0.72" selected>Bölge &amp; galeri — 1400px / %72</option>
-        <option value="1200|0.72">Kapak — 1200px / %72</option>
-      </select>
+      <h2>Görsel yükle</h2>
+      <p class="alt">Dosya seç veya kutuya bırak. Görsel 1600px genişliğe, %72 kaliteye indirilip webp olarak yüklenir. Adres otomatik kopyalanır.</p>
       <label>Dosya</label>
       <input id="dosyalar" type="file" accept="image/*" multiple>
       <div class="drop" id="drop" style="margin-top:10px">Ya da dosyaları buraya bırak</div>
@@ -119,7 +113,7 @@ input[type=file]{padding:9px;font-size:13px}
 
     <div class="bx view hide" id="vSik">
       <h2>Tüm görselleri sıkıştır</h2>
-      <p class="alt">Bucket'taki bütün görselleri <b>1400px / %72</b> ile yeniden yazar. Yol korunur, bağlantılar bozulmaz. 80 KB altı atlanır.</p>
+      <p class="alt">Bucket'taki bütün görselleri 1600px / %72 ile yeniden yazar. Yol korunur, bağlantılar bozulmaz. 80 KB altı atlanır.</p>
       <div class="stat" id="stDepo"><span>yükleniyor…</span></div>
       <div class="ikili" style="margin-top:12px">
         <button class="btn" id="btnTum">Tümünü sıkıştır</button>
@@ -178,9 +172,10 @@ input[type=file]{padding:9px;font-size:13px}
 const URL_="https://accerzwswgiqhtfgoeqv.supabase.co";
 const KEY="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG";
 const BUCKET="img";
+const W=1600, Q=0.72;
 const db=supabase.createClient(URL_,KEY);
 const el=id=>document.getElementById(id);
-let oturum=false,durdu=false,veri=[],hedefW=1400,hedefQ=0.72;
+let oturum=false,durdu=false,veri=[];
 
 const SAYFALAR=["/","/girne-escort","/lefkosa-escort","/magusa-escort","/iskele-escort","/guzelyurt-escort","/blog","/blog/kibrista-yalniz-gelenler-rehberi","/fiyatlar","/iletisim","/gizlilik","/post.html","/region.html","/blog.html","/panel.html"];
 
@@ -251,8 +246,6 @@ el("koru").oninput=()=>{
   koruZaman=setTimeout(()=>db.from("settings").upsert({key:"koru",value:el("koru").value}),700);
 };
 
-el("hedef").onchange=()=>{const[w,q]=el("hedef").value.split("|");hedefW=+w;hedefQ=+q};
-
 const drop=el("drop");
 drop.onclick=()=>el("dosyalar").click();
 drop.ondragover=e=>{e.preventDefault();drop.classList.add("ust")};
@@ -276,7 +269,7 @@ async function yukle(files){
   let bitti=0,kazanc=0;
   for(const f of gecerli){
     try{
-      const blob=await sikistir(f,hedefW,hedefQ);
+      const blob=await sikistir(f,W,Q);
       const ad=Date.now()+"-"+slug(f.name)+".webp";
       const {error}=await db.storage.from(BUCKET).upload(ad,blob,{contentType:"image/webp",cacheControl:"31536000"});
       if(error)throw error;
@@ -380,7 +373,7 @@ async function tek(f,btn){
     const {data,error}=await db.storage.from(BUCKET).download(f.yol);
     if(error)throw error;
     const eski=data.size;
-    const blob=await sikistir(data,1400,0.72);
+    const blob=await sikistir(data,W,Q);
     if(blob.size>=eski*0.98){btn.textContent="Gerek yok";btn.disabled=false;return}
     const {error:e2}=await db.storage.from(BUCKET).upload(f.yol,blob,{contentType:"image/webp",cacheControl:"31536000",upsert:true});
     if(e2)throw e2;
@@ -406,7 +399,7 @@ el("btnTum").onclick=async()=>{
         const {data,error}=await db.storage.from(BUCKET).download(f.yol);
         if(error)throw error;
         const eski=data.size;
-        const blob=await sikistir(data,1400,0.72);
+        const blob=await sikistir(data,W,Q);
         if(blob.size>=eski*0.95){atlanan++}
         else{
           const {error:e2}=await db.storage.from(BUCKET).upload(f.yol,blob,{contentType:"image/webp",cacheControl:"31536000",upsert:true});
