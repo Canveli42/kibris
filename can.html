@@ -27,6 +27,7 @@ label{display:block;font-size:11.5px;letter-spacing:.09em;text-transform:upperca
 input,select,textarea{width:100%;background:#0c0c12;border:1px solid #262633;color:var(--t);border-radius:9px;padding:11px;font:14px/1.4 inherit;outline:none}
 input:focus,select:focus,textarea:focus{border-color:var(--k)}
 textarea{resize:vertical}
+input[type=file]{padding:9px;font-size:13px}
 .btn{background:linear-gradient(180deg,var(--k2),var(--k));color:#15130a;border:0;border-radius:9px;padding:11px 18px;font:700 14px/1 inherit;cursor:pointer}
 .btn:hover{filter:brightness(1.1)}
 .btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
@@ -40,7 +41,7 @@ textarea{resize:vertical}
 .tab{background:#15151d;border:1px solid var(--line);color:#b9b9c6;padding:9px 15px;border-radius:9px;font:600 13px/1 inherit;cursor:pointer}
 .tab:hover{color:var(--t)}
 .tab.on{background:linear-gradient(180deg,var(--k2),var(--k));color:#15130a;border-color:var(--k)}
-.drop{border:1.5px dashed #2c2c3a;border-radius:14px;padding:28px 14px;text-align:center;color:var(--s);cursor:pointer;transition:.15s;font-size:14px}
+.drop{border:1.5px dashed #2c2c3a;border-radius:14px;padding:24px 14px;text-align:center;color:var(--s);cursor:pointer;transition:.15s;font-size:14px}
 .drop:hover,.drop.ust{border-color:var(--k);background:rgba(201,162,39,.05);color:var(--t)}
 .drop b{color:var(--k)}
 .cubuk{height:8px;background:#0c0c12;border:1px solid #262633;border-radius:99px;overflow:hidden;margin:12px 0}
@@ -49,7 +50,7 @@ textarea{resize:vertical}
 .kayit .ok{color:#7fd39a}.kayit .err{color:#e58b8b}
 .sat{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #22222e;font-size:13px}
 .sat img{width:40px;height:40px;object-fit:cover;border-radius:8px;background:#000;flex:none}
-.sat .ad{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:rtl;text-align:left;color:#cfcfda}
+.sat .ad{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:left;color:#cfcfda;font-family:ui-monospace,monospace;font-size:11.5px}
 .sat .bo{color:var(--s);flex:none;font-variant-numeric:tabular-nums}
 .sat input[type=checkbox]{width:16px;height:16px;flex:none;accent-color:var(--k);margin:0}
 .urun{display:flex;align-items:center;gap:10px;background:#0c0c12;border:1px solid #262633;border-radius:10px;padding:8px;margin-bottom:8px;font-size:12px}
@@ -94,15 +95,16 @@ textarea{resize:vertical}
 
     <div class="bx view" id="vArac">
       <h2>Görsel aracı</h2>
-      <p class="alt">Dosya bırak veya seç. Seçili hedefe göre küçültülüp webp olarak yüklenir, adres listelenir.</p>
+      <p class="alt">Dosya seç veya kutuya bırak. Seçili hedefe göre küçültülüp webp olarak bucket'a yüklenir, adres listelenir ve kopyalanır.</p>
       <label>Hedef</label>
       <select id="hedef">
         <option value="1600|0.72">Hero — 1600px / %72</option>
         <option value="1400|0.72" selected>Bölge &amp; galeri — 1400px / %72</option>
         <option value="1200|0.72">Kapak — 1200px / %72</option>
       </select>
-      <div class="drop" id="drop" style="margin-top:12px">Dosyaları buraya bırak<br><b>veya seçmek için tıkla</b></div>
-      <input id="dosyalar" type="file" accept="image/*" multiple hidden>
+      <label>Dosya</label>
+      <input id="dosyalar" type="file" accept="image/*" multiple>
+      <div class="drop" id="drop" style="margin-top:10px">Ya da dosyaları buraya bırak</div>
       <div class="cubuk"><i id="cbYuk"></i></div>
       <div class="stat" id="stYuk"></div>
       <div id="urunler"></div>
@@ -142,10 +144,10 @@ textarea{resize:vertical}
 
     <div class="bx view hide" id="vTemiz">
       <h2>Temizlik</h2>
-      <p class="alt">Birebir aynı dosyaları ve hiçbir yerde kullanılmayan görselleri bulur. Silmeden önce listeler.</p>
+      <p class="alt">Sayfaları ve veritabanını tarar; hiçbir yerde geçmeyen görselleri ve birebir aynı kopyaları bulur. Silmeden önce listeler.</p>
       <label>Korunacak ek adresler</label>
-      <textarea id="koru" rows="4" placeholder="index.html, region.html gibi sayfalarda geçen görsel URL'lerini ya da sayfa içeriğini buraya yapıştır."></textarea>
-      <p class="alt" style="margin-top:6px">Statik sayfalar taranmaz. Oralardaki görseller silinmesin diye yapıştır, sonra tara.</p>
+      <textarea id="koru" rows="4" placeholder="Ek olarak korumak istediğin URL'leri buraya yaz. Kaydedilir, bir daha yazman gerekmez."></textarea>
+      <p class="alt" style="margin-top:6px">Ana sayfa, bölge sayfaları, blog, post.html gibi dosyalar otomatik taranır. Buradaki liste üstüne eklenir.</p>
       <div class="ikili">
         <button class="btn" id="btnKullanilmayan">Kullanılmayanları bul</button>
         <button class="btn" id="btnKopya">Kopyaları bul</button>
@@ -179,6 +181,8 @@ const BUCKET="img";
 const db=supabase.createClient(URL_,KEY);
 const el=id=>document.getElementById(id);
 let oturum=false,durdu=false,veri=[],hedefW=1400,hedefQ=0.72;
+
+const SAYFALAR=["/","/girne-escort","/lefkosa-escort","/magusa-escort","/iskele-escort","/guzelyurt-escort","/blog","/blog/kibrista-yalniz-gelenler-rehberi","/fiyatlar","/iletisim","/gizlilik","/post.html","/region.html","/blog.html","/panel.html"];
 
 const boy=b=>b<1024?b+" B":b<1048576?(b/1024).toFixed(0)+" KB":(b/1048576).toFixed(2)+" MB";
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9.]+/g,"-").replace(/^-+|-+$/g,"").replace(/\.[a-z0-9]+$/,"");
@@ -230,6 +234,7 @@ async function ayarYukle(){
   const {data}=await db.from("settings").select("key,value");
   const c={};(data||[]).forEach(x=>c[x.key]=x.value);
   el("swa").value=c.whatsapp||"";el("stg").value=c.telegram||"";el("sbr").value=c.brand||"";
+  el("koru").value=c.koru||"";
 }
 el("btnSet").onclick=async()=>{
   say("sMsg","Kaydediliyor…",true);
@@ -239,6 +244,11 @@ el("btnSet").onclick=async()=>{
     {key:"brand",value:el("sbr").value.trim()}
   ]);
   say("sMsg",error?"HATA: "+error.message:"Kaydedildi",!error);
+};
+let koruZaman=null;
+el("koru").oninput=()=>{
+  clearTimeout(koruZaman);
+  koruZaman=setTimeout(()=>db.from("settings").upsert({key:"koru",value:el("koru").value}),700);
 };
 
 el("hedef").onchange=()=>{const[w,q]=el("hedef").value.split("|");hedefW=+w;hedefQ=+q};
@@ -261,7 +271,7 @@ function urunEkle(url){
 
 async function yukle(files){
   const gecerli=files.filter(f=>/^image\//.test(f.type));
-  if(!gecerli.length)return;
+  if(!gecerli.length)return say("yukMsg","Seçilen dosyalar görsel değil.");
   el("urunler").innerHTML="";say("yukMsg","");
   let bitti=0,kazanc=0;
   for(const f of gecerli){
@@ -340,6 +350,13 @@ function ciz(){
     row.innerHTML='<img loading="lazy" src="'+url+'" alt=""><span class="ad">'+f.yol+'</span><span class="bo">'+boy(f.boyut)+'</span>';
     const k=document.createElement("button");k.className="ghost mini";k.textContent="Kopyala";
     k.onclick=async()=>{try{await navigator.clipboard.writeText(url);k.textContent="Kopyalandı"}catch{prompt("URL",url)}setTimeout(()=>k.textContent="Kopyala",1300)};
+    const koruB=document.createElement("button");koruB.className="ghost mini";koruB.textContent="Koru";
+    koruB.onclick=()=>{
+      if(el("koru").value.includes(url))return koruB.textContent="Zaten";
+      el("koru").value=(el("koru").value?el("koru").value.trim()+"\n":"")+url;
+      el("koru").dispatchEvent(new Event("input"));
+      koruB.textContent="Korundu";
+    };
     const t=document.createElement("button");t.className="ghost mini";t.textContent="Sıkıştır";
     t.onclick=()=>tek(f,t);
     const d=document.createElement("button");d.className="ghost mini";d.textContent="Sil";d.style.color="#e58b8b";
@@ -349,7 +366,7 @@ function ciz(){
       if(error)return alert(error.message);
       veri=veri.filter(x=>x.yol!==f.yol);depoYaz();ciz();
     };
-    row.append(k,t,d);frag.appendChild(row);
+    row.append(k,koruB,t,d);frag.appendChild(row);
   });
   el("liste").appendChild(frag);
 }
@@ -413,7 +430,7 @@ let temizVeri=[],korunan=new Set();
 
 function topla(metin){
   if(!metin)return;
-  const re=/\/img\/([^\s"'()<>?#]+)/g;let m;
+  const re=/\/img\/([^\s"'()<>?#\\]+)/g;let m;
   while((m=re.exec(metin))){
     const p=m[1].replace(/^\/+/,"");
     korunan.add(p);try{korunan.add(decodeURIComponent(p))}catch(e){}
@@ -423,6 +440,15 @@ function topla(metin){
 async function kullanimHaritasi(){
   korunan=new Set();
   topla(el("koru").value);
+  let tarandi=0;
+  for(const s of SAYFALAR){
+    try{
+      const r=await fetch(s,{cache:"no-store"});
+      if(!r.ok)continue;
+      topla(await r.text());
+      tarandi++;
+    }catch(e){}
+  }
   try{
     const {data:p}=await db.from("posts").select("img,body,meta,faq");
     (p||[]).forEach(x=>{topla(x.img);topla(x.body);topla(x.meta);topla(x.faq)});
@@ -431,7 +457,7 @@ async function kullanimHaritasi(){
     const {data:r}=await db.from("regions").select("img");
     (r||[]).forEach(x=>topla(x.img));
   }catch(e){say("temizMsg","Veritabanı okunamadı: "+e.message)}
-  return korunan;
+  return {korunan,tarandi};
 }
 
 function temizCiz(){
@@ -449,13 +475,13 @@ function temizCiz(){
 }
 
 el("btnKullanilmayan").onclick=async()=>{
-  say("temizMsg","Taranıyor…",true);el("temizListe").innerHTML="";
+  say("temizMsg","Sayfalar ve veritabanı taranıyor…",true);el("temizListe").innerHTML="";
   try{
     veri=await listAll();
-    const kul=await kullanimHaritasi();
+    const {korunan:kul,tarandi}=await kullanimHaritasi();
     temizVeri=veri.filter(f=>!kul.has(f.yol)&&!kul.has(f.ad)).map(f=>({...f,sec:true}));
     temizCiz();
-    say("temizMsg",temizVeri.length?temizVeri.length+" kullanılmayan görsel bulundu. Listeyi kontrol et, gerekirse işaretleri kaldır.":"Kullanılmayan görsel yok.",true);
+    say("temizMsg",(temizVeri.length?temizVeri.length+" kullanılmayan görsel bulundu.":"Kullanılmayan görsel yok.")+" ("+tarandi+" sayfa tarandı) "+(temizVeri.length?"Listeyi kontrol et, gerekirse işaretleri kaldır.":""),true);
   }catch(e){say("temizMsg","HATA: "+e.message)}
 };
 
@@ -463,7 +489,7 @@ el("btnKopya").onclick=async()=>{
   say("temizMsg","Taranıyor…",true);el("temizListe").innerHTML="";
   try{
     veri=await listAll();
-    const kul=await kullanimHaritasi();
+    const {korunan:kul}=await kullanimHaritasi();
     const gruplar={};
     veri.forEach(f=>{if(f.boyut>0)(gruplar[f.boyut]=gruplar[f.boyut]||[]).push(f)});
     const adaylar=Object.values(gruplar).filter(g=>g.length>1).flat();
@@ -490,9 +516,7 @@ el("btnKopya").onclick=async()=>{
   }catch(e){say("temizMsg","HATA: "+e.message)}
 };
 
-el("btnSec").onclick=()=>{
-  temizVeri.forEach(x=>x.sec=!x.sec);temizCiz();
-};
+el("btnSec").onclick=()=>{temizVeri.forEach(x=>x.sec=!x.sec);temizCiz()};
 
 el("btnSilSec").onclick=async()=>{
   const sec=temizVeri.filter(x=>x.sec).map(x=>x.yol);
