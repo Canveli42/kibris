@@ -3,7 +3,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Kıbrıs Escort Blog | Rehberler ve Bölge Yazıları</title>
 <meta name="description" content="Kıbrıs escort rehberleri: bölge karşılaştırmaları, fiyat mantığı, otel çevresi ve güvenli buluşma yazıları.">
-<link rel="canonical" href="https://kibrisgirneescort.com/blog">
+<link rel="canonical" href="https://www.kibrisgirneescort.com/blog">
+<meta name="theme-color" content="#0b121b">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2 62 32 32 62 2 32Z' fill='%230b121b' stroke='%23d8b878' stroke-width='3'/%3E%3Cpath d='M32 10 54 32 32 54 10 32Z' fill='%23f4efe3'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='23' font-weight='700' fill='%23b3122a' text-anchor='middle'%3ERK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin="">
 <style>
@@ -66,6 +67,7 @@ footer #waFoot, footer #tgFoot { padding: 5px 11px; border-radius: 8px; color: #
   .crumb { padding-top: 16px; }
 }
 a.btn.tg { background: linear-gradient(#4bb8ea,#229ed9); color: #04202e; box-shadow: 0 10px 26px rgba(34,158,217,.24); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; padding: 13px 26px; border-radius: 999px; text-decoration: none; font-size: 15px; }
+.post span .pin { display: inline-block; margin-left: 8px; padding: 1px 7px; border-radius: 999px; background: rgba(216,184,120,.16); border: 1px solid var(--line); color: var(--gold-d); font-size: 11px; font-style: normal; }
 </style>
 </head>
 <body>
@@ -138,7 +140,8 @@ const HUB="kibrista-yalniz-gelenler-rehberi";
     document.getElementById("list").innerHTML=list.map(x=>{
       const d=new Date(x.created_at).toLocaleDateString("tr-TR");
       const im=x.img?`<img src="${x.img}" alt="${x.title}" width="92" height="70" loading="lazy" decoding="async">`:"";
-      return `<a class="post" href="/blog/${x.slug}">${im}<div><b>${x.title}</b><span>${d}</span></div></a>`;
+      const pin=x.slug===HUB?'<em class="pin">Öne çıkan</em>':"";
+      return `<a class="post" href="/blog/${x.slug}">${im}<div><b>${x.title}</b><span>${d}${pin}</span></div></a>`;
     }).join("")||'<p style="color:var(--muted)">Henüz yazı yok.</p>';
   }catch(e){
     document.getElementById("list").innerHTML='<p style="color:var(--muted)">Yazılar yüklenemedi.</p>';
