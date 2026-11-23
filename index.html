@@ -604,6 +604,28 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
   }
 })();
 </script>
+<script>
+(function(){
+  var links = document.querySelectorAll('.lang a');
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function(){
+      try {
+        var h = this.getAttribute('href');
+        localStorage.setItem('rk_lang', h === '/' ? 'tr' : h.replace('/', ''));
+      } catch (e) {}
+    });
+  }
+  try {
+    var s = localStorage.getItem('rk_lang');
+    if (s === 'tr') return;
+    if (s === 'en' || s === 'ru') { location.replace('/' + s); return; }
+    if (/bot|crawl|spider|slurp|yandex|bing|google/i.test(navigator.userAgent)) return;
+    var l = (navigator.language || '').toLowerCase();
+    if (l.indexOf('ru') === 0) { location.replace('/ru'); return; }
+    if (l.indexOf('en') === 0) { location.replace('/en'); return; }
+  } catch (e) {}
+})();
+</script>
 <script src="/js/iletisim.js" defer></script>
 </body>
 </html>
