@@ -4,8 +4,7 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
-    { "source": "/blog/:slug", "destination": "/post?slug=:slug" },
-
+{ "source": "/blog/:slug", "destination": "/api/post?slug=:slug" },
     { "source": "/girne-escort", "destination": "/region?slug=girne-escort" },
     { "source": "/lefkosa-escort", "destination": "/region?slug=lefkosa-escort" },
     { "source": "/magusa-escort", "destination": "/region?slug=magusa-escort" },
