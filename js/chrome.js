@@ -49,7 +49,6 @@
 .chrome-footer .cf-cols a{display:block;color:#93a0b4;font-size:14px;padding:3px 0;text-decoration:none}
 .chrome-footer .cf-cols a:hover{color:#f0d9ae}
 .chrome-footer .cf-bottom{width:min(1120px,100%);margin:26px auto 0;padding:16px 18px 0;border-top:1px solid rgba(216,184,120,.18);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:#93a0b4;font-size:12.5px}
-@media(min-width:860px){#waFix{display:none!important}}
 @media(max-width:859px){body{padding-bottom:88px}}
 `;
 
@@ -106,5 +105,12 @@
   fix.target = '_blank';
   fix.rel = 'noopener';
   fix.textContent = 'WhatsApp’tan yaz';
+  fix.style.cssText = 'position:fixed;bottom:14px;left:14px;right:14px;justify-content:center;z-index:50;border-radius:12px;font-weight:700;background:#25d366;color:#fff;display:flex;padding:13px;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.45)';
   document.body.appendChild(fix);
+
+  var mq = window.matchMedia('(min-width:860px)');
+  function toggleFix() { fix.style.display = mq.matches ? 'none' : 'flex'; }
+  toggleFix();
+  if (mq.addEventListener) mq.addEventListener('change', toggleFix);
+  else if (mq.addListener) mq.addListener(toggleFix);
 })();
