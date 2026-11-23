@@ -320,7 +320,8 @@ nav a{font-size:12.5px;padding:6px 11px}
 <script>
 (function(){
   try{
-    if(/bot|crawl|spider|slurp|bingpreview|facebookexternalhit|embedly|quora link preview|pinterest|vkshare|whatsapp|telegram/i.test(navigator.userAgent))return;
+    var ua=navigator.userAgent||'';
+    if(/bot|crawl|spider|slurp|google|lighthouse|inspectiontool|headlesschrome|ptst|facebookexternalhit|embedly|pinterest|vkshare|whatsapp|telegram|yandex|duckduck|semrush|ahrefs/i.test(ua))return;
     if(location.pathname!=='/')return;
     if(localStorage.getItem('rk_lang'))return;
     var l=(navigator.language||navigator.userLanguage||'tr').toLowerCase();
