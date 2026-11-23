@@ -9,8 +9,13 @@ const NAVLAR = {
 };
 
 const KATALOG = { tr: 'Katalog', en: 'Catalogue', ru: 'Каталог' };
-const FIXYAZI = { tr: "WhatsApp'tan yaz", en: 'Message us on WhatsApp', ru: 'Написать в WhatsApp' };
 const ARIA_MENU = { tr: 'Ana menü', en: 'Main menu', ru: 'Меню' };
+
+const MSG = {
+  tr: "Merhaba, RedKıbrıs'tan yazıyorum. Bilgi alabilir miyim?",
+  en: "Hi, writing from RedKıbrıs. Could I get some info?",
+  ru: "Здравствуйте, пишу с RedKıbrıs. Можно узнать подробности?"
+};
 
 const FT = {
   tr: { b: 'Bölgeler', s: 'Site', marka: 'Kıbrıs Escort · Girne merkezli bağımsız escort rehberi. Bölge sayfaları, güncel profil listeleri ve net fiyatlar.', ana: 'Ana Sayfa', blog: 'Blog', fiyat: 'Fiyatlar', ilet: 'İletişim', giz: 'Gizlilik', alt: 'Kıbrıs Escort · Girne · Lefkoşa · Mağusa · İskele · Güzelyurt' },
@@ -49,7 +54,7 @@ const css = `
   .site-header .btn-katalog{margin-left:6px}
 }
 @media(max-width:859px){
-  .site-header .header-in{gap:8px 10px;padding:10px 12px 0}
+  .site-header .header-in{gap:8px 10px;padding:10px 12px 10px}
   .site-header .brand{gap:8px;min-width:0}
   .site-header .brand .mark{width:36px;height:36px}
   .site-header .wordmark{font-size:18px}
@@ -60,7 +65,6 @@ const css = `
   .site-header .lang a{padding:3px 6px}
   .site-header nav{order:3;flex:1 0 100%;padding:0 0 10px}
   .site-header nav a{font-size:12.5px;padding:6px 11px}
-  body{padding-bottom:76px}
 }
 .chrome-footer{border-top:1px solid var(--line);background:#0d1526;padding:34px 0 26px;margin-top:44px;color:#e9eef6;font-size:16px}
 .chrome-footer .cf-in{width:min(1120px,100%);margin:0 auto;padding:0 18px;display:flex;flex-wrap:wrap;gap:22px;justify-content:space-between}
@@ -74,8 +78,6 @@ const css = `
 .chrome-footer .cf-cols a{display:block;color:var(--mut);font-size:14px;padding:3px 0;text-decoration:none}
 .chrome-footer .cf-cols a:hover{color:var(--gold2)}
 .chrome-footer .cf-bottom{width:min(1120px,100%);margin:26px auto 0;padding:16px 18px 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:var(--mut);font-size:12.5px}
-.fix{position:fixed;bottom:14px;left:14px;right:14px;display:inline-flex;align-items:center;justify-content:center;z-index:50;border-radius:12px;font-weight:700;font-size:14px;padding:13px 18px;box-shadow:0 8px 24px rgba(0,0,0,.5);background:var(--wa);color:#fff;text-decoration:none}
-@media(min-width:860px){#waFix{display:none!important}}
 `;
 
 const icerik = `
@@ -100,7 +102,7 @@ p{margin:0 0 1em}
 .btn{background:#25d366;color:#fff}
 .btn.tg{background:#229ed9;color:#fff}
 .btn-o{border:1px solid var(--line);color:var(--gold2);background:transparent}
-.rimg,#cover{display:block;width:100%;max-width:720px;height:auto;max-height:400px;object-fit:cover;object-position:center;border-radius:14px;margin:12px 0;background:#151e2c}
+.rimg,#cover{display:block;width:100%;max-width:720px;height:auto;max-height:400px;object-fit:cover;object-position:center;border-radius:14px;margin:12px auto;background:#151e2c}
 @media(max-width:640px){.rimg,#cover{max-height:230px}}
 .guncel{color:var(--mut);font-size:13px}
 .sect{margin-top:30px}
@@ -118,12 +120,15 @@ article ul,article ol{margin:0 0 1em 20px;padding-left:20px}
 ul,ol{padding-left:20px}
 `;
 
-const AYAR_JS = '(function(){var SB="https://accerzwswgiqhtfgoeqv.supabase.co",K="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG",WA="' + WA + '",TG="' + TG + '";'
-  + 'function t(a){var b=a.getAttribute("data-base")||a.getAttribute("href")||"",m=b.match(/[?&]text=([^&]*)/);return m?m[1]:""}'
-  + 'function b(s,base){var l=document.querySelectorAll(s);for(var i=0;i<l.length;i++){var a=l[i];if(!a.getAttribute("data-base"))a.setAttribute("data-base",a.getAttribute("href")||base);var x=t(a);a.setAttribute("href",base+(x?"?text="+x:""))}}'
-  + 'function bag(){b(\'a[data-base*="wa.me"],a[href*="wa.me"]\',WA);b(\'a[data-base*="t.me"],a[href*="t.me"]\',TG)}'
-  + 'bag();'
-  + 'fetch(SB+"/rest/v1/settings?select=key,value",{headers:{apikey:K,Authorization:"Bearer "+K}}).then(function(r){return r.ok?r.json():null}).then(function(s){if(!s)return;var c={};s.forEach(function(x){c[x.key]=x.value});if(c.whatsapp)b(\'a[data-base*="wa.me"],a[href*="wa.me"]\',"https://wa.me/"+c.whatsapp);if(c.telegram)b(\'a[data-base*="t.me"],a[href*="t.me"]\',"https://t.me/"+c.telegram)}).catch(function(){});})();';
+function ayarJs(dil) {
+  const def = encodeURIComponent(MSG[dil] || MSG.tr);
+  return '(function(){var SB="https://accerzwswgiqhtfgoeqv.supabase.co",K="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG",WA="' + WA + '",TG="' + TG + '",DEF="' + def + '";'
+    + 'function t(a){var b=a.getAttribute("data-base")||a.getAttribute("href")||"",m=b.match(/[?&]text=([^&]*)/);return m?m[1]:DEF}'
+    + 'function b(s,base){var l=document.querySelectorAll(s);for(var i=0;i<l.length;i++){var a=l[i];if(!a.getAttribute("data-base"))a.setAttribute("data-base",a.getAttribute("href")||base);a.setAttribute("href",base+"?text="+t(a));if(!a.getAttribute("target")){a.setAttribute("target","_blank");a.setAttribute("rel","noopener")}}}'
+    + 'function bag(){b(\'a[data-base*="wa.me"],a[href*="wa.me"]\',WA);b(\'a[data-base*="t.me"],a[href*="t.me"]\',TG)}'
+    + 'bag();'
+    + 'fetch(SB+"/rest/v1/settings?select=key,value",{headers:{apikey:K,Authorization:"Bearer "+K}}).then(function(r){return r.ok?r.json():null}).then(function(s){if(!s)return;var c={};s.forEach(function(x){c[x.key]=x.value});if(c.whatsapp)b(\'a[data-base*="wa.me"],a[href*="wa.me"]\',"https://wa.me/"+c.whatsapp);if(c.telegram)b(\'a[data-base*="t.me"],a[href*="t.me"]\',"https://t.me/"+c.telegram)}).catch(function(){});})();';
+}
 
 function head() {
   return '<style>' + css + '</style>';
@@ -134,6 +139,7 @@ function header(o) {
   const dil = o.dil || 'tr';
   const aktif = o.aktif || '';
   const yol = aktif.replace(BASE, '');
+  const txt = encodeURIComponent(MSG[dil] || MSG.tr);
 
   const linkler = (NAVLAR[dil] || NAVLAR.tr).map(function (x) {
     const on = (yol === x[0] || (x[0] !== '/' && x[0] !== '/en' && x[0] !== '/ru' && yol.indexOf(x[0]) === 0))
@@ -149,7 +155,7 @@ function header(o) {
   return '<header class="site-header"><div class="header-in">'
     + '<a class="brand" href="' + BASE + '/" aria-label="RedKıbrıs">' + MARK
     + '<span class="wordmark"><b>Red</b>Kıbrıs<i>' + (dil === 'tr' ? 'Kıbrıs Escort' : dil === 'en' ? 'Cyprus Escort' : 'Эскорт Кипр') + '</i></span></a>'
-    + '<a class="btn-katalog" href="' + WA + '" target="_blank" rel="noopener" data-base="' + WA + '" aria-label="WhatsApp">' + WSVG + (KATALOG[dil] || KATALOG.tr) + '</a>'
+    + '<a class="btn-katalog" href="' + WA + '?text=' + txt + '" target="_blank" rel="noopener" data-base="' + WA + '" aria-label="WhatsApp">' + WSVG + (KATALOG[dil] || KATALOG.tr) + '</a>'
     + '<span class="lang">' + pill('tr', 'TR') + pill('en', 'EN') + pill('ru', 'RU') + '</span>'
     + '<nav aria-label="' + (ARIA_MENU[dil] || ARIA_MENU.tr) + '">' + linkler + '</nav>'
     + '</div></header>';
@@ -173,8 +179,7 @@ function footer(dil) {
     + '</div></div>'
     + '<div class="cf-bottom"><span>' + f.alt + '</span><span>© 2026 · Can</span></div>'
     + '</footer>'
-    + '<a class="btn fix" id="waFix" href="' + WA + '" target="_blank" rel="noopener" data-base="' + WA + '">' + (FIXYAZI[dil] || FIXYAZI.tr) + '</a>'
-    + '<script>' + AYAR_JS + '</script>';
+    + '<script>' + ayarJs(dil) + '</script>';
 }
 
 module.exports = { css, icerik, head, header, footer, BASE, WA, TG };
