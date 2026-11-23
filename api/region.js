@@ -20,7 +20,7 @@ const sayfa = o => `<!DOCTYPE html>
 <link rel="canonical" href="${esc(o.url)}">
 <link rel="alternate" hreflang="tr" href="${esc(o.url)}">
 <link rel="alternate" hreflang="x-default" href="${esc(o.url)}">
-<meta name="robots" content="index,follow">
+<meta name="robots" content="${o.robots || 'index,follow'}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="RedKıbrıs">
 <meta property="og:title" content="${esc(o.title)}">
@@ -51,6 +51,7 @@ module.exports = async (req, res) => {
       desc: 'Aradığın bölge sayfası bulunamadı.',
       url: BASE + '/' + slug,
       active: '',
+      robots: 'noindex,follow',
       icerik: `<h1>Sayfa bulunamadı</h1><div class="about">Bu adreste bölge yok. <a href="${BASE}/">Ana sayfaya</a> dönebilirsin.</div>`
     }));
     return;
@@ -64,10 +65,10 @@ module.exports = async (req, res) => {
 
   let img = '';
   try {
-    const r = await fetch(SB + '/rest/v1/regions?select=slug,img', { headers: H });
+    const r = await fetch(SB + '/rest/v1/regions?select=slug,img&slug=eq.' + encodeURIComponent(slug), { headers: H });
     if (r.ok) {
       const rows = await r.json();
-      const hit = (rows || []).find(x => x.slug === slug);
+      const hit = (rows || [])[0];
       if (hit && hit.img) img = hit.img;
     }
   } catch (e) {}
@@ -102,7 +103,7 @@ module.exports = async (req, res) => {
   const enHotels = (C2.otel || []).slice(0, 2).join(' and ');
 
   const ekMetin = String(C2.ek || '');
-  const dolgu = ekMetin.length > 1200 ? '' : `
+  const dolgu = !ekMetin ? `
   <h2>${esc(nmE)} için ne zaman yazmalı</h2>
   <div class="about"><b>Gündüz 12:00-17:00</b><br>En sakin aralık. Aynı gün müsaitlik yüksek, 30-45 dakika önceden yazman yeterli.</div>
   <div class="about"><b>Akşam 18:00-22:00</b><br>En yoğun aralık. 1-2 saat önceden yazman gerekiyor.</div>
@@ -119,7 +120,7 @@ module.exports = async (req, res) => {
   <h2>${esc(nmE)} ulaşım ve taksi</h2>
   <div class="about">Taksi ücreti her yöne mesafeye göre hesaplanıyor ve her zaman önceden söyleniyor. Gece 01:00 sonrası kırsalda taksi bulmak zor; dönüş için şoför numarası almanı öneririz. Detaylar <a href="${BASE}/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
   <h2>İlk kez yazacaksan</h2>
-  <div class="about">Mesajda üç şeyi yaz: bölge, saat, süre. "${esc(C2.nm)}, bu akşam 21:00, 1 saat" yeterli. Uzun tanıtım paragrafı yazmana gerek yok. 30 dakika yalnızca kendi yerimizde; otele veya eve çıkışta en az 1 saat.</div>`;
+  <div class="about">Mesajda üç şeyi yaz: bölge, saat, süre. "${esc(C2.nm)}, bu akşam 21:00, 1 saat" yeterli. Uzun tanıtım paragrafı yazmana gerek yok. 30 dakika yalnızca kendi yerimizde; otele veya eve çıkışta en az 1 saat.</div>` : '';
 
   const icerik = `
   <div class="crumb"><a href="${BASE}/">Ana sayfa</a> › <span>${esc(C2.nm)}</span></div>
