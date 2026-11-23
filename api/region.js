@@ -96,6 +96,9 @@ module.exports = async (req, res) => {
   const digerleri = Object.keys(D).filter(k => k !== slug)
     .map(k => `<a class="btn-o" href="${BASE}/${k}">${esc(D[k].nm)}</a>`).join('');
 
+  const enAreas = (C2.areas || []).slice(0, 4).join(', ');
+  const enHotels = (C2.otel || []).slice(0, 2).join(' and ');
+
   const icerik = `
   <div class="crumb"><a href="${BASE}/">Ana sayfa</a> › <span>${esc(C2.nm)}</span></div>
   <h1>${esc(nmE)} <span style="font-size:.55em;color:#93a0b4;font-weight:400">${esc(C2.alt)}</span></h1>
@@ -115,6 +118,10 @@ module.exports = async (req, res) => {
   <div class="about"><b>2 saat — 17.000 ₺</b><br>Yemek ya da gece programı eklemek isteyenler için.</div>
   <div class="about"><b>4 saat — 22.000 ₺</b><br>Uzun eşlik ve gece planı.</div>
   <div class="about">Tarife sabit, pazarlık yok, kapıda değişmiyor. Tek değişken taksi: her yöne mesafeye göre hesaplanıp önceden söyleniyor. Tam liste <a href="${BASE}/fiyatlar">fiyatlar sayfasında</a>.</div>
+  <div class="about" lang="en">
+    <b>In English — ${esc(nmE)}</b><br>
+    We arrange outcall meetings across ${esc(enAreas)}${enHotels ? ', and at hotels such as ' + esc(enHotels) : ''}. Rates are fixed and published: 30 minutes 7.000 ₺ (in-call only), 1 hour 12.000 ₺, 2 hours 17.000 ₺, 4 hours 22.000 ₺. No deposit is taken — you pay cash at the meeting. Any taxi fare is quoted before you confirm. Send your area, date and time on WhatsApp and we reply with the current selection.
+  </div>
   ${C2.ek || ''}
   <div class="about"><a href="${BASE}/blog/kibris-gece-hayati">Kıbrıs gece hayatı rehberi</a> · <a href="${BASE}/blog/kibris-otelleri">otel çevresinde görüşme</a> · <a href="${BASE}/fiyatlar">tarife</a></div>
   <p class="guncel">Son güncelleme: 23 Kasım 2026</p>
