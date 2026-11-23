@@ -11,7 +11,7 @@
     wa.forEach(function (a) {
       if (a.dataset.bag) return;
       a.dataset.bag = '1';
-      a.setAttribute('href', WA);
+      if (!a.getAttribute('href') || a.getAttribute('href') === '#') a.setAttribute('href', WA);
       a.setAttribute('target', '_blank');
       a.setAttribute('rel', 'noopener');
     });
@@ -19,35 +19,22 @@
     tg.forEach(function (a) {
       if (a.dataset.bag) return;
       a.dataset.bag = '1';
-      a.setAttribute('href', TG);
+      if (!a.getAttribute('href') || a.getAttribute('href') === '#') a.setAttribute('href', TG);
       a.setAttribute('target', '_blank');
       a.setAttribute('rel', 'noopener');
     });
+  }
 
-    var dil = document.querySelectorAll('.site-header .lang a');
-    dil.forEach(function (a) {
-      var kod = a.getAttribute('data-lang');
-      if (!kod) return;
-      var yol = location.pathname.replace(/\/+$/, '') || '/';
-      var aktif = kod === 'tr'
-        ? (yol === '/' || !/^\/(en|ru)(\/|$)/.test(yol))
-        : yol === '/' + kod || yol.indexOf('/' + kod + '/') === 0;
-      if (aktif) a.classList.add('on');
-      else a.classList.remove('on');
-    });
+  function baslat() {
+    hazir();
+    // chrome.js header/footer'ı sonradan bastığı için değişimi yakala
+    var gozlemci = new MutationObserver(function () { hazir(); });
+    gozlemci.observe(document.body, { childList: true, subtree: true });
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', hazir);
+    document.addEventListener('DOMContentLoaded', baslat);
   } else {
-    hazir();
+    baslat();
   }
-
-  var gozlemci = new MutationObserver(function () { hazir(); });
-  gozlemci.observe(document.body, { childList: true, subtree: true });
-
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest('a[href^="tel:"], a[href^="mailto:"]');
-    if (!a) return;
-  });
 })();
