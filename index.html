@@ -181,11 +181,19 @@ section{padding:clamp(40px,6.5vw,72px) 0}
   min-height:170px;padding:16px;border-radius:16px;overflow:hidden;
   border:1px solid var(--line);background:var(--panel);
 }
-.rcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.42;z-index:0}
-.rcard::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(10,16,32,.95),rgba(10,16,32,.15))}
-.rcard span{position:relative;z-index:2;font-family:Georgia,serif;font-size:19px}
-.rcard small{position:relative;z-index:2;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2)}
+.rcard img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:.9;filter:saturate(1.06) brightness(1.04);z-index:0;
+  transition:transform .5s ease,opacity .3s ease;
+}
+.rcard::after{
+  content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(0deg,rgba(8,13,26,.96) 0%,rgba(8,13,26,.62) 42%,rgba(8,13,26,.12) 78%,transparent 100%);
+}
+.rcard span{position:relative;z-index:2;font-family:Georgia,serif;font-size:19px;text-shadow:0 2px 10px rgba(4,8,16,.9)}
+.rcard small{position:relative;z-index:2;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);text-shadow:0 2px 10px rgba(4,8,16,.9)}
 .rcard:hover{border-color:rgba(216,184,120,.6)}
+.rcard:hover img{transform:scale(1.06);opacity:1}
 
 .why{display:grid;gap:14px;grid-template-columns:1fr}
 @media(min-width:760px){.why{grid-template-columns:repeat(3,1fr)}}
@@ -200,7 +208,7 @@ section{padding:clamp(40px,6.5vw,72px) 0}
   padding:18px 14px;text-align:center;
 }
 .price span{display:block;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.price b{display:block;font-family:Georgia,serif;font-size:clamp(19px,3.2vw,25px);color:var(--red2);line-height:1.1}
+.price b{display:block;font-family:Georgia,serif;font-size:clamp(19px,3.2vw,25px);color:var(--text);line-height:1.1}
 .price small{display:block;font-size:12px;color:var(--muted);margin-top:8px}
 .pnote{color:var(--muted);font-size:13.5px;margin:16px 0 0}
 .pnote a{color:var(--gold2);text-decoration:underline}
