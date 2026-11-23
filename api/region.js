@@ -7,6 +7,12 @@ const TG = 'https://t.me/kibrisescortvip';
 const D = require('../data/regions.js');
 const S = require('../data/shell.js');
 
+const AYLAR = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+const bugun = () => {
+  const d = new Date();
+  return d.getDate() + ' ' + AYLAR[d.getMonth()] + ' ' + d.getFullYear();
+};
+
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -151,7 +157,7 @@ module.exports = async (req, res) => {
   ${ekMetin}
   ${dolgu}
   <div class="about"><a href="${BASE}/blog/kibris-gece-hayati">Kıbrıs gece hayatı rehberi</a> · <a href="${BASE}/blog/kibris-otelleri">otel çevresinde görüşme</a> · <a href="${BASE}/fiyatlar">tarife</a></div>
-  <p class="guncel">Son güncelleme: 23 Kasım 2026</p>
+  <p class="guncel">Son güncelleme: ${bugun()}</p>
   <section class="sect">
     <h2>${esc(nmE)} hakkında sık sorulanlar</h2>
     ${(C2.sss || []).map(x => `<div class="about"><b>${esc(x[0])}</b><br>${esc(x[1])}</div>`).join('')}
