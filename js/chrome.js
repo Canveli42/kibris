@@ -93,7 +93,7 @@
     '<div class="header-in">' +
       '<a class="brand" href="' + BASE + '/" aria-label="RedKıbrıs">' +
         '<svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="#1e2a40"></path><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="none" stroke="#f0d9ae" stroke-opacity=".55" stroke-width="1.4"></path><text x="24" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="16.5" font-weight="700"><tspan fill="#ff3b5c">R</tspan><tspan fill="#ffffff">K</tspan></text></svg>' +
-        '<span class="wordmark"><b>Red</b>Kıbrıs<i>Kuzey Kıbrıs</i></span>' +
+        '<span class="wordmark"><b>Red</b>Kıbrıs<i>Kıbrıs Escort</i></span>' +
       '</a>' +
       '<a class="btn-katalog" href="' + WA + '" target="_blank" rel="noopener" aria-label="WhatsApp ile katalog iste">' +
         WSVG + 'Katalog' +
