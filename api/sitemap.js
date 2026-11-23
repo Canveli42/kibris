@@ -3,7 +3,7 @@ const KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
 const BASE = 'https://www.kibrisgirneescort.com';
 const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 
-const STATIC = '2026-11-20';
+const STATIC = '2026-11-23';
 
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -42,14 +42,17 @@ const BOLGELER = [
   ['rus-escort', '0.6']
 ];
 
+const SLUG_OK = /^[a-z0-9-]{3,120}$/;
+
 module.exports = async (req, res) => {
   const urls = [];
+  const gorulen = new Set();
   let posts = [];
   let enSon = STATIC;
 
   try {
     const r = await fetch(
-      SB + '/rest/v1/posts?select=*&published=eq.true&order=created_at.desc&limit=1000',
+      SB + '/rest/v1/posts?select=slug,created_at,updated_at&published=eq.true&order=updated_at.desc&limit=2000',
       { headers: H }
     );
     if (r.ok) {
@@ -60,33 +63,42 @@ module.exports = async (req, res) => {
 
   posts.forEach(p => {
     const t = p.updated_at || p.created_at;
-    if (t && day(t) > enSon) enSon = day(t);
+    if (t) {
+      const g = day(t);
+      if (g > enSon) enSon = g;
+    }
   });
 
-  urls.push(u(BASE + '/', enSon, 'daily', '1.0'));
-  urls.push(u(BASE + '/fiyatlar', STATIC, 'weekly', '0.9'));
-  urls.push(u(BASE + '/blog', enSon, 'daily', '0.8'));
+  const ekle = (loc, lastmod, freq, pri) => {
+    if (gorulen.has(loc)) return;
+    gorulen.add(loc);
+    urls.push(u(loc, lastmod, freq, pri));
+  };
+
+  ekle(BASE + '/', enSon, 'daily', '1.0');
+  ekle(BASE + '/fiyatlar', STATIC, 'weekly', '0.9');
+  ekle(BASE + '/blog', enSon, 'daily', '0.8');
 
   BOLGELER.forEach(b => {
-    urls.push(u(BASE + '/' + b[0], STATIC, 'weekly', b[1]));
+    ekle(BASE + '/' + b[0], STATIC, 'weekly', b[1]);
   });
 
   posts.forEach(p => {
-    const slug = p.slug || p.id;
-    if (!slug) return;
-    urls.push(u(
-      BASE + '/blog/' + encodeURIComponent(slug),
+    const slug = String(p.slug || '').trim();
+    if (!SLUG_OK.test(slug)) return;
+    ekle(
+      BASE + '/blog/' + slug,
       day(p.updated_at || p.created_at || STATIC),
       'monthly',
       '0.6'
-    ));
+    );
   });
 
-  urls.push(u(BASE + '/iletisim', STATIC, 'monthly', '0.6'));
-  urls.push(u(BASE + '/gizlilik', STATIC, 'yearly', '0.3'));
+  ekle(BASE + '/iletisim', STATIC, 'monthly', '0.6');
+  ekle(BASE + '/gizlilik', STATIC, 'yearly', '0.3');
 
   res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=1800, stale-while-revalidate=86400');
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
   res.status(200).send(
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
