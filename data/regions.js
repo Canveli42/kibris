@@ -188,6 +188,13 @@ metin:"Gönyeli'de site ve apart görüşmeleri yaygın. Lefkoşa merkeze yakın
 metin2:"Siteye girişte isim verilmesi gerekiyorsa önceden haber ver. Gönyeli için 30 dakika önceden yazman yeterli.",
 sss:[["Gönyeli'ye geliyor musunuz?","Evet, site ve apartlara."],["Taksi alınır mı?","Evet, mesafeye göre hesaplanır ve önceden söylenir."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."]]},
 
+"lefkosa-hamitkoy-escort":{nm:"Hamitköy",alt:"Hamitköy / Lefkoşa",lead:"Hamitköy escort: Gönyeli'nin devamı, site ve apart ağırlıklı. Kapıda isim bildiriliyor, kapora yok.",
+areas:["Hamitköy merkez","Site içleri","Gönyeli yolu"],
+otel:["Hamitköy apartları","Site konaklamaları"],
+metin:"Hamitköy'de görüşmeler site ve apartlarda yoğunlaşıyor. Gönyeli ve Lefkoşa merkeze yakın olduğu için ulaşım kısa sürüyor; taksi ücreti mesafeye göre önceden söyleniyor.",
+metin2:"Siteye girişte isim verilmesi gerekiyorsa önceden haber ver, kapıya bildiriyoruz. Hamitköy için 30 dakika önceden yazman yeterli.",
+sss:[["Hamitköy'e geliyor musunuz?","Evet, site ve apartlara."],["Taksi alınır mı?","Evet, mesafeye göre hesaplanır ve önceden söylenir."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."]]},
+
 "bellapais-escort":{nm:"Bellapais",alt:"Bellapais Manastırı çevresi",lead:"Bellapais escort: tarihi manastır ve yamaç villalar. Konum linki şart, kapora yok.",
 areas:["Manastır çevresi","Yamaç villaları","Bellapais yolu"],
 otel:["Bellapais butik konaklama","Yamaç villaları"],
