@@ -50,9 +50,29 @@
       ]
     },
     {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=600" }
+      ]
+    },
+    {
       "source": "/api/sitemap",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=600" }
+      ]
+    },
+    {
+      "source": "/sitemap.xsl",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
+      ]
+    },
+    {
+      "source": "/api/xsl",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
       ]
     }
   ]
