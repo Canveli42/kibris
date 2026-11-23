@@ -112,6 +112,8 @@ article p{color:#dbe3ee}
 .chrome-footer .cf-cols a:hover{color:#f0d9ae}
 .chrome-footer .cf-bottom{width:min(1120px,100%);margin:26px auto 0;padding:16px 18px 0;border-top:1px solid rgba(216,184,120,.18);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:#93a0b4;font-size:12.5px}
 @media(max-width:859px){body{padding-bottom:88px}}
+#cover,.rimg{height:auto!important;max-height:380px!important}
+@media (max-width:859px){#cover,.rimg{max-height:230px!important}}
 `;
 
 function normPath(p) {
