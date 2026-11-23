@@ -202,11 +202,11 @@ nav a{font-size:12.5px;padding:6px 11px}
         <p>Her bölgenin kendi sayfası var: ulaşım, otel pratiği ve buluşma noktası. Tarife ve süreç her yerde aynı.</p>
       </div>
       <div class="rgrid" id="rgrid">
-        <a class="rcard" data-b="girne" href="https://www.kibrisgirneescort.com/girne-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795143728939-c0swg.webp" alt="girne escort" loading="lazy"><small>Merkez</small><span>Girne</span></a>
-        <a class="rcard" data-b="lefkosa" href="https://www.kibrisgirneescort.com/lefkosa-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795143728579-j9sfy.webp" alt="lefkosa escort" loading="lazy"><small>Başkent</small><span>Lefkoşa</span></a>
-        <a class="rcard" data-b="magusa" href="https://www.kibrisgirneescort.com/magusa-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795143728233-4vb7g.webp" alt="magusa escort" loading="lazy"><small>Doğu</small><span>Mağusa</span></a>
-        <a class="rcard" data-b="iskele" href="https://www.kibrisgirneescort.com/iskele-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795143727848-dijs5.webp" alt="iskele escort" loading="lazy"><small>Sahil</small><span>İskele</span></a>
-        <a class="rcard" data-b="guzelyurt" href="https://www.kibrisgirneescort.com/guzelyurt-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795143727450-pnrur.webp" alt="guzelyurt escort" loading="lazy"><small>Batı</small><span>Güzelyurt</span></a>
+        <a class="rcard" data-b="girne" href="https://www.kibrisgirneescort.com/girne-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406516395-veniceai-fxwwxh6feikrte-2.webp" alt="girne escort" loading="lazy"><small>Merkez</small><span>Girne</span></a>
+        <a class="rcard" data-b="lefkosa" href="https://www.kibrisgirneescort.com/lefkosa-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406515974-veniceai-fxwwxh6feikrte-3.webp" alt="lefkosa escort" loading="lazy"><small>Başkent</small><span>Lefkoşa</span></a>
+        <a class="rcard" data-b="magusa" href="https://www.kibrisgirneescort.com/magusa-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406827779-veniceai-luw1wm540ovqyp-2.webp" alt="magusa escort" loading="lazy"><small>Doğu</small><span>Mağusa</span></a>
+        <a class="rcard" data-b="iskele" href="https://www.kibrisgirneescort.com/iskele-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406828633-veniceai-luw1wm540ovqyp-0.webp" alt="iskele escort" loading="lazy"><small>Sahil</small><span>İskele</span></a>
+        <a class="rcard" data-b="guzelyurt" href="https://www.kibrisgirneescort.com/guzelyurt-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406514995-veniceai-urwle4slhepjht-1.webp" alt="guzelyurt escort" loading="lazy"><small>Batı</small><span>Güzelyurt</span></a>
       </div>
       <div class="allr">
         <a href="https://www.kibrisgirneescort.com/lapta-escort">Lapta</a>
@@ -322,8 +322,7 @@ nav a{font-size:12.5px;padding:6px 11px}
   try{
     if(/bot|crawl|spider|slurp|bingpreview|facebookexternalhit|embedly|quora link preview|pinterest|vkshare|whatsapp|telegram/i.test(navigator.userAgent))return;
     if(location.pathname!=='/')return;
-    var saved=localStorage.getItem('rk_lang');
-    if(saved)return;
+    if(localStorage.getItem('rk_lang'))return;
     var l=(navigator.language||navigator.userLanguage||'tr').toLowerCase();
     var target=l.indexOf('ru')===0?'/ru':(l.indexOf('tr')===0?'':'/en');
     if(!target)return;
@@ -345,18 +344,17 @@ nav a{font-size:12.5px;padding:6px 11px}
     .then(function(rows){
       if(!rows||!rows.length)return;
       rows.forEach(function(r){
-        var s=String(r.slug||r.b||r.key||'').toLowerCase();
-        var img=r.image||r.cover||r.img||'';
+        var s=String(r.slug||'').toLowerCase();
+        var img=r.img||r.image||r.cover||'';
         if(!s||!img)return;
         var hit=null;
         KEYS.forEach(function(k){if(s.indexOf(k)>-1)hit=k;});
         if(!hit)return;
         var card=grid.querySelector('[data-b="'+hit+'"]');
-        if(card&&!card.querySelector('img')){
-          var im=document.createElement('img');
-          im.src=img;im.alt=hit+' escort';im.loading='lazy';
-          card.insertBefore(im,card.firstChild);
-        }
+        if(!card)return;
+        var im=card.querySelector('img');
+        if(!im){im=document.createElement('img');im.alt=hit+' escort';im.loading='lazy';card.insertBefore(im,card.firstChild);}
+        im.src=img;
       });
     })
     .catch(function(){});
