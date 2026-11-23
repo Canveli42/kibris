@@ -27,8 +27,8 @@ img{max-width:100%;display:block}
 .site-header{position:sticky;top:0;z-index:60;background:rgba(10,16,32,.94);border-bottom:1px solid var(--line);backdrop-filter:saturate(140%) blur(10px)}
 .header-in{width:min(1120px,100%);display:flex;align-items:center;gap:14px;padding:10px 18px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:10px;color:var(--text);flex:0 0 auto}
-.brand .mark{width:40px;height:40px;flex:0 0 auto;filter:drop-shadow(0 4px 12px rgba(200,16,46,.35))}
-.wordmark{display:flex;flex-direction:column;line-height:1.05;font-family:Georgia,"Times New Roman",serif;font-size:21px;letter-spacing:.02em}
+.brand .mark{width:40px;height:40px;flex:0 0 auto;filter:drop-shadow(0 4px 12px rgba(232,38,74,.45))}
+.wordmark{display:flex;flex-direction:column;line-height:1.05;font-family:Georgia,"Times New Roman",serif;font-size:21px;letter-spacing:.02em;color:#fff}
 .wordmark b{color:var(--red2);font-weight:700}
 .wordmark i{font-style:normal;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:4px}
 .btn-katalog{margin-left:auto;flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;background:linear-gradient(180deg,#3ae07d,var(--wa));color:#05270f;font-weight:700;font-size:14px;padding:10px 17px;border-radius:999px;border:0;box-shadow:0 6px 18px rgba(37,211,102,.22);white-space:nowrap}
@@ -105,8 +105,8 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
 
 const header = active => `<header class="site-header"><div class="wrap header-in">
   <a class="brand" href="${BASE}/" aria-label="RedKıbrıs ana sayfa - Kıbrıs Escort">
-    <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="#c8102e"/><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="none" stroke="#f0d9ae" stroke-opacity=".38" stroke-width="1.3"/><text x="24" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="16.5" font-weight="700" fill="#ffffff">RK</text></svg>
-    <span class="wordmark">Red<b>Kıbrıs</b><i>Kıbrıs Escort</i></span>
+    <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="#151e2c"/><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="none" stroke="#f0d9ae" stroke-opacity=".5" stroke-width="1.4"/><text x="24" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="16.5" font-weight="700"><tspan fill="#e8264a">R</tspan><tspan fill="#ffffff">K</tspan></text></svg>
+    <span class="wordmark"><b>Red</b>Kıbrıs<i>Kıbrıs Escort</i></span>
   </a>
   <a class="btn-katalog" id="waTop" href="${WA}" target="_blank" rel="noopener" aria-label="WhatsApp ile katalog iste">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.02A9.82 9.82 0 0 0 12.04 2zm5.8 14.09c-.24.68-1.42 1.31-2 1.4-.52.08-1.17.11-1.89-.12-.43-.14-.99-.32-1.7-.62-3-1.22-4.95-4.36-5.1-4.56-.15-.2-1.22-1.61-1.22-3.07 0-1.46.77-2.18 1.04-2.48.27-.3.59-.37.79-.37h.57c.18.01.43-.07.67.51.25.59.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.15-.3.31-.13.61.17.3.77 1.29 1.67 2.09 1.15 1.02 2.12 1.34 2.42 1.49.3.15.48.13.65-.07.17-.2.74-.87.94-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.03.97.3.15.5.22.57.35.08.12.08.72-.17 1.4z"/></svg>
@@ -120,7 +120,7 @@ const header = active => `<header class="site-header"><div class="wrap header-in
 const footer = () => `<footer><div class="wrap">
   <div class="f-in">
     <div class="f-brand">
-      <span class="wordmark">Red<b>Kıbrıs</b></span>
+      <span class="wordmark"><b>Red</b>Kıbrıs</span>
       <p>Kıbrıs Escort · Girne merkezli bağımsız escort rehberi. Bölge sayfaları, güncel profil listeleri ve net fiyatlar.</p>
     </div>
     <div class="f-cols">
