@@ -14,19 +14,6 @@ const day = d => {
   return isNaN(t) ? STATIC : t.toISOString().slice(0, 10);
 };
 
-const u = (loc, lastmod, freq, pri) =>
-  '<url><loc>' + esc(loc) + '</loc><lastmod>' + lastmod +
-  '</lastmod><changefreq>' + freq + '</changefreq><priority>' + pri + '</priority></url>';
-
-const uDil = (loc, lastmod, pri) =>
-  '<url><loc>' + esc(loc) + '</loc><lastmod>' + lastmod +
-  '</lastmod><changefreq>weekly</changefreq><priority>' + pri + '</priority>' +
-  '<xhtml:link rel="alternate" hreflang="tr" href="' + esc(BASE + '/') + '"/>' +
-  '<xhtml:link rel="alternate" hreflang="en" href="' + esc(BASE + '/en') + '"/>' +
-  '<xhtml:link rel="alternate" hreflang="ru" href="' + esc(BASE + '/ru') + '"/>' +
-  '<xhtml:link rel="alternate" hreflang="x-default" href="' + esc(BASE + '/') + '"/>' +
-  '</url>';
-
 const BOLGELER = [
   ['girne-escort', '0.9'],
   ['lefkosa-escort', '0.8'],
@@ -53,8 +40,42 @@ const BOLGELER = [
 
 const SLUG_OK = /^[a-z0-9-]{3,120}$/;
 
+const xmlUrl = (r) =>
+  '<url><loc>' + esc(r.loc) + '</loc><lastmod>' + r.lastmod +
+  '</lastmod><changefreq>' + r.freq + '</changefreq><priority>' + r.pri + '</priority>' +
+  (r.dil
+    ? '<xhtml:link rel="alternate" hreflang="tr" href="' + esc(BASE + '/') + '"/>' +
+      '<xhtml:link rel="alternate" hreflang="en" href="' + esc(BASE + '/en') + '"/>' +
+      '<xhtml:link rel="alternate" hreflang="ru" href="' + esc(BASE + '/ru') + '"/>' +
+      '<xhtml:link rel="alternate" hreflang="x-default" href="' + esc(BASE + '/') + '"/>'
+    : '') +
+  '</url>';
+
+const htmlSayfa = (kayitlar) => `<!DOCTYPE html>
+<html lang="tr"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>sitemap.xml · RedKıbrıs</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a1020;color:#e9eef6;font:14px/1.6 "Segoe UI",system-ui,sans-serif;padding:24px}
+h1{font-size:19px;font-weight:600;margin-bottom:4px}
+p{color:#93a0b4;font-size:13px;margin-bottom:18px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border-bottom:1px solid rgba(216,184,120,.18);padding:7px 10px;text-align:left;vertical-align:top}
+th{color:#d8b878;font-weight:400;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+a{color:#f0d9ae;text-decoration:none}
+a:hover{text-decoration:underline}
+td.p{color:#93a0b4;white-space:nowrap}
+</style></head><body>
+<h1>RedKıbrıs · sitemap.xml</h1>
+<p>${kayitlar.length} adres · ham XML için <a href="/sitemap.xml?xml=1">buraya</a> bak</p>
+<table><tr><th>Adres</th><th>Güncelleme</th><th>Sıklık</th><th>Öncelik</th></tr>
+${kayitlar.map(r => '<tr><td><a href="' + esc(r.loc) + '">' + esc(r.loc) + '</a></td><td class="p">' + r.lastmod + '</td><td class="p">' + r.freq + '</td><td class="p">' + r.pri + '</td></tr>').join('\n')}
+</table></body></html>`;
+
 module.exports = async (req, res) => {
-  const urls = [];
+  const kayitlar = [];
   const gorulen = new Set();
   let posts = [];
   let enSon = STATIC;
@@ -78,52 +99,48 @@ module.exports = async (req, res) => {
     }
   });
 
-  const ekle = (loc, lastmod, freq, pri) => {
+  const ekle = (loc, lastmod, freq, pri, dil) => {
     if (gorulen.has(loc)) return;
     gorulen.add(loc);
-    urls.push(u(loc, lastmod, freq, pri));
+    kayitlar.push({ loc, lastmod, freq, pri, dil: !!dil });
   };
 
-  const ekleDil = (loc, pri) => {
-    if (gorulen.has(loc)) return;
-    gorulen.add(loc);
-    urls.push(uDil(loc, enSon, pri));
-  };
-
-  ekleDil(BASE + '/', '1.0');
-  ekleDil(BASE + '/en', '0.9');
-  ekleDil(BASE + '/ru', '0.9');
+  ekle(BASE + '/', enSon, 'weekly', '1.0', true);
+  ekle(BASE + '/en', enSon, 'weekly', '0.9', true);
+  ekle(BASE + '/ru', enSon, 'weekly', '0.9', true);
 
   ekle(BASE + '/fiyatlar', STATIC, 'weekly', '0.9');
   ekle(BASE + '/blog', enSon, 'daily', '0.8');
 
-  BOLGELER.forEach(b => {
-    ekle(BASE + '/' + b[0], STATIC, 'weekly', b[1]);
-  });
+  BOLGELER.forEach(b => ekle(BASE + '/' + b[0], STATIC, 'weekly', b[1]));
 
   posts.forEach(p => {
     const slug = String(p.slug || '').trim();
     if (!SLUG_OK.test(slug)) return;
-    ekle(
-      BASE + '/blog/' + slug,
-      day(p.updated_at || p.created_at || STATIC),
-      'monthly',
-      '0.6'
-    );
+    ekle(BASE + '/blog/' + slug, day(p.updated_at || p.created_at || STATIC), 'monthly', '0.6');
   });
 
   ekle(BASE + '/iletisim', STATIC, 'monthly', '0.6');
   ekle(BASE + '/gizlilik', STATIC, 'yearly', '0.3');
 
-  const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-    '<?xml-stylesheet type="text/xsl" href="/api/xsl"?>\n' +
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' +
-    urls.join('\n') + '\n</urlset>';
+  const ua = String(req.headers['user-agent'] || '');
+  const kabul = String(req.headers.accept || '');
+  const bot = /bot|crawl|spider|slurp|yandex|bing|google|facebook|preview|validator/i.test(ua);
+  const htmlIster = !bot && /text\/html/i.test(kabul) && !/[?&]xml=1/.test(String(req.url || ''));
 
-  res.writeHead(200, {
-    'Content-Type': 'application/xml; charset=utf-8',
-    'X-Content-Type-Options': 'nosniff',
-    'Cache-Control': 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400'
-  });
-  res.end(xml);
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+
+  if (htmlIster) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.status(200).send(htmlSayfa(kayitlar));
+    return;
+  }
+
+  const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' +
+    kayitlar.map(xmlUrl).join('\n') + '\n</urlset>';
+
+  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+  res.status(200).send(xml);
 };
