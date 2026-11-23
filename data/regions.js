@@ -7,11 +7,11 @@ metin2:"Taksi ücreti her yöne mesafeye göre hesaplanıyor ve önceden söylen
 ek:`<h2>Girne'de hangi noktada nasıl buluşuluyor</h2>
 <div class="about"><b>Liman ve Kale çevresi</b><br>Yürünebilir olduğu için en kolay buluşulan hat. Akşam yemeğinden sonra liman barlarına geçmek isteyenlerin ilk tercihi. Araç gerekmiyor; taksi ücreti mesafeye göre hesaplanıp önceden söyleniyor. Liman kalabalığında kaybolmamak için buluşma noktasını kapı ya da giriş olarak değil, karşındaki mekânın adıyla netleştiriyoruz.</div>
 <div class="about"><b>Zeytinlik</b><br>Merkeze yakın, site ve apart ağırlıklı. Kapıda isim bırakılması gereken sitelerde önceden haber veriyorsun, resepsiyona ismini bildiriyoruz.</div>
-<div class="about"><b>Karaoğlanoğlu</b><br>Sahil otelleri ve plaj hattı. Merkeze en yakın sahil noktası olduğu için ulaşım 10-15 dakika. Plaj sonrası gündüz görüşmesi de burada rahat çalışıyor. Bölge rehberi <a href="/blog/girne-merkez-escort-rehberi">Girne merkez</a> yazısında.</div>
-<div class="about"><b>Alsancak</b><br>Site içi villalar ağırlıklı, kapıda isim bırakılması gerekebilir. Merkezden 10-15 dakika. Karaman ve sahil siteleri en sık çalıştığımız noktalar. Detay: <a href="/blog/alsancak-escort-rehberi">Alsancak escort rehberi</a>.</div>
-<div class="about"><b>Lapta</b><br>Sahil hattı uzun olduğu için buluşma noktasını mutlaka önceden netleştiriyoruz. Mare Monte ve Karaağaç çevresi. Butik otel ve villalarda lobi ya da kapı buluşması. Detay: <a href="/blog/lapta-escort-rehberi">Lapta escort rehberi</a>.</div>
-<div class="about"><b>Çatalköy ve Bellapais</b><br>Yamaç villalar, dar yollar. Konum linki göndermen işi hızlandırır; adres tarifiyle kapıda zaman kaybedilmiyor.</div>
-<div class="about"><b>Esentepe</b><br>Girne'nin en doğusu, en uzak hattımız. Planlı randevu mantığı işliyor, en az 1 saat önceden yazman gerekir. Site ve otel girişlerinde isim bildiriyoruz.</div>
+<div class="about"><b>Karaoğlanoğlu</b><br>Sahil otelleri ve plaj hattı. Merkeze en yakın sahil noktası olduğu için ulaşım 10-15 dakika. Plaj sonrası gündüz görüşmesi de burada rahat çalışıyor. Kendi sayfası: <a href="/karaoglanoglu-escort">Karaoğlanoğlu escort</a>.</div>
+<div class="about"><b>Alsancak</b><br>Site içi villalar ağırlıklı, kapıda isim bırakılması gerekebilir. Merkezden 10-15 dakika. Karaman ve sahil siteleri en sık çalıştığımız noktalar. Kendi sayfası: <a href="/alsancak-escort">Alsancak escort</a>.</div>
+<div class="about"><b>Lapta</b><br>Sahil hattı uzun olduğu için buluşma noktasını mutlaka önceden netleştiriyoruz. Mare Monte ve Karaağaç çevresi. Butik otel ve villalarda lobi ya da kapı buluşması. Kendi sayfası: <a href="/lapta-escort">Lapta escort</a>.</div>
+<div class="about"><b>Çatalköy ve Bellapais</b><br>Yamaç villalar, dar yollar. Konum linki göndermen işi hızlandırır; adres tarifiyle kapıda zaman kaybedilmiyor. Kendi sayfaları: <a href="/catalkoy-escort">Çatalköy escort</a> · <a href="/bellapais-escort">Bellapais escort</a>.</div>
+<div class="about"><b>Esentepe</b><br>Girne'nin en doğusu, en uzak hattımız. Planlı randevu mantığı işliyor, en az 1 saat önceden yazman gerekir. Site ve otel girişlerinde isim bildiriyoruz. Kendi sayfası: <a href="/esentepe-escort">Esentepe escort</a>.</div>
 <h2>Otel içinde nasıl ilerliyoruz</h2>
 <div class="about">Merit Royal, Merit Crystal Cove, Acapulco, Rocks, The Colony ve Dedeman'da en sorunsuz yöntem lobide buluşmak. Resepsiyona isim bırakmadan doğrudan odana çıkış istiyorsan önceden söylüyorsun. Büyük otellerde lobi kalabalık olabildiği için buluşma noktasını "asansör yanı", "giriş kapısı" gibi net tarif ediyoruz. Otel detayları için <a href="/blog/kibris-otelleri">otel çevresinde görüşme</a> ve <a href="/blog/kibris-escort-lobi-mi-oda-mi">lobi mi oda mı</a> yazılarına bakabilirsin.</div>
 <h2>Saat dilimlerine göre müsaitlik</h2>
@@ -28,10 +28,10 @@ ek:`<h2>Girne'de hangi noktada nasıl buluşuluyor</h2>
 <ul><li>Uzak noktaya son 10 dakikada yazmak.</li><li>Otel adı vermeden "lobide görüşelim" demek.</li><li>Otele 30 dakika istemek.</li><li>Casino çıkışında kalabalık lobide buluşma noktası seçmek.</li><li>Nakit getirmemek.</li></ul>
 <h2>Girne'de gece planı</h2>
 <div class="about">Liman ve Kale arkası gece için doğru adresler; kulüpler geç saatte açılır, casino 24 saat. Planı yemekle başlat, ulaşımı ve kıyafeti baştan konuş. Mekân masrafı görüşme ücretine dahil değil. <a href="/blog/girne-gece-hayati-2026">Girne gece hayatı</a> ve <a href="/blog/girne-gece-kulupleri-rehberi">Girne gece kulüpleri</a> yazılarına bak.</div>`,
-sss:[["Girne escort fiyatları ne kadar?","30 dakika 7.000 ₺, 1 saat 12.000 ₺, 2 saat 17.000 ₺, 4 saat 22.000 ₺. Tarife sabit, kapıda değişmez."],["Girne'de nereye geliyorsunuz?","Merkez, liman, Zeytinlik, Karaoğlanoğlu, Alsancak, Lapta, Çatalköy, Bellapais ve Esentepe."],["Casino çıkışı gelebilir misiniz?","Evet, gece dahil. Taksi ücreti mesafeye göre önceden bildirilir."],["Hangi otellere geliyorsunuz?","Merit Royal, Merit Crystal Cove, Acapulco, Rocks, The Colony ve Dedeman başta olmak üzere sahil ve merkez otelleri."],["Resepsiyona isim bırakılıyor mu?","İstersen bırakılmaz. Önceden söylersen doğrudan odana çıkış yapılıyor."],["Taksi ücreti nasıl?","Her yöne mesafeye göre hesaplanır ve önceden söylenir."],["Otele 30 dakika olur mu?","Olmaz. 30 dakika yalnızca kendi yerimizde."],["Ne kadar önceden yazmalıyım?","Merkezde 10-15 dakika yeterli. Uzak noktalarda 30-60 dakika."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT. Ön ödeme ve kapora yok."],["Yabancı uyruklu escort var mı?","Var, İngilizce ve Rusça görüşme mümkün. Müsaitlik sınırlı."]]},
+sss:[["Girne escort fiyatları ne kadar?","30 dakika 7.000 ₺, 1 saat 12.000 ₺, 2 saat 17.000 ₺, 4 saat 22.000 ₺. Tarife sabit, kapıda değişmez."],["Girne'de nereye geliyorsunuz?","Merkez, liman, Zeytinlik, Karaoğlanoğlu, Alsancak, Lapta, Çatalköy ve Esentepe."],["Casino çıkışı gelebilir misiniz?","Evet, gece dahil. Taksi ücreti mesafeye göre önceden bildirilir."],["Hangi otellere geliyorsunuz?","Merit Royal, Merit Crystal Cove, Acapulco, Rocks, The Colony ve Dedeman başta olmak üzere sahil ve merkez otelleri."],["Resepsiyona isim bırakılıyor mu?","İstersen bırakılmaz. Önceden söylersen doğrudan odana çıkış yapılıyor."],["Taksi ücreti nasıl?","Her yöne mesafeye göre hesaplanır ve önceden söylenir."],["Otele 30 dakika olur mu?","Olmaz. 30 dakika yalnızca kendi yerimizde."],["Ne kadar önceden yazmalıyım?","Merkezde 10-15 dakika yeterli. Uzak noktalarda 30-60 dakika."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT. Ön ödeme ve kapora yok."],["Yabancı uyruklu escort var mı?","Var, İngilizce ve Rusça görüşme mümkün. Müsaitlik sınırlı."]]},
 
 "lefkosa-escort":{nm:"Lefkoşa",alt:"Nicosia",lead:"Lefkoşa escort: başkentte iş görüşmesi, öğrenci hayatı ve gece eğlencesi aynı şehirde. Taksi mesafeye göre, otel ve eve çıkış yapılıyor, kapora alınmıyor.",
-areas:["Dereboyu","Köşklüçiftlik","Kumsal","Gönyeli","Hamitköy","Ortaköy"],
+areas:["Dereboyu","Köşklüçiftlik","Kumsal","Gönyeli","Ortaköy"],
 otel:["Merit Lefkoşa","Lord Palace","Grand Pasha","Dedeman Lefkoşa"],
 metin:"Lefkoşa'da escort hizmeti Dereboyu, Köşklüçiftlik ve Kumsal çevresinde yoğunlaşıyor; Gönyeli ve Ortaköy'e de gidiyoruz. İş seyahatinde olanlar için en pratik yol otel lobisinde buluşmak — resepsiyona isim bırakmadan doğrudan odana çıkış da mümkün.",
 metin2:"Başkentte mesafeler kısa olsa da taksi ücreti her yöne mesafeye göre hesaplanıp önceden söyleniyor. Gündüz randevularda 1 saat önceden yazman yeterli, akşam saatleri için daha erken yazmanı öneririz. Ödeme görüşme sırasında, kapora yok.",
@@ -39,7 +39,8 @@ ek:`<h2>Lefkoşa'da hangi noktada nasıl buluşuluyor</h2>
 <div class="about"><b>Dereboyu</b><br>Başkentin gece hattı. Akşam 21:00 sonrası cadde kalabalık, buluşma noktasını mekân adıyla ver. Detay: <a href="/blog/lefkosa-gece-dereboyu">Lefkoşa'da gece</a>.</div>
 <div class="about"><b>Köşklüçiftlik</b><br>Merkeze yakın, apart ve ofis ağırlıklı. Gündüz görüşmeleri için en pratik hat.</div>
 <div class="about"><b>Kumsal</b><br>Üniversite çevresi, öğrenci apartları. Giriş genelde serbest. Detay: <a href="/blog/lefkosa-kumsal-escort">Kumsal rehberi</a>.</div>
-<div class="about"><b>Gönyeli ve Hamitköy</b><br>Site ağırlıklı, kapıda isim verilmesi gerekebilir. Önceden haber verirsen bildiriyoruz. Detay: <a href="/blog/lefkosa-hamitkoy-escort">Hamitköy rehberi</a>.</div>
+<div class="about"><b>Gönyeli</b><br>Site ağırlıklı, kapıda isim verilmesi gerekebilir. Önceden haber verirsen bildiriyoruz. Kendi sayfası: <a href="/gonyeli-escort">Gönyeli escort</a>.</div>
+<div class="about"><b>Hamitköy</b><br>Gönyeli'nin devamı, site ve apart. Kendi sayfası: <a href="/lefkosa-hamitkoy-escort">Hamitköy escort</a>.</div>
 <div class="about"><b>Ortaköy</b><br>Sakin, villa ve site karışık. Konum linki gönder. Detay: <a href="/blog/lefkosa-ortakoy-escort">Ortaköy rehberi</a>.</div>
 <h2>Otel içinde nasıl ilerliyoruz</h2>
 <div class="about">İş seyahatinde gelenler için en pratik yol lobide buluşmak. Merit Lefkoşa, Lord Palace, Grand Pasha ve Dedeman Lefkoşa'da doğrudan odaya çıkış yapılabilir; önceden söylemen yeterli. Otel pratiği için <a href="/blog/kibris-otelleri">otel çevresinde görüşme</a> yazısına bak.</div>
@@ -65,7 +66,7 @@ ek:`<h2>Mağusa'da hangi noktada nasıl buluşuluyor</h2>
 <div class="about"><b>Maraş</b><br>Sahil hattı. Gündüz görüşmesi için en rahat nokta, buluşmayı karşıdaki kafe önünde yapıyoruz. Detay: <a href="/blog/magusa-maras-escort">Maraş rehberi</a>.</div>
 <div class="about"><b>Sakarya</b><br>Üniversite çevresi, apart ağırlıklı. Kısa süreli görüşmelerde giriş genelde serbest. Detay: <a href="/blog/magusa-sakarya-escort">Sakarya rehberi</a>.</div>
 <div class="about"><b>Suriçi</b><br>Tarihi çevre, dar sokaklar. Araç girişi sınırlı, sur dışında buluşup yürümek gerekir. Detay: <a href="/blog/magusa-surici-escort">Suriçi rehberi</a>.</div>
-<div class="about"><b>Long Beach</b><br>Resort hattı, otel içi görüşme. Bölge sayfası <a href="/long-beach-escort">Long Beach escort</a>.</div>
+<div class="about"><b>Long Beach</b><br>Resort hattı, otel içi görüşme. Kendi sayfası: <a href="/long-beach-escort">Long Beach escort</a>.</div>
 <div class="about"><b>Tuzla</b><br>Sahil köyü, sakin. 45 dakika önceden yazman gerekir. Detay: <a href="/blog/magusa-tuzla-escort">Tuzla rehberi</a>.</div>
 <h2>Otel içinde nasıl ilerliyoruz</h2>
 <div class="about">Concorde Luxury, Arkin Colony, Kaya Artemis ve Long Beach Resort'ta en sorunsuz yöntem lobide buluşmak. Buluşma noktasını asansör yanı gibi net tarif ediyoruz. Detay: <a href="/blog/kibris-otelleri">otel çevresinde görüşme</a>.</div>
@@ -91,7 +92,7 @@ ek:`<h2>İskele'de hangi noktada nasıl buluşuluyor</h2>
 <div class="about"><b>İskele merkez</b><br>Küçük merkez, her şey yürüme mesafesinde. Buluşma için meydan çevresi en pratik.</div>
 <div class="about"><b>Boğaz</b><br>Sahil hattı, resort oteller burada. Otel lobisinde buluşma standart.</div>
 <div class="about"><b>Yeniboğaziçi</b><br>Köy dokusu, villa ve site karışık. Konum linki gönder.</div>
-<div class="about"><b>Bafra</b><br>Turizm bölgesi, büyük resortlar. Otel kaydı isteyebiliyor, önceden sorup haber veriyoruz. En az 2 saat önceden yazman gerekir. Bölge sayfası <a href="/bafra-escort">Bafra escort</a>.</div>
+<div class="about"><b>Bafra</b><br>Turizm bölgesi, büyük resortlar. Otel kaydı isteyebiliyor, önceden sorup haber veriyoruz. En az 2 saat önceden yazman gerekir. Kendi sayfası: <a href="/bafra-escort">Bafra escort</a>.</div>
 <h2>Otel içinde nasıl ilerliyoruz</h2>
 <div class="about">Kaya Palazzo ve Concorde Luxury'de lobide buluşma en sorunsuz yöntem. Resort girişlerinde ziyaretçi kaydı istenebiliyor, önceden soruyoruz. Detay: <a href="/blog/kibris-otelleri">otel çevresinde görüşme</a>.</div>
 <h2>Saat dilimlerine göre müsaitlik</h2>
@@ -139,7 +140,7 @@ metin2:"Lapta'da taksi ücreti mesafeye göre hesaplanır ve önceden söylenir.
 sss:[["Lapta'ya gerçekten geliyor musunuz?","Evet, sahil hattındaki otel ve villalara. Taksi ücreti önceden bildirilir."],["Lapta'da taksi ne kadar?","Mesafeye göre değişir, rezervasyon sırasında net söylenir."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT. Kapora yok."]]},
 
 "alsancak-escort":{nm:"Alsancak",alt:"Alsancak",lead:"Alsancak escort: villa ve site ağırlıklı sahil hattı. Kapıda isim bildiriliyor, kapora yok.",
-areas:["Alsancak merkez","Karaman","Zeytinlik üst hattı","Sahil siteleri"],
+areas:["Alsancak merkez","Karaman","Sahil siteleri"],
 otel:["Alsancak villaları","Nusmar Market çevresi","Sahil siteleri"],
 metin:"Alsancak'ta villa ve site içi görüşmeler yaygın. Siteye giriş için kapıda isim vermen gerekiyorsa önceden haber ver, isim bildiriyoruz. Merkezden araçla 10 dakika mesafede.",
 metin2:"Alsancak için taksi ücreti mesafeye göre hesaplanır, önceden söylenir. Karaman ve sahil siteleri en sık gittiğimiz noktalar. Gündüz randevularda 30 dakika önceden yazman yeterli.",
@@ -153,10 +154,10 @@ metin2:"Bu hatta genelde 10-15 dakika içinde varıyoruz. Yaz sezonunda sahil tr
 sss:[["Taksi ücreti alınıyor mu?","Evet, mesafeye göre hesaplanır ve önceden söylenir."],["Plajdan sonra görüşme olur mu?","Olur, gündüz de çalışıyoruz."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Hangi otellere geliyorsunuz?","Rocks Hotel ve sahil otelleri başta olmak üzere."]]},
 
 "catalkoy-escort":{nm:"Çatalköy",alt:"Çatalköy",lead:"Çatalköy escort: yamaç villalar ve Bellapais yolu. Konum linki ile hızlı buluşma, kapora yok.",
-areas:["Çatalköy merkez","Bellapais yolu","Yamaç villaları","Sahil alt hattı"],
-otel:["Çatalköy villaları","Bellapais çevresi","Butik konaklama"],
+areas:["Çatalköy merkez","Yamaç villaları","Sahil alt hattı"],
+otel:["Çatalköy villaları","Butik konaklama"],
 metin:"Çatalköy ve Bellapais hattında villa görüşmeleri yoğun. Yamaçta adres bulmak zor olabildiği için konum linki istiyoruz; böylece kapıda zaman kaybı olmuyor.",
-metin2:"Çatalköy'de taksi ücreti mesafeye göre hesaplanır ve önceden bildirilir. Bellapais ve yamaç villalarında konum linki göndermen işi hızlandırır. Detay: <a href=\"/blog/catalkoy-aksam-sahil-hatti\">Çatalköy rehberi</a>.",
+metin2:"Çatalköy'de taksi ücreti mesafeye göre hesaplanır ve önceden bildirilir. Yamaç villalarında konum linki göndermen işi hızlandırır. Detay: <a href=\"/blog/catalkoy-aksam-sahil-hatti\">Çatalköy rehberi</a>.",
 sss:[["Çatalköy'e geliyor musunuz?","Evet. Yamaç villaları için konum linki istiyoruz."],["Bellapais'e de gelir misiniz?","Evet, aynı hattayız."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."]]},
 
 "esentepe-escort":{nm:"Esentepe",alt:"Esentepe",lead:"Esentepe escort: Girne'nin en doğusu, sakin sahil ve golf çevresi. Planlı randevu, kapora yok.",
@@ -241,5 +242,5 @@ areas:["Girne","Mağusa","İskele","Lefkoşa"],
 otel:["Merit","Acapulco","Kaya Palazzo","Long Beach"],
 metin:"Rus ve Ukraynalı eşlik, İngilizce ya da Rusça görüşmek isteyenler için. Resort bölgelerinde ve sahil otellerinde talep yüksek; bu yüzden önceden yazmak gerekiyor.",
 metin2:"Yabancı uyruklu eşlikte aynı gün müsaitlik sınırlı, en az yarım gün önceden yazmanı öneririz.",
-sss:[["Rus escort var mı?","Var, müsaitliğe göre. Önceden yazman gerekir."],["İngilizce konuşuyor mu?","Talebe göre ayarlanıyor."],["Ne kadar önceden yazmalıyım?","En az yarım gün önceden."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."]]}
+sss:[["Rus escort var mı?","Var, müsaitliğe göre. Önceden yazman gerekir."],["İngilizce konuşuyor musunuz?","Talebe göre ayarlanıyor."],["Ne kadar önceden yazmalıyım?","En az yarım gün önceden."],["Ödeme nasıl yapılıyor?","Görüşme sırasında nakit, IBAN veya USDT."]]}
 };
