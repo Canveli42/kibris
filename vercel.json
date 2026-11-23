@@ -2,6 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/blog/kibris-escort-kimlik-istiyor-mu", "destination": "/blog/escort-kimlik-ister-mi-kktc-yasal", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
     { "source": "/blog/:slug", "destination": "/api/post?slug=:slug" },
@@ -61,18 +64,6 @@
       "headers": [
         { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
         { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=600" }
-      ]
-    },
-    {
-      "source": "/sitemap.xsl",
-      "headers": [
-        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
-      ]
-    },
-    {
-      "source": "/api/xsl",
-      "headers": [
-        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
       ]
     }
   ]
