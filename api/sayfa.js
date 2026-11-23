@@ -26,7 +26,7 @@ module.exports = (req, res) => {
 
   let html;
   try {
-    html = fs.readFileSync(path.join(process.cwd(), sayfa.f), 'utf8');
+    html = fs.readFileSync(path.join(process.cwd(), 'pages', sayfa.f), 'utf8');
   } catch (e) {
     res.status(500).send('Dosya okunamadı');
     return;
