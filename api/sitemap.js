@@ -116,13 +116,13 @@ module.exports = async (req, res) => {
   ekle(BASE + '/gizlilik', STATIC, 'yearly', '0.3');
 
   const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-    '<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' +
     urls.join('\n') + '\n</urlset>';
 
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
+  res.writeHead(200, {
+    'Content-Type': 'application/xml; charset=utf-8',
+    'X-Content-Type-Options': 'nosniff',
+    'Cache-Control': 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400'
+  });
   res.end(xml);
 };
