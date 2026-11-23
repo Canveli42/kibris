@@ -11,8 +11,7 @@
     + '.kvkk-b{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}'
     + '.kvkk button{font:600 13px/1 inherit;padding:9px 14px;border-radius:9px;cursor:pointer;border:1px solid rgba(216,184,120,.28)}'
     + '.kvkk-y{background:linear-gradient(180deg,#f3ddb4,#d8b878);color:#141008;border-color:#d8b878}'
-    + '.kvkk-n{background:transparent;color:#93a0b4}'
-    + '@media(max-width:859px){.kvkk{bottom:76px}}';
+    + '.kvkk-n{background:transparent;color:#93a0b4}';
   document.head.appendChild(st);
 
   gtag("consent", "default", {
