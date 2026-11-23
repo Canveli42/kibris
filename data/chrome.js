@@ -17,6 +17,14 @@ const NAV = [
   ['/iletisim', 'İletişim']
 ];
 
+const BOLGE_ADI = {
+  'girne-escort': 'Girne',
+  'lefkosa-escort': 'Lefkoşa',
+  'magusa-escort': 'Mağusa',
+  'iskele-escort': 'İskele',
+  'guzelyurt-escort': 'Güzelyurt'
+};
+
 const WSVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.02A9.82 9.82 0 0 0 12.04 2zm5.8 14.09c-.24.68-1.42 1.31-2 1.4-.52.08-1.17.11-1.89-.12-.43-.14-.99-.32-1.7-.62-3-1.22-4.95-4.36-5.1-4.56-.15-.2-1.22-1.61-1.22-3.07 0-1.46.77-2.18 1.04-2.48.27-.3.59-.37.79-.37h.57c.18.01.43-.07.67.51.25.59.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.15-.3.31-.13.61.17.3.77 1.29 1.67 2.09 1.15 1.02 2.12 1.34 2.42 1.49.3.15.48.13.65-.07.17-.2.74-.87.94-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.03.97.3.15.5.22.57.35.08.12.08.72-.17 1.4z"></path></svg>';
 
 const MARK = '<svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="#1e2a40"></path><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="none" stroke="#f0d9ae" stroke-opacity=".55" stroke-width="1.4"></path><text x="24" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="16.5" font-weight="700"><tspan fill="#ff3b5c">R</tspan><tspan fill="#ffffff">K</tspan></text></svg>';
@@ -124,23 +132,15 @@ function normPath(p) {
   return p || '/';
 }
 
-function langOf(p) {
-  const path = normPath(p);
-  if (path === '/en') return 'en';
-  if (path === '/ru') return 'ru';
-  return 'tr';
-}
-
 function header(path) {
   const current = normPath(path);
-  const now = langOf(current);
   const links = NAV.map(function (x) {
     const on = (current === x[0] || (x[0] === '/blog' && current.indexOf('/blog/') === 0)) ? ' class="on"' : '';
     return '<a href="' + BASE + x[0] + '"' + on + '>' + x[1] + '</a>';
   }).join('');
   const pill = function (code, label) {
     const href = code === 'tr' ? BASE + '/' : BASE + '/' + code;
-    return '<a href="' + href + '" data-lang="' + code + '"' + (now === code ? ' class="on"' : '') + '>' + label + '</a>';
+    return '<a href="' + href + '" data-lang="' + code + '"' + (current === (code === 'tr' ? '/' : '/' + code) ? ' class="on"' : '') + '>' + label + '</a>';
   };
   return '<header class="site-header"><div class="header-in">' +
     '<a class="brand" href="' + BASE + '/" aria-label="RedKıbrıs">' + MARK +
@@ -152,8 +152,8 @@ function header(path) {
 }
 
 function footer() {
-  const regions = ['girne', 'lefkosa', 'magusa', 'iskele', 'guzelyurt'].map(function (s) {
-    return '<a href="' + BASE + '/' + s + '-escort">' + s.charAt(0).toUpperCase() + s.slice(1) + ' Escort</a>';
+  const regions = Object.keys(BOLGE_ADI).map(function (s) {
+    return '<a href="' + BASE + '/' + s + '">' + BOLGE_ADI[s] + ' Escort</a>';
   }).join('');
   return '<footer class="chrome-footer"><div class="cf-in">' +
     '<div class="cf-brand"><span><b>Red</b>Kıbrıs</span>' +
@@ -170,78 +170,4 @@ function footer() {
     '</footer>';
 }
 
-function head(o) {
-  o = o || {};
-  const lang = o.lang || 'tr';
-  const url = o.canonical || BASE + '/';
-  const img = o.image || 'https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795330858770-veniceai-m0godwqqq90k5f-1.webp';
-  const lines = [
-    '<meta charset="utf-8">',
-    '<meta name="viewport" content="width=device-width,initial-scale=1">',
-    '<title>' + (o.title || 'Kıbrıs Escort · RedKıbrıs') + '</title>',
-    '<meta name="description" content="' + (o.description || 'Kıbrıs escort rehberi. Sabit tarife, kapora yok, ödeme görüşmede nakit.') + '">',
-    '<meta name="robots" content="index,follow">',
-    '<link rel="canonical" href="' + url + '">',
-    '<link rel="alternate" hreflang="tr" href="' + BASE + '/">',
-    '<link rel="alternate" hreflang="en" href="' + BASE + '/en">',
-    '<link rel="alternate" hreflang="ru" href="' + BASE + '/ru">',
-    '<link rel="alternate" hreflang="x-default" href="' + BASE + '/">',
-    '<meta property="og:type" content="website">',
-    '<meta property="og:site_name" content="RedKıbrıs">',
-    '<meta property="og:title" content="' + (o.title || 'Kıbrıs Escort · RedKıbrıs') + '">',
-    '<meta property="og:description" content="' + (o.description || 'Sabit tarife, kapora yok.') + '">',
-    '<meta property="og:url" content="' + url + '">',
-    '<meta property="og:image" content="' + img + '">',
-    '<meta property="og:locale" content="' + (lang === 'en' ? 'en_US' : lang === 'ru' ? 'ru_RU' : 'tr_TR') + '">',
-    '<meta name="theme-color" content="#0b121b">',
-    '<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 64 64\'%3E%3Cpath d=\'M32 2 62 32 32 62 2 32Z\' fill=\'%231e2a40\' stroke=\'%23f0d9ae\' stroke-opacity=\'.55\' stroke-width=\'2\'/%3E%3Ctext x=\'32\' y=\'41\' font-family=\'Georgia\' font-size=\'23\' font-weight=\'700\' text-anchor=\'middle\'%3E%3Ctspan fill=\'%23ff3b5c\'%3ER%3C/tspan%3E%3Ctspan fill=\'%23ffffff\'%3EK%3C/tspan%3E%3C/text%3E%3C/svg%3E">',
-    '<style>' + css + '</style>'
-  ];
-  return lines.join('\n');
-}
-
-function shell(o) {
-  o = o || {};
-  const lang = o.lang || 'tr';
-  const path = o.path || '/';
-  return '<!DOCTYPE html>\n<html lang="' + lang + '"><head>\n' + head(o) + '\n</head>\n<body>\n' +
-    header(path) + '\n<main class="wrap">' + (o.body || o.content || '') + '</main>\n' +
-    footer() + '\n</body></html>';
-}
-
-function withToString(fn, fallback) {
-  fn.toString = function () { return fallback(); };
-  return fn;
-}
-
-const api = {
-  BASE: BASE,
-  WA: WA,
-  TG: TG,
-  NAV: NAV,
-  css: css,
-  mark: MARK,
-  head: withToString(head, function () { return head({}); }),
-  header: withToString(header, function () { return header('/'); }),
-  footer: withToString(footer, function () { return footer(); }),
-  shell: shell,
-  render: shell,
-  page: shell,
-  layout: shell,
-  html: shell,
-  nav: function (path) {
-    const current = normPath(path);
-    return NAV.map(function (x) {
-      const on = (current === x[0] || (x[0] === '/blog' && current.indexOf('/blog/') === 0)) ? ' class="on"' : '';
-      return '<a href="' + BASE + x[0] + '"' + on + '>' + x[1] + '</a>';
-    }).join('');
-  },
-  lang: langOf,
-  langOf: langOf,
-  normPath: normPath
-};
-
-api.default = api;
-
-if (typeof module !== 'undefined' && module.exports) module.exports = api;
-if (typeof window !== 'undefined' && typeof document !== 'undefined') window.RKChrome = api;
+module.exports = { BASE, WA, TG, NAV, css, mark: MARK, header, footer };
