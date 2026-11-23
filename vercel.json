@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "functions": {
-    "api/sayfa.js": { "includeFiles": "*.html" }
+    "api/sayfa.js": { "includeFiles": "pages/*.html" }
   },
   "redirects": [
     { "source": "/blog/kibris-escort-kimlik-istiyor-mu", "destination": "/blog/escort-kimlik-ister-mi-kktc-yasal", "permanent": true }
