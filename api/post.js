@@ -78,3 +78,105 @@ ${o.icerik}
 ${S.footer('tr')}
 <script src="${BASE}/js/analytics.js" defer></script>
 </body></html>`;
+
+module.exports = async (req, res) => {
+  const slug = String((req.query && req.query.slug) || '').replace(/[^a-z0-9-]/gi, '');
+  const url = BASE + '/blog/' + slug;
+
+  let p = null;
+  let digerleri = [];
+
+  if (slug) {
+    try {
+      const r = await fetch(
+        SB + '/rest/v1/posts?select=*&slug=eq.' + encodeURIComponent(slug) + '&published=eq.true',
+        { headers: H }
+      );
+      if (r.ok) {
+        const a = await r.json();
+        p = a && a[0];
+      }
+    } catch (e) {}
+  }
+
+  if (!p) {
+    try {
+      const r = await fetch(
+        SB + '/rest/v1/posts?select=slug,title&published=eq.true&order=created_at.desc&limit=6',
+        { headers: H }
+      );
+      if (r.ok) digerleri = (await r.json()) || [];
+    } catch (e) {}
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.status(404).send(sayfa({
+      title: 'Yazı bulunamadı',
+      desc: 'Aradığın yazı bulunamadı. Kıbrıs escort blog yazılarına göz at.',
+      url: url,
+      robots: 'noindex,follow',
+      icerik: `<h1>Yazı bulunamadı</h1>
+        <div class="about"><b>Bu adreste yazı yok.</b><br>Tüm yazılar için <a href="${BASE}/blog">blog sayfasına</a> dönebilirsin.</div>
+        <div class="diger"><h2>Diğer yazılar</h2>${digerleri.map(x => `<a href="${BASE}/blog/${esc(x.slug)}">${esc(x.title)}</a>`).join('')}</div>`
+    }));
+    return;
+  }
+
+  try {
+    const r = await fetch(
+      SB + '/rest/v1/posts?select=slug,title&published=eq.true&slug=neq.' + encodeURIComponent(slug) + '&order=created_at.desc&limit=5',
+      { headers: H }
+    );
+    if (r.ok) digerleri = (await r.json()) || [];
+  } catch (e) {}
+
+  const desc = ((p.meta && String(p.meta).trim()) || duz(p.body)).slice(0, 158);
+  const metin = duz(p.body);
+  const dk = Math.max(1, Math.round(metin.split(/\s+/).filter(Boolean).length / 180));
+  const f = sss(p.faq);
+
+  const ld = [
+    {
+      '@context': 'https://schema.org', '@type': 'Article',
+      headline: p.title, description: desc,
+      datePublished: p.created_at, dateModified: p.updated_at || p.created_at,
+      url: url, image: p.img ? [p.img] : undefined,
+      author: { '@type': 'Person', name: 'Can' },
+      publisher: {
+        '@type': 'Organization', name: 'RedKıbrıs',
+        logo: { '@type': 'ImageObject', url: BASE + '/favicon.png' }
+      }
+    },
+    {
+      '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Ana sayfa', item: BASE + '/' },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: BASE + '/blog' },
+        { '@type': 'ListItem', position: 3, name: p.title, item: url }
+      ]
+    }
+  ];
+  if (f.length) ld.push({
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: f.map(x => ({ '@type': 'Question', name: x[0], acceptedAnswer: { '@type': 'Answer', text: x[1] } }))
+  });
+
+  const icerik = `
+  <div class="crumb"><a href="${BASE}/">Ana sayfa</a> › <a href="${BASE}/blog">Blog</a> › <span>${esc(p.title)}</span></div>
+  <h1>${esc(p.title)}</h1>
+  <p class="byline">Can · RedKıbrıs · ${tarih(p.created_at)} · ${dk} dk okuma</p>
+  ${p.img ? `<img id="cover" src="${esc(p.img)}" alt="${esc(p.title)}" width="1200" height="750" fetchpriority="high">` : ''}
+  <article>${govde(p.body)}</article>
+  ${f.length ? `<section class="faq"><h2>Sık sorulan sorular</h2>${f.map(x => `<details><summary>${esc(x[0])}</summary><p>${esc(x[1])}</p></details>`).join('')}</section>` : ''}
+  <div class="about"><b>Sorun mu var, katalog mu lazım?</b><br>WhatsApp'tan yaz, kaldığın bölgeye göre liste gönderiyoruz.
+    <br><a class="btn wa" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">WhatsApp'tan yaz</a>
+    <a class="btn tg" href="${TG}" target="_blank" rel="noopener" data-base="${TG}">Telegram'dan yaz</a>
+  </div>
+  ${digerleri.length ? `<div class="diger"><h2>Diğer yazılar</h2>${digerleri.map(x => `<a href="${BASE}/blog/${esc(x.slug)}">${esc(x.title)}</a>`).join('')}</div>` : ''}`;
+
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
+  res.status(200).send(sayfa({
+    title: p.title, desc, url, img: p.img,
+    icerik,
+    ld: ld.map(x => `<script type="application/ld+json">${JSON.stringify(x)}</script>`).join('')
+  }));
+};
