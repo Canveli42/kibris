@@ -41,16 +41,19 @@ const BOLGELER = [
 
 const SLUG_OK = /^[a-z0-9-]{3,120}$/;
 
-const xmlUrl = (r) =>
-  '<url><loc>' + esc(r.loc) + '</loc><lastmod>' + r.lastmod +
-  '</lastmod><changefreq>' + r.freq + '</changefreq><priority>' + r.pri + '</priority>' +
-  (r.dil
-    ? '<xhtml:link rel="alternate" hreflang="tr" href="' + esc(BASE + '/') + '"/>' +
-      '<xhtml:link rel="alternate" hreflang="en" href="' + esc(BASE + '/en') + '"/>' +
-      '<xhtml:link rel="alternate" hreflang="ru" href="' + esc(BASE + '/ru') + '"/>' +
-      '<xhtml:link rel="alternate" hreflang="x-default" href="' + esc(BASE + '/') + '"/>'
-    : '') +
-  '</url>';
+const xmlUrl = (r) => {
+  let alt = '<xhtml:link rel="alternate" hreflang="tr" href="' + esc(r.loc) + '"/>'
+    + '<xhtml:link rel="alternate" hreflang="x-default" href="' + esc(r.loc) + '"/>';
+  if (r.dil) {
+    alt = '<xhtml:link rel="alternate" hreflang="tr" href="' + esc(BASE + '/') + '"/>'
+      + '<xhtml:link rel="alternate" hreflang="en" href="' + esc(BASE + '/en') + '"/>'
+      + '<xhtml:link rel="alternate" hreflang="ru" href="' + esc(BASE + '/ru') + '"/>'
+      + '<xhtml:link rel="alternate" hreflang="x-default" href="' + esc(BASE + '/') + '"/>';
+  }
+  return '<url><loc>' + esc(r.loc) + '</loc><lastmod>' + r.lastmod +
+    '</lastmod><changefreq>' + r.freq + '</changefreq><priority>' + r.pri + '</priority>' +
+    alt + '</url>';
+};
 
 const htmlSayfa = (kayitlar) => `<!DOCTYPE html>
 <html lang="tr"><head>
