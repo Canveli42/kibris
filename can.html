@@ -177,7 +177,7 @@ const db=supabase.createClient(URL_,KEY);
 const el=id=>document.getElementById(id);
 let oturum=false,durdu=false,veri=[];
 
-const SAYFALAR=["/","/girne-escort","/lefkosa-escort","/magusa-escort","/iskele-escort","/guzelyurt-escort","/blog","/blog/kibrista-yalniz-gelenler-rehberi","/fiyatlar","/iletisim","/gizlilik","/post.html","/region.html","/blog.html","/panel.html"];
+const SAYFALAR=["/","/girne-escort","/lefkosa-escort","/magusa-escort","/iskele-escort","/guzelyurt-escort","/karaoglanoglu-escort","/alsancak-escort","/lapta-escort","/catalkoy-escort","/bellapais-escort","/esentepe-escort","/long-beach-escort","/bafra-escort","/gonyeli-escort","/otele-escort","/eve-gelen-escort","/gecelik-escort","/vip-escort","/ogrenci-escort","/turk-escort","/rus-escort","/blog","/fiyatlar","/iletisim","/gizlilik"];
 
 const boy=b=>b<1024?b+" B":b<1048576?(b/1024).toFixed(0)+" KB":(b/1048576).toFixed(2)+" MB";
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9.]+/g,"-").replace(/^-+|-+$/g,"").replace(/\.[a-z0-9]+$/,"");
@@ -423,7 +423,7 @@ let temizVeri=[],korunan=new Set();
 
 function topla(metin){
   if(!metin)return;
-  const re=/\/img\/([^\s"'()<>?#\\]+)/g;let m;
+  const re=/\/img\/([^\s"'()<>?#\$$+)/g;let m;
   while((m=re.exec(metin))){
     const p=m[1].replace(/^\/+/,"");
     korunan.add(p);try{korunan.add(decodeURIComponent(p))}catch(e){}
