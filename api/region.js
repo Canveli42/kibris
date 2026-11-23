@@ -3,6 +3,7 @@ const KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
 const BASE = 'https://www.kibrisgirneescort.com';
 const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 const WA = 'https://wa.me/905515420755';
+const TG = 'https://t.me/kibrisescortvip';
 const D = require('../data/regions.js');
 const S = require('../data/shell.js');
 
@@ -129,6 +130,7 @@ module.exports = async (req, res) => {
   <p class="lead">${esc(C2.lead)}</p>
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
     <a class="btn wa" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">${esc(C2.nm)} Kataloğu İste</a>
+    <a class="btn tg" href="${TG}" target="_blank" rel="noopener" data-base="${TG}">Telegram</a>
     <a class="btn-o" href="${BASE}/fiyatlar">Fiyatlar</a>
   </div>
   ${img ? `<img class="rimg" src="${esc(img)}" alt="${esc(nmE)}" width="1200" height="700">` : ''}
@@ -157,7 +159,11 @@ module.exports = async (req, res) => {
   <section class="sect">
     <h2>Diğer sayfalar</h2>
     <div style="display:flex;gap:8px;flex-wrap:wrap">${digerleri}</div>
-  </section>`;
+  </section>
+  <div class="about"><b>Sorun mu var, katalog mu lazım?</b><br>WhatsApp veya Telegram'dan yaz, kaldığın bölgeye göre liste gönderiyoruz.
+    <br><a class="btn wa" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">WhatsApp'tan yaz</a>
+    <a class="btn tg" href="${TG}" target="_blank" rel="noopener" data-base="${TG}">Telegram'dan yaz</a>
+  </div>`;
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=1800, stale-while-revalidate=86400');
