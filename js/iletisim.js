@@ -5,10 +5,7 @@
   var TG = 'https://t.me/kibrisescortvip';
 
   function hazir() {
-    var wa = document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp"]');
-    var tg = document.querySelectorAll('a[href*="t.me"], a[href*="telegram"]');
-
-    wa.forEach(function (a) {
+    document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp"]').forEach(function (a) {
       if (a.dataset.bag) return;
       a.dataset.bag = '1';
       if (!a.getAttribute('href') || a.getAttribute('href') === '#') a.setAttribute('href', WA);
@@ -16,7 +13,7 @@
       a.setAttribute('rel', 'noopener');
     });
 
-    tg.forEach(function (a) {
+    document.querySelectorAll('a[href*="t.me"], a[href*="telegram"]').forEach(function (a) {
       if (a.dataset.bag) return;
       a.dataset.bag = '1';
       if (!a.getAttribute('href') || a.getAttribute('href') === '#') a.setAttribute('href', TG);
@@ -27,9 +24,7 @@
 
   function baslat() {
     hazir();
-    // chrome.js header/footer'ı sonradan bastığı için değişimi yakala
-    var gozlemci = new MutationObserver(function () { hazir(); });
-    gozlemci.observe(document.body, { childList: true, subtree: true });
+    new MutationObserver(hazir).observe(document.body, { childList: true, subtree: true });
   }
 
   if (document.readyState === 'loading') {
