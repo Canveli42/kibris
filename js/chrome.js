@@ -94,14 +94,20 @@
   if (oldF) oldF.parentNode.replaceChild(footer, oldF);
   else document.body.appendChild(footer);
 
-  if (!document.getElementById('waFix')) {
-    var fix = document.createElement('a');
-    fix.id = 'waFix';
-    fix.href = WA;
-    fix.target = '_blank';
-    fix.rel = 'noopener';
-    fix.textContent = 'WhatsApp’tan yaz';
-    fix.style.cssText = 'position:fixed;bottom:14px;left:14px;right:14px;justify-content:center;z-index:50;border-radius:12px;font-weight:700;background:#25d366;color:#fff;display:flex;padding:13px;text-decoration:none;font-weight:700';
-    document.body.appendChild(fix);
-  }
+  document.querySelectorAll('body > #waFix, body > #waFoot, body > #tgFoot, body > a.btn.fix, body > a.btn.tg').forEach(function (el) {
+    el.remove();
+  });
+
+  var fix = document.createElement('a');
+  fix.id = 'waFix';
+  fix.href = WA;
+  fix.target = '_blank';
+  fix.rel = 'noopener';
+  fix.textContent = 'WhatsApp’tan yaz';
+  fix.style.cssText = 'position:fixed;bottom:14px;left:14px;right:14px;justify-content:center;z-index:50;border-radius:12px;font-weight:700;background:#25d366;color:#fff;display:flex;padding:13px;text-decoration:none';
+  document.body.appendChild(fix);
+
+  var fcss = document.createElement('style');
+  fcss.textContent = '@media(min-width:860px){#waFix{display:none}}';
+  document.head.appendChild(fcss);
 })();
