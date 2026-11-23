@@ -18,6 +18,8 @@ const sayfa = o => `<!DOCTYPE html>
 <title>${esc(o.title)}</title>
 <meta name="description" content="${esc(o.desc)}">
 <link rel="canonical" href="${esc(o.url)}">
+<link rel="alternate" hreflang="tr" href="${esc(o.url)}">
+<link rel="alternate" hreflang="x-default" href="${esc(o.url)}">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="RedKıbrıs">
@@ -99,6 +101,26 @@ module.exports = async (req, res) => {
   const enAreas = (C2.areas || []).slice(0, 4).join(', ');
   const enHotels = (C2.otel || []).slice(0, 2).join(' and ');
 
+  const ekMetin = String(C2.ek || '');
+  const dolgu = ekMetin.length > 1200 ? '' : `
+  <h2>${esc(nmE)} için ne zaman yazmalı</h2>
+  <div class="about"><b>Gündüz 12:00-17:00</b><br>En sakin aralık. Aynı gün müsaitlik yüksek, 30-45 dakika önceden yazman yeterli.</div>
+  <div class="about"><b>Akşam 18:00-22:00</b><br>En yoğun aralık. 1-2 saat önceden yazman gerekiyor.</div>
+  <div class="about"><b>Gece 22:00-02:00</b><br>Bar ve casino çıkışı talebi burada toplanıyor. 10-15 dakika önceden yazman yeterli.</div>
+  <div class="about"><b>02:00 sonrası</b><br>Müsaitlik düşer. Uzak noktalarda 30 dakika önceden yazman gerekir.</div>
+  <h2>${esc(nmE)} bölgesinde sık yapılan hatalar</h2>
+  <ul>
+    <li>Uzak noktaya son 10 dakikada yazmak.</li>
+    <li>Otel adı vermeden "lobide görüşelim" demek.</li>
+    <li>Otele veya eve 30 dakika istemek.</li>
+    <li>Kalabalık lobide buluşma noktası seçmek.</li>
+    <li>Nakit getirmemek.</li>
+  </ul>
+  <h2>${esc(nmE)} ulaşım ve taksi</h2>
+  <div class="about">Taksi ücreti her yöne mesafeye göre hesaplanıyor ve her zaman önceden söyleniyor. Gece 01:00 sonrası kırsalda taksi bulmak zor; dönüş için şoför numarası almanı öneririz. Detaylar <a href="${BASE}/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
+  <h2>İlk kez yazacaksan</h2>
+  <div class="about">Mesajda üç şeyi yaz: bölge, saat, süre. "${esc(C2.nm)}, bu akşam 21:00, 1 saat" yeterli. Uzun tanıtım paragrafı yazmana gerek yok. 30 dakika yalnızca kendi yerimizde; otele veya eve çıkışta en az 1 saat.</div>`;
+
   const icerik = `
   <div class="crumb"><a href="${BASE}/">Ana sayfa</a> › <span>${esc(C2.nm)}</span></div>
   <h1>${esc(nmE)} <span style="font-size:.55em;color:#93a0b4;font-weight:400">${esc(C2.alt)}</span></h1>
@@ -122,7 +144,8 @@ module.exports = async (req, res) => {
     <b>In English — ${esc(nmE)}</b><br>
     We arrange outcall meetings across ${esc(enAreas)}${enHotels ? ', and at hotels such as ' + esc(enHotels) : ''}. Rates are fixed and published: 30 minutes 7.000 ₺ (in-call only), 1 hour 12.000 ₺, 2 hours 17.000 ₺, 4 hours 22.000 ₺. No deposit is taken — you pay cash at the meeting. Any taxi fare is quoted before you confirm. Send your area, date and time on WhatsApp and we reply with the current selection.
   </div>
-  ${C2.ek || ''}
+  ${ekMetin}
+  ${dolgu}
   <div class="about"><a href="${BASE}/blog/kibris-gece-hayati">Kıbrıs gece hayatı rehberi</a> · <a href="${BASE}/blog/kibris-otelleri">otel çevresinde görüşme</a> · <a href="${BASE}/fiyatlar">tarife</a></div>
   <p class="guncel">Son güncelleme: 23 Kasım 2026</p>
   <section class="sect">
