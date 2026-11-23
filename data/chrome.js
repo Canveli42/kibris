@@ -9,8 +9,9 @@ const NAV = [
   ['/magusa-escort', 'Mağusa'],
   ['/iskele-escort', 'İskele'],
   ['/guzelyurt-escort', 'Güzelyurt'],
-  ['/fiyatlar', 'Fiyatlar'],
   ['/blog', 'Blog'],
+  ['/blog/kibrista-yalniz-gelenler-rehberi', 'Rehber'],
+  ['/fiyatlar', 'Fiyatlar'],
   ['/iletisim', 'İletişim']
 ];
 
