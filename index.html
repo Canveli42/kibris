@@ -100,17 +100,17 @@ section{padding:clamp(38px,6vw,68px) 0}
 .cta{border:1px solid var(--line);border-radius:20px;background:radial-gradient(700px 260px at 80% 0%,rgba(200,16,46,.18),transparent 70%),var(--panel2);padding:clamp(24px,5vw,44px);text-align:center}
 .cta p{color:var(--muted);max-width:52ch;margin:0 auto 22px}
 .cta .acts{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
-footer{border-top:1px solid var(--line);background:var(--bg2);padding:30px 0 24px;margin-top:10px}
-.f-in{display:flex;flex-wrap:wrap;gap:22px;justify-content:space-between}
-.f-brand{max-width:36ch}
-.f-brand span{font-family:Georgia,serif;font-size:19px;display:block;margin-bottom:10px;color:#fff}
-.f-brand span b{color:var(--red2)}
-.f-brand p{color:var(--muted);font-size:13.5px;margin:0}
-.f-cols{display:flex;flex-wrap:wrap;gap:26px}
-.f-cols div{min-width:130px}
-.f-cols h4{margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:400}
-.f-cols a{display:block;color:var(--muted);font-size:14px;padding:3px 0}
-.f-bottom{border-top:1px solid var(--line);margin-top:24px;padding-top:14px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:var(--muted);font-size:12.5px}
+.chrome-footer{border-top:1px solid var(--line);background:var(--bg2);padding:30px 0 24px;margin-top:10px}
+.cf-in{display:flex;flex-wrap:wrap;gap:22px;justify-content:space-between}
+.cf-brand{max-width:36ch}
+.cf-brand span{font-family:Georgia,serif;font-size:19px;display:block;margin-bottom:10px;color:#fff}
+.cf-brand span b{color:var(--red2)}
+.cf-brand p{color:var(--muted);font-size:13.5px;margin:0}
+.cf-cols{display:flex;flex-wrap:wrap;gap:26px}
+.cf-cols div{min-width:130px}
+.cf-cols h4{margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:400}
+.cf-cols a{display:block;color:var(--muted);font-size:14px;padding:3px 0}
+.cf-bottom{border-top:1px solid var(--line);margin-top:24px;padding-top:14px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:var(--muted);font-size:12.5px}
 @media(max-width:859px){.header-in{gap:8px 10px;padding:10px 12px 0}.brand{gap:8px;min-width:0}.brand .mark{width:36px;height:36px}.wordmark{font-size:18px}.wordmark i{display:none}.btn-katalog{order:1;padding:9px 14px;font-size:13px;gap:5px}.btn-katalog svg{width:15px;height:15px}.lang{order:2;gap:3px;font-size:11px}.lang a{padding:3px 6px}nav{order:3;flex:1 0 100%;padding:0 0 10px}nav a{font-size:12.5px;padding:6px 11px}}
 </style>
 
@@ -120,18 +120,18 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:30px 0 24p
 </head>
 <body>
 
-<header class="site-header"><div class="wrap header-in">
+<header class="site-header"><div class="header-in">
   <a class="brand" href="https://www.kibrisgirneescort.com/" aria-label="RedKıbrıs">
     <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="#1e2a40"></path><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="none" stroke="#f0d9ae" stroke-opacity=".55" stroke-width="1.4"></path><text x="24" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="16.5" font-weight="700"><tspan fill="#ff3b5c">R</tspan><tspan fill="#ffffff">K</tspan></text></svg>
     <span class="wordmark"><b>Red</b>Kıbrıs<i>Kıbrıs Escort</i></span>
   </a>
-  <a class="btn-katalog" href="https://wa.me/905515420755" target="_blank" rel="noopener">
+  <a class="btn-katalog" href="https://wa.me/905515420755" target="_blank" rel="noopener" aria-label="WhatsApp ile katalog iste">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.02A9.82 9.82 0 0 0 12.04 2zm5.8 14.09c-.24.68-1.42 1.31-2 1.4-.52.08-1.17.11-1.89-.12-.43-.14-.99-.32-1.7-.62-3-1.22-4.95-4.36-5.1-4.56-.15-.2-1.22-1.61-1.22-3.07 0-1.46.77-2.18 1.04-2.48.27-.3.59-.37.79-.37h.57c.18.01.43-.07.67.51.25.59.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.15-.3.31-.13.61.17.3.77 1.29 1.67 2.09 1.15 1.02 2.12 1.34 2.42 1.49.3.15.48.13.65-.07.17-.2.74-.87.94-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.03.97.3.15.5.22.57.35.08.12.08.72-.17 1.4z"></path></svg>
     Katalog
   </a>
-  <span class="lang"><a href="https://www.kibrisgirneescort.com/" class="on">TR</a><a href="https://www.kibrisgirneescort.com/en">EN</a><a href="https://www.kibrisgirneescort.com/ru">RU</a></span>
+  <span class="lang"><a href="https://www.kibrisgirneescort.com/" data-lang="tr" class="on">TR</a><a href="https://www.kibrisgirneescort.com/en" data-lang="en">EN</a><a href="https://www.kibrisgirneescort.com/ru" data-lang="ru">RU</a></span>
   <nav aria-label="Ana menü">
-    <a href="https://www.kibrisgirneescort.com/">Ana Sayfa</a>
+    <a href="https://www.kibrisgirneescort.com/" class="on">Ana Sayfa</a>
     <a href="https://www.kibrisgirneescort.com/girne-escort">Girne</a>
     <a href="https://www.kibrisgirneescort.com/lefkosa-escort">Lefkoşa</a>
     <a href="https://www.kibrisgirneescort.com/magusa-escort">Mağusa</a>
@@ -146,7 +146,7 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:30px 0 24p
 
 <main>
   <section class="hero" style="padding:0">
-    <img class="hero-bg" src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795330858770-veniceai-m0godwqqq90k5f-1.webp" alt="Girne sahilinde gece">
+    <img class="hero-bg" src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795330858770-veniceai-m0godwqqq90k5f-1.webp" alt="Girne sahilinde gece" fetchpriority="high" width="1600" height="900">
     <div class="wrap">
       <span class="badge">Girne · Lefkoşa · Mağusa · İskele · Güzelyurt</span>
       <h1>Kıbrıs escort — <span>kapora yok, sabit tarife</span></h1>
@@ -166,11 +166,11 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:30px 0 24p
         <p>Her bölgenin kendi sayfası ve yerel detayları var. Tarife ve işleyiş her yerde aynı.</p>
       </div>
       <div class="rgrid" id="rgrid">
-        <a class="rcard" data-b="girne" href="https://www.kibrisgirneescort.com/girne-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406516395-veniceai-fxwwxh6feikrte-2.webp" alt="girne escort" loading="lazy"><small>Merkez</small><span>Girne</span></a>
-        <a class="rcard" data-b="lefkosa" href="https://www.kibrisgirneescort.com/lefkosa-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406515974-veniceai-fxwwxh6feikrte-3.webp" alt="lefkosa escort" loading="lazy"><small>Başkent</small><span>Lefkoşa</span></a>
-        <a class="rcard" data-b="magusa" href="https://www.kibrisgirneescort.com/magusa-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406827779-veniceai-luw1wm540ovqyp-2.webp" alt="magusa escort" loading="lazy"><small>Doğu</small><span>Mağusa</span></a>
-        <a class="rcard" data-b="iskele" href="https://www.kibrisgirneescort.com/iskele-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406828633-veniceai-luw1wm540ovqyp-0.webp" alt="iskele escort" loading="lazy"><small>Sahil</small><span>İskele</span></a>
-        <a class="rcard" data-b="guzelyurt" href="https://www.kibrisgirneescort.com/guzelyurt-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406514995-veniceai-urwle4slhepjht-1.webp" alt="guzelyurt escort" loading="lazy"><small>Batı</small><span>Güzelyurt</span></a>
+        <a class="rcard" data-b="girne" href="https://www.kibrisgirneescort.com/girne-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406516395-veniceai-fxwwxh6feikrte-2.webp" alt="Girne escort" loading="lazy" decoding="async" width="600" height="400"><small>Merkez</small><span>Girne</span></a>
+        <a class="rcard" data-b="lefkosa" href="https://www.kibrisgirneescort.com/lefkosa-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406515974-veniceai-fxwwxh6feikrte-3.webp" alt="Lefkoşa escort" loading="lazy" decoding="async" width="600" height="400"><small>Başkent</small><span>Lefkoşa</span></a>
+        <a class="rcard" data-b="magusa" href="https://www.kibrisgirneescort.com/magusa-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406827779-veniceai-luw1wm540ovqyp-2.webp" alt="Mağusa escort" loading="lazy" decoding="async" width="600" height="400"><small>Doğu</small><span>Mağusa</span></a>
+        <a class="rcard" data-b="iskele" href="https://www.kibrisgirneescort.com/iskele-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406828633-veniceai-luw1wm540ovqyp-0.webp" alt="İskele escort" loading="lazy" decoding="async" width="600" height="400"><small>Sahil</small><span>İskele</span></a>
+        <a class="rcard" data-b="guzelyurt" href="https://www.kibrisgirneescort.com/guzelyurt-escort"><img src="https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795406514995-veniceai-urwle4slhepjht-1.webp" alt="Güzelyurt escort" loading="lazy" decoding="async" width="600" height="400"><small>Batı</small><span>Güzelyurt</span></a>
       </div>
     </div>
   </section>
@@ -231,40 +231,29 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:30px 0 24p
   </section>
 </main>
 
-<footer><div class="wrap">
-  <div class="f-in">
-    <div class="f-brand"><span><b>Red</b>Kıbrıs</span><p>Kuzey Kıbrıs'ta escort hizmeti. Merkez Girne, sabit tarife, kapora yok.</p></div>
-    <div class="f-cols">
-      <div><h4>Bölgeler</h4>
-        <a href="https://www.kibrisgirneescort.com/girne-escort">Girne</a>
-        <a href="https://www.kibrisgirneescort.com/lefkosa-escort">Lefkoşa</a>
-        <a href="https://www.kibrisgirneescort.com/magusa-escort">Mağusa</a>
-        <a href="https://www.kibrisgirneescort.com/iskele-escort">İskele</a>
-        <a href="https://www.kibrisgirneescort.com/guzelyurt-escort">Güzelyurt</a>
-      </div>
-      <div><h4>Site</h4>
-        <a href="https://www.kibrisgirneescort.com/en">English</a>
-        <a href="https://www.kibrisgirneescort.com/ru">Русский</a>
-        <a href="https://www.kibrisgirneescort.com/fiyatlar">Fiyatlar</a>
-        <a href="https://www.kibrisgirneescort.com/blog">Blog</a>
-        <a href="https://www.kibrisgirneescort.com/iletisim">İletişim</a>
-        <a href="https://www.kibrisgirneescort.com/gizlilik">Gizlilik</a>
-      </div>
+<footer class="chrome-footer"><div class="cf-in">
+  <div class="cf-brand"><span><b>Red</b>Kıbrıs</span><p>Kıbrıs Escort · Girne merkezli bağımsız escort rehberi. Bölge sayfaları, güncel profil listeleri ve net fiyatlar.</p></div>
+  <div class="cf-cols">
+    <div><h4>Bölgeler</h4>
+      <a href="https://www.kibrisgirneescort.com/girne-escort">Girne Escort</a>
+      <a href="https://www.kibrisgirneescort.com/lefkosa-escort">Lefkoşa Escort</a>
+      <a href="https://www.kibrisgirneescort.com/magusa-escort">Mağusa Escort</a>
+      <a href="https://www.kibrisgirneescort.com/iskele-escort">İskele Escort</a>
+      <a href="https://www.kibrisgirneescort.com/guzelyurt-escort">Güzelyurt Escort</a>
+    </div>
+    <div><h4>Site</h4>
+      <a href="https://www.kibrisgirneescort.com/">Ana Sayfa</a>
+      <a href="https://www.kibrisgirneescort.com/blog">Blog</a>
+      <a href="https://www.kibrisgirneescort.com/fiyatlar">Fiyatlar</a>
+      <a href="https://www.kibrisgirneescort.com/iletisim">İletişim</a>
+      <a href="https://www.kibrisgirneescort.com/gizlilik">Gizlilik</a>
     </div>
   </div>
-  <div class="f-bottom"><span>Girne · Lefkoşa · Mağusa · İskele · Güzelyurt</span><span>© 2026 · Can</span></div>
-</div></footer>
+</div>
+<div class="cf-bottom"><span>Kıbrıs Escort · Girne Escort · Lefkoşa Escort · Mağusa Escort · İskele Escort · Güzelyurt Escort</span><span>© 2026 · Can</span></div>
+</footer>
 
-<script>
-(function(){
-  var links=document.querySelectorAll('.lang a');
-  for(var i=0;i<links.length;i++){
-    links[i].addEventListener('click',function(){
-      try{var h=this.getAttribute('href');localStorage.setItem('rk_lang',h==='/'?'tr':h.replace('/',''));}catch(e){}
-    });
-  }
-})();
-</script>
+<script src="https://www.kibrisgirneescort.com/js/iletisim.js" defer></script>
 <script>
 (function(){
   var SB='https://accerzwswgiqhtfgoeqv.supabase.co';
@@ -273,13 +262,13 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:30px 0 24p
   var KEYS=['girne','lefkosa','magusa','iskele','guzelyurt'];
   var grid=document.getElementById('rgrid');
   if(!grid)return;
-  fetch(SB+'/rest/v1/regions?select=*',{headers:H})
+  fetch(SB+'/rest/v1/regions?select=slug,img',{headers:H})
     .then(function(r){return r.ok?r.json():null;})
     .then(function(rows){
       if(!rows||!rows.length)return;
       rows.forEach(function(r){
         var s=String(r.slug||'').toLowerCase();
-        var img=r.img||r.image||r.cover||'';
+        var img=r.img||'';
         if(!s||!img)return;
         var hit=null;
         KEYS.forEach(function(k){if(s.indexOf(k)>-1)hit=k;});
@@ -287,7 +276,7 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:30px 0 24p
         var card=grid.querySelector('[data-b="'+hit+'"]');
         if(!card)return;
         var im=card.querySelector('img');
-        if(!im){im=document.createElement('img');im.alt=hit+' escort';im.loading='lazy';card.insertBefore(im,card.firstChild);}
+        if(!im){im=document.createElement('img');im.alt=hit+' escort';im.loading='lazy';im.decoding='async';card.insertBefore(im,card.firstChild);}
         im.src=img;
       });
     })
