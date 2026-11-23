@@ -13,9 +13,9 @@ const FIXYAZI = { tr: "WhatsApp'tan yaz", en: 'Message us on WhatsApp', ru: 'Н�
 const ARIA_MENU = { tr: 'Ana menü', en: 'Main menu', ru: 'Меню' };
 
 const FT = {
-  tr: { b: 'Bölgeler', s: 'Site', marka: 'Kıbrıs Escort · Girne merkezli bağımsız escort rehberi. Bölge sayfaları, güncel profil listeleri ve net fiyatlar.', ana: 'Ana Sayfa', blog: 'Blog', fiyat: 'Fiyatlar', ilet: 'İletişim', giz: 'Gizlilik', alt: 'Kıbrıs Escort · Girne · Lefkoşa · Mağusa · İskele · Güzelyurt', dil: ['Türkçe', 'English', 'Русский'] },
-  en: { b: 'Areas', s: 'Site', marka: 'Escort service in Northern Cyprus. Kyrenia base, fixed rates, no deposit.', ana: 'Home', blog: 'Blog', fiyat: 'Prices', ilet: 'Contact', giz: 'Privacy', alt: 'Kyrenia · Nicosia · Famagusta · Iskele · Guzelyurt', dil: ['Türkçe', 'English', 'Русский'] },
-  ru: { b: 'Районы', s: 'Сайт', marka: 'Эскорт на Северном Кипре. База в Кирении, фиксированные цены, без предоплаты.', ana: 'Главная', blog: 'Блог', fiyat: 'Цены', ilet: 'Контакты', giz: 'Приватность', alt: 'Кирения · Никосия · Фамагуста · Искеле · Гюзельюрт', dil: ['Türkçe', 'English', 'Русский'] }
+  tr: { b: 'Bölgeler', s: 'Site', marka: 'Kıbrıs Escort · Girne merkezli bağımsız escort rehberi. Bölge sayfaları, güncel profil listeleri ve net fiyatlar.', ana: 'Ana Sayfa', blog: 'Blog', fiyat: 'Fiyatlar', ilet: 'İletişim', giz: 'Gizlilik', alt: 'Kıbrıs Escort · Girne · Lefkoşa · Mağusa · İskele · Güzelyurt' },
+  en: { b: 'Areas', s: 'Site', marka: 'Escort service in Northern Cyprus. Kyrenia base, fixed rates, no deposit.', ana: 'Home', blog: 'Blog', fiyat: 'Prices', ilet: 'Contact', giz: 'Privacy', alt: 'Kyrenia · Nicosia · Famagusta · Iskele · Guzelyurt' },
+  ru: { b: 'Районы', s: 'Сайт', marka: 'Эскорт на Северном Кипре. База в Кирении, фиксированные цены, без предоплаты.', ana: 'Главная', blog: 'Блог', fiyat: 'Цены', ilet: 'Контакты', giz: 'Приватность', alt: 'Кирения · Никосия · Фамагуста · Искеле · Гюзельюрт' }
 };
 
 const WSVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.02A9.82 9.82 0 0 0 12.04 2zm5.8 14.09c-.24.68-1.42 1.31-2 1.4-.52.08-1.17.11-1.89-.12-.43-.14-.99-.32-1.7-.62-3-1.22-4.95-4.36-5.1-4.56-.15-.2-1.22-1.61-1.22-3.07 0-1.46.77-2.18 1.04-2.48.27-.3.59-.37.79-.37h.57c.18.01.43-.07.67.51.25.59.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.15-.3.31-.13.61.17.3.77 1.29 1.67 2.09 1.15 1.02 2.12 1.34 2.42 1.49.3.15.48.13.65-.07.17-.2.74-.87.94-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.03.97.3.15.5.22.57.35.08.12.08.72-.17 1.4z"/></svg>';
@@ -78,6 +78,53 @@ const css = `
 @media(min-width:860px){#waFix{display:none!important}}
 `;
 
+const icerik = `
+:root{--bg:#0b121b;--panel:#111823;--line:rgba(216,184,120,.18);--ink:#e9eef6;--mut:#93a0b4;--gold:#d8b878;--gold2:#f0d9ae;--wa:#25d366}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--gold2);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;display:block}
+.wrap{width:min(1120px,100%);margin:0 auto;padding:0 18px}
+main{padding:22px 0 40px}
+h1{font-family:Georgia,serif;font-size:clamp(28px,4.6vw,38px);line-height:1.15;margin:0 0 8px;color:#fff}
+h2{font-family:Georgia,serif;font-size:23px;margin:26px 0 10px;color:var(--gold2)}
+h3{font-size:17px;margin:18px 0 8px;color:var(--gold2)}
+p{margin:0 0 1em}
+.lead{font-size:18px;color:#cdd6e2}
+.about{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0}
+.about b{color:#fff}
+.crumb{font-size:13px;color:var(--mut);margin-bottom:12px}
+.crumb a{color:var(--gold2)}
+.btn,.btn-o{display:inline-block;padding:11px 18px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;border:0}
+.btn{background:#25d366;color:#fff}
+.btn.tg{background:#229ed9;color:#fff}
+.btn-o{border:1px solid var(--line);color:var(--gold2);background:transparent}
+.rimg{width:100%;height:auto;border-radius:14px;margin:10px 0}
+.guncel{color:var(--mut);font-size:13px}
+.sect{margin-top:30px}
+.byline{color:var(--mut);font-size:13px;margin-bottom:14px}
+article p,article li{color:#d5dde7}
+article ul,article ol{margin:0 0 1em 20px;padding-left:20px}
+#cover{width:100%;height:auto;border-radius:14px;margin:10px 0}
+.faq{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0 16px;margin:20px 0}
+.faq details{border-bottom:1px solid var(--line);padding:12px 0}
+.faq details:last-child{border-bottom:0}
+.faq summary{cursor:pointer;font-weight:600;list-style:none;color:#fff}
+.faq summary::-webkit-details-marker{display:none}
+.faq p{color:var(--mut);font-size:14.5px;margin:8px 0 0}
+.diger{margin-top:26px}
+.diger a{display:inline-block;margin:0 10px 8px 0}
+ul,ol{padding-left:20px}
+`;
+
+const AYAR_JS = '(function(){var SB="https://accerzwswgiqhtfgoeqv.supabase.co",K="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG",WA="' + WA + '",TG="' + TG + '";'
+  + 'function t(a){var b=a.getAttribute("data-base")||a.getAttribute("href")||"",m=b.match(/[?&]text=([^&]*)/);return m?m[1]:""}'
+  + 'function b(s,base){var l=document.querySelectorAll(s);for(var i=0;i<l.length;i++){var a=l[i];if(!a.getAttribute("data-base"))a.setAttribute("data-base",a.getAttribute("href")||base);var x=t(a);a.setAttribute("href",base+(x?"?text="+x:""))}}'
+  + 'function bag(){b(\'a[data-base*="wa.me"],a[href*="wa.me"]\',WA);b(\'a[data-base*="t.me"],a[href*="t.me"]\',TG)}'
+  + 'bag();'
+  + 'fetch(SB+"/rest/v1/settings?select=key,value",{headers:{apikey:K,Authorization:"Bearer "+K}}).then(function(r){return r.ok?r.json():null}).then(function(s){if(!s)return;var c={};s.forEach(function(x){c[x.key]=x.value});if(c.whatsapp)b(\'a[data-base*="wa.me"],a[href*="wa.me"]\',"https://wa.me/"+c.whatsapp);if(c.telegram)b(\'a[data-base*="t.me"],a[href*="t.me"]\',"https://t.me/"+c.telegram)}).catch(function(){});})();';
+
 function head() {
   return '<style>' + css + '</style>';
 }
@@ -100,7 +147,7 @@ function header(o) {
   };
 
   return '<header class="site-header"><div class="header-in">'
-    + '<a class="brand" href="' + BASE + '/' + '" aria-label="RedKıbrıs">' + MARK
+    + '<a class="brand" href="' + BASE + '/" aria-label="RedKıbrıs">' + MARK
     + '<span class="wordmark"><b>Red</b>Kıbrıs<i>' + (dil === 'tr' ? 'Kıbrıs Escort' : dil === 'en' ? 'Cyprus Escort' : 'Эскорт Кипр') + '</i></span></a>'
     + '<a class="btn-katalog" href="' + WA + '" target="_blank" rel="noopener" data-base="' + WA + '" aria-label="WhatsApp">' + WSVG + (KATALOG[dil] || KATALOG.tr) + '</a>'
     + '<span class="lang">' + pill('tr', 'TR') + pill('en', 'EN') + pill('ru', 'RU') + '</span>'
@@ -130,11 +177,4 @@ function footer(dil) {
     + '<script>' + AYAR_JS + '</script>';
 }
 
-const AYAR_JS = '(function(){var SB="https://accerzwswgiqhtfgoeqv.supabase.co",K="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG",WA="' + WA + '",TG="' + TG + '";'
-  + 'function t(a){var b=a.getAttribute("data-base")||a.getAttribute("href")||"",m=b.match(/[?&]text=([^&]*)/);return m?m[1]:""}'
-  + 'function b(s,base){var l=document.querySelectorAll(s);for(var i=0;i<l.length;i++){var a=l[i];if(!a.getAttribute("data-base"))a.setAttribute("data-base",a.getAttribute("href")||base);var x=t(a);a.setAttribute("href",base+(x?"?text="+x:""))}}'
-  + 'function bag(){b(\'a[data-base*="wa.me"],a[href*="wa.me"]\',WA);b(\'a[data-base*="t.me"],a[href*="t.me"]\',TG)}'
-  + 'bag();'
-  + 'fetch(SB+"/rest/v1/settings?select=key,value",{headers:{apikey:K,Authorization:"Bearer "+K}}).then(function(r){return r.ok?r.json():null}).then(function(s){if(!s)return;var c={};s.forEach(function(x){c[x.key]=x.value});if(c.whatsapp)b(\'a[data-base*="wa.me"],a[href*="wa.me"]\',"https://wa.me/"+c.whatsapp);if(c.telegram)b(\'a[data-base*="t.me"],a[href*="t.me"]\',"https://t.me/"+c.telegram)}).catch(function(){});})();';
-
-module.exports = { css, head, header, footer, BASE, WA, TG };
+module.exports = { css, icerik, head, header, footer, BASE, WA, TG };
