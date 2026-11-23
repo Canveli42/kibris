@@ -56,6 +56,7 @@ const htmlSayfa = (kayitlar) => `<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>sitemap.xml · RedKıbrıs</title>
+<meta name="robots" content="noindex,nofollow">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0a1020;color:#e9eef6;font:14px/1.6 "Segoe UI",system-ui,sans-serif;padding:24px}
@@ -126,7 +127,8 @@ module.exports = async (req, res) => {
   const ua = String(req.headers['user-agent'] || '');
   const kabul = String(req.headers.accept || '');
   const bot = /bot|crawl|spider|slurp|yandex|bing|google|facebook|preview|validator/i.test(ua);
-  const htmlIster = !bot && /text\/html/i.test(kabul) && !/[?&]xml=1/.test(String(req.url || ''));
+  const xmlIster = /[?&]xml=1/.test(String(req.url || ''));
+  const htmlIster = !bot && !xmlIster && /text\/html/i.test(kabul);
 
   res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
   res.setHeader('X-Content-Type-Options', 'nosniff');
