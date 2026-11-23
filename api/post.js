@@ -126,7 +126,7 @@ module.exports = async (req, res) => {
     if (r.ok) digerleri = (await r.json()) || [];
   } catch (e) {}
 
-  const desc = (p.meta && String(p.meta).trim()) || duz(p.body).slice(0, 158);
+  const desc = ((p.meta && String(p.meta).trim()) || duz(p.body)).slice(0, 158);
   const metin = duz(p.body);
   const dk = Math.max(1, Math.round(metin.split(/\s+/).filter(Boolean).length / 180));
   const f = sss(p.faq);
@@ -138,7 +138,10 @@ module.exports = async (req, res) => {
       datePublished: p.created_at, dateModified: p.updated_at || p.created_at,
       url: url, image: p.img ? [p.img] : undefined,
       author: { '@type': 'Person', name: 'Can' },
-      publisher: { '@type': 'Organization', name: 'RedKıbrıs' }
+      publisher: {
+        '@type': 'Organization', name: 'RedKıbrıs',
+        logo: { '@type': 'ImageObject', url: BASE + '/favicon.png' }
+      }
     },
     {
       '@context': 'https://schema.org', '@type': 'BreadcrumbList',
