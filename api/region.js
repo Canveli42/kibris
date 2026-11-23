@@ -28,7 +28,7 @@ const sayfa = o => `<!DOCTYPE html>
 <meta property="og:url" content="${esc(o.url)}">
 ${o.img ? `<meta property="og:image" content="${esc(o.img)}">` : ''}
 <meta name="theme-color" content="#0b121b">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2 62 32 32 62 2 32Z' fill='%23c8102e'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='23' font-weight='700' fill='%23ffffff' text-anchor='middle'%3ERK%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2 62 32 32 62 2 32Z' fill='%231e2a40' stroke='%23f0d9ae' stroke-opacity='.55' stroke-width='2'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='23' font-weight='700' text-anchor='middle'%3E%3Ctspan fill='%23ff3b5c'%3ER%3C/tspan%3E%3Ctspan fill='%23ffffff'%3EK%3C/tspan%3E%3C/text%3E%3C/svg%3E">
 <style>${C.css}</style>
 ${o.ld || ''}
 </head><body>
