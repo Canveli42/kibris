@@ -17,7 +17,7 @@ const NAV = [
 
 const css = `
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0a1020;--bg2:#0d1526;--panel:#111823;--panel2:#151e2c;--line:rgba(216,184,120,.18);--gold:#d8b878;--gold2:#f0d9ae;--red:#c8102e;--red2:#e8264a;--text:#e9eef6;--muted:#93a0b4;--wa:#25d366;--tg:#229ed9}
+:root{--bg:#0a1020;--bg2:#0d1526;--panel:#111823;--panel2:#151e2c;--line:rgba(216,184,120,.18);--gold:#d8b878;--gold2:#f0d9ae;--red:#c8102e;--red2:#ff3b5c;--text:#e9eef6;--muted:#93a0b4;--wa:#25d366;--tg:#229ed9}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--gold2);text-decoration:none}
@@ -27,7 +27,7 @@ img{max-width:100%;display:block}
 .site-header{position:sticky;top:0;z-index:60;background:rgba(10,16,32,.94);border-bottom:1px solid var(--line);backdrop-filter:saturate(140%) blur(10px)}
 .header-in{width:min(1120px,100%);display:flex;align-items:center;gap:14px;padding:10px 18px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:10px;color:var(--text);flex:0 0 auto}
-.brand .mark{width:40px;height:40px;flex:0 0 auto;filter:drop-shadow(0 4px 12px rgba(232,38,74,.45))}
+.brand .mark{width:40px;height:40px;flex:0 0 auto;filter:drop-shadow(0 4px 12px rgba(255,59,92,.45))}
 .wordmark{display:flex;flex-direction:column;line-height:1.05;font-family:Georgia,"Times New Roman",serif;font-size:21px;letter-spacing:.02em;color:#fff}
 .wordmark b{color:var(--red2);font-weight:700}
 .wordmark i{font-style:normal;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:4px}
@@ -46,6 +46,17 @@ nav a.on{color:#141008;background:var(--gold);border-color:var(--gold);font-weig
   nav a:hover{background:transparent}
   nav a.on{background:transparent;color:var(--gold);border-color:transparent;font-weight:700}
   .btn-katalog{margin-left:6px}
+}
+@media(max-width:859px){
+  .header-in{gap:8px 10px;padding:10px 12px 0}
+  .brand{gap:8px;min-width:0}
+  .brand .mark{width:36px;height:36px}
+  .wordmark{font-size:18px}
+  .wordmark i{display:none}
+  .btn-katalog{order:1;padding:9px 14px;font-size:13px;gap:5px}
+  .btn-katalog svg{width:15px;height:15px}
+  nav{order:3;flex:1 0 100%;padding:0 0 10px}
+  nav a{font-size:12.5px;padding:6px 11px}
 }
 
 main.wrap{padding-top:8px;padding-bottom:40px}
@@ -105,7 +116,7 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:34px 0 26p
 
 const header = active => `<header class="site-header"><div class="wrap header-in">
   <a class="brand" href="${BASE}/" aria-label="RedKıbrıs ana sayfa - Kıbrıs Escort">
-    <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="#151e2c"/><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="none" stroke="#f0d9ae" stroke-opacity=".5" stroke-width="1.4"/><text x="24" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="16.5" font-weight="700"><tspan fill="#e8264a">R</tspan><tspan fill="#ffffff">K</tspan></text></svg>
+    <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="#1e2a40"/><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="none" stroke="#f0d9ae" stroke-opacity=".55" stroke-width="1.4"/><text x="24" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="16.5" font-weight="700"><tspan fill="#ff3b5c">R</tspan><tspan fill="#ffffff">K</tspan></text></svg>
     <span class="wordmark"><b>Red</b>Kıbrıs<i>Kıbrıs Escort</i></span>
   </a>
   <a class="btn-katalog" id="waTop" href="${WA}" target="_blank" rel="noopener" aria-label="WhatsApp ile katalog iste">
