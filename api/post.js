@@ -4,7 +4,7 @@ const BASE = 'https://www.kibrisgirneescort.com';
 const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 const WA = 'https://wa.me/905515420755';
 const TG = 'https://t.me/kibrisescortvip';
-const C = require('../data/chrome.js');
+const S = require('../data/shell.js');
 
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -56,126 +56,25 @@ const sayfa = o => `<!DOCTYPE html>
 <link rel="canonical" href="${esc(o.url)}">
 <link rel="alternate" hreflang="tr" href="${esc(o.url)}">
 <link rel="alternate" hreflang="x-default" href="${esc(o.url)}">
+<link rel="sitemap" type="application/xml" href="${BASE}/sitemap.xml">
 <meta name="robots" content="${o.robots || 'index,follow'}">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="RedKıbrıs">
 <meta property="og:title" content="${esc(o.title)}">
 <meta property="og:description" content="${esc(o.desc)}">
 <meta property="og:url" content="${esc(o.url)}">
-${o.img ? `<meta property="og:image" content="${esc(o.img)}">` : ''}
+${o.img ? `<meta property="og:image" content="${esc(o.img)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${esc(o.img)}">` : '<meta name="twitter:card" content="summary">'}
 <meta name="theme-color" content="#0b121b">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2 62 32 32 62 2 32Z' fill='%231e2a40' stroke='%23f0d9ae' stroke-opacity='.55' stroke-width='2'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='23' font-weight='700' text-anchor='middle'%3E%3Ctspan fill='%23ff3b5c'%3ER%3C/tspan%3E%3Ctspan fill='%23ffffff'%3EK%3C/tspan%3E%3C/text%3E%3C/svg%3E">
-<style>${C.css}</style>
+<style>${S.css}</style>
 ${o.ld || ''}
 </head><body>
-${C.header(o.active)}
+${S.header({ aktif: BASE + '/blog', dil: 'tr' })}
 <main class="wrap">
 ${o.icerik}
 </main>
-${C.footer()}
-<script src="${BASE}/js/iletisim.js" defer></script>
+${S.footer('tr')}
+<script src="${BASE}/js/analytics.js" defer></script>
 </body></html>`;
-
-module.exports = async (req, res) => {
-  const slug = String((req.query && req.query.slug) || '').replace(/[^a-z0-9-]/gi, '');
-  const url = BASE + '/blog/' + slug;
-
-  let p = null;
-  let digerleri = [];
-
-  if (slug) {
-    try {
-      const r = await fetch(
-        SB + '/rest/v1/posts?select=*&slug=eq.' + encodeURIComponent(slug) + '&published=eq.true',
-        { headers: H }
-      );
-      if (r.ok) {
-        const a = await r.json();
-        p = a && a[0];
-      }
-    } catch (e) {}
-  }
-
-  if (!p) {
-    try {
-      const r = await fetch(
-        SB + '/rest/v1/posts?select=slug,title&published=eq.true&order=created_at.desc&limit=6',
-        { headers: H }
-      );
-      if (r.ok) digerleri = (await r.json()) || [];
-    } catch (e) {}
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.status(404).send(sayfa({
-      title: 'Yazı bulunamadı',
-      desc: 'Aradığın yazı bulunamadı. Kıbrıs escort blog yazılarına göz at.',
-      url: url,
-      active: BASE + '/blog',
-      robots: 'noindex,follow',
-      icerik: `<h1>Yazı bulunamadı</h1>
-        <div class="about"><b>Bu adreste yazı yok.</b><br>Tüm yazılar için <a href="${BASE}/blog">blog sayfasına</a> dönebilirsin.</div>
-        <div class="diger"><h2>Diğer yazılar</h2>${digerleri.map(x => `<a href="${BASE}/blog/${esc(x.slug)}">${esc(x.title)}</a>`).join('')}</div>`
-    }));
-    return;
-  }
-
-  try {
-    const r = await fetch(
-      SB + '/rest/v1/posts?select=slug,title&published=eq.true&slug=neq.' + encodeURIComponent(slug) + '&order=created_at.desc&limit=5',
-      { headers: H }
-    );
-    if (r.ok) digerleri = (await r.json()) || [];
-  } catch (e) {}
-
-  const desc = ((p.meta && String(p.meta).trim()) || duz(p.body)).slice(0, 158);
-  const metin = duz(p.body);
-  const dk = Math.max(1, Math.round(metin.split(/\s+/).filter(Boolean).length / 180));
-  const f = sss(p.faq);
-
-  const ld = [
-    {
-      '@context': 'https://schema.org', '@type': 'Article',
-      headline: p.title, description: desc,
-      datePublished: p.created_at, dateModified: p.updated_at || p.created_at,
-      url: url, image: p.img ? [p.img] : undefined,
-      author: { '@type': 'Person', name: 'Can' },
-      publisher: {
-        '@type': 'Organization', name: 'RedKıbrıs',
-        logo: { '@type': 'ImageObject', url: BASE + '/favicon.png' }
-      }
-    },
-    {
-      '@context': 'https://schema.org', '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Ana sayfa', item: BASE + '/' },
-        { '@type': 'ListItem', position: 2, name: 'Blog', item: BASE + '/blog' },
-        { '@type': 'ListItem', position: 3, name: p.title, item: url }
-      ]
-    }
-  ];
-  if (f.length) ld.push({
-    '@context': 'https://schema.org', '@type': 'FAQPage',
-    mainEntity: f.map(x => ({ '@type': 'Question', name: x[0], acceptedAnswer: { '@type': 'Answer', text: x[1] } }))
-  });
-
-  const icerik = `
-  <div class="crumb"><a href="${BASE}/">Ana sayfa</a> › <a href="${BASE}/blog">Blog</a> › <span>${esc(p.title)}</span></div>
-  <h1>${esc(p.title)}</h1>
-  <p class="byline">Can · RedKıbrıs · ${tarih(p.created_at)} · ${dk} dk okuma</p>
-  ${p.img ? `<img id="cover" src="${esc(p.img)}" alt="${esc(p.title)}" width="1200" height="750" fetchpriority="high">` : ''}
-  <article>${govde(p.body)}</article>
-  ${f.length ? `<section class="faq"><h2>Sık sorulan sorular</h2>${f.map(x => `<details><summary>${esc(x[0])}</summary><p>${esc(x[1])}</p></details>`).join('')}</section>` : ''}
-  <div class="about"><b>Sorun mu var, katalog mu lazım?</b><br>WhatsApp'tan yaz, kaldığın bölgeye göre liste gönderiyoruz.
-    <br><a class="btn wa" href="${WA}" target="_blank" rel="noopener">WhatsApp'tan yaz</a>
-    <a class="btn tg" href="${TG}" target="_blank" rel="noopener">Telegram'dan yaz</a>
-  </div>
-  ${digerleri.length ? `<div class="diger"><h2>Diğer yazılar</h2>${digerleri.map(x => `<a href="${BASE}/blog/${esc(x.slug)}">${esc(x.title)}</a>`).join('')}</div>` : ''}`;
-
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
-  res.status(200).send(sayfa({
-    title: p.title, desc, url, img: p.img,
-    active: BASE + '/blog',
-    icerik,
-    ld: ld.map(x => `<script type="application/ld+json">${JSON.stringify(x)}</script>`).join('')
-  }));
-};
