@@ -7,42 +7,41 @@
 <meta name="theme-color" content="#0b121b">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2 62 32 32 62 2 32Z' fill='%230b121b' stroke='%23d8b878' stroke-width='3'/%3E%3Cpath d='M32 10 54 32 32 54 10 32Z' fill='%23f4efe3'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='23' font-weight='700' fill='%23b3122a' text-anchor='middle'%3ERK%3C/text%3E%3C/svg%3E">
 <style>
-:root { --ink:#0b121b; --soft:#0a0f18; --line:#22303f; --card:#111823; --muted:#8b97a5; --gold:#d8b878; --gold-d:#eed3a1; --txt:#f2f5f8; --champ2:#f3ddb4; --wa:#25d366; --tg:#229ed9; }
-* { box-sizing:border-box; margin:0; padding:0; }
-body { background:var(--soft); color:var(--txt); font-family:ui-sans-serif,system-ui,-apple-system,sans-serif; line-height:1.68; min-height:100vh; display:flex; flex-direction:column; }
-a { color:inherit; text-decoration:none; }
-.wrap { max-width:820px; margin:0 auto; padding:0 18px; }
-header { background:rgba(11,18,27,.96); border-bottom:1px solid #1b2a3a; }
-.hrow { max-width:1080px; margin:0 auto; height:68px; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 18px; }
-.logo.rk { display:flex; align-items:center; gap:10px; }
-.rk-mark { width:42px; height:42px; flex:0 0 42px; }
-.rk-t { display:flex; flex-direction:column; line-height:1.1; }
-.rk-w { font-family:Georgia,serif; font-size:19px; color:#f6f2ea; white-space:nowrap; }
-.rk-w em { font-style:normal; color:#e0233f; }
-.rk-s { font-size:8.5px; letter-spacing:1.7px; text-transform:uppercase; color:var(--gold); margin-top:2px; }
-nav { display:none; gap:18px; font-size:14px; color:#93a1b0; }
-@media (min-width:860px){ nav { display:flex; } }
-.btn { display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(180deg,var(--champ2),var(--gold)); color:#121a24; font-weight:700; border:0; border-radius:11px; padding:11px 18px; font-size:14px; white-space:nowrap; cursor:pointer; }
-.btn.ghost { background:#0e161f; border:1px solid var(--line); color:var(--gold-d); }
-.btn.wa { background:var(--wa); color:#fff; }
-.btn.tg { background:var(--tg); color:#fff; }
-main { flex:1 0 auto; padding:clamp(44px,9vw,96px) 0; text-align:center; }
-.code { font-family:Georgia,serif; font-size:clamp(84px,22vw,160px); line-height:.9; color:transparent; background:linear-gradient(180deg,var(--gold-d),var(--gold)); -webkit-background-clip:text; background-clip:text; letter-spacing:-.04em; }
-h1 { font-size:clamp(22px,4.6vw,32px); margin:12px 0 10px; color:#fff; }
-p { color:var(--muted); max-width:56ch; margin:0 auto 22px; }
-.acts { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
-.rgrid { display:grid; gap:10px; grid-template-columns:1fr 1fr; max-width:620px; margin:36px auto 0; }
-@media (min-width:620px){ .rgrid { grid-template-columns:repeat(5,1fr); } }
-.rgrid a { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 8px; font-size:14px; }
-.rgrid a:hover { border-color:var(--gold); color:var(--gold-d); }
-footer { background:#080c12; border-top:1px solid var(--line); color:#93a1b0; padding:22px 0; font-size:12.5px; }
-footer .wrap { max-width:1080px; display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; }
-footer a { color:var(--gold-d); }
-@media (max-width:859px){
-  .hrow { flex-wrap:wrap; height:auto; padding:8px 14px 10px; gap:10px; }
-  nav { order:3; display:flex; width:100%; overflow-x:auto; gap:8px; scrollbar-width:none; }
-  nav::-webkit-scrollbar { display:none; }
-  nav a { flex:0 0 auto; background:#0e161f; border:1px solid var(--line); border-radius:999px; padding:7px 13px; font-size:13px; }
+:root{--line:#22303f;--card:#111823;--muted:#8b97a5;--gold:#d8b878;--gold-d:#eed3a1;--txt:#f2f5f8;--wa:#25d366;--tg:#229ed9}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0f18;color:var(--txt);font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;line-height:1.68;min-height:100vh;display:flex;flex-direction:column;padding-bottom:80px}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:820px;margin:0 auto;padding:0 18px}
+header{background:rgba(11,18,27,.96);border-bottom:1px solid #1b2a3a}
+.hrow{max-width:1080px;margin:0 auto;height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 18px}
+.logo.rk{display:flex;align-items:center;gap:10px}
+.rk-mark{width:42px;height:42px;flex:0 0 42px}
+.rk-t{display:flex;flex-direction:column;line-height:1.1}
+.rk-w{font-family:Georgia,serif;font-size:19px;color:#f6f2ea;white-space:nowrap}
+.rk-w em{font-style:normal;color:#e0233f}
+.rk-s{font-size:8.5px;letter-spacing:1.7px;text-transform:uppercase;color:var(--gold);margin-top:2px}
+nav{display:none;gap:18px;font-size:14px;color:#93a1b0}
+@media(min-width:860px){nav{display:flex}}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#f3ddb4,var(--gold));color:#121a24;font-weight:700;border:0;border-radius:11px;padding:11px 18px;font-size:14px;white-space:nowrap;cursor:pointer}
+.btn.wa{background:var(--wa);color:#fff}
+.btn.tg{background:var(--tg);color:#fff}
+main{flex:1 0 auto;padding:clamp(44px,9vw,96px) 0;text-align:center}
+.code{font-family:Georgia,serif;font-size:clamp(84px,22vw,160px);line-height:.9;color:transparent;background:linear-gradient(180deg,var(--gold-d),var(--gold));-webkit-background-clip:text;background-clip:text;letter-spacing:-.04em}
+h1{font-size:clamp(22px,4.6vw,32px);margin:12px 0 10px;color:#fff}
+p{color:var(--muted);max-width:56ch;margin:0 auto 22px}
+.acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.rgrid{display:grid;gap:10px;grid-template-columns:1fr 1fr;max-width:620px;margin:36px auto 0}
+@media(min-width:620px){.rgrid{grid-template-columns:repeat(5,1fr)}}
+.rgrid a{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 8px;font-size:14px}
+.rgrid a:hover{border-color:var(--gold);color:var(--gold-d)}
+footer{background:#080c12;border-top:1px solid var(--line);color:#93a1b0;padding:22px 0;font-size:12.5px}
+footer .wrap{max-width:1080px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+footer a{color:var(--gold-d)}
+@media(max-width:859px){
+  .hrow{flex-wrap:wrap;height:auto;padding:8px 14px 10px;gap:10px}
+  nav{order:3;display:flex;width:100%;overflow-x:auto;gap:8px;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{flex:0 0 auto;background:#0e161f;border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px}
 }
 </style>
 </head>
@@ -69,12 +68,12 @@ footer a { color:var(--gold-d); }
 
 <main>
   <div class="wrap">
-    <div class="code">404</div>
+    <div class="code" aria-hidden="true">404</div>
     <h1>Bu sayfa bulunamadı</h1>
     <p>Adres yanlış yazılmış, sayfa taşınmış veya artık yayında değil olabilir. Aşağıdan bölge seçebilir ya da doğrudan yazabilirsin.</p>
     <div class="acts">
       <a class="btn" href="/">Ana sayfaya dön</a>
-      <a class="btn wa" href="https://wa.me/905515420755" target="_blank" rel="noopener">WhatsApp’tan yaz</a>
+      <a class="btn wa" href="https://wa.me/905515420755" target="_blank" rel="noopener">WhatsApp'tan yaz</a>
       <a class="btn tg" href="https://t.me/kibrisescortvip" target="_blank" rel="noopener">Telegram</a>
     </div>
     <div class="rgrid">
@@ -91,6 +90,4 @@ footer a { color:var(--gold-d); }
   <span>Kıbrıs Escort · Girne · Lefkoşa · Mağusa · İskele · Güzelyurt</span>
   <span><a href="/fiyatlar">Fiyatlar</a> · <a href="/iletisim">İletişim</a> · © 2026 · Can</span>
 </div></footer>
-<script src="/js/iletisim.js" defer></script>
-  <script src="/js/chrome.js" defer></script>
 </body></html>
