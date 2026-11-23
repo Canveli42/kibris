@@ -29,6 +29,7 @@ const BOLGELER = [
   ['long-beach-escort', '0.7'],
   ['bafra-escort', '0.7'],
   ['gonyeli-escort', '0.7'],
+  ['lefkosa-hamitkoy-escort', '0.6'],
   ['otele-escort', '0.6'],
   ['eve-gelen-escort', '0.6'],
   ['gecelik-escort', '0.6'],
