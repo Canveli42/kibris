@@ -270,5 +270,18 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:30px 0 24p
   <div class="f-bottom"><span>Kyrenia · Nicosia · Famagusta · Iskele · Guzelyurt</span><span>© 2026 · Can</span></div>
 </div></footer>
 
+<script>
+(function(){
+  var links = document.querySelectorAll('.lang a');
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function(){
+      try {
+        var h = this.getAttribute('href');
+        localStorage.setItem('rk_lang', h === '/' ? 'tr' : h.replace('/', ''));
+      } catch (e) {}
+    });
+  }
+})();
+</script>
 </body>
 </html>
