@@ -142,7 +142,7 @@ function header(path) {
   };
   return '<header class="site-header"><div class="header-in">' +
     '<a class="brand" href="' + BASE + '/" aria-label="RedKıbrıs">' + MARK +
-    '<span class="wordmark"><b>Red</b>Kıbrıs<i>Kuzey Kıbrıs</i></span></a>' +
+    '<span class="wordmark"><b>Red</b>Kıbrıs<i>Kıbrıs Escort</i></span></a>' +
     '<a class="btn-katalog" href="' + WA + '" target="_blank" rel="noopener" aria-label="WhatsApp ile katalog iste">' + WSVG + 'Katalog</a>' +
     '<span class="lang">' + pill('tr', 'TR') + pill('en', 'EN') + pill('ru', 'RU') + '</span>' +
     '<nav aria-label="Ana menü">' + links + '</nav>' +
