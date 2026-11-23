@@ -19,17 +19,22 @@ const tarih = d => {
 
 const duz = s => String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
+const mdLink = s => String(s || '')
+  .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2">$1</a>');
+const mdBold = s => String(s || '').replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+const md = s => mdBold(mdLink(esc(s)));
+
 const govde = raw => {
-  if (/<(h2|h3|p|ul|div)[\s>]/i.test(raw || '')) return raw;
+  if (/<(h2|h3|p|ul|div)[\s>]/i.test(raw || '')) return mdBold(mdLink(String(raw || '')));
   let html = '', inUl = false;
   for (const satir of String(raw || '').split('\n')) {
     const b = satir.trim();
     if (!b) { if (inUl) { html += '</ul>'; inUl = false; } continue; }
-    if (b.startsWith('## ')) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h2>' + esc(b.slice(3)) + '</h2>'; continue; }
-    if (b.startsWith('### ')) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h3>' + esc(b.slice(4)) + '</h3>'; continue; }
-    if (b.startsWith('- ')) { if (!inUl) { html += '<ul>'; inUl = true; } html += '<li>' + esc(b.slice(2)) + '</li>'; continue; }
+    if (b.startsWith('## ')) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h2>' + md(b.slice(3)) + '</h2>'; continue; }
+    if (b.startsWith('### ')) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h3>' + md(b.slice(4)) + '</h3>'; continue; }
+    if (b.startsWith('- ')) { if (!inUl) { html += '<ul>'; inUl = true; } html += '<li>' + md(b.slice(2)) + '</li>'; continue; }
     if (inUl) { html += '</ul>'; inUl = false; }
-    html += '<p>' + esc(b) + '</p>';
+    html += '<p>' + md(b) + '</p>';
   }
   if (inUl) html += '</ul>';
   return html;
@@ -63,13 +68,14 @@ const sayfa = o => `<!DOCTYPE html>
 <meta property="og:title" content="${esc(o.title)}">
 <meta property="og:description" content="${esc(o.desc)}">
 <meta property="og:url" content="${esc(o.url)}">
-${o.img ? `<meta property="og:image" content="${esc(o.img)}">
+${o.img ? `<meta property="og:image" content="${esc(o.img)}">` : ''}
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="${esc(o.img)}">` : '<meta name="twitter:card" content="summary">'}
+${o.img ? `<meta name="twitter:image" content="${esc(o.img)}">` : ''}
 <meta name="theme-color" content="#0b121b">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2 62 32 32 62 2 32Z' fill='%231e2a40' stroke='%23f0d9ae' stroke-opacity='.55' stroke-width='2'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='23' font-weight='700' text-anchor='middle'%3E%3Ctspan fill='%23ff3b5c'%3ER%3C/tspan%3E%3Ctspan fill='%23ffffff'%3EK%3C/tspan%3E%3C/text%3E%3C/svg%3E">
-<style>${S.css}${S.icerik}</style>
+<style>${S.css}</style>
 ${o.ld || ''}
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KP7MEM460J"></script>
 </head><body>
 ${S.header({ aktif: BASE + '/blog', dil: 'tr' })}
 <main class="wrap">
@@ -138,7 +144,8 @@ module.exports = async (req, res) => {
       '@context': 'https://schema.org', '@type': 'Article',
       headline: p.title, description: desc,
       datePublished: p.created_at, dateModified: p.updated_at || p.created_at,
-      url: url, image: p.img ? [p.img] : undefined,
+      url: url,
+      image: p.img ? [p.img] : [],
       author: { '@type': 'Person', name: 'Can' },
       publisher: {
         '@type': 'Organization', name: 'RedKıbrıs',
@@ -167,8 +174,8 @@ module.exports = async (req, res) => {
   <article>${govde(p.body)}</article>
   ${f.length ? `<section class="faq"><h2>Sık sorulan sorular</h2>${f.map(x => `<details><summary>${esc(x[0])}</summary><p>${esc(x[1])}</p></details>`).join('')}</section>` : ''}
   <div class="about"><b>Sorun mu var, katalog mu lazım?</b><br>WhatsApp'tan yaz, kaldığın bölgeye göre liste gönderiyoruz.
-    <br><a class="btn wa" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">WhatsApp'tan yaz</a>
-    <a class="btn tg" href="${TG}" target="_blank" rel="noopener" data-base="${TG}">Telegram'dan yaz</a>
+    <br><a class="btn wa" href="${WA}" target="_blank" rel="noopener">WhatsApp'tan yaz</a>
+    <a class="btn tg" href="${TG}" target="_blank" rel="noopener">Telegram'dan yaz</a>
   </div>
   ${digerleri.length ? `<div class="diger"><h2>Diğer yazılar</h2>${digerleri.map(x => `<a href="${BASE}/blog/${esc(x.slug)}">${esc(x.title)}</a>`).join('')}</div>` : ''}`;
 
