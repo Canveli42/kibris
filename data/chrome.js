@@ -17,13 +17,14 @@ a{color:var(--gold);text-decoration:none}
 a:hover{text-decoration:underline}
 .wrap{width:min(1120px,100%);margin:0 auto;padding:0 18px}
 .site-header{position:sticky;top:0;z-index:60;background:rgba(10,16,32,.94);border-bottom:1px solid var(--line);backdrop-filter:saturate(140%) blur(10px)}
-.site-header .header-in{width:min(1120px,100%);margin:0 auto;display:flex;align-items:center;gap:14px;padding:10px 18px;flex-wrap:wrap}
+.site-header .header-in{width:min(1120px,100%);margin:0 auto;display:flex;align-items:center;gap:12px;padding:10px 18px;flex-wrap:wrap}
 .site-header .brand{display:flex;align-items:center;gap:10px;color:var(--ink);flex:0 0 auto;text-decoration:none}
 .site-header .brand .mark{width:40px;height:40px;flex:0 0 auto}
 .site-header .wordmark{display:flex;flex-direction:column;line-height:1.05;font-family:Georgia,serif;font-size:21px;color:var(--ink)}
 .site-header .wordmark b{color:var(--red);font-weight:700}
 .site-header .wordmark i{font-style:normal;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);margin-top:4px}
-.site-header .btn-katalog{margin-left:auto;flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;background:linear-gradient(180deg,#3ae07d,#25d366);color:#05270f;font-weight:700;font-size:14px;padding:10px 17px;border-radius:999px;white-space:nowrap;text-decoration:none}
+.site-header .header-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.site-header .btn-katalog{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(180deg,#3ae07d,#25d366);color:#05270f;font-weight:700;font-size:14px;padding:10px 17px;border-radius:999px;white-space:nowrap;text-decoration:none}
 .site-header .btn-katalog svg{width:17px;height:17px;fill:currentColor;flex:0 0 auto}
 .site-header .lang{display:flex;gap:5px;font-size:12px;align-items:center;flex:0 0 auto}
 .site-header .lang a{padding:4px 8px;border:1px solid var(--line);border-radius:999px;color:var(--mut);text-decoration:none}
@@ -33,15 +34,23 @@ a:hover{text-decoration:underline}
 .site-header nav a{flex:0 0 auto;font-size:13.5px;color:var(--mut);padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:var(--panel);white-space:nowrap;text-decoration:none}
 .site-header nav a.on{color:#141008;background:var(--gold);border-color:var(--gold);font-weight:600}
 @media(min-width:860px){
-  .site-header .header-in{flex-wrap:nowrap;padding:12px 18px}
-  .site-header nav{order:0;flex:1 1 auto;justify-content:flex-end;padding:0;overflow:visible}
-  .site-header nav a{background:transparent;border-color:transparent;padding:6px 8px}
+  .site-header .header-in{flex-wrap:wrap}
+  .site-header nav{order:0;flex:1 1 100%;justify-content:flex-start;padding:0 0 10px;overflow:visible;gap:2px}
+  .site-header nav a{background:transparent;border-color:transparent;padding:6px 10px}
   .site-header nav a.on{background:transparent;color:var(--gold);border-color:transparent;font-weight:700}
-  .site-header .btn-katalog{margin-left:6px}
 }
 @media(max-width:859px){
-  .site-header .lang{order:2;gap:3px;font-size:11px}
+  .site-header .header-in{gap:8px 10px;padding:10px 12px 0}
+  .site-header .brand .mark{width:36px;height:36px}
+  .site-header .wordmark{font-size:18px}
+  .site-header .wordmark i{display:none}
+  .site-header .header-right{gap:6px}
+  .site-header .btn-katalog{padding:9px 14px;font-size:13px;gap:5px}
+  .site-header .btn-katalog svg{width:15px;height:15px}
+  .site-header .lang{gap:3px;font-size:11px}
   .site-header .lang a{padding:3px 6px}
+  .site-header nav{padding:0 0 10px}
+  .site-header nav a{font-size:12.5px;padding:6px 11px}
 }
 main{padding:22px 0 40px}
 h1{font-family:Georgia,serif;font-size:32px;margin:0 0 8px}
@@ -83,8 +92,10 @@ function header(active) {
       <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="#1e2a40"></path><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="none" stroke="#f0d9ae" stroke-opacity=".55" stroke-width="1.4"></path><text x="24" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="16.5" font-weight="700"><tspan fill="#ff3b5c">R</tspan><tspan fill="#ffffff">K</tspan></text></svg>
       <span class="wordmark"><b>Red</b>Kıbrıs<i>Kıbrıs Escort</i></span>
     </a>
-    <a class="btn-katalog" href="${WA}" target="_blank" rel="noopener" aria-label="WhatsApp ile katalog iste">${WSVG}Katalog</a>
-    <span class="lang">${pill('tr', 'TR')}${pill('en', 'EN')}${pill('ru', 'RU')}</span>
+    <div class="header-right">
+      <a class="btn-katalog" href="${WA}" target="_blank" rel="noopener" aria-label="WhatsApp ile katalog iste">${WSVG}Katalog</a>
+      <span class="lang">${pill('tr', 'TR')}${pill('en', 'EN')}${pill('ru', 'RU')}</span>
+    </div>
     <nav aria-label="Ana menü">${links}</nav>
   </div></header>`;
 }
