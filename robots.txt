@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kibrisgirneescort.com/sitemap.xml
+Sitemap: https://www.kibrisgirneescort.com/sitemap.xml
