@@ -18,6 +18,15 @@ const u = (loc, lastmod, freq, pri) =>
   '<url><loc>' + esc(loc) + '</loc><lastmod>' + lastmod +
   '</lastmod><changefreq>' + freq + '</changefreq><priority>' + pri + '</priority></url>';
 
+const uDil = (loc, lastmod, pri) =>
+  '<url><loc>' + esc(loc) + '</loc><lastmod>' + lastmod +
+  '</lastmod><changefreq>weekly</changefreq><priority>' + pri + '</priority>' +
+  '<xhtml:link rel="alternate" hreflang="tr" href="' + esc(BASE + '/') + '"/>' +
+  '<xhtml:link rel="alternate" hreflang="en" href="' + esc(BASE + '/en') + '"/>' +
+  '<xhtml:link rel="alternate" hreflang="ru" href="' + esc(BASE + '/ru') + '"/>' +
+  '<xhtml:link rel="alternate" hreflang="x-default" href="' + esc(BASE + '/') + '"/>' +
+  '</url>';
+
 const BOLGELER = [
   ['girne-escort', '0.9'],
   ['lefkosa-escort', '0.8'],
@@ -75,7 +84,16 @@ module.exports = async (req, res) => {
     urls.push(u(loc, lastmod, freq, pri));
   };
 
-  ekle(BASE + '/', enSon, 'daily', '1.0');
+  const ekleDil = (loc, pri) => {
+    if (gorulen.has(loc)) return;
+    gorulen.add(loc);
+    urls.push(uDil(loc, enSon, pri));
+  };
+
+  ekleDil(BASE + '/', '1.0');
+  ekleDil(BASE + '/en', '0.9');
+  ekleDil(BASE + '/ru', '0.9');
+
   ekle(BASE + '/fiyatlar', STATIC, 'weekly', '0.9');
   ekle(BASE + '/blog', enSon, 'daily', '0.8');
 
@@ -101,7 +119,7 @@ module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
   res.status(200).send(
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' +
     urls.join('\n') + '\n</urlset>'
   );
 };
