@@ -49,6 +49,8 @@
 .chrome-footer .cf-cols a{display:block;color:#93a0b4;font-size:14px;padding:3px 0;text-decoration:none}
 .chrome-footer .cf-cols a:hover{color:#f0d9ae}
 .chrome-footer .cf-bottom{width:min(1120px,100%);margin:26px auto 0;padding:16px 18px 0;border-top:1px solid rgba(216,184,120,.18);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:#93a0b4;font-size:12.5px}
+@media(min-width:860px){#waFix{display:none!important}}
+@media(max-width:859px){body{padding-bottom:88px}}
 `;
 
   var st = document.createElement('style');
@@ -104,10 +106,5 @@
   fix.target = '_blank';
   fix.rel = 'noopener';
   fix.textContent = 'WhatsApp’tan yaz';
-  fix.style.cssText = 'position:fixed;bottom:14px;left:14px;right:14px;justify-content:center;z-index:50;border-radius:12px;font-weight:700;background:#25d366;color:#fff;display:flex;padding:13px;text-decoration:none';
   document.body.appendChild(fix);
-
-  var fcss = document.createElement('style');
-  fcss.textContent = '@media(min-width:860px){#waFix{display:none}}';
-  document.head.appendChild(fcss);
 })();
