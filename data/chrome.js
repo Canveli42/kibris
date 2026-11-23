@@ -22,6 +22,45 @@ const WSVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58
 const MARK = '<svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="#1e2a40"></path><path d="M24 1.8 46.2 24 24 46.2 1.8 24Z" fill="none" stroke="#f0d9ae" stroke-opacity=".55" stroke-width="1.4"></path><text x="24" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="16.5" font-weight="700"><tspan fill="#ff3b5c">R</tspan><tspan fill="#ffffff">K</tspan></text></svg>';
 
 const css = `
+*,::before,::after{box-sizing:border-box}
+body{margin:0;background:#0a0f18;color:#f2f5f8;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;line-height:1.68;padding-bottom:96px}
+a{color:#eed3a1;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:820px;margin:0 auto;padding:0 18px}
+.crumb{font-size:13px;color:#8b97a5;padding:22px 0 0}
+.crumb a{color:#eed3a1}
+h1{font-size:clamp(25px,4.4vw,36px);line-height:1.16;letter-spacing:-.035em;font-weight:800;margin:10px 0 12px;color:#fff}
+h2{font-size:20px;color:#fff;border-left:3px solid #d8b878;padding-left:12px;margin:30px 0 14px}
+h3{font-size:16.5px;color:#fff;margin:22px 0 10px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 16px;padding-left:22px}
+li{margin:0 0 8px}
+strong{color:#fff}
+.lead{color:#8b97a5;font-size:15.5px;margin-bottom:24px}
+.byline{color:#8b97a5;font-size:13px;margin:0 0 18px}
+#cover,.rimg{width:100%;border-radius:14px;border:1px solid #22303f;margin:0 0 20px;aspect-ratio:12/7;object-fit:cover}
+article{font-size:16.5px}
+article p{color:#dbe3ee}
+.about{background:#111823;border:1px solid #22303f;border-radius:12px;padding:18px;margin:12px 0;font-size:15px}
+.about b{color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(180deg,#f3ddb4,#d8b878);color:#121a24;font-weight:700;border:0;border-radius:11px;padding:11px 18px;font-size:14px;box-shadow:0 6px 18px -8px rgba(216,184,120,.75)}
+.btn.wa{background:linear-gradient(180deg,#3ae07d,#25d366);color:#05270f}
+.btn.tg{background:linear-gradient(180deg,#4bb8ea,#229ed9);color:#04202e}
+.btn-o{display:inline-block;background:#0e161f;border:1px solid #22303f;color:#f2f5f8;border-radius:11px;padding:9px 13px;font-size:13px;font-weight:600}
+.btn-o:hover{border-color:#d8b878;color:#eed3a1}
+.sect{padding:6px 0}
+.guncel{color:#8b97a5;font-size:13px;margin-top:14px}
+.faq{border:1px solid #22303f;border-radius:12px;background:#111823;padding:0 18px;margin:22px 0}
+.faq details{border-bottom:1px solid #22303f;padding:14px 0}
+.faq details:last-child{border-bottom:0}
+.faq summary{cursor:pointer;font-weight:600;color:#fff;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";float:right;color:#d8b878}
+.faq details[open] summary::after{content:"–"}
+.faq p{color:#8b97a5;font-size:14.5px;margin:10px 0 0}
+.diger{border-top:1px solid #22303f;margin-top:28px;padding-top:6px}
+.diger a{display:block;padding:9px 0;border-bottom:1px solid rgba(34,48,63,.6);font-size:14.5px}
+.diger a:hover{color:#f0d9ae}
 .site-header{position:sticky;top:0;z-index:60;background:rgba(10,16,32,.94);border-bottom:1px solid rgba(216,184,120,.18);backdrop-filter:saturate(140%) blur(10px)}
 .site-header .header-in{width:min(1120px,100%);margin:0 auto;display:flex;align-items:center;gap:14px;padding:10px 18px;flex-wrap:wrap}
 .site-header .brand{display:flex;align-items:center;gap:10px;color:#e9eef6;flex:0 0 auto;text-decoration:none}
@@ -164,8 +203,8 @@ function shell(o) {
   const lang = o.lang || 'tr';
   const path = o.path || '/';
   return '<!DOCTYPE html>\n<html lang="' + lang + '"><head>\n' + head(o) + '\n</head>\n<body>\n' +
-    header(path) + '\n<main>' + (o.body || o.content || '') + '</main>\n' +
-    footer() + '\n<script src="' + BASE + '/js/chrome.js" defer></script>\n</body></html>';
+    header(path) + '\n<main class="wrap">' + (o.body || o.content || '') + '</main>\n' +
+    footer() + '\n</body></html>';
 }
 
 function withToString(fn, fallback) {
