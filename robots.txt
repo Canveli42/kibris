@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /can
 Disallow: /api/
+Disallow: /pages
 
 Sitemap: https://www.kibrisgirneescort.com/sitemap.xml
