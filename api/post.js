@@ -54,6 +54,8 @@ const sayfa = o => `<!DOCTYPE html>
 <title>${esc(o.title)} | RedKıbrıs</title>
 <meta name="description" content="${esc(o.desc)}">
 <link rel="canonical" href="${esc(o.url)}">
+<link rel="alternate" hreflang="tr" href="${esc(o.url)}">
+<link rel="alternate" hreflang="x-default" href="${esc(o.url)}">
 <meta name="robots" content="${o.robots || 'index,follow'}">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="RedKıbrıs">
