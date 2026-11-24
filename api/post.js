@@ -8,6 +8,7 @@ const LOGO = 'https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/
 const S = require('../data/shell.js');
 
 const DILLER = ['tr', 'en', 'ru'];
+const YAYIN = '&yayin_at=lte.now()';
 
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -113,7 +114,7 @@ async function ilgiliYazilar(slug, dil) {
     const or = anahtar.map(t => 'slug.ilike.*' + encodeURIComponent(t) + '*').join(',');
     try {
       const r = await fetch(
-        SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil +
+        SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil + YAYIN +
         '&slug=neq.' + encodeURIComponent(slug) + '&or=(' + or + ')&limit=5',
         { headers: H }
       );
@@ -123,7 +124,7 @@ async function ilgiliYazilar(slug, dil) {
   if (out.length < 5) {
     try {
       const r = await fetch(
-        SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil +
+        SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil + YAYIN +
         '&slug=neq.' + encodeURIComponent(slug) + '&order=created_at.desc&limit=12',
         { headers: H }
       );
@@ -191,7 +192,7 @@ module.exports = async (req, res) => {
       try {
         const r = await fetch(
           SB + '/rest/v1/posts?select=*&slug=eq.' + encodeURIComponent(slug) +
-          '&lang=eq.' + dil + '&published=eq.true',
+          '&lang=eq.' + dil + '&published=eq.true' + YAYIN,
           { headers: H }
         );
         if (r.ok) { const a = await r.json(); p = a && a[0]; }
@@ -203,7 +204,7 @@ module.exports = async (req, res) => {
       let varMi = false;
       try {
         const r = await fetch(
-          SB + '/rest/v1/posts?select=slug&slug=eq.' + encodeURIComponent(slug) + '&published=eq.true&limit=1',
+          SB + '/rest/v1/posts?select=slug&slug=eq.' + encodeURIComponent(slug) + '&published=eq.true' + YAYIN + '&limit=1',
           { headers: H }
         );
         if (r.ok) { const a = await r.json(); varMi = !!(a && a.length); }
@@ -219,7 +220,7 @@ module.exports = async (req, res) => {
     if (!p) {
       try {
         const r = await fetch(
-          SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil +
+          SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil + YAYIN +
           '&order=created_at.desc&limit=6',
           { headers: H }
         );
@@ -241,7 +242,7 @@ module.exports = async (req, res) => {
     let diller = [dil];
     try {
       const r = await fetch(
-        SB + '/rest/v1/posts?select=lang&slug=eq.' + encodeURIComponent(slug) + '&published=eq.true',
+        SB + '/rest/v1/posts?select=lang&slug=eq.' + encodeURIComponent(slug) + '&published=eq.true' + YAYIN,
         { headers: H }
       );
       if (r.ok) {
@@ -267,7 +268,7 @@ module.exports = async (req, res) => {
       {
         '@context': 'https://schema.org', '@type': 'Article',
         headline: p.title, description: desc, inLanguage: dil,
-        datePublished: p.created_at, dateModified: p.updated_at || p.created_at,
+        datePublished: p.yayin_at || p.created_at, dateModified: p.updated_at || p.created_at,
         url: url, image: p.img ? [p.img] : undefined,
         author: { '@type': 'Person', name: 'Can' },
         publisher: { '@type': 'Organization', name: 'RedKıbrıs', logo: { '@type': 'ImageObject', url: LOGO } }
@@ -289,7 +290,7 @@ module.exports = async (req, res) => {
     const icerik = `
     <div class="crumb"><a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <a href="${BASE}${dil === 'tr' ? '/blog' : '/' + dil + '/blog'}">${esc(t.blog)}</a> › <span>${esc(p.title)}</span></div>
     <h1>${esc(p.title)}</h1>
-    <p class="byline">${esc(t.yazar)} · RedKıbrıs · ${tarih(p.created_at, dil)} · ${dk} ${esc(t.dk)}</p>
+    <p class="byline">${esc(t.yazar)} · RedKıbrıs · ${tarih(p.yayin_at || p.created_at, dil)} · ${dk} ${esc(t.dk)}</p>
     ${p.img ? `<img id="cover" src="${esc(p.img)}" alt="${esc(p.title)}" width="1200" height="750" fetchpriority="high">` : ''}
     <article>${govde(p.body)}</article>
     ${f.length ? `<section class="faq"><h2>${esc(t.sssB)}</h2>${f.map(x => `<details><summary>${esc(x[0])}</summary><p>${esc(x[1])}</p></details>`).join('')}</section>` : ''}
