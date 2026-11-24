@@ -18,6 +18,9 @@
   ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
+    { "source": "/hakkinda", "destination": "/api/post?slug=hakkinda&lang=tr" },
+    { "source": "/en/hakkinda", "destination": "/api/post?slug=hakkinda&lang=en" },
+    { "source": "/ru/hakkinda", "destination": "/api/post?slug=hakkinda&lang=ru" },
     { "source": "/blog/:slug", "destination": "/api/post?slug=:slug&lang=tr" },
     { "source": "/en/blog/:slug", "destination": "/api/post?slug=:slug&lang=en" },
     { "source": "/ru/blog/:slug", "destination": "/api/post?slug=:slug&lang=ru" },
