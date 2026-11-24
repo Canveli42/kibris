@@ -1,26 +1,9 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
-  "functions": {
-    "api/sayfa.js": { "includeFiles": "pages/*.html" }
-  },
-  "redirects": [
-    { "source": "/rehber", "destination": "/blog/kibrista-yalniz-gelenler-rehberi", "permanent": true },
-
-    { "source": "/blog/kibris-escort-kimlik-istiyor-mu", "destination": "/blog/escort-kimlik-ister-mi-kktc-yasal", "permanent": true },
-    { "source": "/blog/kibris-escort-otel-secimi", "destination": "/blog/otel-secimi-havuz-mu-konum-mu", "permanent": true },
-    { "source": "/blog/otele-escort-cagirma-rehberi", "destination": "/otele-escort", "permanent": true },
-    { "source": "/blog/gorusmeyi-lobide-baslatmak", "destination": "/blog/kibris-escort-lobi-mi-oda-mi", "permanent": true },
-    { "source": "/blog/otel-odasinda-gorusme-kurallari", "destination": "/blog/otelde-escort-resepsiyon", "permanent": true },
-    { "source": "/blog/escort-gorusmesinde-ev-mi-otel-mi", "destination": "/blog/otel-secimi-havuz-mu-konum-mu", "permanent": true },
-    { "source": "/blog/girne-gece-ulasim", "destination": "/blog/kibris-escort-ulasim-ve-taksi", "permanent": true },
-    { "source": "/blog/kibris-gece-kulupleri-giris-ucretleri", "destination": "/blog/girne-gece-kulupleri-rehberi", "permanent": true }
-  ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
     { "source": "/blog/:slug", "destination": "/api/post?slug=:slug" },
-
     { "source": "/", "destination": "/api/sayfa?f=index" },
     { "source": "/en", "destination": "/api/sayfa?f=en" },
     { "source": "/ru", "destination": "/api/sayfa?f=ru" },
@@ -28,7 +11,6 @@
     { "source": "/fiyatlar", "destination": "/api/sayfa?f=fiyatlar" },
     { "source": "/iletisim", "destination": "/api/sayfa?f=iletisim" },
     { "source": "/gizlilik", "destination": "/api/sayfa?f=gizlilik" },
-
     { "source": "/girne-escort", "destination": "/api/region?slug=girne-escort" },
     { "source": "/lefkosa-escort", "destination": "/api/region?slug=lefkosa-escort" },
     { "source": "/lefkosa-hamitkoy-escort", "destination": "/api/region?slug=lefkosa-hamitkoy-escort" },
@@ -51,22 +33,6 @@
     { "source": "/ogrenci-escort", "destination": "/api/region?slug=ogrenci-escort" },
     { "source": "/turk-escort", "destination": "/api/region?slug=turk-escort" },
     { "source": "/rus-escort", "destination": "/api/region?slug=rus-escort" },
-
     { "source": "/:slug", "destination": "/api/region?slug=:slug" }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "geolocation=(), microphone=(), camera=()" }
-      ]
-    },
-    { "source": "/api/(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] },
-    { "source": "/data/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }] },
-    { "source": "/js/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] }
   ]
 }
-
