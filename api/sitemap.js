@@ -74,7 +74,7 @@ module.exports = async (req, res) => {
 
   try {
     const r = await fetch(
-      SB + '/rest/v1/posts?select=slug,lang,created_at,updated_at&published=eq.true&order=updated_at.desc&limit=2000',
+      SB + '/rest/v1/posts?select=slug,lang,created_at,updated_at&published=eq.true&or=(yayin_at.is.null,yayin_at.lte.now())&order=updated_at.desc&limit=2000',
       { headers: H }
     );
     if (r.ok) { const rows = await r.json(); posts = Array.isArray(rows) ? rows : []; }
