@@ -36,7 +36,7 @@ lead:"Nicosia is the capital: business trips, student life and the Dereboyu even
 areas:["Dereboyu","Koskluciftlik","Kumsal","Gonyeli","Ortakoy"],
 otel:["Merit Nicosia","Lord Palace","Grand Pasha","Dedeman Nicosia"],
 metin:"Escort work in Nicosia concentrates around Dereboyu, Koskluciftlik and Kumsal; we also travel to Gonyeli and Ortakoy. For anyone on a business trip the easiest route is meeting in the hotel lobby. If you would rather keep your name off reception, we come straight to the room.",
-metin2:"Distances in the capital are short, but the taxi is still calculated by distance and quoted in advance. A daytime meeting needs an hour's notice; for evenings write earlier. Payment at the meeting, no deposit.",
+metin2:"Distances in the capital are short, but the taxi is still calculated by distance and quoted in advance. A daytime meeting needs an hour's notice; for evenings write earlier. Payment at the start of the meeting, no deposit.",
 ek:`<h2>Where and how a meeting happens in Nicosia</h2>
 <div class="about"><b>Dereboyu</b><br>The capital's evening street. Crowded after 21:00, so the meeting point is named by venue. More: <a href="/en/blog/lefkosa-gece-dereboyu">an evening in Nicosia</a>.</div>
 <div class="about"><b>Koskluciftlik</b><br>Close to the centre, flats and offices. The easiest area for daytime meetings.</div>
