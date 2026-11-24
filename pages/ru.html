@@ -199,7 +199,7 @@ section{padding:clamp(38px,6vw,68px) 0}
         var img=r.img||'';
         if(!s||!img)return;
         var hit=null;
-        KEYS.forEach(function(k){if(s.indexOf(k)>-1)hit=k;});
+        KEYS.forEach(function(k){if(s===k+'-escort')hit=k;});
         if(!hit)return;
         var card=grid.querySelector('[data-b="'+hit+'"]');
         if(!card)return;
