@@ -179,6 +179,7 @@ ${S.header({ aktif: o.url, dil: o.dil, ceviriler: o.ceviriler })}
 ${o.icerik}
 </main>
 ${S.footer(o.dil)}
+<script src="${BASE}/takip.js" defer></script>
 </body></html>`;
 
 module.exports = async (req, res) => {
@@ -316,7 +317,7 @@ module.exports = async (req, res) => {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.status(500).send(sayfa({
       dil: 'tr', title: 'Yazı yüklenemedi', desc: 'Sayfa geçici olarak yüklenemedi.',
-      url: BASE + '/blog', robots: 'noindex,follow',
+      url: BASE + '/blog', robots: 'noindex,nofollow',
       icerik: `<h1>Sayfa yüklenemedi</h1><div class="about">Birkaç saniye sonra tekrar dene. <a href="${BASE}/blog">Bloga</a> dönebilirsin.</div>`
     }));
   }
