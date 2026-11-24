@@ -183,8 +183,8 @@ section{padding:clamp(42px,6.5vw,76px) 0}
         var s=String(r.slug||'').toLowerCase();
         var img=r.img||'';
         if(!s||!img)return;
-        var hit=null;
-        KEYS.forEach(function(k){if(s.indexOf(k)>-1)hit=k;});
+       var hit=null;
+        KEYS.forEach(function(k){if(s===k+'-escort')hit=k;});
         if(!hit)return;
         var card=grid.querySelector('[data-b="'+hit+'"]');
         if(!card)return;
