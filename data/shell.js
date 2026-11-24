@@ -18,9 +18,9 @@ const MSG = {
 };
 
 const FT = {
-  tr: { b: 'Bölgeler', s: 'Site', marka: 'Kıbrıs Escort · Girne merkezli bağımsız escort rehberi. Bölge sayfaları, güncel profil listeleri ve net fiyatlar.', ana: 'Ana Sayfa', blog: 'Blog', fiyat: 'Fiyatlar', ilet: 'İletişim', giz: 'Gizlilik', panel: 'Panel', alt: 'Kıbrıs Escort · Girne · Lefkoşa · Mağusa · İskele · Güzelyurt' },
-  en: { b: 'Areas', s: 'Site', marka: 'Escort service in Northern Cyprus. Kyrenia base, fixed rates, no deposit.', ana: 'Home', blog: 'Blog', fiyat: 'Prices', ilet: 'Contact', giz: 'Privacy', panel: 'Panel', alt: 'Kyrenia · Nicosia · Famagusta · Iskele · Guzelyurt' },
-  ru: { b: 'Районы', s: 'Сайт', marka: 'Эскорт на Северном Кипре. База в Кирении, фиксированные цены, без предоплаты.', ana: 'Главная', blog: 'Блог', fiyat: 'Цены', ilet: 'Контакты', giz: 'Приватность', panel: 'Панель', alt: 'Кирения · Никосия · Фамагуста · Искеле · Гюзельюрт' }
+  tr: { b: 'Bölgeler', s: 'Site', marka: 'Kıbrıs Escort · Girne merkezli bağımsız escort rehberi. Bölge sayfaları, güncel profil listeleri ve net fiyatlar.', ana: 'Ana Sayfa', blog: 'Blog', fiyat: 'Fiyatlar', ilet: 'İletişim', giz: 'Gizlilik', alt: 'Kıbrıs Escort · Girne · Lefkoşa · Mağusa · İskele · Güzelyurt' },
+  en: { b: 'Areas', s: 'Site', marka: 'Escort service in Northern Cyprus. Kyrenia base, fixed rates, no deposit.', ana: 'Home', blog: 'Blog', fiyat: 'Prices', ilet: 'Contact', giz: 'Privacy', alt: 'Kyrenia · Nicosia · Famagusta · Iskele · Guzelyurt' },
+  ru: { b: 'Районы', s: 'Сайт', marka: 'Эскорт на Северном Кипре. База в Кирении, фиксированные цены, без предоплаты.', ana: 'Главная', blog: 'Блог', fiyat: 'Цены', ilet: 'Контакты', giz: 'Приватность', alt: 'Кирения · Никосия · Фамагуста · Искеле · Гюзельюрт' }
 };
 
 const WSVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.02A9.82 9.82 0 0 0 12.04 2zm5.8 14.09c-.24.68-1.42 1.31-2 1.4-.52.08-1.17.11-1.89-.12-.43-.14-.99-.32-1.7-.62-3-1.22-4.95-4.36-5.1-4.56-.15-.2-1.22-1.61-1.22-3.07 0-1.46.77-2.18 1.04-2.48.27-.3.59-.37.79-.37h.57c.18.01.43-.07.67.51.25.59.85 2.05.92 2.2.07.15.12.32.02.52-.1.2-.15.33-.3.5-.15.17-.32.39-.45.52-.15.15-.3.31-.13.61.17.3.77 1.29 1.67 2.09 1.15 1.02 2.12 1.34 2.42 1.49.3.15.48.13.65-.07.17-.2.74-.87.94-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.03.97.3.15.5.22.57.35.08.12.08.72-.17 1.4z"/></svg>';
@@ -175,7 +175,7 @@ function footer(dil) {
     + '<div><h4>' + f.s + '</h4>'
     + '<a href="' + BASE + '/">' + f.ana + '</a><a href="' + BASE + '/blog">' + f.blog + '</a>'
     + '<a href="' + BASE + '/fiyatlar">' + f.fiyat + '</a><a href="' + BASE + '/iletisim">' + f.ilet + '</a>'
-    + '<a href="' + BASE + '/gizlilik">' + f.giz + '</a><a href="' + BASE + '/can">' + f.panel + '</a></div>'
+    + '<a href="' + BASE + '/gizlilik">' + f.giz + '</a></div>'
     + '</div></div>'
     + '<div class="cf-bottom"><span>' + f.alt + '</span><span>© 2026 · Can</span></div>'
     + '</footer>'
