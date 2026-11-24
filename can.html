@@ -419,16 +419,23 @@ function sikistir(f,maxW,q){
 var kullanilan={};
 function onizleYaz(){
   var s=slug(el("slug").value.trim()),d=el("dil").value;
-  if(!s){el("onizle").innerHTML="<i>Dosya adı:</i> slug ve dil seçilince burada görünür";return}
+  if(!s){el("onizle").innerHTML="<i>Dosya adı:</i> slug boşsa dosya adı kullanılır, içindeki veniceai silinir";return}
   el("onizle").innerHTML="<i>Dosya adı:</i> "+s+(d?"-"+d:"")+"-1.webp";
 }
 el("slug").oninput=onizleYaz;
 el("dil").onchange=onizleYaz;
 
+function temizAd(n){
+  return slug(n)
+    .replace(/venice[\s._-]*ai/g,'')
+    .replace(/-+/g,'-')
+    .replace(/^-+|-+$/g,'');
+}
+
 function adUret(f,sira){
   var s=slug(el("slug").value.trim()),d=el("dil").value,ad;
   if(s){ad=s+(d?"-"+d:"")+"-"+sira}
-  else{ad=Date.now()+"-"+slug(f.name)+"-"+sira}
+  else{ad=(temizAd(f.name)||String(Date.now()))+"-"+sira}
   var n=ad,k=2;
   while(kullanilan[n]){n=ad+"-"+k;k++}
   kullanilan[n]=1;
