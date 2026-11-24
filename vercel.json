@@ -5,6 +5,9 @@
   "functions": {
     "api/sayfa.js": { "includeFiles": "pages/*.html" }
   },
+  "crons": [
+    { "path": "/api/temizle", "schedule": "0 4 * * *" }
+  ],
   "redirects": [
     { "source": "/hakkinda", "destination": "/blog/hakkinda", "permanent": true },
     { "source": "/en/hakkinda", "destination": "/en/blog/hakkinda", "permanent": true },
