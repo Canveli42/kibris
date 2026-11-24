@@ -53,7 +53,7 @@ const M = {
     wa: "WhatsApp'tan yaz", tgY: "Telegram'dan yaz",
     yok: 'Sayfa bulunamadı', yokD: 'Aradığın sayfa bulunamadı.', buAdres: 'Bu adreste bölge yok.', donebilir: 'Ana sayfaya dönebilirsin.',
     s404: 'Bu sayfa bulunamadı', s404alt: 'Adres yanlış yazılmış, sayfa taşınmış ya da artık yayında değil. Aşağıdan bölge seçebilir, kataloğu isteyebilirsin.',
-    s404cat: 'Kataloğu gönder', s404bolge: 'Bölge seç', s404pop: 'Sık açılan sayfalar',
+    s404cat: 'Kataloğu gönder', s404bolge: 'Bölge seç', s404pop: 'Sık açılan sayfalar', s404home: 'Ana sayfaya dön',
     p1: 'Fiyatlar', p2: 'Girne fiyatları', p3: 'Türkçe bilen escort', p4: 'Gecelik fiyat', p5: 'Otele escort', p6: 'Blog', p7: 'İletişim',
     dolgu: nm => `
   <h2>${esc(nm)} için ne zaman yazmalı</h2>
@@ -90,7 +90,7 @@ const M = {
     wa: 'Message on WhatsApp', tgY: 'Message on Telegram',
     yok: 'Page not found', yokD: 'That page does not exist.', buAdres: 'Nothing at this address.', donebilir: 'You can go back to the home page.',
     s404: 'This page was not found', s404alt: 'The address is mistyped, the page has moved, or it is no longer live. Pick an area below or just ask for the catalogue.',
-    s404cat: 'Send catalogue', s404bolge: 'Choose an area', s404pop: 'Popular pages',
+    s404cat: 'Send catalogue', s404bolge: 'Choose an area', s404pop: 'Popular pages', s404home: 'Back to home',
     p1: 'Prices', p2: 'Kyrenia prices', p3: 'English speaking', p4: 'Overnight rate', p5: 'To your hotel', p6: 'Blog', p7: 'Contact',
     dolgu: nm => `
   <h2>When to write about ${esc(nm)}</h2>
@@ -127,7 +127,7 @@ const M = {
     wa: 'Написать в WhatsApp', tgY: 'Написать в Telegram',
     yok: 'Страница не найдена', yokD: 'Такой страницы нет.', buAdres: 'По этому адресу ничего нет.', donebilir: 'Можно вернуться на главную.',
     s404: 'Страница не найдена', s404alt: 'Адрес написан с ошибкой, страница переехала или больше не работает. Выберите район ниже или просто попросите каталог.',
-    s404cat: 'Прислать каталог', s404bolge: 'Выбрать район', s404pop: 'Частые страницы',
+    s404cat: 'Прислать каталог', s404bolge: 'Выбрать район', s404pop: 'Частые страницы', s404home: 'На главную',
     p1: 'Цены', p2: 'Цены в Кирении', p3: 'Русскоязычные', p4: 'Цена за ночь', p5: 'В отель', p6: 'Блог', p7: 'Контакты',
     dolgu: nm => `
   <h2>Когда писать — ${esc(nm)}</h2>
@@ -249,6 +249,9 @@ module.exports = async (req, res) => {
 .y404 h1{font-size:clamp(22px,4.6vw,32px);margin:0 0 10px}
 .y404 p{max-width:54ch;margin:0 auto 24px}
 .y404-acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:6px}
+.y404-acts .btn{background:linear-gradient(180deg,#3ae07d,#1fbb56);color:#04270f;padding:13px 24px;font-size:14.5px;box-shadow:0 10px 26px -14px #25d366}
+.y404-acts .btn.tg{background:linear-gradient(180deg,#4bb8ea,#229ed9);color:#04202e;box-shadow:0 10px 26px -14px #229ed9}
+.y404-home{background:linear-gradient(180deg,#f0d9ae,#d8b878);color:#121a24;font-weight:700;padding:13px 24px;font-size:14.5px}
 .y404 h2{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#d8b878;margin:34px 0 12px}
 .y404-links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 </style>
@@ -259,9 +262,8 @@ module.exports = async (req, res) => {
   <p class="lead">${esc(t.s404alt)}</p>
   <div class="y404-acts">
     <a class="btn" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">${esc(t.s404cat)}</a>
-    <a class="btn-o" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">${esc(t.wa)}</a>
     <a class="btn tg" href="${TG}" target="_blank" rel="noopener" data-base="${TG}">${esc(t.tgY)}</a>
-    <a class="btn-o" href="${BASE}${kk}/">${esc(t.ana)}</a>
+    <a class="btn-o y404-home" href="${BASE}${kk}/">${esc(t.s404home)}</a>
   </div>
   <h2>${esc(t.s404bolge)}</h2>
   <div class="y404-links">${bolgeler}</div>
