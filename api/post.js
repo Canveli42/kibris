@@ -4,7 +4,7 @@ const BASE = 'https://www.kibrisgirneescort.com';
 const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 const WA = 'https://wa.me/905515420755';
 const TG = 'https://t.me/kibrisescortvip';
-const LOGO = 'https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795330858770-m0godwqqq90k5f-1.webp';
+const LOGO = BASE + '/apple-touch-icon.png';
 const S = require('../data/shell.js');
 
 const DILLER = ['tr', 'en', 'ru'];
@@ -169,7 +169,8 @@ ${o.img ? `<meta property="og:image" content="${esc(o.img)}">
 <meta name="theme-color" content="#0b121b">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin="">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin="">
 <link rel="preconnect" href="https://www.googletagmanager.com">
 <style>${S.css}
 main a:not(.btn){text-decoration:underline;text-underline-offset:2px}
