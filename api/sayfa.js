@@ -2,6 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const S = require('../data/shell.js');
 
+const FAV = '<link rel="icon" href="/favicon.svg" type="image/svg+xml">'
+  + '<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">'
+  + '<link rel="apple-touch-icon" href="/apple-touch-icon.png">';
+
 const IZIN = {
   index: { f: 'index.html', aktif: '/', dil: 'tr' },
   en: { f: 'en.html', aktif: '/en', dil: 'en' },
@@ -25,6 +29,14 @@ const oku = f => {
   catch (e) { return null; }
 };
 
+function favicon(html) {
+  if (/rel="icon"[^>]*data:image\/svg\+xml/i.test(html)) {
+    return html.replace(/<link[^>]*rel="icon"[^>]*data:image\/svg\+xml[^>]*>/i, FAV);
+  }
+  if (html.indexOf('/favicon.svg') > -1) return html;
+  return html.replace('</head>', FAV + '</head>');
+}
+
 module.exports = (req, res) => {
   const k = String((req.query && req.query.f) || '').replace(/[^a-z-]/g, '');
   const sayfa = IZIN[k];
@@ -37,6 +49,8 @@ module.exports = (req, res) => {
   let html = oku(sayfa.f);
   if (!html && sayfa.yedek) html = oku(sayfa.yedek);
   if (!html) { res.status(500).send('Dosya okunamadı'); return; }
+
+  html = favicon(html);
 
   html = html
     .replace('<!--SHELL:HEAD-->', S.head())
