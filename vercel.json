@@ -6,6 +6,9 @@
     "api/sayfa.js": { "includeFiles": "pages/*.html" }
   },
   "redirects": [
+    { "source": "/hakkinda", "destination": "/blog/hakkinda", "permanent": true },
+    { "source": "/en/hakkinda", "destination": "/en/blog/hakkinda", "permanent": true },
+    { "source": "/ru/hakkinda", "destination": "/ru/blog/hakkinda", "permanent": true },
     { "source": "/rehber", "destination": "/blog/kibrista-yalniz-gelenler-rehberi", "permanent": true },
     { "source": "/blog/kibris-escort-kimlik-istiyor-mu", "destination": "/blog/escort-kimlik-ister-mi-kktc-yasal", "permanent": true },
     { "source": "/blog/kibris-escort-otel-secimi", "destination": "/blog/otel-secimi-havuz-mu-konum-mu", "permanent": true },
@@ -18,9 +21,6 @@
   ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
-    { "source": "/hakkinda", "destination": "/api/post?slug=hakkinda&lang=tr" },
-    { "source": "/en/hakkinda", "destination": "/api/post?slug=hakkinda&lang=en" },
-    { "source": "/ru/hakkinda", "destination": "/api/post?slug=hakkinda&lang=ru" },
     { "source": "/blog/:slug", "destination": "/api/post?slug=:slug&lang=tr" },
     { "source": "/en/blog/:slug", "destination": "/api/post?slug=:slug&lang=en" },
     { "source": "/ru/blog/:slug", "destination": "/api/post?slug=:slug&lang=ru" },
