@@ -6,6 +6,12 @@ const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 const STATIC = '2026-11-23';
 const DILLER = ['tr', 'en', 'ru'];
 
+const REG = {
+  tr: require('../data/regions.js'),
+  en: require('../data/regions.en.js'),
+  ru: require('../data/regions.ru.js')
+};
+
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
@@ -25,6 +31,7 @@ const BOLGELER = [
 const SLUG_OK = /^[a-z0-9-]{3,120}$/;
 
 const kok = d => (d === 'tr' ? '/blog/' : '/' + d + '/blog/');
+const kokB = d => (d === 'tr' ? '/' : '/' + d + '/');
 
 const xmlGrup = (g) => {
   const alt = DILLER.filter(d => g.yollar[d])
@@ -89,7 +96,11 @@ module.exports = async (req, res) => {
   ekle({ tr: BASE + '/fiyatlar', en: BASE + '/en/fiyatlar', ru: BASE + '/ru/fiyatlar' }, STATIC, 'weekly', '0.9');
   ekle({ tr: BASE + '/blog', en: BASE + '/en/blog', ru: BASE + '/ru/blog' }, enSon, 'daily', '0.8');
 
-  BOLGELER.forEach(b => ekle({ tr: BASE + '/' + b[0] }, STATIC, 'weekly', b[1]));
+  BOLGELER.forEach(b => {
+    const yollar = {};
+    DILLER.forEach(d => { if (REG[d][b[0]]) yollar[d] = BASE + kokB(d) + b[0]; });
+    if (Object.keys(yollar).length) ekle(yollar, STATIC, 'weekly', b[1]);
+  });
 
   const map = new Map();
   posts.forEach(p => {
