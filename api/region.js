@@ -50,7 +50,11 @@ ${S.footer('tr')}
 </body></html>`;
 
 module.exports = async (req, res) => {
-  const slug = String((req.query && req.query.slug) || '').replace(/[^a-z0-9-]/gi, '');
+  const slug = String((req.query && req.query.slug) || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
   const C2 = D[slug];
 
   if (!C2) {
@@ -63,8 +67,13 @@ module.exports = async (req, res) => {
       if (rp.ok) {
         const ap = await rp.json();
         if (ap && ap.length) {
-          res.setHeader('Location', BASE + '/blog/' + slug);
-          res.status(301).send('<!DOCTYPE html><html><body><a href="' + BASE + '/blog/' + slug + '">' + BASE + '/blog/' + slug + '</a></body></html>');
+          const hedef = BASE + '/blog/' + slug;
+          res.writeHead(301, {
+            Location: hedef,
+            'Content-Type': 'text/html; charset=utf-8',
+            'Cache-Control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800'
+          });
+          res.end('<!DOCTYPE html><html><body><a href="' + hedef + '">' + hedef + '</a></body></html>');
           return;
         }
       }
