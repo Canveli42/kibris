@@ -13,10 +13,13 @@ const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
-const bag = s => String(s == null ? '' : s)
-  .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2">$1</a>');
+const MDLINK = /\[([^\]]+)\]\((\/[^)\s]*|https?:\/\/[^)\s]+)\)/g;
 
-const bagEsc = s => bag(esc(s));
+const bag = s => String(s == null ? '' : s).replace(MDLINK, '<a href="$2">$1</a>');
+
+const bagEsc = s => esc(s)
+  .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+  .replace(MDLINK, '<a href="$2">$1</a>');
 
 const AYLAR = {
   tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
