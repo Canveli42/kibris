@@ -11,6 +11,11 @@ const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
+const bag = s => String(s == null ? '' : s)
+  .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2">$1</a>');
+
+const bagEsc = s => bag(esc(s));
+
 const AYLAR = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
 const tarih = d => {
   const t = new Date(d);
@@ -23,22 +28,26 @@ const duz = s => String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').t
 const govde = raw => {
   const kaynak = String(raw || '').replace(/\r\n?/g, '\n');
 
-  // gövde zaten HTML ise: sadece başına kaçmış ## / ### işaretlerini temizle
+  // gövde zaten HTML ise: başına kaçmış ## / ### işaretlerini ve markdown bağlantılarını temizle
   if (/<(h2|h3|p|ul|div)[\s>]/i.test(kaynak)) {
-    return kaynak
+    return bag(kaynak
       .replace(/<(p|h[23])>[ \t]*#{2,3}[ \t]*/g, '<$1>')
-      .replace(/^[ \t]*#{2,3}[ \t]*/gm, '');
+      .replace(/^[ \t]*#{2,3}[ \t]*/gm, ''));
   }
 
   let html = '', inUl = false;
   for (const satir of kaynak.split('\n')) {
     const b = satir.trim();
     if (!b) { if (inUl) { html += '</ul>'; inUl = false; } continue; }
-    if (b.startsWith('### ')) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h3>' + esc(b.slice(4)) + '</h3>'; continue; }
-    if (b.startsWith('## ')) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h2>' + esc(b.slice(3)) + '</h2>'; continue; }
-    if (b.startsWith('- ')) { if (!inUl) { html += '<ul>'; inUl = true; } html += '<li>' + esc(b.slice(2)) + '</li>'; continue; }
+    if (b.startsWith('### ')) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h3>' + bagEsc(b.slice(4)) + '</h3>'; continue; }
+    if (b.startsWith('## ')) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h2>' + bagEsc(b.slice(3)) + '</h2>'; continue; }
+    if (b.startsWith('- ') || b.startsWith('* ')) { if (!inUl) { html += '<ul>'; inUl = true; } html += '<li>' + bagEsc(b.slice(2)) + '</li>'; continue; }
     if (inUl) { html += '</ul>'; inUl = false; }
-    html += '<p>' + esc(b) + '</p>';
+
+    const kalin = b.match(/^\*\*(.+?)\*\*$/);
+    if (kalin) { html += '<h3>' + bagEsc(kalin[1]) + '</h3>'; continue; }
+    if (b.length <= 60 && !/[.!?:;]$/.test(b)) { html += '<h3>' + bagEsc(b) + '</h3>'; continue; }
+    html += '<p>' + bagEsc(b) + '</p>';
   }
   if (inUl) html += '</ul>';
   return html;
@@ -52,7 +61,7 @@ const sss = f => {
     catch (e) { arr = String(f).split('\n').map(l => l.split('|')); }
   }
   return arr
-    .map(x => Array.isArray(x) ? [x[0], x[1]] : [x.q, x.a])
+    .map(x => Array.isArray(x) ? [String(x[0] == null ? '' : x[0]).trim(), String(x[1] == null ? '' : x[1]).trim()] : [x.q, x.a])
     .filter(x => x[0] && x[1]);
 };
 
@@ -119,8 +128,8 @@ ${o.img ? `<meta property="og:image" content="${esc(o.img)}">
 <style>${S.css}</style>
 <style>${S.icerik}</style>
 ${o.ld || ''}
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KP7MEM460J"></script>
 <script src="${BASE}/js/analytics.js" defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KP7MEM460J"></script>
 </head><body>
 ${S.header({ aktif: BASE + '/blog', dil: 'tr' })}
 <main class="wrap">
