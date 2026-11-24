@@ -163,22 +163,39 @@ ${o.alternates || ''}
 <meta property="og:url" content="${esc(o.url)}">
 <meta property="og:locale" content="${o.dil === 'tr' ? 'tr_TR' : o.dil === 'en' ? 'en_US' : 'ru_RU'}">
 ${o.img ? `<meta property="og:image" content="${esc(o.img)}">
+<link rel="preload" as="image" href="${esc(o.img)}" fetchpriority="high">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="${esc(o.img)}">` : ''}
 <meta name="theme-color" content="#0b121b">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2 62 32 32 62 2 32Z' fill='%231e2a40' stroke='%23f0d9ae' stroke-opacity='.55' stroke-width='2'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='23' font-weight='700' text-anchor='middle'%3E%3Ctspan fill='%23ff3b5c'%3ER%3C/tspan%3E%3Ctspan fill='%23ffffff'%3EK%3C/tspan%3E%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin="">
-<style>${S.css}</style>
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<style>${S.css}
+main a:not(.btn){text-decoration:underline;text-underline-offset:2px}
+</style>
 <style>${S.icerik}</style>
 ${o.ld || ''}
-<script src="${BASE}/js/analytics.js" defer></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KP7MEM460J"></script>
 </head><body>
 ${S.header({ aktif: o.url, dil: o.dil, ceviriler: o.ceviriler })}
 <main class="wrap">
 ${o.icerik}
 </main>
 ${S.footer(o.dil)}
+<script>
+(function(){
+  var yuk=false;
+  function bas(){
+    if(yuk)return;yuk=true;
+    var a=document.createElement("script");a.src="${BASE}/js/analytics.js";a.defer=true;document.head.appendChild(a);
+    var g=document.createElement("script");g.async=true;g.src="https://www.googletagmanager.com/gtag/js?id=G-KP7MEM460J";document.head.appendChild(g);
+  }
+  ["scroll","mousemove","touchstart","keydown","click"].forEach(function(e){
+    window.addEventListener(e,bas,{once:true,passive:true});
+  });
+  setTimeout(bas,3500);
+  window.addEventListener("load",function(){setTimeout(bas,1200)});
+})();
+</script>
 <script src="${BASE}/takip.js" defer></script>
 </body></html>`;
 
@@ -298,7 +315,7 @@ module.exports = async (req, res) => {
     <div class="crumb"><a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <a href="${BASE}${dil === 'tr' ? '/blog' : '/' + dil + '/blog'}">${esc(t.blog)}</a> › <span>${esc(p.title)}</span></div>
     <h1>${esc(p.title)}</h1>
     <p class="byline">${esc(t.yazar)} · RedKıbrıs · ${tarih(p.yayin_at || p.created_at, dil)} · ${dk} ${esc(t.dk)}</p>
-    ${p.img ? `<img id="cover" src="${esc(p.img)}" alt="${esc(p.title)}" width="1200" height="750" fetchpriority="high">` : ''}
+    ${p.img ? `<img id="cover" src="${esc(p.img)}" alt="${esc(p.title)}" width="1200" height="750" fetchpriority="high" decoding="async">` : ''}
     <article>${govde(p.body)}</article>
     ${f.length ? `<section class="faq"><h2>${esc(t.sssB)}</h2>${f.map(x => `<details><summary>${esc(x[0])}</summary><p>${esc(x[1])}</p></details>`).join('')}</section>` : ''}
     <div class="about"><b>${esc(t.sorun)}</b><br>${esc(t.alt)}
