@@ -24,16 +24,18 @@ const duz = s => String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').t
 const govde = raw => {
   if (/<(h2|h3|p|ul|div)[\s>]/i.test(raw || '')) return raw;
   let html = '', inUl = false;
-  for (const satir of String(raw || '').split('\n')) {
-    const b = satir.trim();
-    if (!b) { if (inUl) { html += '</ul>'; inUl = false; } continue; }
-    if (b.startsWith('## ')) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h2>' + esc(b.slice(3)) + '</h2>'; continue; }
-    if (b.startsWith('### ')) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h3>' + esc(b.slice(4)) + '</h3>'; continue; }
+  const kapat = () => { if (inUl) { html += '</ul>'; inUl = false; } };
+  for (const satir of String(raw || '').split(/\r?\n/)) {
+    const b = satir.replace(/\r/g, '').trim();
+    if (!b) { kapat(); continue; }
+    if (b.startsWith('### ')) { kapat(); html += '<h3>' + esc(b.slice(4)) + '</h3>'; continue; }
+    if (b.startsWith('## ')) { kapat(); html += '<h2>' + esc(b.slice(3)) + '</h2>'; continue; }
     if (b.startsWith('- ')) { if (!inUl) { html += '<ul>'; inUl = true; } html += '<li>' + esc(b.slice(2)) + '</li>'; continue; }
-    if (inUl) { html += '</ul>'; inUl = false; }
+    if (/^[A-ZÇĞİÖŞÜ]/.test(b) && b.length < 70 && !/[.,;:]$/.test(b)) { kapat(); html += '<h2>' + esc(b) + '</h2>'; continue; }
+    kapat();
     html += '<p>' + esc(b) + '</p>';
   }
-  if (inUl) html += '</ul>';
+  kapat();
   return html;
 };
 
