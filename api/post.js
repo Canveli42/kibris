@@ -8,7 +8,9 @@ const LOGO = 'https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/
 const S = require('../data/shell.js');
 
 const DILLER = ['tr', 'en', 'ru'];
-const YAYIN = '&yayin_at=lte.now()';
+
+// planlı yayın: yayin_at boş ya da geçmişte olanlar
+const YAYIN = 'yayin_at.is.null,yayin_at.lte.now()';
 
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -114,8 +116,9 @@ async function ilgiliYazilar(slug, dil) {
     const or = anahtar.map(t => 'slug.ilike.*' + encodeURIComponent(t) + '*').join(',');
     try {
       const r = await fetch(
-        SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil + YAYIN +
-        '&slug=neq.' + encodeURIComponent(slug) + '&or=(' + or + ')&limit=5',
+        SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil +
+        '&slug=neq.' + encodeURIComponent(slug) +
+        '&and=(or(' + or + '),or(' + YAYIN + '))&limit=5',
         { headers: H }
       );
       if (r.ok) out = (await r.json()) || [];
@@ -124,8 +127,9 @@ async function ilgiliYazilar(slug, dil) {
   if (out.length < 5) {
     try {
       const r = await fetch(
-        SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil + YAYIN +
-        '&slug=neq.' + encodeURIComponent(slug) + '&order=created_at.desc&limit=12',
+        SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil +
+        '&slug=neq.' + encodeURIComponent(slug) +
+        '&or=(' + YAYIN + ')&order=created_at.desc&limit=12',
         { headers: H }
       );
       if (r.ok) {
@@ -192,7 +196,7 @@ module.exports = async (req, res) => {
       try {
         const r = await fetch(
           SB + '/rest/v1/posts?select=*&slug=eq.' + encodeURIComponent(slug) +
-          '&lang=eq.' + dil + '&published=eq.true' + YAYIN,
+          '&lang=eq.' + dil + '&published=eq.true&or=(' + YAYIN + ')',
           { headers: H }
         );
         if (r.ok) { const a = await r.json(); p = a && a[0]; }
@@ -204,7 +208,8 @@ module.exports = async (req, res) => {
       let varMi = false;
       try {
         const r = await fetch(
-          SB + '/rest/v1/posts?select=slug&slug=eq.' + encodeURIComponent(slug) + '&published=eq.true' + YAYIN + '&limit=1',
+          SB + '/rest/v1/posts?select=slug&slug=eq.' + encodeURIComponent(slug) +
+          '&published=eq.true&or=(' + YAYIN + ')&limit=1',
           { headers: H }
         );
         if (r.ok) { const a = await r.json(); varMi = !!(a && a.length); }
@@ -220,8 +225,8 @@ module.exports = async (req, res) => {
     if (!p) {
       try {
         const r = await fetch(
-          SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil + YAYIN +
-          '&order=created_at.desc&limit=6',
+          SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil +
+          '&or=(' + YAYIN + ')&order=created_at.desc&limit=6',
           { headers: H }
         );
         if (r.ok) digerleri = (await r.json()) || [];
@@ -242,7 +247,8 @@ module.exports = async (req, res) => {
     let diller = [dil];
     try {
       const r = await fetch(
-        SB + '/rest/v1/posts?select=lang&slug=eq.' + encodeURIComponent(slug) + '&published=eq.true' + YAYIN,
+        SB + '/rest/v1/posts?select=lang&slug=eq.' + encodeURIComponent(slug) +
+        '&published=eq.true&or=(' + YAYIN + ')',
         { headers: H }
       );
       if (r.ok) {
