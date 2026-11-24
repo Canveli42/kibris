@@ -320,8 +320,7 @@ var el=function(i){return document.getElementById(i)};
 var oturum=null;
 try{oturum=JSON.parse(localStorage.getItem(OTURUM)||"null")}catch(e){oturum=null}
 var durdu=false,veri=[],temizVeri=[],korunan=new Set(),kopyaMetin=[],sonHata=0;
-var SAYFALAR=["/","/girne-escort","/lefkosa-escort","/magusa-escort","/iskele-escort","/guzelyurt-escort","/blog","/fiyatlar","/iletisim","/gizlilik","/can","/karaoglanoglu-escort","/alsancak-escort","/lapta-escort","/catalkoy-escort","/bellapais-escort","/esentepe-escort","/long-beach-escort","/bafra-escort","/gonyeli-escort","/otele-escort","/eve-gelen-escort","/gecelik-escort","/vip-escort","/ogrenci-escort","/turk-escort","/rus-escort","/lefkosa-hamitkoy-escort"];
-
+var SAYFALAR=["/","/girne-escort","/lefkosa-escort","/magusa-escort","/iskele-escort","/guzelyurt-escort","/blog","/fiyatlar","/iletisim","/gizlilik","/can","/karaoglanoglu-escort","/alsancak-escort","/lapta-escort","/catalkoy-escort","/bellapais-escort","/esentepe-escort","/long-beach-escort","/bafra-escort","/gonyeli-escort","/otele-escort","/eve-gelen-escort","/gecelik-escort","/vip-escort","/ogrenci-escort","/turk-escort","/rus-escort","/lefkosa-hamitkoy-escort","/en","/ru","/en/blog","/ru/blog","/en/girne-escort","/ru/girne-escort","/en/lefkosa-escort","/ru/lefkosa-escort","/en/magusa-escort","/ru/magusa-escort","/en/iskele-escort","/ru/iskele-escort","/en/guzelyurt-escort","/ru/guzelyurt-escort","/en/fiyatlar","/ru/fiyatlar","/en/iletisim","/ru/iletisim","/en/gizlilik","/ru/gizlilik"];
 function boy(b){return b<1024?b+" B":b<1048576?(b/1024).toFixed(0)+" KB":(b/1048576).toFixed(2)+" MB"}
 function slugla(s){return s.toLowerCase().replace(/[^a-z0-9.]+/g,"-").replace(/^-+|-+$/g,"").replace(/\.[a-z0-9]+$/,"")}
 function say(i,t,ok){var e=el(i);if(!e)return;e.textContent=t;e.className="msg "+(ok?"ok":"err")}
