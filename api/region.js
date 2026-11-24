@@ -29,6 +29,11 @@ const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
+const cap = s => {
+  const v = String(s == null ? '' : s);
+  return v ? v.charAt(0).toUpperCase() + v.slice(1) : v;
+};
+
 const kok = dil => (dil === 'tr' ? '' : '/' + dil);
 
 const M = {
@@ -121,7 +126,7 @@ const M = {
   <div class="about"><b>Вечер 18:00-22:00</b><br>Самый плотный отрезок. Писать за 1-2 часа.</div>
   <div class="about"><b>Ночь 22:00-02:00</b><br>Здесь собираются заявки после бара и казино. Хватает 10-15 минут.</div>
   <div class="about"><b>После 02:00</b><br>Свободных меньше. На дальние точки писать за 30 минут.</div>
-  <h2>${esc(nm)} — частые ошибки</h2>
+  <h2>${esc(cap(nm))} — частые ошибки</h2>
   <ul>
     <li>Писать за 10 минут до дальней встречи.</li>
     <li>Писать «встретимся в лобби», не назвав отель.</li>
@@ -129,7 +134,7 @@ const M = {
     <li>Назначать встречу в людном лобби.</li>
     <li>Приезжать без наличных.</li>
   </ul>
-  <h2>${esc(nm)} — транспорт и такси</h2>
+  <h2>${esc(cap(nm))} — транспорт и такси</h2>
   <div class="about">Стоимость такси всегда считается по расстоянию и называется заранее. После 01:00 за городом такси поймать трудно — возьмите номер водителя на обратный путь. Подробнее в статье <a href="${BASE}/ru/blog/kibris-escort-ulasim-ve-taksi">транспорт и такси</a>.</div>
   <h2>Если пишете впервые</h2>
   <div class="about">Напишите три вещи: район, время, длительность. «${esc(nm)}, сегодня 21:00, 1 час» — достаточно. Длинное вступление не нужно. 30 минут — только у нас; выезд в отель или на квартиру начинается с 1 часа.</div>`
@@ -252,8 +257,8 @@ module.exports = async (req, res) => {
   } catch (e) {}
 
   const h1 = dil === 'ru'
-    ? 'Эскорт ' + esc(C2.nm) + ' <span style="font-size:.55em;color:#93a0b4;font-weight:400">' + esc(C2.alt) + '</span>'
-    : esc(nmE) + ' <span style="font-size:.55em;color:#93a0b4;font-weight:400">' + esc(C2.alt) + '</span>';
+    ? 'Эскорт ' + esc(C2.nm) + ' — <span style="font-size:.55em;color:#93a0b4;font-weight:400">' + esc(C2.alt) + '</span>'
+    : esc(nmE) + ' — <span style="font-size:.55em;color:#93a0b4;font-weight:400">' + esc(C2.alt) + '</span>';
 
   const ld = [
     {
@@ -288,7 +293,7 @@ module.exports = async (req, res) => {
     .map(x => `<div class="about"><b>${esc(x[0])}</b><br>${esc(x[1])}</div>`).join('\n  ');
 
   const icerik = `
-  <div class="crumb"><a href="${BASE}${kok(dil)}/">${esc(t.ana)}</a> › <span>${esc(C2.nm)}</span></div>
+  <div class="crumb"><a href="${BASE}${kok(dil)}/">${esc(t.ana)}</a> › <span>${esc(dil === 'ru' ? cap(C2.nm) : C2.nm)}</span></div>
   <h1>${h1}</h1>
   <p class="lead">${esc(C2.lead)}</p>
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
