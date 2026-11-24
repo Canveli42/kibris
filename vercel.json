@@ -6,12 +6,6 @@
     "api/sayfa.js": { "includeFiles": "pages/*.html" }
   },
   "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "kibrisgirneescort.com" }],
-      "destination": "https://www.kibrisgirneescort.com/:path*",
-      "permanent": true
-    },
     { "source": "/rehber", "destination": "/blog/kibrista-yalniz-gelenler-rehberi", "permanent": true },
 
     { "source": "/blog/kibris-escort-kimlik-istiyor-mu", "destination": "/blog/escort-kimlik-ister-mi-kktc-yasal", "permanent": true },
