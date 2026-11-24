@@ -2,6 +2,12 @@
 <html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sayfa bulunamadı · 404 · RedKıbrıs</title>
+<script>
+(function(){
+  var p = location.pathname, i = p.indexOf('http');
+  if (i > 0) location.replace(p.slice(i).replace(/^(https?):\/?\/?/, '$1://'));
+})();
+</script>
 <meta name="description" content="Aradığın sayfa bulunamadı. Girne, Lefkoşa, Mağusa, İskele ve Güzelyurt escort sayfalarına buradan devam edebilirsin.">
 <meta name="robots" content="noindex,follow">
 <meta name="theme-color" content="#0b121b">
@@ -90,10 +96,4 @@ footer a{color:var(--gold-d)}
   <span>Kıbrıs Escort · Girne · Lefkoşa · Mağusa · İskele · Güzelyurt</span>
   <span><a href="/fiyatlar">Fiyatlar</a> · <a href="/iletisim">İletişim</a> · © 2026 · Can</span>
 </div></footer>
-<script>
-(function(){
-  var m = location.pathname.match(/^\/https?:\/\/(.+)$/i);
-  if (m) location.replace('https://' + m[1]);
-})();
-</script>
 </body></html>
