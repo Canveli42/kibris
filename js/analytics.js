@@ -1,3 +1,9 @@
+/* statik gtag etiketleri varsa temizle: tek yükleme bu dosyadan */
+(function () {
+  var l = document.querySelectorAll('script[src*="googletagmanager.com/gtag/js"]');
+  for (var i = 0; i < l.length; i++) l[i].parentNode.removeChild(l[i]);
+})();
+
 (function () {
   var ID = "G-KP7MEM460J", KEY = "kvkk_onay";
   if (location.pathname.indexOf("/can") === 0) return;
@@ -65,7 +71,9 @@
       y.className = "kvkk";
       y.setAttribute("role", "dialog");
       y.setAttribute("aria-label", "Çerez onayı");
-      y.innerHTML = 'Ölçüm için çerez kullanıyoruz. <a href="/gizlilik">Detay</a><div class="kvkk-b"><button class="kvkk-y" type="button">Kabul et</button><button class="kvkk-n" type="button">Sadece gerekli</button></div>';
+      y.innerHTML = 'Ölçüm için çerez kullanıyoruz. <a href="https://www.kibrisgirneescort.com/gizlilik">Detay</a>'
+        + '<div class="kvkk-b"><button class="kvkk-y" type="button">Kabul et</button>'
+        + '<button class="kvkk-n" type="button">Sadece gerekli</button></div>';
       document.body.appendChild(y);
       b = [y];
     }
@@ -77,6 +85,7 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bant);
   else bant();
 })();
+
 /* metin katmanı */
 (function () {
   var SB = "https://accerzwswgiqhtfgoeqv.supabase.co";
