@@ -54,6 +54,21 @@ module.exports = async (req, res) => {
   const C2 = D[slug];
 
   if (!C2) {
+    // eski düz bağlantılar: /slug -> /blog/slug
+    try {
+      const rp = await fetch(
+        SB + '/rest/v1/posts?select=slug&slug=eq.' + encodeURIComponent(slug) + '&published=eq.true&limit=1',
+        { headers: H }
+      );
+      if (rp.ok) {
+        const ap = await rp.json();
+        if (ap && ap.length) {
+          res.setHeader('Location', BASE + '/blog/' + slug);
+          res.status(301).send('<!DOCTYPE html><html><body><a href="' + BASE + '/blog/' + slug + '">' + BASE + '/blog/' + slug + '</a></body></html>');
+          return;
+        }
+      }
+    } catch (e) {}
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.status(404).send(sayfa({
       title: 'Sayfa bulunamadı | RedKıbrıs',
