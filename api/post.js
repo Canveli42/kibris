@@ -171,7 +171,6 @@ ${S.header({ aktif: o.url, dil: o.dil, ceviriler: o.ceviriler })}
 ${o.icerik}
 </main>
 ${S.footer(o.dil)}
-<script src="${BASE}/js/iletisim.js" defer></script>
 </body></html>`;
 
 module.exports = async (req, res) => {
