@@ -51,7 +51,10 @@ const M = {
     guncel: 'Son güncelleme: ', sssB: nm => nm + ' hakkında sık sorulanlar', diger: 'Diğer sayfalar',
     sorun: 'Sorun mu var, katalog mu lazım?', alt: "WhatsApp veya Telegram'dan yaz, kaldığın bölgeye göre liste gönderiyoruz.",
     wa: "WhatsApp'tan yaz", tgY: "Telegram'dan yaz",
-    yok: 'Sayfa bulunamadı', yokD: 'Aradığın bölge sayfası bulunamadı.', buAdres: 'Bu adreste bölge yok.', donebilir: 'Ana sayfaya dönebilirsin.',
+    yok: 'Sayfa bulunamadı', yokD: 'Aradığın sayfa bulunamadı.', buAdres: 'Bu adreste bölge yok.', donebilir: 'Ana sayfaya dönebilirsin.',
+    s404: 'Bu sayfa bulunamadı', s404alt: 'Adres yanlış yazılmış, sayfa taşınmış ya da artık yayında değil. Aşağıdan bölge seçebilir, kataloğu isteyebilirsin.',
+    s404cat: 'Kataloğu gönder', s404bolge: 'Bölge seç', s404pop: 'Sık açılan sayfalar',
+    p1: 'Fiyatlar', p2: 'Girne fiyatları', p3: 'Türkçe bilen escort', p4: 'Gecelik fiyat', p5: 'Otele escort', p6: 'Blog', p7: 'İletişim',
     dolgu: nm => `
   <h2>${esc(nm)} için ne zaman yazmalı</h2>
   <div class="about"><b>Gündüz 12:00-17:00</b><br>En sakin aralık. Aynı gün müsaitlik yüksek, 30-45 dakika önceden yazman yeterli.</div>
@@ -85,7 +88,10 @@ const M = {
     guncel: 'Last updated: ', sssB: nm => 'Frequently asked questions about ' + nm, diger: 'Other areas',
     sorun: 'Question or want the selection?', alt: 'Write on WhatsApp or Telegram and we send the current list for your area.',
     wa: 'Message on WhatsApp', tgY: 'Message on Telegram',
-    yok: 'Page not found', yokD: 'That area page does not exist.', buAdres: 'Nothing at this address.', donebilir: 'You can go back to the home page.',
+    yok: 'Page not found', yokD: 'That page does not exist.', buAdres: 'Nothing at this address.', donebilir: 'You can go back to the home page.',
+    s404: 'This page was not found', s404alt: 'The address is mistyped, the page has moved, or it is no longer live. Pick an area below or just ask for the catalogue.',
+    s404cat: 'Send catalogue', s404bolge: 'Choose an area', s404pop: 'Popular pages',
+    p1: 'Prices', p2: 'Kyrenia prices', p3: 'English speaking', p4: 'Overnight rate', p5: 'To your hotel', p6: 'Blog', p7: 'Contact',
     dolgu: nm => `
   <h2>When to write about ${esc(nm)}</h2>
   <div class="about"><b>Daytime 12:00-17:00</b><br>The quietest window. Same-day availability is high; writing 30-45 minutes ahead is enough.</div>
@@ -119,7 +125,10 @@ const M = {
     guncel: 'Обновлено: ', sssB: nm => 'Частые вопросы — ' + nm, diger: 'Другие районы',
     sorun: 'Вопрос или нужен каталог?', alt: 'Напишите в WhatsApp или Telegram, пришлём подборку по вашему району.',
     wa: 'Написать в WhatsApp', tgY: 'Написать в Telegram',
-    yok: 'Страница не найдена', yokD: 'Такой страницы района нет.', buAdres: 'По этому адресу ничего нет.', donebilir: 'Можно вернуться на главную.',
+    yok: 'Страница не найдена', yokD: 'Такой страницы нет.', buAdres: 'По этому адресу ничего нет.', donebilir: 'Можно вернуться на главную.',
+    s404: 'Страница не найдена', s404alt: 'Адрес написан с ошибкой, страница переехала или больше не работает. Выберите район ниже или просто попросите каталог.',
+    s404cat: 'Прислать каталог', s404bolge: 'Выбрать район', s404pop: 'Частые страницы',
+    p1: 'Цены', p2: 'Цены в Кирении', p3: 'Русскоязычные', p4: 'Цена за ночь', p5: 'В отель', p6: 'Блог', p7: 'Контакты',
     dolgu: nm => `
   <h2>Когда писать — ${esc(nm)}</h2>
   <div class="about"><b>День 12:00-17:00</b><br>Самое спокойное время. Свободные на сегодня есть, писать за 30-45 минут достаточно.</div>
@@ -219,10 +228,51 @@ module.exports = async (req, res) => {
         }
       }
     } catch (e) {}
+
+    const kk = kok(dil);
+    const bolgeler = ['girne-escort','lefkosa-escort','magusa-escort','iskele-escort','guzelyurt-escort']
+      .filter(k => D[dil][k])
+      .map(k => `<a class="btn-o" href="${BASE}${kk}/${k}">${esc(D[dil][k].nm)}</a>`).join('');
+    const populer = [
+      ['fiyatlar', t.p1], ['blog/girne-escort-fiyatlari', t.p2], ['blog/turkce-bilen-escort', t.p3],
+      ['blog/gecelik-escort-fiyat', t.p4], ['blog/otele-escort', t.p5], ['blog', t.p6], ['iletisim', t.p7]
+    ].map(x => `<a class="btn-o" href="${BASE}${kk}/${x[0]}">${esc(x[1])}</a>`).join('');
+
+    const y404 = `
+<style>
+.y404{text-align:center;padding:6px 0 0}
+.y404-mark{width:86px;height:86px;margin:4px auto 20px;position:relative}
+.y404-mark i{position:absolute;inset:0;border:1px solid rgba(216,184,120,.35);transform:rotate(45deg);border-radius:16px}
+.y404-mark i:nth-child(2){inset:14px;border-color:rgba(216,184,120,.6)}
+.y404-mark i:nth-child(3){inset:29px;background:linear-gradient(160deg,#f0d9ae,#d8b878);border:0;border-radius:9px;box-shadow:0 0 34px rgba(216,184,120,.35)}
+.y404-code{font-family:Georgia,serif;font-size:clamp(58px,14vw,96px);line-height:1;letter-spacing:-.03em;color:transparent;background:linear-gradient(180deg,#fff,#d8b878);-webkit-background-clip:text;background-clip:text;margin-bottom:4px}
+.y404 h1{font-size:clamp(22px,4.6vw,32px);margin:0 0 10px}
+.y404 p{max-width:54ch;margin:0 auto 24px}
+.y404-acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:6px}
+.y404 h2{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#d8b878;margin:34px 0 12px}
+.y404-links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+</style>
+<div class="y404">
+  <div class="y404-mark" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="y404-code" aria-hidden="true">404</div>
+  <h1>${esc(t.s404)}</h1>
+  <p class="lead">${esc(t.s404alt)}</p>
+  <div class="y404-acts">
+    <a class="btn" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">${esc(t.s404cat)}</a>
+    <a class="btn-o" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">${esc(t.wa)}</a>
+    <a class="btn tg" href="${TG}" target="_blank" rel="noopener" data-base="${TG}">${esc(t.tgY)}</a>
+    <a class="btn-o" href="${BASE}${kk}/">${esc(t.ana)}</a>
+  </div>
+  <h2>${esc(t.s404bolge)}</h2>
+  <div class="y404-links">${bolgeler}</div>
+  <h2>${esc(t.s404pop)}</h2>
+  <div class="y404-links">${populer}</div>
+</div>`;
+
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.status(404).send(sayfa({
       dil, title: t.yok + ' | RedKıbrıs', desc: t.yokD, url, robots: 'noindex,follow',
-      icerik: `<h1>${esc(t.yok)}</h1><div class="about">${esc(t.buAdres)} <a href="${BASE}${kok(dil)}/">${esc(t.donebilir)}</a></div>`
+      icerik: y404
     }));
     return;
   }
