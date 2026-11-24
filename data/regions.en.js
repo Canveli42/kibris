@@ -241,6 +241,22 @@ metin:"Student escort is company from women living in university areas, usually 
 metin2:"Entry to student flats is usually open with no trouble at the door. We reach university areas in Nicosia and Famagusta within 30 minutes. No deposit. More: <a href=\"/en/blog/ogrenci-escort\">student escort guide</a>.",
 sss:[["What does student escort mean?","Young company from university areas, usually at a lower rate."],["Can it be a short meeting?","Yes: 30 minutes at our place, an hour on an outcall."],["Which areas?","Nicosia, Gonyeli, Famagusta, Kyrenia."],["How do I pay?","At the meeting: cash, transfer or USDT."],["Is it cheaper?","Usually yes, because of the short-meeting format."]]},
 
+"gecelik-escort":{nm:"Overnight",alt:"dinner to morning",baslik:"Overnight escort — dinner, casino, until morning",aciklama:"Overnight escort: a programme from evening until morning, dinner and casino. Scope agreed in advance, no deposit, one-way taxi.",
+lead:"An overnight booking starts with dinner or the casino and runs until morning. Time and scope are agreed in advance and nothing is added later. No deposit taken.",
+areas:["Kyrenia","Nicosia","Famagusta","Iskele"],
+otel:["Merit","Acapulco","Kaya Palazzo","Lord Palace"],
+metin:"An overnight programme begins with dinner or the casino and continues until morning. Duration and scope are settled beforehand and nothing is added on the night. Dinner and venue bills are counted separately.",
+metin2:"For an overnight booking write a day ahead, and earlier at weekends and in high season. The taxi is charged one way.",
+sss:[["How much is overnight?","It depends on duration and scope; a firm price is given on WhatsApp."],["Is dinner included?","No, venue bills are separate."],["How far ahead should I write?","A day ahead, earlier at weekends."],["How do I pay?","At the start of the meeting: cash or transfer."],["Can it be 30 minutes at night?","Yes, but an overnight programme is counted in hours."]]},
+
+"vip-escort":{nm:"VIP",alt:"business dinner, reception, casino",baslik:"VIP escort — business dinner, reception, casino",aciklama:"VIP escort for a business dinner, a reception or the casino. Dress code and manners agreed in advance, languages on request. No deposit.",
+lead:"A VIP booking is company at a reception, a business dinner or the casino. Dress code and setting are agreed in advance, so nothing jars on the night.",
+areas:["Kyrenia","Nicosia","Famagusta"],
+otel:["Merit","The Colony","Lord Palace","Grand Pasha"],
+metin:"VIP is company at a reception, a business dinner and the casino. Dress code and setting are settled beforehand, so there are no mismatches. Requests for company with a foreign language are covered too.",
+metin2:"For VIP programmes write a day ahead; same-day availability is thin. More: <a href=\"/en/blog/vip-escort-ne-demek\">VIP guide</a>.",
+sss:[["How does VIP differ from a standard meeting?","Setting, clothing and expectations around manners."],["Is company with a language available?","Arranged on request, write ahead."],["How far ahead should I book?","A day ahead."],["How do I pay?","At the meeting: cash or transfer."],["Where can I take VIP?","A business dinner, a reception, the casino, a drive round the island."]]},
+
 "turk-escort":{nm:"Turkish",alt:"local, no language barrier",baslik:"Turkish escort — local, no language barrier",aciklama:"Turkish escort: local company, conversation in Turkish with no barrier. Clear arrangements, no deposit.",
 lead:"Local Turkish company for anyone who speaks Turkish and wants no language barrier. Terms are agreed precisely, no deposit taken.",
 areas:["Kyrenia","Nicosia","Famagusta","Iskele","Guzelyurt"],
