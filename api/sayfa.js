@@ -9,28 +9,34 @@ const IZIN = {
   fiyatlar: { f: 'fiyatlar.html', aktif: '/fiyatlar', dil: 'tr' },
   iletisim: { f: 'iletisim.html', aktif: '/iletisim', dil: 'tr' },
   gizlilik: { f: 'gizlilik.html', aktif: '/gizlilik', dil: 'tr' },
-  blog: { f: 'blog.html', aktif: '/blog', dil: 'tr' }
+  blog: { f: 'blog.html', aktif: '/blog', dil: 'tr' },
+  'en-blog': { f: 'en-blog.html', yedek: 'blog.html', aktif: '/en/blog', dil: 'en' },
+  'ru-blog': { f: 'ru-blog.html', yedek: 'blog.html', aktif: '/ru/blog', dil: 'ru' },
+  'en-fiyatlar': { f: 'en-fiyatlar.html', yedek: 'fiyatlar.html', aktif: '/en/fiyatlar', dil: 'en' },
+  'ru-fiyatlar': { f: 'ru-fiyatlar.html', yedek: 'fiyatlar.html', aktif: '/ru/fiyatlar', dil: 'ru' },
+  'en-iletisim': { f: 'en-iletisim.html', yedek: 'iletisim.html', aktif: '/en/iletisim', dil: 'en' },
+  'ru-iletisim': { f: 'ru-iletisim.html', yedek: 'iletisim.html', aktif: '/ru/iletisim', dil: 'ru' },
+  'en-gizlilik': { f: 'en-gizlilik.html', yedek: 'gizlilik.html', aktif: '/en/gizlilik', dil: 'en' },
+  'ru-gizlilik': { f: 'ru-gizlilik.html', yedek: 'gizlilik.html', aktif: '/ru/gizlilik', dil: 'ru' }
+};
+
+const oku = f => {
+  try { return fs.readFileSync(path.join(process.cwd(), 'pages', f), 'utf8'); }
+  catch (e) { return null; }
 };
 
 module.exports = (req, res) => {
-  const k = String((req.query && req.query.f) || '').replace(/[^a-z]/g, '');
+  const k = String((req.query && req.query.f) || '').replace(/[^a-z-]/g, '');
   const sayfa = IZIN[k];
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
 
-  if (!sayfa) {
-    res.status(404).send('Sayfa bulunamadı');
-    return;
-  }
+  if (!sayfa) { res.status(404).send('Sayfa bulunamadı'); return; }
 
-  let html;
-  try {
-    html = fs.readFileSync(path.join(process.cwd(), 'pages', sayfa.f), 'utf8');
-  } catch (e) {
-    res.status(500).send('Dosya okunamadı');
-    return;
-  }
+  let html = oku(sayfa.f);
+  if (!html && sayfa.yedek) html = oku(sayfa.yedek);
+  if (!html) { res.status(500).send('Dosya okunamadı'); return; }
 
   html = html
     .replace('<!--SHELL:HEAD-->', S.head())
