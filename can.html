@@ -64,6 +64,10 @@ input[type=file]{padding:9px;font-size:13px}
 #btnLogin{margin-top:6px}
 .ikili{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .uc{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.onizle{font-family:ui-monospace,monospace;font-size:12px;color:var(--k2);background:#0c0c12;border:1px dashed #2c2c3a;border-radius:9px;padding:9px;margin-top:8px;word-break:break-all}
+.onizle i{color:var(--s);font-style:normal}
+.kanca{display:flex;align-items:center;gap:9px;margin:14px 0 0;font-size:13px;color:var(--s);text-transform:none;letter-spacing:0}
+.kanca input{width:16px;height:16px;accent-color:var(--k);margin:0;flex:0 0 auto}
 @media(max-width:520px){.uc{grid-template-columns:1fr 1fr}.tabs{top:47px}}
 </style>
 <link rel="apple-touch-icon" href="https://www.kibrisgirneescort.com/favicon.png">
@@ -99,13 +103,30 @@ input[type=file]{padding:9px;font-size:13px}
 
     <div class="bx view" id="vArac">
       <h2>Görsel yükle</h2>
-      <p class="alt">Dosya seç veya kutuya bırak. Görsel 1600px genişliğe, %72 kaliteye indirilip webp olarak yüklenir. Adres otomatik kopyalanır.</p>
+      <p class="alt">Dosya seç veya kutuya bırak. Görsel 1600px genişliğe, %72 kaliteye indirilip webp olarak yüklenir.</p>
+
+      <label>Hedef slug</label>
+      <input id="slug" placeholder="girne-escort-villa" autocomplete="off">
+      <label>Dil</label>
+      <select id="dil">
+        <option value="">(yok)</option>
+        <option value="tr">tr</option>
+        <option value="en">en</option>
+        <option value="ru">ru</option>
+      </select>
+      <div class="onizle" id="onizle"><i>Dosya adı:</i> slug ve dil seçilince burada görünür</div>
+      <label class="kanca"><input type="checkbox" id="dbYaz"> Yükleme sonrası görseli bu yazıya bağla (slug + dil)</label>
+
       <label>Dosya</label>
       <input id="dosyalar" type="file" accept="image/*" multiple>
       <div class="drop" id="drop" style="margin-top:10px">Ya da dosyaları buraya bırak</div>
       <div class="cubuk"><i id="cbYuk"></i></div>
       <div class="stat" id="stYuk"></div>
-      <div id="urunler"></div>
+      <div class="ikili" style="margin-top:12px">
+        <button class="ghost" id="btnKopyaTum">Tüm adresleri kopyala</button>
+        <button class="ghost" id="btnTemizle">Listeyi boşalt</button>
+      </div>
+      <div id="urunler" style="margin-top:12px"></div>
       <p id="yukMsg" class="msg"></p>
       <label>URL'den al</label>
       <div class="ikili">
@@ -136,6 +157,7 @@ input[type=file]{padding:9px;font-size:13px}
         </select>
         <button class="ghost" id="btnYenile">Yenile</button>
       </div>
+      <button class="ghost" id="btnKopyaListe" style="margin-top:10px;width:100%">Görünen adresleri kopyala</button>
       <div id="liste"></div>
       <p id="listeMsg" class="msg"></p>
     </div>
@@ -183,7 +205,7 @@ var OTURUM="kg_oturum";
 var el=function(id){return document.getElementById(id)};
 var oturum=null;
 try{oturum=JSON.parse(localStorage.getItem(OTURUM)||"null")}catch(e){oturum=null}
-var durdu=false,veri=[],temizVeri=[],korunan=new Set();
+var durdu=false,veri=[],temizVeri=[],korunan=new Set(),kopyaMetin=[];
 
 var SAYFALAR=["/","/girne-escort","/lefkosa-escort","/magusa-escort","/iskele-escort","/guzelyurt-escort","/karaoglanoglu-escort","/alsancak-escort","/lapta-escort","/catalkoy-escort","/bellapais-escort","/esentepe-escort","/long-beach-escort","/bafra-escort","/gonyeli-escort","/otele-escort","/eve-gelen-escort","/gecelik-escort","/vip-escort","/ogrenci-escort","/turk-escort","/rus-escort","/blog","/fiyatlar","/iletisim","/gizlilik"];
 
@@ -191,6 +213,7 @@ function boy(b){return b<1024?b+" B":b<1048576?(b/1024).toFixed(0)+" KB":(b/1048
 function slug(s){return s.toLowerCase().replace(/[^a-z0-9.]+/g,"-").replace(/^-+|-+$/g,"").replace(/\.[a-z0-9]+$/,"")}
 function say(id,t,ok){var e=el(id);if(!e)return;e.textContent=t;e.className="msg "+(ok?"ok":"err")}
 function yaz(kutu,t,tur){var d=document.createElement("div");if(tur)d.className=tur;d.textContent=t;kutu.appendChild(d);kutu.scrollTop=kutu.scrollHeight}
+function kopyala(t){return navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()}
 
 /* ---------- OTURUM / İSTEK KATMANI ---------- */
 function basliklar(ek){
@@ -260,6 +283,14 @@ var api={
     return istek("/storage/v1/object/"+BUCKET,{method:"DELETE",json:{prefixes:yollar}}).then(function(r){
       if(!r.ok)return r.text().then(function(t){throw new Error(t||("HTTP "+r.status))});
     });
+  },
+  imgYaz:function(s,l,url){
+    return istek("/rest/v1/posts?slug=eq."+encodeURIComponent(s)+"&lang=eq."+l,{
+      method:"PATCH",headers:{"Prefer":"return=representation"},json:{img:url}
+    }).then(function(r){
+      if(!r.ok)return r.text().then(function(t){throw new Error(t||("HTTP "+r.status))});
+      return r.json();
+    }).then(function(d){return !!(d&&d.length)});
   },
   settings:function(){
     return istek("/rest/v1/settings?select=key,value").then(function(r){
@@ -340,6 +371,7 @@ function ac(){
   if(t)t.classList.add("on");
   el("vArac").classList.remove("hide");
   ayarYukle();
+  onizleYaz();
 }
 
 (function oturumDene(){
@@ -383,6 +415,26 @@ function sikistir(f,maxW,q){
   });
 }
 
+/* ---------- AD ÜRETİMİ ---------- */
+var kullanilan={};
+function onizleYaz(){
+  var s=slug(el("slug").value.trim()),d=el("dil").value;
+  if(!s){el("onizle").innerHTML="<i>Dosya adı:</i> slug ve dil seçilince burada görünür";return}
+  el("onizle").innerHTML="<i>Dosya adı:</i> "+s+(d?"-"+d:"")+"-1.webp";
+}
+el("slug").oninput=onizleYaz;
+el("dil").onchange=onizleYaz;
+
+function adUret(f,sira){
+  var s=slug(el("slug").value.trim()),d=el("dil").value,ad;
+  if(s){ad=s+(d?"-"+d:"")+"-"+sira}
+  else{ad=Date.now()+"-"+slug(f.name)+"-"+sira}
+  var n=ad,k=2;
+  while(kullanilan[n]){n=ad+"-"+k;k++}
+  kullanilan[n]=1;
+  return n+".webp";
+}
+
 /* ---------- AYARLAR ---------- */
 function ayarYukle(){
   api.settings().then(function(d){
@@ -422,37 +474,60 @@ drop.ondrop=function(e){e.preventDefault();drop.classList.remove("ust");yukle([]
 el("dosyalar").onchange=function(){yukle([].slice.call(el("dosyalar").files));el("dosyalar").value=""};
 
 function urunEkle(url){
+  kopyaMetin.push(url);
   var d=document.createElement("div");d.className="urun";
   var i=document.createElement("img");i.src=url;i.alt="";
   var s=document.createElement("span");s.textContent=url;
   var b=document.createElement("button");b.className="ghost mini";b.textContent="Kopyala";
   b.onclick=function(){
     var kopya=function(){b.textContent="Kopyalandı";setTimeout(function(){b.textContent="Kopyala"},1300)};
-    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url).then(kopya,function(){prompt("URL",url)});
-    else prompt("URL",url);
+    kopyala(url).then(kopya,function(){prompt("URL",url)});
   };
   d.appendChild(i);d.appendChild(s);d.appendChild(b);
   el("urunler").insertBefore(d,el("urunler").firstChild);
 }
 
+el("btnKopyaTum").onclick=function(){
+  if(!kopyaMetin.length){say("yukMsg","Kopyalanacak adres yok.");return}
+  var b=el("btnKopyaTum"),t=kopyaMetin.join("\n");
+  kopyala(t).then(function(){
+    b.textContent=kopyaMetin.length+" adres kopyalandı";
+    setTimeout(function(){b.textContent="Tüm adresleri kopyala"},1600);
+  },function(){prompt("Adresler",t)});
+};
+
+el("btnTemizle").onclick=function(){
+  el("urunler").innerHTML="";kopyaMetin=[];say("yukMsg","");
+  el("cbYuk").style.width="0%";el("stYuk").innerHTML="";
+};
+
 function yukle(files){
   var gecerli=files.filter(function(f){return /^image\//.test(f.type)});
   if(!gecerli.length){say("yukMsg","Seçilen dosyalar görsel değil.");return}
-  el("urunler").innerHTML="";
+  var hedefSlug=slug(el("slug").value.trim()),hedefDil=el("dil").value;
+  var bagla=el("dbYaz").checked&&hedefSlug&&hedefDil;
+  el("urunler").innerHTML="";kopyaMetin=[];
   say("yukMsg","");
   var bitti=0,kazanc=0;
 
   function sirada(){
     if(bitti>=gecerli.length)return Promise.resolve();
     var f=gecerli[bitti];
+    var ad=adUret(f,bitti+1);
     return sikistir(f,W,Q).then(function(blob){
-      var ad=Date.now()+"-"+slug(f.name)+".webp";
       return api.upload(ad,blob,false).then(function(){
         kazanc+=Math.max(0,f.size-blob.size);
         var url=api.url(ad);
         urunEkle(url);
-        if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url).catch(function(){});
+        kopyala(url).catch(function(){});
         say("yukMsg","✓ "+ad+" · "+boy(f.size)+" → "+boy(blob.size)+" · adres kopyalandı",true);
+        if(!bagla)return;
+        return api.imgYaz(hedefSlug,hedefDil,url).then(function(tam){
+          if(tam)say("yukMsg","✓ "+ad+" · yazıya bağlandı ("+hedefSlug+" / "+hedefDil+")",true);
+          else say("yukMsg","✓ "+ad+" · DİKKAT: "+hedefSlug+" / "+hedefDil+" bulunamadı, bağlanmadı");
+        }).catch(function(e){
+          say("yukMsg","✓ "+ad+" · DİKKAT: bağlanamadı ("+e.message+")");
+        });
       });
     }).catch(function(e){
       say("yukMsg","✕ "+f.name+" · "+(e.message||e));
@@ -523,12 +598,17 @@ function depoYaz(){
   el("stDepo").innerHTML="<span><b>"+veri.length+"</b> dosya</span><span><b>"+boy(top)+"</b> toplam</span>";
 }
 
-function ciz(){
+function gorunen(){
   var q=el("ara").value.trim().toLowerCase();
   var v=q?veri.filter(function(f){return f.yol.toLowerCase().indexOf(q)>-1}):veri.slice();
   var s=el("sirala").value;
   if(s==="buyuk")v.sort(function(a,b){return b.boyut-a.boyut});
   if(s==="kucuk")v.sort(function(a,b){return a.boyut-b.boyut});
+  return v;
+}
+
+function ciz(){
+  var v=gorunen();
   el("liste").innerHTML="";
   if(!v.length){
     el("liste").innerHTML='<p class="alt" style="padding:8px 0">'+(veri.length?"Aramaya uyan yok.":"Bucket boş.")+'</p>';
@@ -544,8 +624,7 @@ function ciz(){
     var k=document.createElement("button");k.className="ghost mini";k.textContent="Kopyala";
     k.onclick=function(){
       var kopya=function(){k.textContent="Kopyalandı";setTimeout(function(){k.textContent="Kopyala"},1300)};
-      if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url).then(kopya,function(){prompt("URL",url)});
-      else prompt("URL",url);
+      kopyala(url).then(kopya,function(){prompt("URL",url)});
     };
 
     var koruB=document.createElement("button");koruB.className="ghost mini";koruB.textContent="Koru";
@@ -576,6 +655,17 @@ function ciz(){
 el("ara").oninput=ciz;
 el("sirala").onchange=ciz;
 el("btnYenile").onclick=listeCek;
+
+el("btnKopyaListe").onclick=function(){
+  var v=gorunen();
+  if(!v.length){say("listeMsg","Liste boş.");return}
+  var t=v.map(function(f){return api.url(f.yol)}).join("\n");
+  var b=el("btnKopyaListe");
+  kopyala(t).then(function(){
+    b.textContent=v.length+" adres kopyalandı";
+    setTimeout(function(){b.textContent="Görünen adresleri kopyala"},1600);
+  },function(){prompt("Adresler",t)});
+};
 
 function tek(f,btn){
   btn.disabled=true;btn.textContent="…";
