@@ -217,8 +217,8 @@ module.exports = async (req, res) => {
       if (rp.ok) {
         const ap = await rp.json();
         if (ap && ap.length) {
-          const hedef = BASE + '/blog/' + slug;
-          res.writeHead(301, {
+const hedef = BASE + kok(dil) + '/blog/' + slug;
+         res.writeHead(301, {
             Location: hedef,
             'Content-Type': 'text/html; charset=utf-8',
             'Cache-Control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800'
