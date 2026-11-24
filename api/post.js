@@ -4,7 +4,7 @@ const BASE = 'https://www.kibrisgirneescort.com';
 const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 const WA = 'https://wa.me/905515420755';
 const TG = 'https://t.me/kibrisescortvip';
-const LOGO = 'https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795330858770-veniceai-m0godwqqq90k5f-1.webp';
+const LOGO = 'https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795330858770-m0godwqqq90k5f-1.webp';
 const S = require('../data/shell.js');
 
 const DILLER = ['tr', 'en', 'ru'];
