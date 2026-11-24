@@ -4,9 +4,8 @@ const BASE = 'https://www.kibrisgirneescort.com';
 const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 const WA = 'https://wa.me/905515420755';
 const TG = 'https://t.me/kibrisescortvip';
-const S = require('../data/shell.js');
-
 const LOGO = 'https://accerzwswgiqhtfgoeqv.supabase.co/storage/v1/object/public/img/1795330858770-veniceai-m0godwqqq90k5f-1.webp';
+const C = require('../data/chrome.js');
 
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -22,20 +21,26 @@ const tarih = d => {
 const duz = s => String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
 const govde = raw => {
-  if (/<(h2|h3|p|ul|div)[\s>]/i.test(raw || '')) return raw;
+  const kaynak = String(raw || '').replace(/\r\n?/g, '\n');
+
+  // gövde zaten HTML ise: sadece başına kaçmış ## / ### işaretlerini temizle
+  if (/<(h2|h3|p|ul|div)[\s>]/i.test(kaynak)) {
+    return kaynak
+      .replace(/<(p|h[23])>[ \t]*#{2,3}[ \t]*/g, '<$1>')
+      .replace(/^[ \t]*#{2,3}[ \t]*/gm, '');
+  }
+
   let html = '', inUl = false;
-  const kapat = () => { if (inUl) { html += '</ul>'; inUl = false; } };
-  for (const satir of String(raw || '').split(/\r?\n/)) {
-    const b = satir.replace(/\r/g, '').trim();
-    if (!b) { kapat(); continue; }
-    if (b.startsWith('### ')) { kapat(); html += '<h3>' + esc(b.slice(4)) + '</h3>'; continue; }
-    if (b.startsWith('## ')) { kapat(); html += '<h2>' + esc(b.slice(3)) + '</h2>'; continue; }
+  for (const satir of kaynak.split('\n')) {
+    const b = satir.trim();
+    if (!b) { if (inUl) { html += '</ul>'; inUl = false; } continue; }
+    if (b.startsWith('### ')) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h3>' + esc(b.slice(4)) + '</h3>'; continue; }
+    if (b.startsWith('## ')) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h2>' + esc(b.slice(3)) + '</h2>'; continue; }
     if (b.startsWith('- ')) { if (!inUl) { html += '<ul>'; inUl = true; } html += '<li>' + esc(b.slice(2)) + '</li>'; continue; }
-    if (/^[A-ZÇĞİÖŞÜ]/.test(b) && b.length < 70 && !/[.,;:]$/.test(b)) { kapat(); html += '<h2>' + esc(b) + '</h2>'; continue; }
-    kapat();
+    if (inUl) { html += '</ul>'; inUl = false; }
     html += '<p>' + esc(b) + '</p>';
   }
-  kapat();
+  if (inUl) html += '</ul>';
   return html;
 };
 
@@ -51,24 +56,32 @@ const sss = f => {
     .filter(x => x[0] && x[1]);
 };
 
-const GENEL = ['kibris','escort','rehberi','blog','otel','ne','mi','mu','ve','icin','nasil','dakika','saat','program','fiyatlari'];
+const GENEL = ['kibris','escort','rehberi','blog','otel','ne','mi','mu','ve','icin','nasil','nedir','demek','kadar','hangi'];
+
+const ilgiliAnahtar = slug =>
+  String(slug || '').split('-').filter(t => t.length > 2 && !GENEL.includes(t)).slice(0, 2);
 
 async function ilgiliYazilar(slug) {
-  const anahtar = String(slug || '').split('-')
-    .filter(t => t.length > 2 && GENEL.indexOf(t) === -1).slice(0, 2);
+  const anahtar = ilgiliAnahtar(slug);
   let out = [];
   if (anahtar.length) {
-    const or = anahtar.map(t => 'slug.ilike.*' + t + '*').join(',');
+    const or = anahtar.map(t => 'slug.ilike.*' + encodeURIComponent(t) + '*').join(',');
     try {
-      const r = await fetch(SB + '/rest/v1/posts?select=slug,title&published=eq.true&slug=neq.' +
-        encodeURIComponent(slug) + '&or=(' + or + ')&limit=5', { headers: H });
+      const r = await fetch(
+        SB + '/rest/v1/posts?select=slug,title&published=eq.true&slug=neq.' +
+        encodeURIComponent(slug) + '&or=(' + or + ')&limit=5',
+        { headers: H }
+      );
       if (r.ok) out = (await r.json()) || [];
     } catch (e) {}
   }
   if (out.length < 5) {
     try {
-      const r = await fetch(SB + '/rest/v1/posts?select=slug,title&published=eq.true&slug=neq.' +
-        encodeURIComponent(slug) + '&order=created_at.desc&limit=15', { headers: H });
+      const r = await fetch(
+        SB + '/rest/v1/posts?select=slug,title&published=eq.true&slug=neq.' +
+        encodeURIComponent(slug) + '&order=created_at.desc&limit=12',
+        { headers: H }
+      );
       if (r.ok) {
         const a = (await r.json()) || [];
         for (const x of a) {
@@ -83,7 +96,6 @@ async function ilgiliYazilar(slug) {
 
 const sayfa = o => `<!DOCTYPE html>
 <html lang="tr"><head>
-<style>${S.css}</style><style>${S.icerik}</style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(o.title)} | RedKıbrıs</title>
@@ -98,21 +110,22 @@ const sayfa = o => `<!DOCTYPE html>
 <meta property="og:title" content="${esc(o.title)}">
 <meta property="og:description" content="${esc(o.desc)}">
 <meta property="og:url" content="${esc(o.url)}">
-${o.img ? `<meta property="og:image" content="${esc(o.img)}">` : ''}
+${o.img ? `<meta property="og:image" content="${esc(o.img)}">
 <meta name="twitter:card" content="summary_large_image">
-${o.img ? `<meta name="twitter:image" content="${esc(o.img)}">` : ''}
+<meta name="twitter:image" content="${esc(o.img)}">` : ''}
 <meta name="theme-color" content="#0b121b">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2 62 32 32 62 2 32Z' fill='%231e2a40' stroke='%23f0d9ae' stroke-opacity='.55' stroke-width='2'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='23' font-weight='700' text-anchor='middle'%3E%3Ctspan fill='%23ff3b5c'%3ER%3C/tspan%3E%3Ctspan fill='%23ffffff'%3EK%3C/tspan%3E%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin>
+<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin="">
+<style>${C.css}</style>
 ${o.ld || ''}
-<script src="${BASE}/js/analytics.js" defer></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KP7MEM460J"></script>
+<script src="${BASE}/js/analytics.js" defer></script>
 </head><body>
-${S.header({ aktif: BASE + '/blog' })}
+${C.header(o.active)}
 <main class="wrap">
 ${o.icerik}
 </main>
-${S.footer()}
+${C.footer()}
 <script src="${BASE}/js/iletisim.js" defer></script>
 </body></html>`;
 
@@ -149,6 +162,7 @@ module.exports = async (req, res) => {
       title: 'Yazı bulunamadı',
       desc: 'Aradığın yazı bulunamadı. Kıbrıs escort blog yazılarına göz at.',
       url: url,
+      active: BASE + '/blog',
       robots: 'noindex,follow',
       icerik: `<h1>Yazı bulunamadı</h1>
         <div class="about"><b>Bu adreste yazı yok.</b><br>Tüm yazılar için <a href="${BASE}/blog">blog sayfasına</a> dönebilirsin.</div>
@@ -187,13 +201,11 @@ module.exports = async (req, res) => {
   ];
   if (f.length) ld.push({
     '@context': 'https://schema.org', '@type': 'FAQPage',
-    mainEntity: f.map(x => ({
-      '@type': 'Question', name: x[0],
-      acceptedAnswer: { '@type': 'Answer', text: x[1] }
-    }))
+    mainEntity: f.map(x => ({ '@type': 'Question', name: x[0], acceptedAnswer: { '@type': 'Answer', text: x[1] } }))
   });
 
-  const icerik = `<div class="crumb"><a href="${BASE}/">Ana sayfa</a> › <a href="${BASE}/blog">Blog</a> › <span>${esc(p.title)}</span></div>
+  const icerik = `
+  <div class="crumb"><a href="${BASE}/">Ana sayfa</a> › <a href="${BASE}/blog">Blog</a> › <span>${esc(p.title)}</span></div>
   <h1>${esc(p.title)}</h1>
   <p class="byline">Can · RedKıbrıs · ${tarih(p.created_at)} · ${dk} dk okuma</p>
   ${p.img ? `<img id="cover" src="${esc(p.img)}" alt="${esc(p.title)}" width="1200" height="750" fetchpriority="high">` : ''}
@@ -209,6 +221,7 @@ module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
   res.status(200).send(sayfa({
     title: p.title, desc, url, img: p.img,
+    active: BASE + '/blog',
     icerik,
     ld: ld.map(x => `<script type="application/ld+json">${JSON.stringify(x)}</script>`).join('')
   }));
