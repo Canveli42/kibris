@@ -2,10 +2,12 @@ const BASE = 'https://www.kibrisgirneescort.com';
 const WA = 'https://wa.me/905515420755';
 const TG = 'https://t.me/kibrisescortvip';
 
+const u = (dil, p) => BASE + (dil === 'tr' ? '' : '/' + dil) + p;
+
 const NAVLAR = {
   tr: [['/', 'Ana Sayfa'], ['/girne-escort', 'Girne'], ['/lefkosa-escort', 'Lefkoşa'], ['/magusa-escort', 'Mağusa'], ['/iskele-escort', 'İskele'], ['/guzelyurt-escort', 'Güzelyurt'], ['/blog', 'Blog'], ['/blog/kibrista-yalniz-gelenler-rehberi', 'Rehber'], ['/fiyatlar', 'Fiyatlar'], ['/iletisim', 'İletişim']],
-  en: [['/en', 'Home'], ['/girne-escort', 'Kyrenia'], ['/lefkosa-escort', 'Nicosia'], ['/magusa-escort', 'Famagusta'], ['/iskele-escort', 'Iskele'], ['/guzelyurt-escort', 'Guzelyurt'], ['/blog', 'Blog'], ['/blog/kibrista-yalniz-gelenler-rehberi', 'Guide'], ['/fiyatlar', 'Prices'], ['/iletisim', 'Contact']],
-  ru: [['/ru', 'Главная'], ['/girne-escort', 'Кирения'], ['/lefkosa-escort', 'Никосия'], ['/magusa-escort', 'Фамагуста'], ['/iskele-escort', 'Искеле'], ['/guzelyurt-escort', 'Гюзельюрт'], ['/blog', 'Блог'], ['/blog/kibrista-yalniz-gelenler-rehberi', 'Гид'], ['/fiyatlar', 'Цены'], ['/iletisim', 'Контакты']]
+  en: [['/en', 'Home'], ['/girne-escort', 'Kyrenia'], ['/lefkosa-escort', 'Nicosia'], ['/magusa-escort', 'Famagusta'], ['/iskele-escort', 'Iskele'], ['/guzelyurt-escort', 'Guzelyurt'], ['/en/blog', 'Blog'], ['/en/blog/kibrista-yalniz-gelenler-rehberi', 'Guide'], ['/en/fiyatlar', 'Prices'], ['/en/iletisim', 'Contact']],
+  ru: [['/ru', 'Главная'], ['/girne-escort', 'Кирения'], ['/lefkosa-escort', 'Никосия'], ['/magusa-escort', 'Фамагуста'], ['/iskele-escort', 'Искеле'], ['/guzelyurt-escort', 'Гюзельюрт'], ['/ru/blog', 'Блог'], ['/ru/blog/kibrista-yalniz-gelenler-rehberi', 'Гид'], ['/ru/fiyatlar', 'Цены'], ['/ru/iletisim', 'Контакты']]
 };
 
 const KATALOG = { tr: 'Katalog', en: 'Catalogue', ru: 'Каталог' };
@@ -139,6 +141,7 @@ function header(o) {
   const dil = o.dil || 'tr';
   const aktif = o.aktif || '';
   const yol = aktif.replace(BASE, '');
+  const ceviriler = o.ceviriler || {};
   const txt = encodeURIComponent(MSG[dil] || MSG.tr);
 
   const linkler = (NAVLAR[dil] || NAVLAR.tr).map(function (x) {
@@ -148,12 +151,12 @@ function header(o) {
   }).join('');
 
   const pill = function (kod, etiket) {
-    const href = kod === 'tr' ? BASE + '/' : BASE + '/' + kod;
-    return '<a href="' + href + '" data-lang="' + kod + '"' + (kod === dil ? ' class="on"' : '') + '>' + etiket + '</a>';
+    const hedef = ceviriler[kod] || u(kod, kod === 'tr' ? '/' : '/');
+    return '<a href="' + hedef + '" data-lang="' + kod + '"' + (kod === dil ? ' class="on"' : '') + '>' + etiket + '</a>';
   };
 
   return '<header class="site-header"><div class="header-in">'
-    + '<a class="brand" href="' + BASE + '/" aria-label="RedKıbrıs">' + MARK
+    + '<a class="brand" href="' + u(dil, '/') + '" aria-label="RedKıbrıs">' + MARK
     + '<span class="wordmark"><b>Red</b>Kıbrıs<i>' + (dil === 'tr' ? 'Kıbrıs Escort' : dil === 'en' ? 'Cyprus Escort' : 'Эскорт Кипр') + '</i></span></a>'
     + '<a class="btn-katalog" href="' + WA + '?text=' + txt + '" target="_blank" rel="noopener" data-base="' + WA + '" aria-label="WhatsApp">' + WSVG + (KATALOG[dil] || KATALOG.tr) + '</a>'
     + '<span class="lang">' + pill('tr', 'TR') + pill('en', 'EN') + pill('ru', 'RU') + '</span>'
@@ -165,7 +168,7 @@ function footer(dil) {
   dil = dil || 'tr';
   const f = FT[dil] || FT.tr;
   const bolge = [['girne', 'Girne'], ['lefkosa', 'Lefkoşa'], ['magusa', 'Mağusa'], ['iskele', 'İskele'], ['guzelyurt', 'Güzelyurt']]
-    .map(function (x) { return '<a href="' + BASE + '/' + x[0] + '-escort">' + x[1] + '</a>'; }).join('');
+    .map(function (x) { return '<a href="' + u(dil, '/' + x[0] + '-escort') + '">' + x[1] + '</a>'; }).join('');
 
   return '<footer class="chrome-footer">'
     + '<div class="cf-in">'
@@ -173,9 +176,9 @@ function footer(dil) {
     + '<div class="cf-cols">'
     + '<div><h4>' + f.b + '</h4>' + bolge + '</div>'
     + '<div><h4>' + f.s + '</h4>'
-    + '<a href="' + BASE + '/">' + f.ana + '</a><a href="' + BASE + '/blog">' + f.blog + '</a>'
-    + '<a href="' + BASE + '/fiyatlar">' + f.fiyat + '</a><a href="' + BASE + '/iletisim">' + f.ilet + '</a>'
-    + '<a href="' + BASE + '/gizlilik">' + f.giz + '</a></div>'
+    + '<a href="' + u(dil, '/') + '">' + f.ana + '</a><a href="' + u(dil, '/blog') + '">' + f.blog + '</a>'
+    + '<a href="' + u(dil, '/fiyatlar') + '">' + f.fiyat + '</a><a href="' + u(dil, '/iletisim') + '">' + f.ilet + '</a>'
+    + '<a href="' + u(dil, '/gizlilik') + '">' + f.giz + '</a></div>'
     + '</div></div>'
     + '<div class="cf-bottom"><span>' + f.alt + '</span><span>© 2026 · Can</span></div>'
     + '</footer>'
