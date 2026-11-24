@@ -4,55 +4,35 @@ const BASE = 'https://www.kibrisgirneescort.com';
 const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 
 const STATIC = '2026-11-23';
+const DILLER = ['tr', 'en', 'ru'];
 
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 
-const day = d => {
-  const t = new Date(d);
-  return isNaN(t) ? STATIC : t.toISOString().slice(0, 10);
-};
+const day = d => { const t = new Date(d); return isNaN(t) ? STATIC : t.toISOString().slice(0, 10); };
 
 const BOLGELER = [
-  ['girne-escort', '0.9'],
-  ['lefkosa-escort', '0.8'],
-  ['magusa-escort', '0.8'],
-  ['iskele-escort', '0.8'],
-  ['guzelyurt-escort', '0.8'],
-  ['karaoglanoglu-escort', '0.7'],
-  ['alsancak-escort', '0.7'],
-  ['lapta-escort', '0.7'],
-  ['catalkoy-escort', '0.7'],
-  ['bellapais-escort', '0.7'],
-  ['esentepe-escort', '0.7'],
-  ['long-beach-escort', '0.7'],
-  ['bafra-escort', '0.7'],
-  ['gonyeli-escort', '0.7'],
-  ['lefkosa-hamitkoy-escort', '0.6'],
-  ['otele-escort', '0.6'],
-  ['eve-gelen-escort', '0.6'],
-  ['gecelik-escort', '0.6'],
-  ['vip-escort', '0.6'],
-  ['ogrenci-escort', '0.6'],
-  ['turk-escort', '0.6'],
-  ['rus-escort', '0.6']
+  ['girne-escort', '0.9'], ['lefkosa-escort', '0.8'], ['magusa-escort', '0.8'],
+  ['iskele-escort', '0.8'], ['guzelyurt-escort', '0.8'], ['karaoglanoglu-escort', '0.7'],
+  ['alsancak-escort', '0.7'], ['lapta-escort', '0.7'], ['catalkoy-escort', '0.7'],
+  ['bellapais-escort', '0.7'], ['esentepe-escort', '0.7'], ['long-beach-escort', '0.7'],
+  ['bafra-escort', '0.7'], ['gonyeli-escort', '0.7'], ['lefkosa-hamitkoy-escort', '0.6'],
+  ['otele-escort', '0.6'], ['eve-gelen-escort', '0.6'], ['gecelik-escort', '0.6'],
+  ['vip-escort', '0.6'], ['ogrenci-escort', '0.6'], ['turk-escort', '0.6'], ['rus-escort', '0.6']
 ];
 
 const SLUG_OK = /^[a-z0-9-]{3,120}$/;
 
-const xmlUrl = (r) => {
-  let alt = '<xhtml:link rel="alternate" hreflang="tr" href="' + esc(r.loc) + '"/>'
-    + '<xhtml:link rel="alternate" hreflang="x-default" href="' + esc(r.loc) + '"/>';
-  if (r.dil) {
-    alt = '<xhtml:link rel="alternate" hreflang="tr" href="' + esc(BASE + '/') + '"/>'
-      + '<xhtml:link rel="alternate" hreflang="en" href="' + esc(BASE + '/en') + '"/>'
-      + '<xhtml:link rel="alternate" hreflang="ru" href="' + esc(BASE + '/ru') + '"/>'
-      + '<xhtml:link rel="alternate" hreflang="x-default" href="' + esc(BASE + '/') + '"/>';
-  }
-  return '<url><loc>' + esc(r.loc) + '</loc><lastmod>' + r.lastmod +
-    '</lastmod><changefreq>' + r.freq + '</changefreq><priority>' + r.pri + '</priority>' +
-    alt + '</url>';
+const kok = d => (d === 'tr' ? '/blog/' : '/' + d + '/blog/');
+
+const xmlGrup = (g) => {
+  const alt = DILLER.filter(d => g.yollar[d])
+    .map(d => '<xhtml:link rel="alternate" hreflang="' + d + '" href="' + esc(g.yollar[d]) + '"/>').join('') +
+    '<xhtml:link rel="alternate" hreflang="x-default" href="' + esc(g.yollar.tr || g.yollar[DILLER.find(d => g.yollar[d])]) + '"/>';
+  return DILLER.filter(d => g.yollar[d]).map(d =>
+    '<url><loc>' + esc(g.yollar[d]) + '</loc><lastmod>' + g.lastmod + '</lastmod><changefreq>' + g.freq +
+    '</changefreq><priority>' + g.pri + '</priority>' + alt + '</url>').join('\n');
 };
 
 const htmlSayfa = (kayitlar) => `<!DOCTYPE html>
@@ -76,57 +56,56 @@ td.p{color:#93a0b4;white-space:nowrap}
 <h1>RedKıbrıs · sitemap.xml</h1>
 <p>${kayitlar.length} adres · ham XML için <a href="/sitemap.xml?xml=1">buraya</a> bak</p>
 <table><tr><th>Adres</th><th>Güncelleme</th><th>Sıklık</th><th>Öncelik</th></tr>
-${kayitlar.map(r => '<tr><td><a href="' + esc(r.loc) + '">' + esc(r.loc) + '</a></td><td class="p">' + r.lastmod + '</td><td class="p">' + r.freq + '</td><td class="p">' + r.pri + '</td></tr>').join('\n')}
+${kayitlar.map(r => '<tr><td><a href="' + esc(r) + '">' + esc(r) + '</a></td><td class="p">-</td><td class="p">-</td><td class="p">-</td></tr>').join('\n')}
 </table></body></html>`;
 
 module.exports = async (req, res) => {
-  const kayitlar = [];
+  const gruplar = [];
   const gorulen = new Set();
   let posts = [];
   let enSon = STATIC;
 
   try {
     const r = await fetch(
-      SB + '/rest/v1/posts?select=slug,created_at,updated_at&published=eq.true&order=updated_at.desc&limit=2000',
+      SB + '/rest/v1/posts?select=slug,lang,created_at,updated_at&published=eq.true&order=updated_at.desc&limit=2000',
       { headers: H }
     );
-    if (r.ok) {
-      const rows = await r.json();
-      posts = Array.isArray(rows) ? rows : [];
-    }
+    if (r.ok) { const rows = await r.json(); posts = Array.isArray(rows) ? rows : []; }
   } catch (e) {}
 
   posts.forEach(p => {
     const t = p.updated_at || p.created_at;
-    if (t) {
-      const g = day(t);
-      if (g > enSon) enSon = g;
-    }
+    if (t) { const g = day(t); if (g > enSon) enSon = g; }
   });
 
-  const ekle = (loc, lastmod, freq, pri, dil) => {
-    if (gorulen.has(loc)) return;
-    gorulen.add(loc);
-    kayitlar.push({ loc, lastmod, freq, pri, dil: !!dil });
+  const ekle = (yollar, lastmod, freq, pri) => {
+    const anahtar = Object.values(yollar)[0];
+    if (gorulen.has(anahtar)) return;
+    gorulen.add(anahtar);
+    gruplar.push({ yollar, lastmod, freq, pri });
   };
 
-  ekle(BASE + '/', enSon, 'weekly', '1.0', true);
-  ekle(BASE + '/en', enSon, 'weekly', '0.9', true);
-  ekle(BASE + '/ru', enSon, 'weekly', '0.9', true);
+  ekle({ tr: BASE + '/', en: BASE + '/en', ru: BASE + '/ru' }, enSon, 'weekly', '1.0');
+  ekle({ tr: BASE + '/fiyatlar', en: BASE + '/en/fiyatlar', ru: BASE + '/ru/fiyatlar' }, STATIC, 'weekly', '0.9');
+  ekle({ tr: BASE + '/blog', en: BASE + '/en/blog', ru: BASE + '/ru/blog' }, enSon, 'daily', '0.8');
 
-  ekle(BASE + '/fiyatlar', STATIC, 'weekly', '0.9');
-  ekle(BASE + '/blog', enSon, 'daily', '0.8');
+  BOLGELER.forEach(b => ekle({ tr: BASE + '/' + b[0] }, STATIC, 'weekly', b[1]));
 
-  BOLGELER.forEach(b => ekle(BASE + '/' + b[0], STATIC, 'weekly', b[1]));
-
+  const map = new Map();
   posts.forEach(p => {
     const slug = String(p.slug || '').trim();
-    if (!SLUG_OK.test(slug)) return;
-    ekle(BASE + '/blog/' + slug, day(p.updated_at || p.created_at || STATIC), 'monthly', '0.6');
+    const d = String(p.lang || 'tr');
+    if (!SLUG_OK.test(slug) || !DILLER.includes(d)) return;
+    if (!map.has(slug)) map.set(slug, { yollar: {}, lastmod: STATIC });
+    const g = map.get(slug);
+    g.yollar[d] = BASE + kok(d) + slug;
+    const t = day(p.updated_at || p.created_at || STATIC);
+    if (t > g.lastmod) g.lastmod = t;
   });
+  map.forEach(g => ekle(g.yollar, g.lastmod, 'monthly', '0.6'));
 
-  ekle(BASE + '/iletisim', STATIC, 'monthly', '0.6');
-  ekle(BASE + '/gizlilik', STATIC, 'yearly', '0.3');
+  ekle({ tr: BASE + '/iletisim', en: BASE + '/en/iletisim', ru: BASE + '/ru/iletisim' }, STATIC, 'monthly', '0.6');
+  ekle({ tr: BASE + '/gizlilik', en: BASE + '/en/gizlilik', ru: BASE + '/ru/gizlilik' }, STATIC, 'yearly', '0.3');
 
   const ua = String(req.headers['user-agent'] || '');
   const kabul = String(req.headers.accept || '');
@@ -138,14 +117,16 @@ module.exports = async (req, res) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
 
   if (htmlIster) {
+    const hepsi = [];
+    gruplar.forEach(g => DILLER.forEach(d => { if (g.yollar[d]) hepsi.push(g.yollar[d]); }));
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.status(200).send(htmlSayfa(kayitlar));
+    res.status(200).send(htmlSayfa(hepsi));
     return;
   }
 
   const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' +
-    kayitlar.map(xmlUrl).join('\n') + '\n</urlset>';
+    gruplar.map(xmlGrup).join('\n') + '\n</urlset>';
 
   res.setHeader('Content-Type', 'application/xml; charset=utf-8');
   res.status(200).send(xml);
