@@ -319,8 +319,8 @@ var BUCKET="img", W=1600, Q=0.72, OTURUM="kg_oturum";
 var el=function(i){return document.getElementById(i)};
 var oturum=null;
 try{oturum=JSON.parse(localStorage.getItem(OTURUM)||"null")}catch(e){oturum=null}
-var durdu=false,veri=[],temizVeri=[],korunan=new Set(),kopyaMetin=[];
-var SAYFALAR=["/","/girne-escort","/lefkosa-escort","/magusa-escort","/iskele-escort","/guzelyurt-escort","/blog","/fiyatlar","/iletisim","/gizlilik"];
+var durdu=false,veri=[],temizVeri=[],korunan=new Set(),kopyaMetin=[],sonHata=0;
+var SAYFALAR=["/","/girne-escort","/lefkosa-escort","/magusa-escort","/iskele-escort","/guzelyurt-escort","/blog","/fiyatlar","/iletisim","/gizlilik","/can","/karaoglanoglu-escort","/alsancak-escort","/lapta-escort","/catalkoy-escort","/bellapais-escort","/esentepe-escort","/long-beach-escort","/bafra-escort","/gonyeli-escort","/otele-escort","/eve-gelen-escort","/gecelik-escort","/vip-escort","/ogrenci-escort","/turk-escort","/rus-escort","/lefkosa-hamitkoy-escort"];
 
 function boy(b){return b<1024?b+" B":b<1048576?(b/1024).toFixed(0)+" KB":(b/1048576).toFixed(2)+" MB"}
 function slugla(s){return s.toLowerCase().replace(/[^a-z0-9.]+/g,"-").replace(/^-+|-+$/g,"").replace(/\.[a-z0-9]+$/,"")}
@@ -352,7 +352,7 @@ var api={
   url:function(y){return URL_+"/storage/v1/object/public/"+BUCKET+"/"+y},
   upload:function(y,b,up){return istek("/storage/v1/object/"+BUCKET+"/"+encodeURI(y),{method:"POST",headers:{"Content-Type":"image/webp","x-upsert":up?"true":"false","cache-control":"31536000"},body:b}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t||("HTTP "+r.status))})})},
   download:function(y){return istek("/storage/v1/object/"+BUCKET+"/"+encodeURI(y)).then(function(r){if(!r.ok)throw new Error("indirilemedi ("+r.status+")");return r.blob()})},
-  list:function(o,f){return istek("/storage/v1/object/list/"+BUCKET,{method:"POST",json:{prefix:o||"",limit:1000,offset:f||0,sortBy:{column:"name",order:"asc"}}}).then(function(r){if(!r.ok)throw new Error("liste alınamadı");return r.json()})},
+  list:function(o,f){return istek("/storage/v1/object/list/"+BUCKET,{method:"POST",json:{prefix:o||"",limit:1000,offset:f||0,sortBy:{column:"name",order:"asc"}}}).then(function(r){if(!r.ok)throw new Error("liste alınamadı ("+r.status+")");return r.json()})},
   remove:function(y){return istek("/storage/v1/object/"+BUCKET,{method:"DELETE",json:{prefixes:y}}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t||"HTTP "+r.status)})})},
   imgYaz:function(s,l,u){return istek("/rest/v1/posts?slug=eq."+encodeURIComponent(s)+"&lang=eq."+l,{method:"PATCH",headers:{"Prefer":"return=representation"},json:{img:u}}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t)});return r.json()}).then(function(d){return !!(d&&d.length)})},
   settings:function(){return istek("/rest/v1/settings?select=key,value").then(function(r){return r.json()})},
@@ -549,10 +549,38 @@ el("btnTum").onclick=function(){if(!confirm("Tüm görseller yeniden sıkıştı
 /* TEMİZLİK */
 function topla(m){if(!m)return;var re=/\/img\/([^\s"'()<>?#$]+)/g,x;
   while((x=re.exec(m))){var p=x[1].replace(/^\/+/,"");korunan.add(p);try{korunan.add(decodeURIComponent(p))}catch(e){}}}
-function harita(){korunan=new Set();topla(el("koru").value);var tarandi=0,sira=Promise.resolve();
-  SAYFALAR.forEach(function(s){sira=sira.then(function(){return fetch(s,{cache:"no-store"}).then(function(r){if(!r.ok)return;return r.text().then(function(t){topla(t);tarandi++})}).catch(function(){})})});
-  return sira.then(function(){return Promise.all([api.tablo("posts","img,body,meta,faq").catch(function(){return[]}),api.tablo("settings","value").catch(function(){return[]}),api.tablo("regions","img").catch(function(){return[]})])
-    .then(function(x){(x[0]||[]).forEach(function(p){topla(p.img);topla(p.body);topla(p.meta);topla(p.faq)});(x[1]||[]).forEach(function(p){topla(p.value)});(x[2]||[]).forEach(function(p){topla(p.img)});return {tarandi:tarandi}})})}
+
+function harita(){
+  korunan=new Set();topla(el("koru").value);sonHata=0;
+  var tarandi=0,sira=Promise.resolve();
+  SAYFALAR.forEach(function(s){
+    sira=sira.then(function(){
+      function dene(kalan){
+        return fetch(s,{cache:"no-store"}).then(function(r){
+          if(!r.ok)throw new Error(r.status);
+          return r.text().then(function(t){topla(t);tarandi++});
+        }).catch(function(){
+          if(kalan>0)return new Promise(function(c){setTimeout(c,400)}).then(function(){return dene(kalan-1)});
+          sonHata++;
+        });
+      }
+      return dene(1);
+    });
+  });
+  return sira.then(function(){
+    return Promise.all([
+      api.tablo("posts","img,body,meta,faq").catch(function(){return[]}),
+      api.tablo("settings","value").catch(function(){return[]}),
+      api.tablo("regions","img").catch(function(){return[]})
+    ]).then(function(x){
+      (x[0]||[]).forEach(function(p){topla(p.img);topla(p.body);topla(p.meta);topla(p.faq)});
+      (x[1]||[]).forEach(function(p){topla(p.value)});
+      (x[2]||[]).forEach(function(p){topla(p.img)});
+      return {tarandi:tarandi};
+    });
+  });
+}
+
 function temizCiz(){el("temizListe").innerHTML="";
   if(!temizVeri.length){el("temizListe").innerHTML='<p class="alt">Sonuç yok.</p>';return}
   var fr=document.createDocumentFragment();
@@ -560,11 +588,14 @@ function temizCiz(){el("temizListe").innerHTML="";
     r.innerHTML='<input type="checkbox" '+(x.sec?"checked":"")+'><img loading="lazy" src="'+u+'" alt=""><span class="ad"></span><span class="bo">'+boy(x.boyut)+'</span>';
     r.querySelector(".ad").textContent=x.yol;r.querySelector("input").onchange=function(e){x.sec=e.target.checked};fr.appendChild(r)});
   el("temizListe").appendChild(fr)}
+
 el("btnKullanilmayan").onclick=function(){say("temizMsg","Taranıyor…",true);el("temizListe").innerHTML="";
   listAll("").then(function(v){veri=v;return harita().then(function(r){
     temizVeri=veri.filter(function(f){return !korunan.has(f.yol)&&!korunan.has(f.ad)}).map(function(f){return {ad:f.ad,yol:f.yol,boyut:f.boyut,sec:true}});
-    temizCiz();say("temizMsg",temizVeri.length+" kullanılmayan bulundu ("+r.tarandi+" sayfa tarandı).",true)})})
+    temizCiz();
+    say("temizMsg",temizVeri.length+" kullanılmayan bulundu ("+r.tarandi+" sayfa tarandı"+(sonHata?", "+sonHata+" sayfa yüklenemedi":"")+").",true)})})
   .catch(function(e){say("temizMsg","HATA: "+e.message)})};
+
 el("btnKopya").onclick=function(){say("temizMsg","Taranıyor…",true);el("temizListe").innerHTML="";
   listAll("").then(function(v){veri=v;return harita().then(function(){
     var g={};veri.forEach(function(f){if(f.boyut>0)(g[f.boyut]=g[f.boyut]||[]).push(f)});
@@ -580,9 +611,11 @@ el("btnKopya").onclick=function(){say("temizMsg","Taranıyor…",true);el("temiz
           gr2.forEach(function(f){if(f!==koru)temizVeri.push({ad:f.ad,yol:f.yol,boyut:f.boyut,sec:true})})})})})});
     return sira.then(function(){temizCiz();say("temizMsg",temizVeri.length?temizVeri.length+" fazla kopya bulundu.":"Kopya yok.",true)})})})
   .catch(function(e){say("temizMsg","HATA: "+e.message)})};
+
 el("btnSec").onclick=function(){temizVeri.forEach(function(x){x.sec=!x.sec});temizCiz()};
 el("btnSilSec").onclick=function(){var s=temizVeri.filter(function(x){return x.sec}).map(function(x){return x.yol});
   if(!s.length)return say("temizMsg","Seçim yok.");
+  if(sonHata>0&&!confirm(sonHata+" sayfa yüklenemedi, o sayfalardaki görseller kullanılmıyor görünebilir. Yine de silinsin mi?"))return;
   if(!confirm(s.length+" dosya silinsin mi?"))return;var i=0;
   function p(){if(i>=s.length){temizVeri=temizVeri.filter(function(x){return !x.sec});temizCiz();listeCek();say("temizMsg",s.length+" silindi.",true);return Promise.resolve()}
     return api.remove(s.slice(i,i+20)).then(function(){i+=20;el("cbTemiz").style.width=(Math.min(i,s.length)/s.length*100)+"%";return p()})}
