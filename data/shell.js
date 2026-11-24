@@ -76,7 +76,7 @@ const css = `
 .chrome-footer .cf-brand p{color:var(--mut);font-size:13.5px;margin:0}
 .chrome-footer .cf-cols{display:flex;flex-wrap:wrap;gap:26px}
 .chrome-footer .cf-cols div{min-width:130px}
-.chrome-footer .cf-cols h4{margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:400}
+.chrome-footer .cf-cols h3{margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:400}
 .chrome-footer .cf-cols a{display:block;color:var(--mut);font-size:14px;padding:3px 0;text-decoration:none}
 .chrome-footer .cf-cols a:hover{color:var(--gold2)}
 .chrome-footer .cf-bottom{width:min(1120px,100%);margin:26px auto 0;padding:16px 18px 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:var(--mut);font-size:12.5px}
@@ -88,6 +88,7 @@ const icerik = `
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 a{color:var(--gold2);text-decoration:none}
 a:hover{text-decoration:underline}
+main a:not(.btn):not(.btn-o):not(.rimg){text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
 img{max-width:100%;display:block}
 .wrap{width:min(1120px,100%);margin:0 auto;padding:0 18px}
 main{padding:22px 0 40px}
@@ -120,16 +121,17 @@ article ul,article ol{margin:0 0 1em 20px;padding-left:20px}
 .diger{margin-top:26px}
 .diger a{display:inline-block;margin:0 10px 8px 0}
 ul,ol{padding-left:20px}
+.cerez a,.cookie a,.cerez-bar a,.cookie-bar a,#cerez a,#cookie a,[class*="cerez"] a,[class*="cookie"] a{color:var(--gold2);text-decoration:underline;text-underline-offset:2px;font-weight:600}
 `;
 
 function ayarJs(dil) {
   const def = encodeURIComponent(MSG[dil] || MSG.tr);
-  return '(function(){var SB="https://accerzwswgiqhtfgoeqv.supabase.co",K="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG",WA="' + WA + '",TG="' + TG + '",DEF="' + def + '";'
+  return '(function(){var WA="' + WA + '",TG="' + TG + '",DEF="' + def + '";'
     + 'function t(a){var b=a.getAttribute("data-base")||a.getAttribute("href")||"",m=b.match(/[?&]text=([^&]*)/);return m?m[1]:DEF}'
     + 'function b(s,base){var l=document.querySelectorAll(s);for(var i=0;i<l.length;i++){var a=l[i];if(!a.getAttribute("data-base"))a.setAttribute("data-base",a.getAttribute("href")||base);a.setAttribute("href",base+"?text="+t(a));if(!a.getAttribute("target")){a.setAttribute("target","_blank");a.setAttribute("rel","noopener")}}}'
-    + 'function bag(){b(\'a[data-base*="wa.me"],a[href*="wa.me"]\',WA);b(\'a[data-base*="t.me"],a[href*="t.me"]\',TG)}'
-    + 'bag();'
-    + 'fetch(SB+"/rest/v1/settings?select=key,value",{headers:{apikey:K,Authorization:"Bearer "+K}}).then(function(r){return r.ok?r.json():null}).then(function(s){if(!s)return;var c={};s.forEach(function(x){c[x.key]=x.value});if(c.whatsapp)b(\'a[data-base*="wa.me"],a[href*="wa.me"]\',"https://wa.me/"+c.whatsapp);if(c.telegram)b(\'a[data-base*="t.me"],a[href*="t.me"]\',"https://t.me/"+c.telegram)}).catch(function(){});})();';
+    + 'b(\'a[data-base*="wa.me"],a[href*="wa.me"]\',WA);'
+    + 'b(\'a[data-base*="t.me"],a[href*="t.me"]\',TG);'
+    + '})();';
 }
 
 function head() {
@@ -174,8 +176,8 @@ function footer(dil) {
     + '<div class="cf-in">'
     + '<div class="cf-brand"><span><b>Red</b>Kıbrıs</span><p>' + f.marka + '</p></div>'
     + '<div class="cf-cols">'
-    + '<div><h4>' + f.b + '</h4>' + bolge + '</div>'
-    + '<div><h4>' + f.s + '</h4>'
+    + '<div><h3>' + f.b + '</h3>' + bolge + '</div>'
+    + '<div><h3>' + f.s + '</h3>'
     + '<a href="' + u(dil, '/') + '">' + f.ana + '</a><a href="' + u(dil, '/blog') + '">' + f.blog + '</a>'
     + '<a href="' + u(dil, '/fiyatlar') + '">' + f.fiyat + '</a><a href="' + u(dil, '/iletisim') + '">' + f.ilet + '</a>'
     + '<a href="' + u(dil, '/hakkinda') + '">' + f.hak + '</a><a href="' + u(dil, '/gizlilik') + '">' + f.giz + '</a></div>'
