@@ -1,6 +1,17 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/rehber", "destination": "/blog/kibrista-yalniz-gelenler-rehberi", "permanent": true },
+    { "source": "/blog/kibris-escort-kimlik-istiyor-mu", "destination": "/blog/escort-kimlik-ister-mi-kktc-yasal", "permanent": true },
+    { "source": "/blog/kibris-escort-otel-secimi", "destination": "/blog/otel-secimi-havuz-mu-konum-mu", "permanent": true },
+    { "source": "/blog/otele-escort-cagirma-rehberi", "destination": "/otele-escort", "permanent": true },
+    { "source": "/blog/gorusmeyi-lobide-baslatmak", "destination": "/blog/kibris-escort-lobi-mi-oda-mi", "permanent": true },
+    { "source": "/blog/otel-odasinda-gorusme-kurallari", "destination": "/blog/otelde-escort-resepsiyon", "permanent": true },
+    { "source": "/blog/escort-gorusmesinde-ev-mi-otel-mi", "destination": "/blog/otel-secimi-havuz-mu-konum-mu", "permanent": true },
+    { "source": "/blog/girne-gece-ulasim", "destination": "/blog/kibris-escort-ulasim-ve-taksi", "permanent": true },
+    { "source": "/blog/kibris-gece-kulupleri-giris-ucretleri", "destination": "/blog/girne-gece-kulupleri-rehberi", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
     { "source": "/blog/:slug", "destination": "/api/post?slug=:slug" },
