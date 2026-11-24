@@ -21,24 +21,25 @@ a{color:var(--k2)}
 .brand i{width:20px;height:20px;background:linear-gradient(160deg,var(--k2),var(--k));clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%)}
 .brand b{color:var(--k)}
 main{max-width:920px;margin:0 auto;padding:16px 16px 90px}
-.bx{background:linear-gradient(180deg,var(--c2),var(--c));border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 18px 40px -30px rgba(0,0,0,.9)}
+.bx{background:linear-gradient(180deg,var(--c2),var(--c));border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 18px 40px -30px #000}
 .alt{color:var(--s);font-size:13px}
 label{display:block;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--s);margin:12px 0 6px}
-input,select,textarea{width:100%;background:#0c0c12;border:1px solid #262633;color:var(--t);border-radius:9px;padding:11px;font:14px/1.4 inherit;outline:none}
+input,select,textarea{width:100%;background:#0c0c12;border:1px solid #262633;color:var(--t);border-radius:9px;padding:11px;outline:none}
 input:focus,select:focus,textarea:focus{border-color:var(--k)}
 textarea{resize:vertical}
 input[type=file]{padding:9px;font-size:13px}
-.btn{background:linear-gradient(180deg,var(--k2),var(--k));color:#15130a;border:0;border-radius:9px;padding:11px 18px;font:700 14px/1 inherit;cursor:pointer}
+.btn{background:linear-gradient(180deg,var(--k2),var(--k));color:#15130a;border:0;border-radius:9px;padding:11px 18px;cursor:pointer}
 .btn:hover{filter:brightness(1.1)}
 .btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
-.ghost{background:#1b1b26;color:var(--t);border:1px solid var(--line);border-radius:9px;padding:10px 14px;font:600 13px/1 inherit;cursor:pointer}
+.ghost{background:#1b1b26;color:var(--t);border:1px solid var(--line);border-radius:9px;padding:10px 14px;cursor:pointer}
 .ghost:hover{border-color:var(--k)}
 .mini{padding:6px 10px;font-size:12px}
 .hide{display:none!important}
 .msg{font-size:13px;margin-top:8px;min-height:17px}
-.ok{color:#7fd39a}.err{color:#e58b8b}
+.ok{color:#7fd39a}
+.err{color:#e58b8b}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:49px;z-index:40;background:rgba(11,11,15,.94);backdrop-filter:blur(10px);padding:10px 0 12px;margin-bottom:14px;border-bottom:1px solid var(--line)}
-.tab{background:#15151d;border:1px solid var(--line);color:#b9b9c6;padding:9px 15px;border-radius:9px;font:600 13px/1 inherit;cursor:pointer}
+.tab{background:#15151d;border:1px solid var(--line);color:#b9b9c6;padding:9px 15px;border-radius:9px;cursor:pointer}
 .tab:hover{color:var(--t)}
 .tab.on{background:linear-gradient(180deg,var(--k2),var(--k));color:#15130a;border-color:var(--k)}
 .drop{border:1.5px dashed #2c2c3a;border-radius:14px;padding:24px 14px;text-align:center;color:var(--s);cursor:pointer;transition:.15s;font-size:14px}
@@ -47,18 +48,21 @@ input[type=file]{padding:9px;font-size:13px}
 .cubuk{height:8px;background:#0c0c12;border:1px solid #262633;border-radius:99px;overflow:hidden;margin:12px 0}
 .cubuk i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--k),var(--k2));transition:width .2s}
 .kayit{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:#08080c;border:1px solid #262633;border-radius:10px;padding:10px;height:140px;overflow:auto;white-space:pre-wrap;color:#a8a8b8;margin-top:8px}
-.kayit .ok{color:#7fd39a}.kayit .err{color:#e58b8b}
+.kayit .ok{color:#7fd39a}
+.kayit .err{color:#e58b8b}
 .sat{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #22222e;font-size:13px}
-.sat img{width:40px;height:40px;object-fit:cover;border-radius:8px;background:#000;flex:none}
+.sat img{width:40px;height:40px;object-fit:cover;border-radius:8px;background:#000;flex:0 0 auto}
 .sat .ad{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:left;color:#cfcfda;font-family:ui-monospace,monospace;font-size:11.5px}
-.sat .bo{color:var(--s);flex:none;font-variant-numeric:tabular-nums}
-.sat input[type=checkbox]{width:16px;height:16px;flex:none;accent-color:var(--k);margin:0}
+.sat .bo{color:var(--s);flex:0 0 auto;font-variant-numeric:tabular-nums}
+.sat input[type=checkbox]{width:16px;height:16px;flex:0 0 auto;accent-color:var(--k);margin:0}
 .urun{display:flex;align-items:center;gap:10px;background:#0c0c12;border:1px solid #262633;border-radius:10px;padding:8px;margin-bottom:8px;font-size:12px}
-.urun img{width:44px;height:44px;object-fit:cover;border-radius:7px;flex:none;background:#000}
+.urun img{width:44px;height:44px;object-fit:cover;border-radius:7px;flex:0 0 auto;background:#000}
 .urun span{flex:1;word-break:break-all;color:#b6b6c6;font-family:ui-monospace,monospace;font-size:11px}
 .stat{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--s)}
 .stat b{color:var(--t);font-variant-numeric:tabular-nums}
 .giris{max-width:400px;margin:60px auto}
+.cf-turnstile{margin:12px 0;min-height:72px}
+#btnLogin{margin-top:6px}
 .ikili{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .uc{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 @media(max-width:520px){.uc{grid-template-columns:1fr 1fr}.tabs{top:47px}}
@@ -79,7 +83,7 @@ input[type=file]{padding:9px;font-size:13px}
     <p class="alt">Yetkili hesap gerekir.</p>
     <label>E-posta</label><input id="em" type="email" autocomplete="username">
     <label>Şifre</label><input id="pw" type="password" autocomplete="current-password">
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAAGJrKVfzeFsacVeT" data-theme="dark" style="margin:12px 0"></div>
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAAGJrKVfzeFsacVeT" data-theme="dark"></div>
     <button class="btn" id="btnLogin" style="width:100%">Giriş</button>
     <p id="err" class="msg err"></p>
   </section>
@@ -167,8 +171,37 @@ input[type=file]{padding:9px;font-size:13px}
   </section>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+(function(){
+  var KAYNAKLAR=[
+    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2",
+    "https://fastly.jsdelivr.net/npm/@supabase/supabase-js@2",
+    "https://unpkg.com/@supabase/supabase-js@2",
+    "https://esm.sh/@supabase/supabase-js@2"
+  ];
+  var i=0;
+  function hata(){
+    var e=document.getElementById("err");
+    if(e){e.className="msg err";e.textContent="Panel kütüphanesi yüklenemedi. Reklam engelleyiciyi kapatıp sayfayı yenile."}
+  }
+  function basla(){
+    try{ window.__panelBasla(); }catch(err){ console.error(err); hata(); }
+  }
+  function dene(){
+    if(window.supabase) return basla();
+    if(i>=KAYNAKLAR.length) return hata();
+    var s=document.createElement("script");
+    s.src=KAYNAKLAR[i++];
+    s.onload=function(){ window.supabase?basla():dene(); };
+    s.onerror=dene;
+    document.head.appendChild(s);
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",dene);
+  else dene();
+})();
+</script>
+<script>
+window.__panelBasla=function(){
 const URL_="https://accerzwswgiqhtfgoeqv.supabase.co";
 const KEY="sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG";
 const BUCKET="img";
@@ -215,13 +248,41 @@ function ac(){
 db.auth.getSession().then(({data})=>{if(data.session)ac()});
 db.auth.onAuthStateChange((_e,s)=>{if(s)ac()});
 
+function tokenBekle(){
+  return new Promise(r=>{
+    let n=0;
+    const t=setInterval(()=>{
+      const v=window.turnstile?window.turnstile.getResponse():null;
+      if(v||++n>40){clearInterval(t);r(v||"")}
+    },150);
+  });
+}
+
 el("btnLogin").onclick=async()=>{
+  const em=el("em").value.trim(),pw=el("pw").value,btn=el("btnLogin");
+  if(!em||!pw)return say("err","E-posta ve şifre gerekli.");
   say("err","");
-  const tok=window.turnstile?window.turnstile.getResponse():undefined;
-  if(!tok)return say("err","Doğrulama bekleniyor…");
-  const {error}=await db.auth.signInWithPassword({email:el("em").value.trim(),password:el("pw").value,options:{captchaToken:tok}});
-  if(error){if(window.turnstile)window.turnstile.reset();return say("err",error.message==="Invalid login credentials"?"E-posta veya şifre yanlış.":error.message)}
-  ac();
+  btn.disabled=true;btn.textContent="Giriş yapılıyor…";
+  try{
+    const tok=await tokenBekle();
+    if(!tok)return say("err","Doğrulama tamamlanmadı. Kutuyu işaretleyip tekrar dene.");
+    const {error}=await db.auth.signInWithPassword({email:em,password:pw,options:{captchaToken:tok}});
+    if(error){
+      if(window.turnstile)window.turnstile.reset();
+      const m=error.message||"";
+      if(m==="Invalid login credentials")say("err","E-posta veya şifre yanlış.");
+      else if(/captcha/i.test(m))say("err","Doğrulama hatası. Sayfayı yenileyip tekrar dene.");
+      else if(/confirm/i.test(m))say("err","E-posta doğrulanmamış.");
+      else if(/rate|limit/i.test(m))say("err","Çok fazla deneme. Biraz bekleyip tekrar dene.");
+      else say("err",m);
+      return;
+    }
+    ac();
+  }catch(e){
+    say("err","Hata: "+(e&&e.message?e.message:e));
+  }finally{
+    btn.disabled=false;btn.textContent="Giriş";
+  }
 };
 el("btnOut").onclick=async()=>{await db.auth.signOut();location.reload()};
 
@@ -525,5 +586,8 @@ el("btnSilSec").onclick=async()=>{
   temizCiz();listeCek();
   say("temizMsg",sec.length+" dosya silindi.",true);
 };
+};
 </script>
-</body></html>
+
+</body>
+</html>
