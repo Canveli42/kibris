@@ -6,8 +6,8 @@ const u = (dil, p) => BASE + (dil === 'tr' ? '' : '/' + dil) + p;
 
 const NAVLAR = {
   tr: [['/', 'Ana Sayfa'], ['/girne-escort', 'Girne'], ['/lefkosa-escort', 'Lefkoşa'], ['/magusa-escort', 'Mağusa'], ['/iskele-escort', 'İskele'], ['/guzelyurt-escort', 'Güzelyurt'], ['/blog', 'Blog'], ['/blog/kibrista-yalniz-gelenler-rehberi', 'Rehber'], ['/fiyatlar', 'Fiyatlar'], ['/iletisim', 'İletişim']],
-  en: [['/en', 'Home'], ['/girne-escort', 'Kyrenia'], ['/lefkosa-escort', 'Nicosia'], ['/magusa-escort', 'Famagusta'], ['/iskele-escort', 'Iskele'], ['/guzelyurt-escort', 'Guzelyurt'], ['/en/blog', 'Blog'], ['/en/blog/kibrista-yalniz-gelenler-rehberi', 'Guide'], ['/en/fiyatlar', 'Prices'], ['/en/iletisim', 'Contact']],
-  ru: [['/ru', 'Главная'], ['/girne-escort', 'Кирения'], ['/lefkosa-escort', 'Никосия'], ['/magusa-escort', 'Фамагуста'], ['/iskele-escort', 'Искеле'], ['/guzelyurt-escort', 'Гюзельюрт'], ['/ru/blog', 'Блог'], ['/ru/blog/kibrista-yalniz-gelenler-rehberi', 'Гид'], ['/ru/fiyatlar', 'Цены'], ['/ru/iletisim', 'Контакты']]
+  en: [['/en', 'Home'], ['/en/girne-escort', 'Kyrenia'], ['/en/lefkosa-escort', 'Nicosia'], ['/en/magusa-escort', 'Famagusta'], ['/en/iskele-escort', 'Iskele'], ['/en/guzelyurt-escort', 'Guzelyurt'], ['/en/blog', 'Blog'], ['/en/blog/kibrista-yalniz-gelenler-rehberi', 'Guide'], ['/en/fiyatlar', 'Prices'], ['/en/iletisim', 'Contact']],
+  ru: [['/ru', 'Главная'], ['/ru/girne-escort', 'Кирения'], ['/ru/lefkosa-escort', 'Никосия'], ['/ru/magusa-escort', 'Фамагуста'], ['/ru/iskele-escort', 'Искеле'], ['/ru/guzelyurt-escort', 'Гюзельюрт'], ['/ru/blog', 'Блог'], ['/ru/blog/kibrista-yalniz-gelenler-rehberi', 'Гид'], ['/ru/fiyatlar', 'Цены'], ['/ru/iletisim', 'Контакты']]
 };
 
 const KATALOG = { tr: 'Katalog', en: 'Catalogue', ru: 'Каталог' };
