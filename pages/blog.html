@@ -64,6 +64,7 @@ h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-
   var KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
   var H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
   var HUB = 'kibrista-yalniz-gelenler-rehberi';
+  var YAYIN = 'yayin_at.is.null,yayin_at.lte.now()';
   var list = document.getElementById('list');
   var q = document.getElementById('q');
   var say = document.getElementById('say');
@@ -78,14 +79,14 @@ h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-
   function ciz(arr) {
     if (!arr.length) { list.innerHTML = '<p class="bos">Sonuç yok.</p>'; return; }
     list.innerHTML = arr.map(function (x, i) {
-      var d = new Date(x.created_at).toLocaleDateString('tr-TR');
+      var d = new Date(x.yayin_at || x.created_at).toLocaleDateString('tr-TR');
       var im = x.img ? '<img src="' + esc(x.img) + '" alt="' + esc(x.title) + '" width="76" height="100" ' + (i < 4 ? 'loading="eager"' : 'loading="lazy"') + ' decoding="async">' : '';
       var pin = x.slug === HUB ? '<em class="pin">Öne çıkan</em>' : '';
       return '<a class="post" href="/blog/' + esc(x.slug) + '">' + im + '<div><b>' + esc(x.title) + '</b><span>' + d + pin + '</span></div></a>';
     }).join('');
   }
 
-  fetch(SB + '/rest/v1/posts?select=slug,title,created_at,img,lang&published=eq.true&order=created_at.desc', { headers: H })
+  fetch(SB + '/rest/v1/posts?select=slug,title,yayin_at,created_at,img,lang&published=eq.true&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast&limit=1000', { headers: H })
     .then(function (r) { if (!r.ok) throw new Error('x'); return r.json(); })
     .then(function (p) {
       hepsi = (p || []).filter(function (x) { return !x.lang || x.lang === 'tr'; }).sort(function (a, b) {
@@ -108,4 +109,5 @@ h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-
   });
 })();
 </script>
+<script src="/takip.js" defer></script>
 </body></html>
