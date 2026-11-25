@@ -189,7 +189,6 @@ ${S.footer(o.dil)}
   function bas(){
     if(yuk)return;yuk=true;
     var a=document.createElement("script");a.src="${BASE}/js/analytics.js";a.defer=true;document.head.appendChild(a);
-    var g=document.createElement("script");g.async=true;g.src="https://www.googletagmanager.com/gtag/js?id=G-KP7MEM460J";document.head.appendChild(g);
   }
   ["scroll","mousemove","touchstart","keydown","click"].forEach(function(e){
     window.addEventListener(e,bas,{once:true,passive:true});
