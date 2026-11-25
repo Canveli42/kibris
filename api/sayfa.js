@@ -10,6 +10,9 @@ const IZIN = {
   index: { f: 'index.html', aktif: '/', dil: 'tr' },
   en: { f: 'en.html', aktif: '/en', dil: 'en' },
   ru: { f: 'ru.html', aktif: '/ru', dil: 'ru' },
+  hakkinda: { f: 'hakkinda.html', aktif: '/hakkinda', dil: 'tr' },
+  'en-hakkinda': { f: 'en-hakkinda.html', yedek: 'hakkinda.html', aktif: '/en/hakkinda', dil: 'en' },
+  'ru-hakkinda': { f: 'ru-hakkinda.html', yedek: 'hakkinda.html', aktif: '/ru/hakkinda', dil: 'ru' },
   fiyatlar: { f: 'fiyatlar.html', aktif: '/fiyatlar', dil: 'tr' },
   iletisim: { f: 'iletisim.html', aktif: '/iletisim', dil: 'tr' },
   gizlilik: { f: 'gizlilik.html', aktif: '/gizlilik', dil: 'tr' },
@@ -57,5 +60,5 @@ module.exports = (req, res) => {
     .replace('<!--SHELL:HEADER-->', S.header({ aktif: sayfa.aktif, dil: sayfa.dil }))
     .replace('<!--SHELL:FOOTER-->', S.footer(sayfa.dil));
 
-  res.status(k === '404' ? 404 : 200).send(html);
+  res.status(200).send(html);
 };
