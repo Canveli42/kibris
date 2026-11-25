@@ -65,7 +65,7 @@ const css = `
   .site-header .btn-katalog svg{width:15px;height:15px}
   .site-header .lang{order:2;gap:3px;font-size:11px}
   .site-header .lang a{padding:3px 6px}
-  .site-header nav{order:3;flex:1 0 100%;padding:0 0 10px;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+  .site-header nav{order:3;flex:1 0 100%;padding:0 0 10px;overflow:visible;flex-wrap:wrap}
   .site-header nav a{font-size:12.5px;padding:6px 11px}
   .site-header nav a:nth-child(n+7){display:none}
 }
