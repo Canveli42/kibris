@@ -187,8 +187,7 @@ ${S.footer(o.dil)}
   var yuk=false;
   function bas(){
     if(yuk)return;yuk=true;
-    var a=document.createElement("script");a.src="${BASE}/js/analytics.js";a.defer=true;document.head.appendChild(a);
-  }
+var a=document.createElement("script");a.src="${BASE}/js/analytics.js";a.defer=true;document.head.appendChild(a);  }
   ["scroll","mousemove","touchstart","keydown","click"].forEach(function(e){
     window.addEventListener(e,bas,{once:true,passive:true});
   });
