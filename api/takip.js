@@ -1,7 +1,7 @@
 const SB = 'https://accerzwswgiqhtfgoeqv.supabase.co';
 const KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'POST') return res.status(405).json({ ok: false });
   let b = req.body;
@@ -22,4 +22,4 @@ export default async function handler(req, res) {
   }).catch(() => {});
 
   res.status(204).end();
-}
+};
