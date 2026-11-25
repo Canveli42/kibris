@@ -5,9 +5,9 @@ const TG = 'https://t.me/kibrisescortvip';
 const u = (dil, p) => BASE + (dil === 'tr' ? '' : '/' + dil) + p;
 
 const NAVLAR = {
-  tr: [['/', 'Ana Sayfa'], ['/girne-escort', 'Girne'], ['/lefkosa-escort', 'Lefkoşa'], ['/magusa-escort', 'Mağusa'], ['/iskele-escort', 'İskele'], ['/guzelyurt-escort', 'Güzelyurt'], ['/blog', 'Blog'], ['/blog/kibrista-yalniz-gelenler-rehberi', 'Rehber'], ['/fiyatlar', 'Fiyatlar'], ['/iletisim', 'İletişim']],
-  en: [['/en', 'Home'], ['/en/girne-escort', 'Kyrenia'], ['/en/lefkosa-escort', 'Nicosia'], ['/en/magusa-escort', 'Famagusta'], ['/en/iskele-escort', 'Iskele'], ['/en/guzelyurt-escort', 'Guzelyurt'], ['/en/blog', 'Blog'], ['/en/blog/kibrista-yalniz-gelenler-rehberi', 'Guide'], ['/en/fiyatlar', 'Prices'], ['/en/iletisim', 'Contact']],
-  ru: [['/ru', 'Главная'], ['/ru/girne-escort', 'Кирения'], ['/ru/lefkosa-escort', 'Никосия'], ['/ru/magusa-escort', 'Фамагуста'], ['/ru/iskele-escort', 'Искеле'], ['/ru/guzelyurt-escort', 'Гюзельюрт'], ['/ru/blog', 'Блог'], ['/ru/blog/kibrista-yalniz-gelenler-rehberi', 'Гид'], ['/ru/fiyatlar', 'Цены'], ['/ru/iletisim', 'Контакты']]
+  tr: [['/', 'Ana Sayfa'], ['/girne-escort', 'Girne'], ['/lefkosa-escort', 'Lefkoşa'], ['/magusa-escort', 'Mağusa'], ['/iskele-escort', 'İskele'], ['/guzelyurt-escort', 'Güzelyurt'], ['/blog', 'Blog'], ['/fiyatlar', 'Fiyatlar'], ['/iletisim', 'İletişim']],
+  en: [['/en', 'Home'], ['/en/girne-escort', 'Kyrenia'], ['/en/lefkosa-escort', 'Nicosia'], ['/en/magusa-escort', 'Famagusta'], ['/en/iskele-escort', 'Iskele'], ['/en/guzelyurt-escort', 'Guzelyurt'], ['/en/blog', 'Blog'], ['/en/fiyatlar', 'Prices'], ['/en/iletisim', 'Contact']],
+  ru: [['/ru', 'Главная'], ['/ru/girne-escort', 'Кирения'], ['/ru/lefkosa-escort', 'Никосия'], ['/ru/magusa-escort', 'Фамагуста'], ['/ru/iskele-escort', 'Искеле'], ['/ru/guzelyurt-escort', 'Гюзельюрт'], ['/ru/blog', 'Блог'], ['/ru/fiyatlar', 'Цены'], ['/ru/iletisim', 'Контакты']]
 };
 
 const KATALOG = { tr: 'Katalog', en: 'Catalogue', ru: 'Каталог' };
@@ -65,8 +65,9 @@ const css = `
   .site-header .btn-katalog svg{width:15px;height:15px}
   .site-header .lang{order:2;gap:3px;font-size:11px}
   .site-header .lang a{padding:3px 6px}
-  .site-header nav{order:3;flex:1 0 100%;padding:0 0 10px}
+  .site-header nav{order:3;flex:1 0 100%;padding:0 0 10px;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
   .site-header nav a{font-size:12.5px;padding:6px 11px}
+  .site-header nav a:nth-child(n+7){display:none}
 }
 .chrome-footer{border-top:1px solid var(--line);background:#0d1526;padding:34px 0 26px;margin-top:44px;color:#e9eef6;font-size:16px}
 .chrome-footer .cf-in{width:min(1120px,100%);margin:0 auto;padding:0 18px;display:flex;flex-wrap:wrap;gap:22px;justify-content:space-between}
