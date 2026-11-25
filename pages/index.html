@@ -213,7 +213,14 @@ section{padding:clamp(42px,6.5vw,76px) 0}
     .catch(function(){});
 })();
 (function(){
-  try{var l=localStorage.getItem('rk_lang');if(l&&l!=='tr'&&!sessionStorage.getItem('rk_git')){sessionStorage.setItem('rk_git','1');location.replace('/'+l);}}catch(e){}
+  try{
+    var l=(localStorage.getItem('rk_lang')||'tr').replace(/^https?:\/\/[^/]+/,'').replace(/\//g,'');
+    if(['en','ru'].indexOf(l)===-1)l='tr';
+    if(l!=='tr'&&!sessionStorage.getItem('rk_git')){
+      sessionStorage.setItem('rk_git','1');
+      location.replace('/'+l);
+    }
+  }catch(e){}
 })();
 </script>
 <script src="/takip.js" defer></script>
