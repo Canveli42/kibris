@@ -103,8 +103,8 @@ p{margin:0 0 1em}
 .crumb{font-size:13px;color:var(--mut);margin-bottom:12px}
 .crumb a{color:var(--gold2)}
 .btn,.btn-o{display:inline-block;padding:11px 18px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;border:0}
-.btn{background:#25d366;color:#fff}
-.btn.tg{background:#229ed9;color:#fff}
+.btn{background:#25d366;color:#04270f}
+.btn.tg{background:#229ed9;color:#04202e}
 .btn-o{border:1px solid var(--line);color:var(--gold2);background:transparent}
 .rimg,#cover{display:block;width:100%;max-width:560px;height:auto;max-height:620px;object-fit:cover;object-position:center top;border-radius:14px;margin:12px auto;background:#151e2c}
 @media(max-width:640px){.rimg,#cover{max-height:420px}}
