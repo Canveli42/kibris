@@ -187,7 +187,8 @@ ${S.footer(o.dil)}
   var yuk=false;
   function bas(){
     if(yuk)return;yuk=true;
-var a=document.createElement("script");a.src="${BASE}/js/analytics.js";a.defer=true;document.head.appendChild(a);  }
+    var a=document.createElement("script");a.src="${BASE}/js/analytics.js?v=2";a.defer=true;document.head.appendChild(a);
+  }
   ["scroll","mousemove","touchstart","keydown","click"].forEach(function(e){
     window.addEventListener(e,bas,{once:true,passive:true});
   });
@@ -195,7 +196,7 @@ var a=document.createElement("script");a.src="${BASE}/js/analytics.js";a.defer=t
   window.addEventListener("load",function(){setTimeout(bas,1200)});
 })();
 </script>
-<script src="${BASE}/takip.js" defer></script>
+<script src="${BASE}/takip.js?v=2" defer></script>
 </body></html>`;
 
 module.exports = async (req, res) => {
