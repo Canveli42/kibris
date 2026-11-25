@@ -3,7 +3,7 @@ const KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
 const BASE = 'https://www.kibrisgirneescort.com';
 const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 
-const STATIC = '2026-11-23';
+const STATIC = '2026-11-25';
 const DILLER = ['tr', 'en', 'ru'];
 
 const REG = {
@@ -115,6 +115,7 @@ module.exports = async (req, res) => {
   });
   map.forEach(g => ekle(g.yollar, g.lastmod, 'monthly', '0.6'));
 
+  ekle({ tr: BASE + '/hakkinda', en: BASE + '/en/hakkinda', ru: BASE + '/ru/hakkinda' }, STATIC, 'monthly', '0.5');
   ekle({ tr: BASE + '/iletisim', en: BASE + '/en/iletisim', ru: BASE + '/ru/iletisim' }, STATIC, 'monthly', '0.6');
   ekle({ tr: BASE + '/gizlilik', en: BASE + '/en/gizlilik', ru: BASE + '/ru/gizlilik' }, STATIC, 'yearly', '0.3');
 
