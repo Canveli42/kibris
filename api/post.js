@@ -182,21 +182,6 @@ ${S.header({ aktif: o.url, dil: o.dil, ceviriler: o.ceviriler })}
 ${o.icerik}
 </main>
 ${S.footer(o.dil)}
-<script>
-(function(){
-  var yuk=false;
-  function bas(){
-    if(yuk)return;yuk=true;
-    var a=document.createElement("script");a.src="${BASE}/js/analytics.js?v=2";a.defer=true;document.head.appendChild(a);
-  }
-  ["scroll","mousemove","touchstart","keydown","click"].forEach(function(e){
-    window.addEventListener(e,bas,{once:true,passive:true});
-  });
-  setTimeout(bas,3500);
-  window.addEventListener("load",function(){setTimeout(bas,1200)});
-})();
-</script>
-<script src="${BASE}/takip.js?v=2" defer></script>
 </body></html>`;
 
 module.exports = async (req, res) => {
@@ -249,13 +234,17 @@ module.exports = async (req, res) => {
         );
         if (r.ok) digerleri = (await r.json()) || [];
       } catch (e) {}
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      res.status(404).send(sayfa({
+      let h404 = sayfa({
         dil, title: t.yok, desc: t.yokD, url, robots: 'noindex,follow',
         icerik: `<h1>${esc(t.yok)}</h1>
           <div class="about"><b>${esc(t.buAdres)}</b><br>${esc(t.tumu)} <a href="${BASE}${dil === 'tr' ? '/blog' : '/' + dil + '/blog'}">${esc(t.bloga)}</a> ${esc(t.donebilir)}</div>
           <div class="diger"><h2>${esc(t.diger)}</h2>${digerleri.map(x => `<a href="${BASE}${kok(dil)}${esc(x.slug)}">${esc(x.title)}</a>`).join('')}</div>`
-      }));
+      });
+      const n404 = S.nonce();
+      h404 = S.noncele(h404, n404);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Content-Security-Policy', S.csp(n404));
+      res.status(404).send(h404);
       return;
     }
 
@@ -324,18 +313,27 @@ module.exports = async (req, res) => {
     </div>
     ${digerleri.length ? `<div class="diger"><h2>${esc(t.ilgili)}</h2>${digerleri.map(x => `<a href="${BASE}${kok(dil)}${esc(x.slug)}">${esc(x.title)}</a>`).join('')}</div>` : ''}`;
 
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
-    res.status(200).send(sayfa({
+    let html = sayfa({
       dil, title: p.title, desc, url, img: p.img, icerik, alternates, ceviriler,
       ld: ld.map(x => `<script type="application/ld+json">${JSON.stringify(x)}</script>`).join('')
-    }));
-  } catch (e) {
+    });
+    const n = S.nonce();
+    html = S.noncele(html, n);
+
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.status(500).send(sayfa({
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
+    res.setHeader('Content-Security-Policy', S.csp(n));
+    res.status(200).send(html);
+  } catch (e) {
+    let h = sayfa({
       dil: 'tr', title: 'Yazı yüklenemedi', desc: 'Sayfa geçici olarak yüklenemedi.',
       url: BASE + '/blog', robots: 'noindex,nofollow',
       icerik: `<h1>Sayfa yüklenemedi</h1><div class="about">Birkaç saniye sonra tekrar dene. <a href="${BASE}/blog">Bloga</a> dönebilirsin.</div>`
-    }));
+    });
+    const n = S.nonce();
+    h = S.noncele(h, n);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Content-Security-Policy', S.csp(n));
+    res.status(500).send(h);
   }
 };
