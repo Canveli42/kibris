@@ -78,7 +78,7 @@
   ],
   "headers": [
     {
-      "source": "/can",
+      "source": "/can(.*)",
       "headers": [
         {
           "key": "Content-Security-Policy",
