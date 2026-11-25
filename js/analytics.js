@@ -1,5 +1,7 @@
 /* metin katmanı — boşta çalışır. Ölçüm: middleware (görüntüleme) + takip.js (tıklama), çerezsiz. */
+/* metin katmanı — boşta çalışır. Ölçüm: middleware (görüntüleme) + takip.js (tıklama), çerezsiz. */
 (function () {
+  if (window.__a) return; window.__a = 1;
   function calis() {
     var SB = "https://accerzwswgiqhtfgoeqv.supabase.co";
     var K = "sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG";
