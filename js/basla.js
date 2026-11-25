@@ -4,6 +4,7 @@
   function bas() {
     if (yuk) return;
     yuk = true;
+    if (document.querySelector('script[src*="analytics.js"]')) return;
     var a = document.createElement("script");
     a.src = "/js/analytics.js?v=2";
     a.defer = true;
