@@ -65,8 +65,8 @@ const css = `
   .site-header .btn-katalog svg{width:15px;height:15px}
   .site-header .lang{order:2;gap:3px;font-size:11px}
   .site-header .lang a{padding:3px 6px}
-  .site-header nav{order:3;flex:1 0 100%;padding:0 0 10px;overflow:visible;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-  .site-header nav a{font-size:12.5px;padding:7px 4px;text-align:center}
+  .site-header nav{order:3;flex:1 0 100%;padding:0 0 10px;overflow:visible;display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+  .site-header nav a{font-size:11.5px;padding:6px 2px;text-align:center;letter-spacing:.02em;background:rgba(17,24,35,.7);border-color:rgba(216,184,120,.13)}
   .site-header nav a:nth-child(n+7){display:none}
 }
 .chrome-footer{border-top:1px solid var(--line);background:#0d1526;padding:34px 0 26px;margin-top:44px;color:#e9eef6;font-size:16px}
