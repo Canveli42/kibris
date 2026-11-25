@@ -9,6 +9,9 @@
     { "path": "/api/temizle", "schedule": "0 4 * * *" }
   ],
   "redirects": [
+    { "source": "/blog/hakkinda", "destination": "/hakkinda", "permanent": true },
+    { "source": "/en/blog/hakkinda", "destination": "/en/hakkinda", "permanent": true },
+    { "source": "/ru/blog/hakkinda", "destination": "/ru/hakkinda", "permanent": true },
     { "source": "/rehber", "destination": "/blog/kibrista-yalniz-gelenler-rehberi", "permanent": true },
     { "source": "/blog/kibris-escort-kimlik-istiyor-mu", "destination": "/blog/escort-kimlik-ister-mi-kktc-yasal", "permanent": true },
     { "source": "/blog/kibris-escort-otel-secimi", "destination": "/blog/otel-secimi-havuz-mu-konum-mu", "permanent": true },
