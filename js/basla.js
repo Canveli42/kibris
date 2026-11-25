@@ -5,7 +5,7 @@
     if (yuk) return;
     yuk = true;
     var a = document.createElement("script");
-    a.src = "/js/analytics.js";
+    a.src = "/js/analytics.js?v=2";
     a.defer = true;
     document.head.appendChild(a);
   }
