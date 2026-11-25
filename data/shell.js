@@ -180,6 +180,7 @@ function footer(dil) {
     + '<div><h3>' + f.s + '</h3>'
     + '<a href="' + u(dil, '') + '">' + f.ana + '</a><a href="' + u(dil, '/blog') + '">' + f.blog + '</a>'
     + '<a href="' + u(dil, '/fiyatlar') + '">' + f.fiyat + '</a><a href="' + u(dil, '/iletisim') + '">' + f.ilet + '</a>'
+    + '<a href="tel:+905515420755">+90 551 542 07 55</a>'
     + '<a href="' + u(dil, '/hakkinda') + '">' + f.hak + '</a><a href="' + u(dil, '/gizlilik') + '">' + f.giz + '</a></div>'
     + '</div></div>'
     + '<div class="cf-bottom"><span>' + f.alt + '</span><span>© 2026 · Can</span></div>'
