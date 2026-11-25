@@ -196,7 +196,7 @@ section{padding:clamp(38px,6vw,68px) 0}
   var links=document.querySelectorAll('.lang a');
   for(var i=0;i<links.length;i++){
     links[i].addEventListener('click',function(){
-      try{var h=this.getAttribute('href');localStorage.setItem('rk_lang',h==='/'?'tr':h.replace('/',''));}catch(e){}
+      try{localStorage.setItem('rk_lang',this.getAttribute('data-lang')||'tr');}catch(e){}
     });
   }
 })();
