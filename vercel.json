@@ -67,8 +67,8 @@
     { "source": "/en/:slug", "destination": "/api/region?slug=:slug&lang=en" },
     { "source": "/ru/:slug", "destination": "/api/region?slug=:slug&lang=ru" },
     { "source": "/:slug", "destination": "/api/region?slug=:slug" },
-    { "source": "/404", "destination": "/api/sayfa?f=404" },
-    { "source": "/((?!api/|_next/|.*\\.).*)", "destination": "/api/sayfa?f=404" }
+    { "source": "/404", "destination": "/api/region?slug=404" },
+{ "source": "/((?!api/|_next/|.*\\.).*)", "destination": "/api/region?slug=404" }
   ],
   "headers": [
     {
