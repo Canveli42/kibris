@@ -8,6 +8,7 @@ const FAV = '<link rel="icon" href="/favicon.svg" type="image/svg+xml">'
 
 const IZIN = {
   index: { f: 'index.html', aktif: '/', dil: 'tr' },
+  '404': { f: '404.html', aktif: '/404', dil: 'tr' },
   en: { f: 'en.html', aktif: '/en', dil: 'en' },
   ru: { f: 'ru.html', aktif: '/ru', dil: 'ru' },
   fiyatlar: { f: 'fiyatlar.html', aktif: '/fiyatlar', dil: 'tr' },
@@ -38,7 +39,7 @@ function favicon(html) {
 }
 
 module.exports = (req, res) => {
-  const k = String((req.query && req.query.f) || '').replace(/[^a-z-]/g, '');
+  const k = String((req.query && req.query.f) || '').replace(/[^a-z0-9-]/g, '');
   const sayfa = IZIN[k];
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -57,5 +58,5 @@ module.exports = (req, res) => {
     .replace('<!--SHELL:HEADER-->', S.header({ aktif: sayfa.aktif, dil: sayfa.dil }))
     .replace('<!--SHELL:FOOTER-->', S.footer(sayfa.dil));
 
-  res.status(200).send(html);
+  res.status(k === '404' ? 404 : 200).send(html);
 };
