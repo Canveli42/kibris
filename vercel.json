@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "functions": {
-    "api/sayfa.js": { "includeFiles": "pages/*.html" }
+    "api/sayfa.js": { "includeFiles": ["pages/*.html", "can.html"] }
   },
   "crons": [
     { "path": "/api/temizle", "schedule": "0 4 * * *" }
@@ -24,6 +24,7 @@
   ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
+    { "source": "/can", "destination": "/api/sayfa?f=can" },
     { "source": "/blog/:slug", "destination": "/api/post?slug=:slug&lang=tr" },
     { "source": "/en/blog/:slug", "destination": "/api/post?slug=:slug&lang=en" },
     { "source": "/ru/blog/:slug", "destination": "/api/post?slug=:slug&lang=ru" },
