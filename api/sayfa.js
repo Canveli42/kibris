@@ -6,10 +6,20 @@ const FAV = '<link rel="icon" href="/favicon.svg" type="image/svg+xml">'
   + '<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">'
   + '<link rel="apple-touch-icon" href="/apple-touch-icon.png">';
 
+// panel kendi CSP'sini ister: Turnstile + GitHub API + blob önizleme
+const PANEL_CSP = "default-src 'self'; "
+  + "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; "
+  + "style-src 'self' 'unsafe-inline'; "
+  + "img-src 'self' data: blob: https://accerzwswgiqhtfgoeqv.supabase.co; "
+  + "connect-src 'self' https://accerzwswgiqhtfgoeqv.supabase.co https://api.github.com https://challenges.cloudflare.com; "
+  + "frame-src https://challenges.cloudflare.com; "
+  + "font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'";
+
 const IZIN = {
   index: { f: 'index.html', aktif: '/', dil: 'tr' },
   en: { f: 'en.html', aktif: '/en', dil: 'en' },
   ru: { f: 'ru.html', aktif: '/ru', dil: 'ru' },
+  can: { f: 'can.html', aktif: '/can', dil: 'tr', panel: true, kok: true },
   hakkinda: { f: 'hakkinda.html', aktif: '/hakkinda', dil: 'tr' },
   'en-hakkinda': { f: 'en-hakkinda.html', yedek: 'hakkinda.html', aktif: '/en/hakkinda', dil: 'en' },
   'ru-hakkinda': { f: 'ru-hakkinda.html', yedek: 'hakkinda.html', aktif: '/ru/hakkinda', dil: 'ru' },
@@ -28,7 +38,7 @@ const IZIN = {
 };
 
 const oku = f => {
-  try { return fs.readFileSync(path.join(process.cwd(), 'pages', f), 'utf8'); }
+  try { return fs.readFileSync(path.join(process.cwd(), f.indexOf('/') === 0 ? f : 'pages/' + f), 'utf8'); }
   catch (e) { return null; }
 };
 
@@ -49,20 +59,24 @@ module.exports = (req, res) => {
 
   if (!sayfa) { res.status(404).send('Sayfa bulunamadı'); return; }
 
-  let html = oku(sayfa.f);
+  const yol = sayfa.kok ? '/' + sayfa.f : sayfa.f;
+  let html = oku(yol);
   if (!html && sayfa.yedek) html = oku(sayfa.yedek);
   if (!html) { res.status(500).send('Dosya okunamadı'); return; }
 
   html = favicon(html);
 
-  html = html
-    .replace('<!--SHELL:HEAD-->', S.head())
-    .replace('<!--SHELL:HEADER-->', S.header({ aktif: sayfa.aktif, dil: sayfa.dil }))
-    .replace('<!--SHELL:FOOTER-->', S.footer(sayfa.dil));
+  // panel kendi başına bir belge, shell parçaları yok
+  if (!sayfa.panel) {
+    html = html
+      .replace('<!--SHELL:HEAD-->', S.head())
+      .replace('<!--SHELL:HEADER-->', S.header({ aktif: sayfa.aktif, dil: sayfa.dil }))
+      .replace('<!--SHELL:FOOTER-->', S.footer(sayfa.dil));
+  }
 
   const n = S.nonce();
   html = S.noncele(html, n);
-  res.setHeader('Content-Security-Policy', S.csp(n));
+  res.setHeader('Content-Security-Policy', sayfa.panel ? PANEL_CSP : S.csp(n));
 
   res.status(200).send(html);
 };
