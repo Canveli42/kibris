@@ -19,7 +19,7 @@ const IZIN = {
   index: { f: 'index.html', aktif: '/', dil: 'tr' },
   en: { f: 'en.html', aktif: '/en', dil: 'en' },
   ru: { f: 'ru.html', aktif: '/ru', dil: 'ru' },
-  can: { f: 'can.html', aktif: '/can', dil: 'tr', panel: true, kok: true },
+  can: { f: 'can.html', aktif: '/panel', dil: 'tr', panel: true },
   hakkinda: { f: 'hakkinda.html', aktif: '/hakkinda', dil: 'tr' },
   'en-hakkinda': { f: 'en-hakkinda.html', yedek: 'hakkinda.html', aktif: '/en/hakkinda', dil: 'en' },
   'ru-hakkinda': { f: 'ru-hakkinda.html', yedek: 'hakkinda.html', aktif: '/ru/hakkinda', dil: 'ru' },
@@ -38,7 +38,7 @@ const IZIN = {
 };
 
 const oku = f => {
-  try { return fs.readFileSync(path.join(process.cwd(), f.indexOf('/') === 0 ? f : 'pages/' + f), 'utf8'); }
+  try { return fs.readFileSync(path.join(process.cwd(), 'pages/' + f), 'utf8'); }
   catch (e) { return null; }
 };
 
@@ -55,12 +55,18 @@ module.exports = (req, res) => {
   const sayfa = IZIN[k];
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
 
-  if (!sayfa) { res.status(404).send('Sayfa bulunamadı'); return; }
+  if (!sayfa) {
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
+    res.status(404).send('Sayfa bulunamadı');
+    return;
+  }
 
-  const yol = sayfa.kok ? '/' + sayfa.f : sayfa.f;
-  let html = oku(yol);
+  res.setHeader('Cache-Control', sayfa.panel
+    ? 'no-store'
+    : 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
+
+  let html = oku(sayfa.f);
   if (!html && sayfa.yedek) html = oku(sayfa.yedek);
   if (!html) { res.status(500).send('Dosya okunamadı'); return; }
 
