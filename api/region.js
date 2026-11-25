@@ -42,12 +42,12 @@ const M = {
     noktalar: 'Hizmet verdiğimiz noktalar', oteller: 'Sık çalıştığımız oteller',
     fiyatB: nm => nm + ' fiyatları',
     fiyatlar: [
-      ['30 dakika — 7.000 ₺', 'Yalnızca kendi yerimizde. Kısa görüşme.'],
+      ['30 dakika — 7.000 ₺', 'Yalnızca kendi yerimizde (Girne merkez). Kısa görüşme.'],
       ['1 saat — 12.000 ₺', 'Otel ve eve çıkışta en çok seçilen süre; adrese çıkışta en alt sınır.'],
       ['2 saat — 17.000 ₺', 'Yemek ya da gece programı eklemek isteyenler için.'],
       ['4 saat — 22.000 ₺', 'Uzun eşlik ve gece planı.']
     ],
-    tarife: 'Tarife sabit, pazarlık yok, kapıda değişmiyor. Tek değişken taksi: her yöne mesafeye göre hesaplanıp önceden söyleniyor. Tam liste <a href="' + BASE + '/fiyatlar">fiyatlar sayfasında</a>.',
+    tarife: 'Tarife sabit, pazarlık yok, kapıda değişmiyor. Ödeme görüşmenin başında, yere girmeden alınır: nakit, IBAN veya USDT. Tek değişken taksi: her yöne mesafeye göre hesaplanıp önceden söyleniyor. Tam liste <a href="' + BASE + '/fiyatlar">fiyatlar sayfasında</a>.',
     guncel: 'Son güncelleme: ', sssB: nm => nm + ' hakkında sık sorulanlar', diger: 'Diğer sayfalar',
     sorun: 'Sorun mu var, katalog mu lazım?', alt: "WhatsApp veya Telegram'dan yaz, kaldığın bölgeye göre liste gönderiyoruz.",
     wa: "WhatsApp'tan yaz", tgY: "Telegram'dan yaz",
@@ -79,12 +79,12 @@ const M = {
     noktalar: 'Places we cover', oteller: 'Hotels we visit most',
     fiyatB: nm => nm + ' prices',
     fiyatlar: [
-      ['30 minutes — 7.000 ₺', 'At our place only. Short meeting.'],
+      ['30 minutes — 7.000 ₺', 'At our place only, Girne centre. Short meeting.'],
       ['1 hour — 12.000 ₺', 'The usual choice for a hotel or home visit; the minimum for an outcall.'],
       ['2 hours — 17.000 ₺', 'For dinner or a night out on top.'],
       ['4 hours — 22.000 ₺', 'Long company and a full evening plan.']
     ],
-    tarife: 'The tariff is fixed, there is no haggling and it does not change at the door. The only variable is the taxi: calculated by distance and quoted in advance. Full list on the <a href="' + BASE + '/en/fiyatlar">price page</a>.',
+    tarife: 'The tariff is fixed, there is no haggling and it does not change at the door. Payment is taken at the start, before you go in: cash, transfer or USDT. The only variable is the taxi: calculated by distance and quoted in advance. Full list on the <a href="' + BASE + '/en/fiyatlar">price page</a>.',
     guncel: 'Last updated: ', sssB: nm => 'Frequently asked questions about ' + nm, diger: 'Other areas',
     sorun: 'Question or want the selection?', alt: 'Write on WhatsApp or Telegram and we send the current list for your area.',
     wa: 'Message on WhatsApp', tgY: 'Message on Telegram',
@@ -116,12 +116,12 @@ const M = {
     noktalar: 'Куда выезжаем', oteller: 'Отели, куда ездим чаще всего',
     fiyatB: nm => 'Цены — ' + nm,
     fiyatlar: [
-      ['30 минут — 7.000 ₺', 'Только у нас. Короткая встреча.'],
+      ['30 минут — 7.000 ₺', 'Только у нас, центр Кирении. Короткая встреча.'],
       ['1 час — 12.000 ₺', 'Обычный выбор для отеля или квартиры; минимум для выезда.'],
       ['2 часа — 17.000 ₺', 'Если добавляете ужин или вечернюю программу.'],
       ['4 часа — 22.000 ₺', 'Долгое сопровождение и весь вечер.']
     ],
-    tarife: 'Тариф фиксированный, торга нет, на месте не меняется. Единственная переменная — такси: считается по расстоянию и называется заранее. Полный список на <a href="' + BASE + '/ru/fiyatlar">странице цен</a>.',
+    tarife: 'Тариф фиксированный, торга нет, на месте не меняется. Оплата в начале встречи, до входа: наличные, перевод или USDT. Единственная переменная — такси: считается по расстоянию и называется заранее. Полный список на <a href="' + BASE + '/ru/fiyatlar">странице цен</a>.',
     guncel: 'Обновлено: ', sssB: nm => 'Частые вопросы — ' + nm, diger: 'Другие районы',
     sorun: 'Вопрос или нужен каталог?', alt: 'Напишите в WhatsApp или Telegram, пришлём подборку по вашему району.',
     wa: 'Написать в WhatsApp', tgY: 'Написать в Telegram',
