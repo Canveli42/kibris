@@ -3,6 +3,6 @@ Allow: /
 
 Disallow: /api/
 Disallow: /404
-Disallow: /can
+Disallow: /panel
 
 Sitemap: https://www.kibrisgirneescort.com/sitemap.xml
