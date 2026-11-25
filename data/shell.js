@@ -158,9 +158,9 @@ function header(o) {
   };
 
   return '<header class="site-header"><div class="header-in">'
-    + '<a class="brand" href="' + u(dil, '') + '" aria-label="RedKıbrıs">' + MARK
+    + '<a class="brand" href="' + u(dil, '') + '">' + MARK
     + '<span class="wordmark"><b>Red</b>Kıbrıs<i>' + (dil === 'tr' ? 'Kıbrıs Escort' : dil === 'en' ? 'Cyprus Escort' : 'Эскорт Кипр') + '</i></span></a>'
-    + '<a class="btn-katalog" href="' + WA + '?text=' + txt + '" target="_blank" rel="noopener" data-base="' + WA + '" aria-label="WhatsApp">' + WSVG + (KATALOG[dil] || KATALOG.tr) + '</a>'
+    + '<a class="btn-katalog" href="' + WA + '?text=' + txt + '" target="_blank" rel="noopener" data-base="' + WA + '">' + WSVG + (KATALOG[dil] || KATALOG.tr) + '</a>'
     + '<span class="lang">' + pill('tr', 'TR') + pill('en', 'EN') + pill('ru', 'RU') + '</span>'
     + '<nav aria-label="' + (ARIA_MENU[dil] || ARIA_MENU.tr) + '">' + linkler + '</nav>'
     + '</div></header>';
