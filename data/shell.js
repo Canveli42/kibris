@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 const BASE = 'https://www.kibrisgirneescort.com';
 const WA = 'https://wa.me/905515420755';
 const TG = 'https://t.me/kibrisescortvip';
@@ -35,7 +37,7 @@ const css = `
 .site-header .header-in{width:min(1120px,100%);margin:0 auto;display:flex;align-items:center;gap:14px;padding:10px 18px;flex-wrap:wrap}
 .site-header .brand{display:flex;align-items:center;gap:10px;color:#e9eef6;flex:0 0 auto;text-decoration:none}
 .site-header .brand .mark{width:40px;height:40px;flex:0 0 auto;filter:drop-shadow(0 4px 12px rgba(255,59,92,.45))}
-.site-header .wordmark{display:flex;flex-direction:column;line-height:1.05;font-family:Georgia,serif;font-size:21px;color:#fff}
+.site-header .wordmark{display:flex;flex-direction:column;line-height:1.05;font-family:Georgia,serif;font-size:21px;color:#fff;min-width:106px}
 .site-header .wordmark b{color:var(--red)}
 .site-header .wordmark i{font-style:normal;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);margin-top:4px}
 .site-header .btn-katalog{margin-left:auto;flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;background:linear-gradient(180deg,#3ae07d,var(--wa));color:#05270f;font-weight:700;font-size:14px;padding:10px 17px;border-radius:999px;box-shadow:0 6px 18px rgba(37,211,102,.22);white-space:nowrap;text-decoration:none}
@@ -59,7 +61,7 @@ const css = `
   .site-header .header-in{gap:8px 10px;padding:10px 12px 10px}
   .site-header .brand{gap:8px;min-width:0}
   .site-header .brand .mark{width:36px;height:36px}
-  .site-header .wordmark{font-size:18px}
+  .site-header .wordmark{font-size:18px;min-width:92px}
   .site-header .wordmark i{display:none}
   .site-header .btn-katalog{order:1;padding:9px 14px;font-size:13px;gap:5px}
   .site-header .btn-katalog svg{width:15px;height:15px}
@@ -125,6 +127,28 @@ ul,ol{padding-left:20px}
 .cerez a,.cookie a,.cerez-bar a,.cookie-bar a,#cerez a,#cookie a,[class*="cerez"] a,[class*="cookie"] a{color:var(--gold2);text-decoration:underline;text-underline-offset:2px;font-weight:600}
 `;
 
+// Trusted Types default policy: innerHTML / script.src gibi string atamalarını olduğu gibi geçirir.
+const TT = '<script>if(window.trustedTypes&&trustedTypes.createPolicy){try{trustedTypes.createPolicy("default",{createHTML:function(s){return s},createScript:function(s){return s},createScriptURL:function(s){return s}})}catch(e){}}</script>';
+
+function nonce() {
+  return crypto.randomBytes(16).toString('base64');
+}
+
+function csp(n) {
+  return "default-src 'self'; "
+    + "script-src 'self' 'nonce-" + n + "' 'strict-dynamic'; "
+    + "style-src 'self' 'unsafe-inline'; "
+    + "img-src 'self' data: https://accerzwswgiqhtfgoeqv.supabase.co; "
+    + "connect-src 'self' https://accerzwswgiqhtfgoeqv.supabase.co; "
+    + "frame-src 'none'; font-src 'self' data:; object-src 'none'; "
+    + "base-uri 'self'; form-action 'self'; frame-ancestors 'self'; "
+    + "require-trusted-types-for 'script'; trusted-types default";
+}
+
+function noncele(html, n) {
+  return String(html).replace(/<script\b(?![^>]*\bnonce=)/gi, '<script nonce="' + n + '"');
+}
+
 function ayarJs(dil) {
   const def = encodeURIComponent(MSG[dil] || MSG.tr);
   return '(function(){var WA="' + WA + '",TG="' + TG + '",DEF="' + def + '";'
@@ -136,7 +160,8 @@ function ayarJs(dil) {
 }
 
 function head() {
-  return '<style>' + css + '</style>'
+  return TT
+    + '<style>' + css + '</style>'
     + '<script src="/js/analytics.js?v=2" defer></script>'
     + '<script src="/takip.js?v=2" defer></script>';
 }
@@ -191,4 +216,4 @@ function footer(dil) {
     + '<script>' + ayarJs(dil) + '</script>';
 }
 
-module.exports = { css, icerik, head, header, footer, BASE, WA, TG };
+module.exports = { css, icerik, head, header, footer, BASE, WA, TG, nonce, csp, noncele };
