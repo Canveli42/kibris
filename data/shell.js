@@ -153,12 +153,12 @@ function header(o) {
   }).join('');
 
   const pill = function (kod, etiket) {
-    const hedef = ceviriler[kod] || u(kod, kod === 'tr' ? '/' : '/');
+    const hedef = ceviriler[kod] || u(kod, '');
     return '<a href="' + hedef + '" data-lang="' + kod + '"' + (kod === dil ? ' class="on"' : '') + '>' + etiket + '</a>';
   };
 
   return '<header class="site-header"><div class="header-in">'
-    + '<a class="brand" href="' + u(dil, '/') + '" aria-label="RedKıbrıs">' + MARK
+    + '<a class="brand" href="' + u(dil, '') + '" aria-label="RedKıbrıs">' + MARK
     + '<span class="wordmark"><b>Red</b>Kıbrıs<i>' + (dil === 'tr' ? 'Kıbrıs Escort' : dil === 'en' ? 'Cyprus Escort' : 'Эскорт Кипр') + '</i></span></a>'
     + '<a class="btn-katalog" href="' + WA + '?text=' + txt + '" target="_blank" rel="noopener" data-base="' + WA + '" aria-label="WhatsApp">' + WSVG + (KATALOG[dil] || KATALOG.tr) + '</a>'
     + '<span class="lang">' + pill('tr', 'TR') + pill('en', 'EN') + pill('ru', 'RU') + '</span>'
@@ -178,7 +178,7 @@ function footer(dil) {
     + '<div class="cf-cols">'
     + '<div><h3>' + f.b + '</h3>' + bolge + '</div>'
     + '<div><h3>' + f.s + '</h3>'
-    + '<a href="' + u(dil, '/') + '">' + f.ana + '</a><a href="' + u(dil, '/blog') + '">' + f.blog + '</a>'
+    + '<a href="' + u(dil, '') + '">' + f.ana + '</a><a href="' + u(dil, '/blog') + '">' + f.blog + '</a>'
     + '<a href="' + u(dil, '/fiyatlar') + '">' + f.fiyat + '</a><a href="' + u(dil, '/iletisim') + '">' + f.ilet + '</a>'
     + '<a href="' + u(dil, '/hakkinda') + '">' + f.hak + '</a><a href="' + u(dil, '/gizlilik') + '">' + f.giz + '</a></div>'
     + '</div></div>'
