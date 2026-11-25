@@ -136,7 +136,9 @@ function ayarJs(dil) {
 }
 
 function head() {
-  return '<style>' + css + '</style>';
+  return '<style>' + css + '</style>'
+    + '<script src="/js/analytics.js?v=2" defer></script>'
+    + '<script src="/takip.js?v=2" defer></script>';
 }
 
 function header(o) {
