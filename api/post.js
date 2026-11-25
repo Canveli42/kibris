@@ -171,7 +171,6 @@ ${o.img ? `<meta property="og:image" content="${esc(o.img)}">
 <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin="">
-<link rel="preconnect" href="https://www.googletagmanager.com">
 <style>${S.css}
 main a:not(.btn){text-decoration:underline;text-underline-offset:2px}
 </style>
