@@ -22,17 +22,24 @@ function kaynak(r) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|.*\\..*).*)']
+  matcher: ['/((?!api|_next|js|data|favicon|apple-touch|takip|robots|sitemap).*)']
 };
 
 export default async function middleware(req, ev) {
   if (req.method !== 'GET') return;
+
+  const u = new URL(req.url);
+
+  // bozuk /https://... ve /https:/... adreslerini ana sayfaya çevir
+  if (u.pathname.indexOf('/http') === 0) {
+    return Response.redirect(new URL('/', u), 307);
+  }
+
   const ua = req.headers.get('user-agent') || '';
   if (!ua || BOT.test(ua)) return;
   if (req.headers.get('sec-purpose') === 'prefetch') return;
   if (req.headers.get('x-middleware-prefetch')) return;
 
-  const u = new URL(req.url);
   if (!YOL.test(u.pathname)) return;
 
   ev.waitUntil(
