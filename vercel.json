@@ -66,7 +66,9 @@
     { "source": "/rus-escort", "destination": "/api/region?slug=rus-escort" },
     { "source": "/en/:slug", "destination": "/api/region?slug=:slug&lang=en" },
     { "source": "/ru/:slug", "destination": "/api/region?slug=:slug&lang=ru" },
-    { "source": "/:slug", "destination": "/api/region?slug=:slug" }
+    { "source": "/:slug", "destination": "/api/region?slug=:slug" },
+    { "source": "/404", "destination": "/api/sayfa?f=404" },
+    { "source": "/((?!api/|_next/|.*\\.).*)", "destination": "/api/sayfa?f=404" }
   ],
   "headers": [
     {
