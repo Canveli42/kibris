@@ -8,7 +8,6 @@ const FAV = '<link rel="icon" href="/favicon.svg" type="image/svg+xml">'
 
 const IZIN = {
   index: { f: 'index.html', aktif: '/', dil: 'tr' },
-  '404': { f: '404.html', aktif: '/404', dil: 'tr' },
   en: { f: 'en.html', aktif: '/en', dil: 'en' },
   ru: { f: 'ru.html', aktif: '/ru', dil: 'ru' },
   fiyatlar: { f: 'fiyatlar.html', aktif: '/fiyatlar', dil: 'tr' },
