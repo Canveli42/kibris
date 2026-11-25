@@ -60,5 +60,9 @@ module.exports = (req, res) => {
     .replace('<!--SHELL:HEADER-->', S.header({ aktif: sayfa.aktif, dil: sayfa.dil }))
     .replace('<!--SHELL:FOOTER-->', S.footer(sayfa.dil));
 
+  const n = S.nonce();
+  html = S.noncele(html, n);
+  res.setHeader('Content-Security-Policy', S.csp(n));
+
   res.status(200).send(html);
 };
