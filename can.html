@@ -256,9 +256,19 @@ input[type=checkbox]{width:16px;height:16px;accent-color:var(--k);margin:0;flex:
 
     <!-- SIKIŞTIR -->
     <div class="bx view hide" id="vSik">
-      <h2>Tüm görselleri sıkıştır</h2>
-      <p class="alt">Bucket'taki bütün görselleri 1600px / %72 ile yeniden yazar. Yol korunur. 80 KB altı atlanır.</p>
+      <h2>Görselleri sıkıştır</h2>
+      <p class="alt">Görselleri verilen ölçüye göre yeniden yazar. Yükseklik boşsa oran korunur, doluysa ortadan kırpılır.</p>
       <div class="stat" id="stDepo"><span>yükleniyor…</span></div>
+      <div class="uc" style="margin-top:12px">
+        <div><label>Genişlik</label><input id="skG" type="number" value="1600" min="50"></div>
+        <div><label>Yükseklik</label><input id="skY" type="number" placeholder="oran korunur" min="50"></div>
+        <div><label>Kalite</label><input id="skQ" type="number" value="0.72" min="0.3" max="0.95" step="0.02"></div>
+      </div>
+      <label>Bundan küçükse atla (KB)</label><input id="skEsik" type="number" value="80" min="0">
+      <div class="ikili" style="margin-top:10px">
+        <button class="ghost" id="btnPresetKart">Kart ön ayarı (600×400)</button>
+        <button class="ghost" id="btnPresetTam">Tam boy (1600)</button>
+      </div>
       <div class="ikili" style="margin-top:12px">
         <button class="btn" id="btnTum">Tümünü sıkıştır</button>
         <button class="ghost" id="btnDurdur" disabled>Durdur</button>
@@ -409,10 +419,27 @@ document.querySelectorAll(".tab").forEach(function(b){
 });
 
 /* GÖRSEL */
-function sikistir(f,mw,q){return createImageBitmap(f).then(function(bm){
-  var s=Math.min(1,mw/bm.width),c=document.createElement("canvas");
-  c.width=Math.max(1,Math.round(bm.width*s));c.height=Math.max(1,Math.round(bm.height*s));
-  var cx=c.getContext("2d");cx.imageSmoothingQuality="high";cx.drawImage(bm,0,0,c.width,c.height);
+function ayarOku(){
+  return {
+    g: parseInt(el("skG").value,10)||1600,
+    y: parseInt(el("skY").value,10)||0,
+    q: parseFloat(el("skQ").value)||0.72,
+    esik: Math.max(0,parseInt(el("skEsik").value,10)||0)*1024
+  };
+}
+function sikistir(f,mw,q,mh){return createImageBitmap(f).then(function(bm){
+  var c=document.createElement("canvas"),cx,sw=bm.width,sh=bm.height,sx=0,sy=0;
+  if(mh){
+    var oran=mw/mh,mevcut=sw/sh;
+    if(mevcut>oran){sw=Math.round(sh*oran);sx=Math.round((bm.width-sw)/2);}
+    else{sh=Math.round(sw/oran);sy=Math.round((bm.height-sh)/2);}
+    c.width=mw;c.height=mh;cx=c.getContext("2d");cx.imageSmoothingQuality="high";
+    cx.drawImage(bm,sx,sy,sw,sh,0,0,mw,mh);
+  }else{
+    var s=Math.min(1,mw/sw);
+    c.width=Math.max(1,Math.round(sw*s));c.height=Math.max(1,Math.round(sh*s));
+    cx=c.getContext("2d");cx.imageSmoothingQuality="high";cx.drawImage(bm,0,0,c.width,c.height);
+  }
   if(bm.close)bm.close();
   return new Promise(function(r,j){c.toBlob(function(b){b?r(b):j(new Error("dönüştürme başarısız"))},"image/webp",q)});
 })}
@@ -522,22 +549,25 @@ function ciz(){var v=gorunen();el("liste").innerHTML="";
 el("ara").oninput=ciz;el("sirala").onchange=ciz;el("btnYenile").onclick=listeCek;
 el("btnKopyaListe").onclick=function(){var v=gorunen();if(!v.length)return say("listeMsg","Liste boş.");
   var t=v.map(function(f){return api.url(f.yol)}).join("\n");kopyala(t).then(function(){toast(v.length+" adres kopyalandı","ok")},function(){prompt("Adresler",t)})};
-function tek(f,b){b.disabled=true;b.textContent="…";
-  api.download(f.yol).then(function(bl){var e=bl.size;return sikistir(bl,W,Q).then(function(y){
+function tek(f,b){var a=ayarOku();b.disabled=true;b.textContent="…";
+  api.download(f.yol).then(function(bl){var e=bl.size;return sikistir(bl,a.g,a.q,a.y).then(function(y){
     if(y.size>=e*0.98){b.textContent="Gerek yok";b.disabled=false;return}
     return api.upload(f.yol,y,true).then(function(){b.textContent=boy(e-y.size)+" ↓";f.boyut=y.size;depoYaz();ciz()})})})
   .catch(function(e){b.textContent="Hata";b.disabled=false;alert(e.message)})}
+el("btnPresetKart").onclick=function(){el("skG").value=600;el("skY").value=400;el("skQ").value="0.7";el("skEsik").value=20;toast("Kart ön ayarı: 600×400, %70","ok")};
+el("btnPresetTam").onclick=function(){el("skG").value=1600;el("skY").value="";el("skQ").value="0.72";el("skEsik").value=80;toast("Tam boy: 1600px, oran korunur","ok")};
 el("btnDurdur").onclick=function(){durdu=true};
-el("btnTum").onclick=function(){if(!confirm("Tüm görseller yeniden sıkıştırılacak. Devam?"))return;
+el("btnTum").onclick=function(){var a=ayarOku();
+  if(!confirm("Görseller "+a.g+(a.y?"×"+a.y+" kırpılarak":"px")+" yeniden yazılacak. Devam?"))return;
   durdu=false;el("btnTum").disabled=true;el("btnDurdur").disabled=false;el("kayitSik").innerHTML="";el("cbSik").style.width="0%";
   listAll("").then(function(v){
-    var isler=v.filter(function(f){return f.boyut>80000});
+    var isler=v.filter(function(f){return f.boyut>a.esik});
     if(!isler.length){yaz(el("kayitSik"),"Sıkıştırılacak dosya yok.","ok");el("btnTum").disabled=false;el("btnDurdur").disabled=true;return}
     var i=0,b=0,kz=0,at=0,ht=0;
     function isci(){if(i>=isler.length||durdu)return Promise.resolve();
       var f=isler[i++];
       return api.download(f.yol).then(function(bl){var e=bl.size;
-        return sikistir(bl,W,Q).then(function(y){if(y.size>=e*0.95){at++;return}
+        return sikistir(bl,a.g,a.q,a.y).then(function(y){if(y.size>=e*0.95){at++;return}
           return api.upload(f.yol,y,true).then(function(){kz+=e-y.size;yaz(el("kayitSik"),"✓ "+f.yol+" · "+boy(e)+" → "+boy(y.size),"ok")})})})
       .catch(function(e){ht++;yaz(el("kayitSik"),"✕ "+f.yol+" · "+e.message,"err")})
       .then(function(){b++;el("cbSik").style.width=(b/isler.length*100)+"%";
