@@ -2,7 +2,6 @@ User-agent: *
 Allow: /
 
 Disallow: /api/
-Disallow: /pages
 Disallow: /404
 Disallow: /can
 
