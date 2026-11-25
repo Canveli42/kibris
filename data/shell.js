@@ -161,6 +161,7 @@ function ayarJs(dil) {
 
 function head() {
   return TT
+    + '<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co" crossorigin>'
     + '<style>' + css + '</style>'
     + '<script src="/js/analytics.js?v=2" defer></script>'
     + '<script src="/takip.js?v=2" defer></script>';
