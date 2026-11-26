@@ -14,6 +14,25 @@ const D = {
   ru: require('../data/regions.ru.js')
 };
 
+// bölge sayfası -> /modeller hub kodu (hub'ı olmayan bölgeler burada yok)
+const HUB = {
+  'girne-escort': 'girne',
+  'karaoglanoglu-escort': 'karaoglanoglu',
+  'alsancak-escort': 'alsancak',
+  'lapta-escort': 'lapta',
+  'catalkoy-escort': 'catalkoy',
+  'bellapais-escort': 'bellapais',
+  'esentepe-escort': 'esentepe',
+  'lefkosa-escort': 'lefkosa',
+  'lefkosa-hamitkoy-escort': 'lefkosa',
+  'gonyeli-escort': 'gonyeli',
+  'magusa-escort': 'magusa',
+  'iskele-escort': 'iskele',
+  'long-beach-escort': 'long-beach',
+  'bafra-escort': 'bafra',
+  'guzelyurt-escort': 'guzelyurt'
+};
+
 const AYLAR = {
   tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
   en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
@@ -44,6 +63,7 @@ const M = {
     ana: 'Ana sayfa', katalog: nm => nm + ' Kataloğu İste', tg: 'Telegram', fiyat: 'Fiyatlar',
     noktalar: 'Hizmet verdiğimiz noktalar', oteller: 'Sık çalıştığımız oteller',
     fiyatB: nm => nm + ' fiyatları',
+    modeller: 'Bölgedeki modeller', modellerAlt: 'Bu bölgede görüşen herkesin profili tek listede: yaş, hizmet ve uygun saatler.', modellerBtn: 'Modellerin tamamını gör',
     tarife: 'Tarife sabit, pazarlık yok, kapıda değişmiyor. Ödeme görüşmenin başında, yere girmeden alınır: nakit, IBAN veya USDT. Tek değişken taksi: her yöne mesafeye göre hesaplanıp önceden söyleniyor. Tam liste <a href="' + BASE + '/fiyatlar">fiyatlar sayfasında</a>.',
     guncel: 'Son güncelleme: ', sssB: nm => nm + ' hakkında sık sorulanlar', diger: 'Diğer sayfalar',
     sorun: 'Sorun mu var, katalog mu lazım?', alt: "WhatsApp veya Telegram'dan yaz, kaldığın bölgeye göre liste gönderiyoruz.",
@@ -57,6 +77,7 @@ const M = {
     ana: 'Home', katalog: nm => 'Ask for the ' + nm + ' selection', tg: 'Telegram', fiyat: 'Prices',
     noktalar: 'Places we cover', oteller: 'Hotels we visit most',
     fiyatB: nm => nm + ' prices',
+    modeller: 'Models in this area', modellerAlt: 'Every model working in this area in one list: age, service and available hours.', modellerBtn: 'See all models',
     tarife: 'The tariff is fixed, there is no haggling and it does not change at the door. Payment is taken at the start, before you go in: cash, transfer or USDT. The only variable is the taxi: calculated by distance and quoted in advance. Full list on the <a href="' + BASE + '/en/fiyatlar">price page</a>.',
     guncel: 'Last updated: ', sssB: nm => 'Frequently asked questions about ' + nm, diger: 'Other areas',
     sorun: 'Question or want the selection?', alt: 'Write on WhatsApp or Telegram and we send the current list for your area.',
@@ -70,6 +91,7 @@ const M = {
     ana: 'Главная', katalog: nm => 'Каталог — ' + nm, tg: 'Telegram', fiyat: 'Цены',
     noktalar: 'Куда выезжаем', oteller: 'Отели, куда ездим чаще всего',
     fiyatB: nm => 'Цены — ' + nm,
+    modeller: 'Модели района', modellerAlt: 'Все, кто работает в этом районе, одним списком: возраст, услуги и свободные часы.', modellerBtn: 'Смотреть всех',
     tarife: 'Тариф фиксированный, торга нет, на месте не меняется. Оплата в начале встречи, до входа: наличные, перевод или USDT. Единственная переменная — такси: считается по расстоянию и называется заранее. Полный список на <a href="' + BASE + '/ru/fiyatlar">странице цен</a>.',
     guncel: 'Обновлено: ', sssB: nm => 'Частые вопросы — ' + nm, diger: 'Другие районы',
     sorun: 'Вопрос или нужен каталог?', alt: 'Напишите в WhatsApp или Telegram, пришлём подборку по вашему району.',
@@ -458,6 +480,8 @@ module.exports = async (req, res) => {
     ? KEMER[dil][C2.kemer](C2.nm)
     : '';
 
+  const hub = HUB[slug] || '';
+
   const fiyatHtml = F.satir(dil);
 
   const icerik = `
@@ -474,6 +498,7 @@ module.exports = async (req, res) => {
   <div class="about">${C2.metin2}</div>
   <div class="about"><b>${esc(t.noktalar)}</b><br>${C2.areas.map(esc).join(' · ')}</div>
   <div class="about"><b>${esc(t.oteller)}</b><br>${C2.otel.map(esc).join(' · ')}</div>
+  ${hub ? `<div class="about"><b>${esc(t.modeller)}</b><br>${esc(t.modellerAlt)}<br><a class="btn-o" href="${BASE}/modeller/${hub}">${esc(t.modellerBtn)}</a></div>` : ''}
   <h2>${esc(t.fiyatB(C2.nm))}</h2>
   ${fiyatHtml}
   <div class="about">${t.tarife}</div>
@@ -503,5 +528,5 @@ module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=1800, stale-while-revalidate=86400');
   res.setHeader('Content-Security-Policy', S.csp(n));
-  res.status(200).send(html);
+<｜begin▁of▁sentence｜>|  res.status(200).send(html);
 };
