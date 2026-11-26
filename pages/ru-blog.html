@@ -40,15 +40,15 @@ h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-
 #say{color:#93a0b4;font-size:12.5px;margin:10px 0 0}
 #list{margin-top:16px;display:grid;grid-template-columns:1fr;gap:12px}
 @media(min-width:700px){#list{grid-template-columns:1fr 1fr;gap:14px}}
-.post{display:block;background:#111823;border:1px solid rgba(216,184,120,.18);border-radius:12px;padding:10px;transition:.18s}
+.post{display:flex;gap:12px;align-items:center;background:#111823;border:1px solid rgba(216,184,120,.18);border-radius:12px;padding:10px;transition:.18s}
 .post:hover{border-color:#d8b878;transform:translateY(-2px)}
-.post img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;object-position:center top;border-radius:8px;margin-bottom:10px;background:#151e2c}
+.post img{width:92px;height:62px;object-fit:cover;object-position:center top;border-radius:8px;flex:0 0 auto;background:#151e2c}
 .post b{font-size:14.5px;color:#fff;display:block;margin-bottom:4px;line-height:1.35}
 .post span{font-size:12px;color:#93a0b4}
 .post div{min-width:0}
 .pin{display:inline-block;margin-left:8px;padding:1px 7px;border-radius:999px;background:rgba(216,184,120,.16);border:1px solid rgba(216,184,120,.18);color:#f0d9ae;font-size:11px;font-style:normal}
 .bos{color:#93a0b4}
-@media(max-width:859px){.crumb{padding-top:16px}}
+@media(max-width:859px){.post img{width:80px;height:54px}.crumb{padding-top:16px}}
 </style>
 </head>
 <body>
@@ -86,7 +86,7 @@ h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-
     var out = same === false ? '<p class="bos" style="grid-column:1/-1">Русских статей пока нет — показан турецкий архив.</p>' : '';
     out += arr.map(function (x) {
       var d = new Date(x.yayin_at || x.created_at).toLocaleDateString(LOC);
-      var im = x.img ? '<img src="' + esc(x.img) + '" alt="' + esc(x.title) + '" width="600" height="400" loading="lazy" decoding="async">' : '';
+      var im = x.img ? '<img src="' + esc(x.img) + '" alt="' + esc(x.title) + '" width="92" height="62" loading="lazy" decoding="async">' : '';
       var pin = x.slug === HUB ? '<em class="pin">Избранное</em>' : '';
       var href = (same === false ? '/blog/' : '/ru/blog/') + esc(x.slug);
       return '<a class="post" href="' + href + '">' + im + '<div><b>' + esc(x.title) + '</b><span>' + d + pin + '</span></div></a>';
