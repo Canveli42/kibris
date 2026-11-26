@@ -34,10 +34,7 @@ const IZIN = {
   'ru-iletisim': { f: 'ru-iletisim.html', yedek: 'iletisim.html', aktif: '/ru/iletisim', dil: 'ru', grup: 'iletisim' },
   gizlilik: { f: 'gizlilik.html', aktif: '/gizlilik', dil: 'tr', grup: 'gizlilik' },
   'en-gizlilik': { f: 'en-gizlilik.html', yedek: 'gizlilik.html', aktif: '/en/gizlilik', dil: 'en', grup: 'gizlilik' },
-  'ru-gizlilik': { f: 'ru-gizlilik.html', yedek: 'gizlilik.html', aktif: '/ru/gizlilik', dil: 'ru', grup: 'gizlilik' },
-  blog: { f: 'blog.html', aktif: '/blog', dil: 'tr', grup: 'blog' },
-  'en-blog': { f: 'en-blog.html', yedek: 'blog.html', aktif: '/en/blog', dil: 'en', grup: 'blog' },
-  'ru-blog': { f: 'ru-blog.html', yedek: 'blog.html', aktif: '/ru/blog', dil: 'ru', grup: 'blog' }
+  'ru-gizlilik': { f: 'ru-gizlilik.html', yedek: 'gizlilik.html', aktif: '/ru/gizlilik', dil: 'ru', grup: 'gizlilik' }
 };
 
 const oku = f => {
@@ -45,7 +42,6 @@ const oku = f => {
   catch (e) { return null; }
 };
 
-// dil değiştirici için: aynı sayfanın diğer dil sürümleri
 function ceviriHaritasi(grup) {
   const out = {};
   if (!grup) return out;
@@ -64,7 +60,6 @@ function favicon(html) {
   return html.replace('</head>', FAV + '</head>');
 }
 
-// fiyat yer tutucuları — tek kaynak data/fiyat.js
 function fiyatDoldur(html, dil) {
   if (html.indexOf('<!--FIYAT') === -1) return html;
   const ld = '<script type="application/ld+json">'
@@ -77,6 +72,44 @@ function fiyatDoldur(html, dil) {
     .replace(/<!--FIYAT-->/g, F.satir(dil));
 }
 
+const YOK = {
+  tr: { b: 'Sayfa bulunamadı', m: 'Bu adreste sayfa yok. Ana sayfaya dönebilir, bölge seçebilir veya kataloğu isteyebilirsin.', a: 'Ana sayfa', f: 'Fiyatlar', c: 'Katalog' },
+  en: { b: 'Page not found', m: 'Nothing at this address. Go back home, pick an area or just ask for the catalogue.', a: 'Home', f: 'Prices', c: 'Catalogue' },
+  ru: { b: 'Страница не найдена', m: 'По этому адресу ничего нет. Вернитесь на главную, выберите район или попросите каталог.', a: 'Главная', f: 'Цены', c: 'Каталог' }
+};
+
+function yokSayfa(dil) {
+  const y = YOK[dil] || YOK.tr;
+  const kok = dil === 'tr' ? '' : '/' + dil;
+  return `<!DOCTYPE html><html lang="${dil}"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${y.b} | RedKıbrıs</title>
+<meta name="description" content="${y.m}">
+<meta name="robots" content="noindex,follow">
+<meta name="theme-color" content="#0b121b">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/sayfa.css?v=3">
+${S.head()}
+</head><body>
+${S.header({ aktif: '', dil, ceviriler: {} })}
+<main class="wrap" id="icerik">
+<div class="y404">
+  <div class="y404-mark" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="y404-code" aria-hidden="true">404</div>
+  <h1>${y.b}</h1>
+  <p class="lead">${y.m}</p>
+  <div class="y404-acts">
+    <a class="btn-lg wa" href="https://wa.me/905515420755" target="_blank" rel="noopener" data-base="https://wa.me/905515420755">${y.c}</a>
+    <a class="btn-lg ghost" href="${BASE}${kok}/">${y.a}</a>
+    <a class="btn-lg ghost" href="${BASE}${kok}/fiyatlar">${y.f}</a>
+  </div>
+</div>
+</main>
+${S.footer(dil)}
+</body></html>`;
+}
+
 module.exports = (req, res) => {
   const k = String((req.query && req.query.f) || '').replace(/[^a-z0-9-]/g, '');
   const sayfa = IZIN[k];
@@ -84,8 +117,12 @@ module.exports = (req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
   if (!sayfa) {
-    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400');
-    res.status(404).send('Sayfa bulunamadı');
+    let h = yokSayfa('tr');
+    const n = S.nonce();
+    h = S.noncele(h, n);
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=300');
+    res.setHeader('Content-Security-Policy', S.csp(n));
+    res.status(404).send(h);
     return;
   }
 
@@ -95,11 +132,17 @@ module.exports = (req, res) => {
 
   let html = oku(sayfa.f);
   if (!html && sayfa.yedek) html = oku(sayfa.yedek);
-  if (!html) { res.status(500).send('Dosya okunamadı'); return; }
+  if (!html) {
+    let h = yokSayfa(sayfa.dil);
+    const n = S.nonce();
+    h = S.noncele(h, n);
+    res.setHeader('Content-Security-Policy', S.csp(n));
+    res.status(500).send(h);
+    return;
+  }
 
   html = favicon(html);
 
-  // panel kendi başına bir belge, shell parçaları yok
   if (!sayfa.panel) {
     html = fiyatDoldur(html, sayfa.dil);
     html = html
