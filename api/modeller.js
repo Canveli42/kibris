@@ -50,7 +50,10 @@ function profilMi(slug, kod) {
   const m = String(slug || '').match(/^([a-z-]+)-escort-(.+)$/);
   if (!m) return false;
   if (REHBER.has(m[2])) return false;
-  return onekler(kod).some(o => m[1] === o || m[1].endsWith('-' + o));
+  const onek = m[1];
+  const ilk = onek.split('-')[0];
+  if (BOLGE[ilk]) return ilk === kod;
+  return onekler(kod).some(o => onek === o || onek.endsWith('-' + o));
 }
 
 const ldYaz = x => '<script type="application/ld+json">' + JSON.stringify(x).replace(/</g, '\\u003c') + '</script>';
