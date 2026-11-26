@@ -126,7 +126,7 @@ const REHBER = new Set([
 function profilCoz(slug) {
   const m = String(slug || '').match(/^([a-z-]+)-escort-(.+)$/);
   if (!m) return null;
-  const onek = m[1], kuyruk = m[2];
+  const onek = m[1], kuyruk = m[2].replace(/-(19|20)\d{2}$/, '');
   if (REHBER.has(kuyruk)) return null;
   const ilk = onek.split('-')[0];
   const anahtar = BOLGE[ilk]
