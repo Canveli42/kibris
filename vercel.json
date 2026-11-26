@@ -2,17 +2,13 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
-  "functions": {
-    "api/sayfa.js": { "includeFiles": "pages/*.html" }
-  },
-  "crons": [
-    { "path": "/api/temizle", "schedule": "0 4 * * *" }
-  ],
+  "functions": { "api/sayfa.js": { "includeFiles": "pages/*.html" } },
+  "crons": [{ "path": "/api/temizle", "schedule": "0 4 * * *" }],
   "redirects": [
     { "source": "/blog/bafra-escort-kseniya-plaj", "destination": "/blog/bafra-escort-kseniya-plajda", "permanent": true },
-{ "source": "/blog/magusa-escort-sevim-deneyimli", "destination": "/blog/magusa-escort-sevim-deneyimli-sabirli", "permanent": true },
-{ "source": "/blog/magusa-escort-anna-sert", "destination": "/blog/magusa-escort-anna-sert-sevisiyor", "permanent": true },
-{ "source": "/blog/lefkosa-escort-pinar-barda", "destination": "/blog/lefkosa-escort-pinar-barda-calisiyor", "permanent": true },
+    { "source": "/blog/magusa-escort-sevim-deneyimli", "destination": "/blog/magusa-escort-sevim-deneyimli-sabirli", "permanent": true },
+    { "source": "/blog/magusa-escort-anna-sert", "destination": "/blog/magusa-escort-anna-sert-sevisiyor", "permanent": true },
+    { "source": "/blog/lefkosa-escort-pinar-barda", "destination": "/blog/lefkosa-escort-pinar-barda-calisiyor", "permanent": true },
     { "source": "/blog/hakkinda", "destination": "/hakkinda", "permanent": true },
     { "source": "/en/blog/hakkinda", "destination": "/en/hakkinda", "permanent": true },
     { "source": "/ru/blog/hakkinda", "destination": "/ru/hakkinda", "permanent": true },
@@ -31,6 +27,9 @@
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
     { "source": "/panel", "destination": "/api/sayfa?f=can" },
     { "source": "/modeller/:bolge", "destination": "/api/modeller?bolge=:bolge" },
+    { "source": "/blog", "destination": "/api/blog?dil=tr" },
+    { "source": "/en/blog", "destination": "/api/blog?dil=en" },
+    { "source": "/ru/blog", "destination": "/api/blog?dil=ru" },
     { "source": "/blog/:slug", "destination": "/api/post?slug=:slug&lang=tr" },
     { "source": "/en/blog/:slug", "destination": "/api/post?slug=:slug&lang=en" },
     { "source": "/ru/blog/:slug", "destination": "/api/post?slug=:slug&lang=ru" },
@@ -40,9 +39,6 @@
     { "source": "/hakkinda", "destination": "/api/sayfa?f=hakkinda" },
     { "source": "/en/hakkinda", "destination": "/api/sayfa?f=en-hakkinda" },
     { "source": "/ru/hakkinda", "destination": "/api/sayfa?f=ru-hakkinda" },
-    { "source": "/blog", "destination": "/api/sayfa?f=blog" },
-    { "source": "/en/blog", "destination": "/api/sayfa?f=en-blog" },
-    { "source": "/ru/blog", "destination": "/api/sayfa?f=ru-blog" },
     { "source": "/fiyatlar", "destination": "/api/sayfa?f=fiyatlar" },
     { "source": "/en/fiyatlar", "destination": "/api/sayfa?f=en-fiyatlar" },
     { "source": "/ru/fiyatlar", "destination": "/api/sayfa?f=ru-fiyatlar" },
@@ -80,22 +76,20 @@
     { "source": "/:slug", "destination": "/api/region?slug=:slug" },
     { "source": "/en/((?!.*\\.).*)", "destination": "/api/region?slug=404&lang=en" },
     { "source": "/ru/((?!.*\\.).*)", "destination": "/api/region?slug=404&lang=ru" },
-    { "source": "/((?!api/|_next/|.*\\.).*)", "destination": "/api/region?slug=404" }
+    { "source": "/((?!api/|_next/|css/|js/|.*\\.).*)", "destination": "/api/region?slug=404" }
   ],
   "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "geolocation=(), microphone=(), camera=()" },
-        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
-        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" }
-      ]
-    },
+    { "source": "/css/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
+    { "source": "/(.*)", "headers": [
+      { "key": "X-Content-Type-Options", "value": "nosniff" },
+      { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+      { "key": "Permissions-Policy", "value": "geolocation=(), microphone=(), camera=()" },
+      { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
+      { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" }
+    ]},
     { "source": "/api/(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] },
     { "source": "/data/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }] },
-    { "source": "/js/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] }
+    { "source": "/js/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] }
   ]
 }
