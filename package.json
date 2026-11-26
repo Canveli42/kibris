@@ -1,0 +1,13 @@
+{
+  "name": "kibris",
+  "version": "1.0.0",
+  "private": true,
+  "description": "RedKıbrıs · Kıbrıs escort sitesi (TR/EN/RU)",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  }
+}
