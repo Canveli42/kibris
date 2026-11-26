@@ -413,7 +413,7 @@ module.exports = async (req, res) => {
     <div class="crumb">${kirinti}</div>
     <h1>${esc(p.title)}</h1>
     <p class="byline">${profil ? esc(profil.ad) + ' · ' + esc(profil.bolgeAd) + ' · RedKıbrıs · ' + tarih(p.yayin_at || p.created_at, dil) + ' · ' + dk + ' ' + esc(t.dk) : esc(t.yazar) + ' · RedKıbrıs · ' + tarih(p.yayin_at || p.created_at, dil) + ' · ' + dk + ' ' + esc(t.dk)}</p>
-    ${p.img ? `<img id="cover" src="${esc(p.img)}" alt="${esc(p.title)}" width="1200" height="750" fetchpriority="high" decoding="async">` : ''}
+    ${p.img ? `<img id="cover" src="${esc(p.img)}" alt="${esc(p.title)}" width="560" height="373" fetchpriority="high" decoding="async">` : ''}
     <article>${govde(p.body)}</article>
     ${profilKutu}
     ${f.length ? `<section class="faq"><h2>${esc(t.sssB)}</h2>${f.map(x => `<details><summary>${esc(x[0])}</summary><p>${esc(x[1])}</p></details>`).join('')}</section>` : ''}
