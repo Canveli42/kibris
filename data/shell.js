@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const BASE = 'https://www.kibrisgirneescort.com';
 const WA = 'https://wa.me/905515420755';
 const TG = 'https://t.me/kibrisescortvip';
-const SURUM = '3';
+const SURUM = '4';
 
 const u = (dil, p) => BASE + (dil === 'tr' ? '' : '/' + dil) + p;
 
