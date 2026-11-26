@@ -50,7 +50,7 @@ function profilMi(slug, kod) {
 }
 
 function specOku(govde) {
-  const m = String(govde || '').match(/^:::profil\s*\n([\s\S]*?)\n:::/);
+  const m = String(govde || '').replace(/\r/g, '').match(/:::profil\s*\n([\s\S]*?)\n:::/);
   if (!m) return {};
   const s = {};
   m[1].split('\n').forEach(sat => {
@@ -62,6 +62,36 @@ function specOku(govde) {
 }
 
 const YAS = [['18-25', 18, 25], ['26-32', 26, 32], ['33-99', 33, 99]];
+
+const HIZMET = [
+  ['anal', /anal|popo|arkadan/i],
+  ['kilifsiz', /kilifsiz|kılıfsız|saksoz|saksoyu|oral|girtlak|gırtlak|yutuyor|ağzıyla|agziyla|masaj/i],
+  ['grup', /grup|swinger|iki erkek|üçlü|uclu/i]
+];
+
+const GECE = /gece|geç saat|gec saat|sabahın|sabahin/i;
+const GUNDUZ = /gündüz|gunduz|sabah|öğlen|oglen/i;
+
+function etiketle(p) {
+  const s = specOku(p.body);
+  const metin = (String(p.title || '') + ' ' + String(p.slug || '') + ' ' + String(p.body || '').slice(0, 900)).toLowerCase();
+
+  let yas = parseInt(s.yas, 10) || 0;
+  if (!yas) {
+    const m = metin.match(/(\d{2})\s*ya[sş]/);
+    if (m) yas = parseInt(m[1], 10) || 0;
+    else if (/kirkinda|kırkında|olgun|deneyimli/.test(metin)) yas = 40;
+    else if (/yeni basladi|yeni başladı|genç|genc/.test(metin)) yas = 22;
+  }
+
+  let hizmet = String(s.hizmet || '').toLowerCase();
+  if (!hizmet) hizmet = HIZMET.filter(h => h[1].test(metin)).map(h => h[0]).join(' ');
+
+  let saat = String(s.saat || '').toLowerCase();
+  if (!saat) saat = GECE.test(metin) ? 'gece' : (GUNDUZ.test(metin) ? 'gunduz' : '');
+
+  return { yas, hizmet, saat };
+}
 
 module.exports = async (req, res) => {
   const kod = String((req.query && req.query.bolge) || '').replace(/[^a-z-]/g, '');
@@ -91,32 +121,35 @@ module.exports = async (req, res) => {
     if (r.ok) hepsi = (await r.json()) || [];
   } catch (e) {}
 
-  let liste = hepsi.filter(p => profilMi(p.slug, kod)).map(p => {
-    const s = specOku(p.body);
-    return { slug: p.slug, title: p.title, img: p.img, yas: parseInt(s.yas, 10) || 0, hizmet: String(s.hizmet || '').toLowerCase(), saat: String(s.saat || '') };
+  const tum = hepsi.filter(p => profilMi(p.slug, kod)).map(p => {
+    const e = etiketle(p);
+    return { slug: p.slug, title: p.title, img: p.img, yas: e.yas, hizmet: e.hizmet, saat: e.saat };
   });
 
-  if (qYas) {
-    const aralik = YAS.find(x => x[0] === qYas);
-    if (aralik) liste = liste.filter(x => x.yas >= aralik[1] && x.yas <= aralik[2]);
-  }
+  const yasVar = x => {
+    const a = YAS.find(y => y[0] === x);
+    return a ? (p => p.yas >= a[1] && p.yas <= a[2]) : (() => true);
+  };
+
+  let liste = tum;
+  if (qYas && YAS.some(y => y[0] === qYas)) liste = liste.filter(yasVar(qYas));
   if (qHizmet) liste = liste.filter(x => x.hizmet.indexOf(qHizmet) > -1);
-  if (qSaat === 'gece') liste = liste.filter(x => /2[0-3]:|0[0-3]:|gece/i.test(x.saat));
-  if (qSaat === 'gunduz') liste = liste.filter(x => /^1[0-9]:|^0[89]:|^1[12]:/.test(x.saat));
+  if (qSaat === 'gece') liste = liste.filter(x => x.saat === 'gece');
+  if (qSaat === 'gunduz') liste = liste.filter(x => x.saat === 'gunduz');
 
   const kartlar = liste.map(p => `<a class="kart" href="${BASE}/blog/${esc(p.slug)}">
     ${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="300" height="200">` : ''}
-    <span class="kb"><span class="kt">${esc(p.title)}</span><span class="km">${p.yas ? p.yas + ' yaş' : ''}${p.yas && p.saat ? ' · ' : ''}${esc(p.saat || '')}</span></span></a>`).join('\n');
+    <span class="kb"><span class="kt">${esc(p.title)}</span><span class="km">${p.yas ? p.yas + ' yaş' : ''}${p.yas && p.saat ? ' · ' : ''}${esc(p.saat === 'gece' ? 'gece' : p.saat === 'gunduz' ? 'gündüz' : '')}</span></span></a>`).join('\n');
 
-  const suzYol = (ek) => url + ek;
+  const cip = (href, etiket, secili, adet) =>
+    `<a href="${href}"${secili ? ' class="on"' : ''}${adet === 0 ? ' style="opacity:.5"' : ''}>${etiket} (${adet})</a>`;
+
   const suz = `<div class="suz">
-    <a href="${url}"${!qYas && !qHizmet && !qSaat ? ' class="on"' : ''}>Hepsi</a>
-    ${YAS.map(y => `<a href="${suzYol('?yas=' + y[0])}"${qYas === y[0] ? ' class="on"' : ''}>${y[0]} yaş</a>`).join('')}
-    <a href="${suzYol('?hizmet=anal')}"${qHizmet === 'anal' ? ' class="on"' : ''}>Anal</a>
-    <a href="${suzYol('?hizmet=kilifsiz')}"${qHizmet === 'kilifsiz' ? ' class="on"' : ''}>Kılıfsız oral</a>
-    <a href="${suzYol('?hizmet=grup')}"${qHizmet === 'grup' ? ' class="on"' : ''}>Grup</a>
-    <a href="${suzYol('?saat=gece')}"${qSaat === 'gece' ? ' class="on"' : ''}>Gece</a>
-    <a href="${suzYol('?saat=gunduz')}"${qSaat === 'gunduz' ? ' class="on"' : ''}>Gündüz</a>
+    ${cip(url, 'Hepsi', !qYas && !qHizmet && !qSaat, tum.length)}
+    ${YAS.map(y => cip(url + '?yas=' + y[0], y[0] + ' yaş', qYas === y[0], tum.filter(yasVar(y[0])).length)).join('')}
+    ${HIZMET.map(h => cip(url + '?hizmet=' + h[0], h[0] === 'anal' ? 'Anal' : h[0] === 'kilifsiz' ? 'Kılıfsız oral' : 'Grup', qHizmet === h[0], tum.filter(x => x.hizmet.indexOf(h[0]) > -1).length)).join('')}
+    ${cip(url + '?saat=gece', 'Gece', qSaat === 'gece', tum.filter(x => x.saat === 'gece').length)}
+    ${cip(url + '?saat=gunduz', 'Gündüz', qSaat === 'gunduz', tum.filter(x => x.saat === 'gunduz').length)}
   </div>`;
 
   const ld = [
