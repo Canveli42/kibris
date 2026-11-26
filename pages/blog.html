@@ -36,15 +36,15 @@ h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-
 #say{color:#93a0b4;font-size:12.5px;margin:10px 0 0}
 #list{margin-top:16px;display:grid;grid-template-columns:1fr;gap:10px}
 @media(min-width:520px){#list{grid-template-columns:1fr 1fr;gap:12px}}
-.post{display:block;background:#111823;border:1px solid rgba(216,184,120,.18);border-radius:12px;padding:9px;transition:.18s}
+.post{display:flex;gap:11px;align-items:center;background:#111823;border:1px solid rgba(216,184,120,.18);border-radius:12px;padding:9px;transition:.18s}
 .post:hover{border-color:#d8b878;transform:translateY(-2px)}
-.post img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;object-position:center top;border-radius:8px;margin-bottom:9px;background:#151e2c}
+.post img{width:96px;height:64px;object-fit:cover;object-position:center top;border-radius:8px;flex:0 0 auto;background:#151e2c}
 .post b{font-size:14.5px;color:#fff;display:block;margin-bottom:4px;line-height:1.32}
 .post span{font-size:12px;color:#93a0b4}
 .post div{min-width:0}
 .pin{display:inline-block;margin-left:8px;padding:1px 7px;border-radius:999px;background:rgba(216,184,120,.16);border:1px solid rgba(216,184,120,.18);color:#f0d9ae;font-size:11px;font-style:normal}
 .bos{color:#93a0b4}
-@media(max-width:519px){.crumb{padding-top:16px}}
+@media(max-width:519px){.post img{width:84px;height:56px}.crumb{padding-top:16px}}
 </style>
 </head>
 <body>
@@ -80,7 +80,7 @@ h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-
     if (!arr.length) { list.innerHTML = '<p class="bos">Sonuç yok.</p>'; return; }
     list.innerHTML = arr.map(function (x, i) {
       var d = new Date(x.yayin_at || x.created_at).toLocaleDateString('tr-TR');
-      var im = x.img ? '<img src="' + esc(x.img) + '" alt="' + esc(x.title) + '" width="600" height="400" ' + (i < 2 ? 'loading="eager"' : 'loading="lazy"') + ' decoding="async">' : '';
+      var im = x.img ? '<img src="' + esc(x.img) + '" alt="' + esc(x.title) + '" width="96" height="64" ' + (i < 4 ? 'loading="eager"' : 'loading="lazy"') + ' decoding="async">' : '';
       var pin = x.slug === HUB ? '<em class="pin">Öne çıkan</em>' : '';
       return '<a class="post" href="/blog/' + esc(x.slug) + '">' + im + '<div><b>' + esc(x.title) + '</b><span>' + d + pin + '</span></div></a>';
     }).join('');
