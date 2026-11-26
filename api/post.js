@@ -146,6 +146,8 @@ async function ilgiliYazilar(slug, dil) {
 
 const kok = dil => (dil === 'tr' ? '/blog/' : '/' + dil + '/blog/');
 
+const ldYaz = x => '<script type="application/ld+json">' + JSON.stringify(x).replace(/</g, '\\u003c') + '</script>';
+
 const sayfa = o => `<!DOCTYPE html>
 <html lang="${o.dil}"><head>
 <meta charset="utf-8">
@@ -170,7 +172,7 @@ ${o.img ? `<meta property="og:image" content="${esc(o.img)}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin="">
+<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin>
 <style>${S.css}
 main a:not(.btn){text-decoration:underline;text-underline-offset:2px}
 </style>
@@ -186,7 +188,7 @@ ${S.footer(o.dil)}
 
 module.exports = async (req, res) => {
   try {
-    const slug = String((req.query && req.query.slug) || '').replace(/[^a-z0-9-]/gi, '');
+    const slug = String((req.query && req.query.slug) || '').replace(/[^a-z0-9-]/gi, '').toLowerCase();
     const ham = String((req.query && req.query.lang) || 'tr').toLowerCase();
     const dil = DILLER.includes(ham) ? ham : 'tr';
     const t = M[dil];
@@ -315,7 +317,7 @@ module.exports = async (req, res) => {
 
     let html = sayfa({
       dil, title: p.title, desc, url, img: p.img, icerik, alternates, ceviriler,
-      ld: ld.map(x => `<script type="application/ld+json">${JSON.stringify(x)}</script>`).join('')
+      ld: ld.map(ldYaz).join('')
     });
     const n = S.nonce();
     html = S.noncele(html, n);
