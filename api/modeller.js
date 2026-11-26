@@ -7,23 +7,15 @@ const S = require('../data/shell.js');
 const YAYIN = 'yayin_at.is.null,yayin_at.lte.now()';
 
 const BOLGE = {
-  girne: ['Girne', 'girne-escort'],
-  karaoglanoglu: ['Karaoğlanoğlu', 'karaoglanoglu-escort'],
-  alsancak: ['Alsancak', 'alsancak-escort'],
-  lapta: ['Lapta', 'lapta-escort'],
-  catalkoy: ['Çatalköy', 'catalkoy-escort'],
-  bellapais: ['Bellapais', 'bellapais-escort'],
-  esentepe: ['Esentepe', 'esentepe-escort'],
-  lefkosa: ['Lefkoşa', 'lefkosa-escort'],
-  gonyeli: ['Gönyeli', 'gonyeli-escort'],
-  magusa: ['Mağusa', 'magusa-escort'],
-  iskele: ['İskele', 'iskele-escort'],
-  'long-beach': ['Long Beach', 'long-beach-escort'],
-  bafra: ['Bafra', 'bafra-escort'],
-  guzelyurt: ['Güzelyurt', 'guzelyurt-escort']
+  girne: ['Girne', 'girne-escort'], karaoglanoglu: ['Karaoğlanoğlu', 'karaoglanoglu-escort'],
+  alsancak: ['Alsancak', 'alsancak-escort'], lapta: ['Lapta', 'lapta-escort'],
+  catalkoy: ['Çatalköy', 'catalkoy-escort'], bellapais: ['Bellapais', 'bellapais-escort'],
+  esentepe: ['Esentepe', 'esentepe-escort'], lefkosa: ['Lefkoşa', 'lefkosa-escort'],
+  gonyeli: ['Gönyeli', 'gonyeli-escort'], magusa: ['Mağusa', 'magusa-escort'],
+  iskele: ['İskele', 'iskele-escort'], 'long-beach': ['Long Beach', 'long-beach-escort'],
+  bafra: ['Bafra', 'bafra-escort'], guzelyurt: ['Güzelyurt', 'guzelyurt-escort']
 };
 
-// hub'a bağlı semtler
 const SEMT = {
   girne: ['merkez', 'liman', 'zeytinlik', 'karakum', 'nusmar'],
   lefkosa: ['kumsal', 'surici', 'ortakoy', 'hamitkoy', 'koskluciftlik', 'haspolat'],
@@ -42,9 +34,9 @@ const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
-function onekler(kod) {
-  return [kod].concat(SEMT[kod] || []);
-}
+const ldYaz = x => '<script type="application/ld+json">' + JSON.stringify(x).replace(/</g, '\\u003c') + '</script>';
+
+function onekler(kod) { return [kod].concat(SEMT[kod] || []); }
 
 function profilMi(slug, kod) {
   const m = String(slug || '').match(/^([a-z-]+)-escort-(.+)$/);
@@ -57,7 +49,19 @@ function profilMi(slug, kod) {
   return onekler(kod).some(o => onek === o || onek.endsWith('-' + o));
 }
 
-const ldYaz = x => '<script type="application/ld+json">' + JSON.stringify(x).replace(/</g, '\\u003c') + '</script>';
+function specOku(govde) {
+  const m = String(govde || '').match(/^:::profil\s*\n([\s\S]*?)\n:::/);
+  if (!m) return {};
+  const s = {};
+  m[1].split('\n').forEach(sat => {
+    const p = sat.indexOf(':');
+    if (p < 1) return;
+    s[sat.slice(0, p).trim().toLowerCase()] = sat.slice(p + 1).trim();
+  });
+  return s;
+}
+
+const YAS = [['18-25', 18, 25], ['26-32', 26, 32], ['33-99', 33, 99]];
 
 module.exports = async (req, res) => {
   const kod = String((req.query && req.query.bolge) || '').replace(/[^a-z-]/g, '');
@@ -72,52 +76,70 @@ module.exports = async (req, res) => {
   }
 
   const ad = b[0], bolgeYol = BASE + '/' + b[1], url = BASE + '/modeller/' + kod;
+  const q = req.query || {};
+  const qYas = String(q.yas || '').replace(/[^0-9-]/g, '');
+  const qHizmet = String(q.hizmet || '').replace(/[^a-z-]/g, '');
+  const qSaat = q.saat === 'gece' ? 'gece' : (q.saat === 'gunduz' ? 'gunduz' : '');
 
   let hepsi = [];
   try {
     const r = await fetch(
-      SB + '/rest/v1/posts?select=slug,title,img,meta&published=eq.true&lang=eq.tr' +
+      SB + '/rest/v1/posts?select=slug,title,img,body&published=eq.true&lang=eq.tr' +
       '&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast&limit=2000',
       { headers: H }
     );
     if (r.ok) hepsi = (await r.json()) || [];
   } catch (e) {}
 
-  const liste = hepsi.filter(p => profilMi(p.slug, kod));
+  let liste = hepsi.filter(p => profilMi(p.slug, kod)).map(p => {
+    const s = specOku(p.body);
+    return { slug: p.slug, title: p.title, img: p.img, yas: parseInt(s.yas, 10) || 0, hizmet: String(s.hizmet || '').toLowerCase(), saat: String(s.saat || '') };
+  });
+
+  if (qYas) {
+    const aralik = YAS.find(x => x[0] === qYas);
+    if (aralik) liste = liste.filter(x => x.yas >= aralik[1] && x.yas <= aralik[2]);
+  }
+  if (qHizmet) liste = liste.filter(x => x.hizmet.indexOf(qHizmet) > -1);
+  if (qSaat === 'gece') liste = liste.filter(x => /2[0-3]:|0[0-3]:|gece/i.test(x.saat));
+  if (qSaat === 'gunduz') liste = liste.filter(x => /^1[0-9]:|^0[89]:|^1[12]:/.test(x.saat));
 
   const kartlar = liste.map(p => `<a class="kart" href="${BASE}/blog/${esc(p.slug)}">
     ${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="300" height="200">` : ''}
-    <span>${esc(p.title)}</span></a>`).join('\n');
+    <span class="kb"><span class="kt">${esc(p.title)}</span><span class="km">${p.yas ? p.yas + ' yaş' : ''}${p.yas && p.saat ? ' · ' : ''}${esc(p.saat || '')}</span></span></a>`).join('\n');
+
+  const suzYol = (ek) => url + ek;
+  const suz = `<div class="suz">
+    <a href="${url}"${!qYas && !qHizmet && !qSaat ? ' class="on"' : ''}>Hepsi</a>
+    ${YAS.map(y => `<a href="${suzYol('?yas=' + y[0])}"${qYas === y[0] ? ' class="on"' : ''}>${y[0]} yaş</a>`).join('')}
+    <a href="${suzYol('?hizmet=anal')}"${qHizmet === 'anal' ? ' class="on"' : ''}>Anal</a>
+    <a href="${suzYol('?hizmet=kilifsiz')}"${qHizmet === 'kilifsiz' ? ' class="on"' : ''}>Kılıfsız oral</a>
+    <a href="${suzYol('?hizmet=grup')}"${qHizmet === 'grup' ? ' class="on"' : ''}>Grup</a>
+    <a href="${suzYol('?saat=gece')}"${qSaat === 'gece' ? ' class="on"' : ''}>Gece</a>
+    <a href="${suzYol('?saat=gunduz')}"${qSaat === 'gunduz' ? ' class="on"' : ''}>Gündüz</a>
+  </div>`;
 
   const ld = [
-    {
-      '@context': 'https://schema.org', '@type': 'CollectionPage',
-      name: ad + ' escort modelleri', url, inLanguage: 'tr',
-      about: { '@type': 'Place', name: ad }
-    },
-    {
-      '@context': 'https://schema.org', '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Ana sayfa', item: BASE + '/' },
-        { '@type': 'ListItem', position: 2, name: ad, item: bolgeYol },
-        { '@type': 'ListItem', position: 3, name: 'Modeller', item: url }
-      ]
-    }
+    { '@context': 'https://schema.org', '@type': 'CollectionPage', name: ad + ' escort modelleri', url, inLanguage: 'tr', about: { '@type': 'Place', name: ad } },
+    { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Ana sayfa', item: BASE + '/' },
+      { '@type': 'ListItem', position: 2, name: ad, item: bolgeYol },
+      { '@type': 'ListItem', position: 3, name: 'Modeller', item: url }
+    ] }
   ];
   if (liste.length) ld.push({
     '@context': 'https://schema.org', '@type': 'ItemList',
     numberOfItems: liste.length,
-    itemListElement: liste.slice(0, 100).map((p, i) => ({
-      '@type': 'ListItem', position: i + 1, name: p.title, url: BASE + '/blog/' + p.slug
-    }))
+    itemListElement: liste.slice(0, 100).map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.title, url: BASE + '/blog/' + p.slug }))
   });
 
   const icerik = `
   <div class="crumb"><a href="${BASE}/">Ana sayfa</a> › <a href="${bolgeYol}">${esc(ad)}</a> › <span>Modeller</span></div>
   <h1>${esc(ad)} Escort Modelleri</h1>
-  <p class="lead">${esc(ad)} bölgesinde görüşen modellerin tamamı burada. Her profilin yaşı, hizmeti ve uygun saatleri kendi sayfasında. Tarife sabit, ödeme görüşmenin başında, kapora yok.</p>
+  <p class="lead">${esc(ad)} bölgesinde görüşen modellerin tamamı burada. Profillerde yaş, hizmet, uygun saatler ve tarife yazılı. Kapora yok, ödeme görüşmenin başında.</p>
   <div class="about"><a href="${bolgeYol}">${esc(ad)} bölge sayfası</a> · <a href="${BASE}/fiyatlar">Fiyatlar</a> · <a href="${BASE}/blog">Rehber yazıları</a></div>
-  ${liste.length ? `<div class="mgrid">${kartlar}</div>` : '<div class="about">Bu bölgede henüz profil yayınlanmadı.</div>'}
+  ${suz}
+  ${liste.length ? `<div class="mgrid">${kartlar}</div>` : '<div class="about">Bu filtrede profil yok. <a href="' + url + '">Filtreyi temizle</a>.</div>'}
   <div class="about"><b>Sorun mu var, katalog mu lazım?</b><br>WhatsApp veya Telegram'dan yaz, kaldığın bölgeye göre liste gönderiyoruz.
     <br><a class="btn wa" href="https://wa.me/905515420755" target="_blank" rel="noopener" data-base="https://wa.me/905515420755">WhatsApp'tan yaz</a>
     <a class="btn tg" href="https://t.me/kibrisescortvip" target="_blank" rel="noopener" data-base="https://t.me/kibrisescortvip">Telegram'dan yaz</a>
@@ -128,7 +150,7 @@ module.exports = async (req, res) => {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(ad)} Escort Modelleri | RedKıbrıs</title>
-<meta name="description" content="${esc(ad)} escort modellerinin listesi. Yaş, hizmet ve uygun saatler profillerde. Sabit tarife, kapora yok, ödeme görüşmenin başında.">
+<meta name="description" content="${esc(ad)} escort modellerinin listesi. Yaş, hizmet ve uygun saatlere göre filtrele. Sabit tarife, kapora yok, ödeme görüşmenin başında.">
 <link rel="canonical" href="${url}">
 <link rel="sitemap" type="application/xml" href="${BASE}/sitemap.xml">
 <meta name="robots" content="index,follow">
@@ -141,20 +163,11 @@ module.exports = async (req, res) => {
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin>
-<style>${S.css}
-.mgrid{display:grid;gap:12px;grid-template-columns:1fr 1fr}
-@media(min-width:640px){.mgrid{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:960px){.mgrid{grid-template-columns:repeat(4,1fr)}}
-.mgrid .kart{display:block;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel);text-decoration:none}
-.mgrid .kart img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block}
-.mgrid .kart span{display:block;padding:9px 10px;font-size:13.5px;color:#e9eef6;line-height:1.35}
-.mgrid .kart:hover{border-color:rgba(216,184,120,.55)}
-</style>
-<style>${S.icerik}</style>
+${S.head()}
 ${ld.map(ldYaz).join('')}
 </head><body>
-${S.header({ aktif: url, dil: 'tr', ceviriler: { tr: url } })}
-<main class="wrap">
+${S.header({ aktif: bolgeYol, dil: 'tr', ceviriler: { tr: url } })}
+<main class="wrap" id="icerik">
 ${icerik}
 </main>
 ${S.footer('tr')}
