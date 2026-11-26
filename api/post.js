@@ -79,6 +79,75 @@ const sss = f => {
 const GENEL = ['kibris','escort','rehberi','blog','otel','ne','mi','mu','ve','icin','nasil','nedir','demek','kadar','hangi'];
 const ilgiliAnahtar = slug => String(slug || '').split('-').filter(t => t.length > 2 && !GENEL.includes(t)).slice(0, 2);
 
+/* ---------- profil tespiti ---------- */
+
+// semt/ilçe → görünen ad + bağlı olduğu bölge sayfası
+const BOLGE = {
+  girne: ['Girne', 'girne-escort'],
+  merkez: ['Girne Merkez', 'girne-escort'],
+  liman: ['Girne Liman', 'girne-escort'],
+  zeytinlik: ['Zeytinlik', 'girne-escort'],
+  karakum: ['Karakum', 'girne-escort'],
+  nusmar: ['Nusmar', 'girne-escort'],
+  karaoglanoglu: ['Karaoğlanoğlu', 'karaoglanoglu-escort'],
+  alsancak: ['Alsancak', 'alsancak-escort'],
+  lapta: ['Lapta', 'lapta-escort'],
+  catalkoy: ['Çatalköy', 'catalkoy-escort'],
+  bellapais: ['Bellapais', 'bellapais-escort'],
+  esentepe: ['Esentepe', 'esentepe-escort'],
+  lefkosa: ['Lefkoşa', 'lefkosa-escort'],
+  kumsal: ['Kumsal', 'lefkosa-escort'],
+  surici: ['Suriçi', 'lefkosa-escort'],
+  ortakoy: ['Ortaköy', 'lefkosa-escort'],
+  hamitkoy: ['Hamitköy', 'lefkosa-escort'],
+  koskluciftlik: ['Köşklüçiftlik', 'lefkosa-escort'],
+  gonyeli: ['Gönyeli', 'gonyeli-escort'],
+  haspolat: ['Haspolat', 'lefkosa-escort'],
+  magusa: ['Mağusa', 'magusa-escort'],
+  sakarya: ['Sakarya', 'magusa-escort'],
+  maras: ['Maraş', 'magusa-escort'],
+  tuzla: ['Tuzla', 'magusa-escort'],
+  canakkale: ['Çanakkale', 'magusa-escort'],
+  iskele: ['İskele', 'iskele-escort'],
+  'long-beach': ['Long Beach', 'long-beach-escort'],
+  bafra: ['Bafra', 'bafra-escort'],
+  guzelyurt: ['Güzelyurt', 'guzelyurt-escort']
+};
+
+// rehber niteliğindeki kuyruklar — profil sayılmaz
+const REHBER = new Set([
+  'fiyatlari', 'villa', 'nasil-cagrilir', 'rehberi', 'rehber', 'program',
+  '2-saat-program', '4-saat-program', 'gecelik-program', '30-dakika',
+  'ilk-gorusme', 'lobi-mi-oda-mi', 'mitleri', 'sabah-gorusmesi',
+  'vip-davet', 'turk-rus-farki', 'ulasim-ve-taksi'
+]);
+
+// "girne-merkez-escort-ayse-saksoyu" → { semt: 'merkez', ad: 'Ayşe Saksoyu' }
+function profilCoz(slug) {
+  const m = String(slug || '').match(/^([a-z-]+)-escort-(.+)$/);
+  if (!m) return null;
+  const onek = m[1], kuyruk = m[2];
+  if (REHBER.has(kuyruk)) return null;
+  const anahtar = Object.keys(BOLGE).find(k => onek === k || onek.endsWith('-' + k));
+  if (!anahtar) return null;
+  const parca = kuyruk.split('-').filter(Boolean);
+  const ATIL = new Set(['seviyor','istiyor','yapiyor','geliyor','bekliyor','karsiliyor','oturuyor','yatiyor','cikip','geliyor','yemegi','sonra','dogru','havasi','tadinda','uzaniyor','cokmus','kalkiyor','sikistiriyor']);
+  const adParca = [];
+  for (const p of parca) {
+    if (adParca.length >= 2) break;
+    if (ATIL.has(p)) break;
+    adParca.push(p);
+  }
+  const ad = (adParca.length ? adParca : parca.slice(0, 2))
+    .map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+  return { semt: anahtar, bolgeAd: BOLGE[anahtar][0], bolgeYol: BOLGE[anahtar][1], ad };
+}
+
+const kok = dil => (dil === 'tr' ? '/blog/' : '/' + dil + '/blog/');
+const kokB = dil => (dil === 'tr' ? '/' : '/' + dil + '/');
+
+const ldYaz = x => '<script type="application/ld+json">' + JSON.stringify(x).replace(/</g, '\\u003c') + '</script>';
+
 const M = {
   tr: {
     yok: 'Yazı bulunamadı', yokD: 'Aradığın yazı bulunamadı. Kıbrıs escort blog yazılarına göz at.',
@@ -87,7 +156,8 @@ const M = {
     sorun: 'Sorun mu var, katalog mu lazım?', wa: "WhatsApp'tan yaz", tg: "Telegram'dan yaz",
     alt: 'WhatsApp’tan yaz, kaldığın bölgeye göre liste gönderiyoruz.',
     yuk: 'Yazı yüklenemedi', yukD: 'Sayfa geçici olarak yüklenemedi.', tekrar: 'Birkaç saniye sonra tekrar dene.',
-    ana: 'Ana sayfa', blog: 'Blog', yazar: 'Can', dk: 'dk okuma', don: 'dönebilirsin'
+    ana: 'Ana sayfa', blog: 'Blog', yazar: 'Can', dk: 'dk okuma', don: 'dönebilirsin',
+    bolgeSayfa: 'bölge sayfası', profil: 'Profil'
   },
   en: {
     yok: 'Article not found', yokD: 'That article does not exist. Browse the Cyprus escort blog.',
@@ -96,7 +166,8 @@ const M = {
     sorun: 'Question or want the catalogue?', wa: 'Message on WhatsApp', tg: 'Message on Telegram',
     alt: 'Write on WhatsApp and we send the current selection for your area.',
     yuk: 'Page could not load', yukD: 'The page is temporarily unavailable.', tekrar: 'Try again in a few seconds.',
-    ana: 'Home', blog: 'Blog', yazar: 'Can', dk: 'min read', don: 'to go back'
+    ana: 'Home', blog: 'Blog', yazar: 'Can', dk: 'min read', don: 'to go back',
+    bolgeSayfa: 'area page', profil: 'Profile'
   },
   ru: {
     yok: 'Статья не найдена', yokD: 'Такой статьи нет. Посмотрите блог об эскорте на Кипре.',
@@ -105,7 +176,8 @@ const M = {
     sorun: 'Вопрос или нужен каталог?', wa: 'Написать в WhatsApp', tg: 'Написать в Telegram',
     alt: 'Напишите в WhatsApp, пришлём актуальную подборку по вашему району.',
     yuk: 'Страница не загрузилась', yukD: 'Страница временно недоступна.', tekrar: 'Попробуйте через несколько секунд.',
-    ana: 'Главная', blog: 'Блог', yazar: 'Can', dk: 'мин чтения', don: 'чтобы вернуться'
+    ana: 'Главная', blog: 'Блог', yazar: 'Can', dk: 'мин чтения', don: 'чтобы вернуться',
+    bolgeSayfa: 'страница района', profil: 'Профиль'
   }
 };
 
@@ -143,10 +215,6 @@ async function ilgiliYazilar(slug, dil) {
   }
   return out.slice(0, 5);
 }
-
-const kok = dil => (dil === 'tr' ? '/blog/' : '/' + dil + '/blog/');
-
-const ldYaz = x => '<script type="application/ld+json">' + JSON.stringify(x).replace(/</g, '\\u003c') + '</script>';
 
 const sayfa = o => `<!DOCTYPE html>
 <html lang="${o.dil}"><head>
@@ -193,6 +261,7 @@ module.exports = async (req, res) => {
     const dil = DILLER.includes(ham) ? ham : 'tr';
     const t = M[dil];
     const url = BASE + kok(dil) + slug;
+    const profil = profilCoz(slug);
 
     let p = null;
     let digerleri = [];
@@ -279,35 +348,71 @@ module.exports = async (req, res) => {
     const dk = Math.max(1, Math.round(metin.split(/\s+/).filter(Boolean).length / 180));
     const f = sss(p.faq);
 
-    const ld = [
-      {
+    const bolgeYol = profil ? BASE + kokB(dil) + profil.bolgeYol : '';
+    const hubYol = profil ? BASE + '/modeller/' + profil.bolgeYol.replace('-escort', '') : '';
+
+    // kırıntı: profil sayfasında blog yerine bölge
+    const kirinti = profil
+      ? `<a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <a href="${bolgeYol}">${esc(profil.bolgeAd)}</a> › <span>${esc(p.title)}</span>`
+      : `<a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <a href="${BASE}${dil === 'tr' ? '/blog' : '/' + dil + '/blog'}">${esc(t.blog)}</a> › <span>${esc(p.title)}</span>`;
+
+    const kirintiLd = profil
+      ? [
+          { '@type': 'ListItem', position: 1, name: t.ana, item: BASE + (dil === 'tr' ? '/' : '/' + dil) },
+          { '@type': 'ListItem', position: 2, name: profil.bolgeAd, item: bolgeYol },
+          { '@type': 'ListItem', position: 3, name: p.title, item: url }
+        ]
+      : [
+          { '@type': 'ListItem', position: 1, name: t.ana, item: BASE + (dil === 'tr' ? '/' : '/' + dil) },
+          { '@type': 'ListItem', position: 2, name: t.blog, item: BASE + (dil === 'tr' ? '/blog' : '/' + dil + '/blog') },
+          { '@type': 'ListItem', position: 3, name: p.title, item: url }
+        ];
+
+    const ld = [];
+
+    if (profil) {
+      const dillerKisi = ['tr'];
+      if (/rus|rusca|ukraynali|katerina|anastasia|natalya|veronika|alyona|anjelika|viktoria|olga|oksana|liliya|svetlana|milena|alina|irina|lena|anya|diana|inna|lada|polina|katya/.test(slug)) dillerKisi.push('ru');
+      ld.push({
+        '@context': 'https://schema.org', '@type': 'Person',
+        name: profil.ad, alternateName: p.title, jobTitle: 'Escort',
+        url, image: p.img ? [p.img] : undefined,
+        knowsLanguage: dillerKisi,
+        areaServed: { '@type': 'Place', name: profil.bolgeAd },
+        worksFor: { '@type': 'Organization', name: 'RedKıbrıs', url: BASE + '/' }
+      });
+    } else {
+      ld.push({
         '@context': 'https://schema.org', '@type': 'Article',
         headline: p.title, description: desc, inLanguage: dil,
         datePublished: p.yayin_at || p.created_at, dateModified: p.updated_at || p.created_at,
         url: url, image: p.img ? [p.img] : undefined,
         author: { '@type': 'Person', name: 'Can' },
         publisher: { '@type': 'Organization', name: 'RedKıbrıs', logo: { '@type': 'ImageObject', url: LOGO } }
-      },
-      {
-        '@context': 'https://schema.org', '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: t.ana, item: BASE + (dil === 'tr' ? '/' : '/' + dil) },
-          { '@type': 'ListItem', position: 2, name: t.blog, item: BASE + (dil === 'tr' ? '/blog' : '/' + dil + '/blog') },
-          { '@type': 'ListItem', position: 3, name: p.title, item: url }
-        ]
-      }
-    ];
+      });
+    }
+
+    ld.push({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: kirintiLd });
+
     if (f.length) ld.push({
       '@context': 'https://schema.org', '@type': 'FAQPage',
       mainEntity: f.map(x => ({ '@type': 'Question', name: x[0], acceptedAnswer: { '@type': 'Answer', text: x[1] } }))
     });
 
+    const profilKutu = profil
+      ? `<div class="about"><b>${esc(profil.ad)}</b> · ${esc(profil.bolgeAd)}<br>
+          <a href="${bolgeYol}">${esc(profil.bolgeAd)} ${esc(t.bolgeSayfa)}</a>
+          · <a href="${BASE}${dil === 'tr' ? '/fiyatlar' : '/' + dil + '/fiyatlar'}">${dil === 'tr' ? 'Fiyatlar' : dil === 'en' ? 'Prices' : 'Цены'}</a>
+          · <a href="${hubYol}">${esc(profil.bolgeAd)} ${esc(t.profil)}leri</a></div>`
+      : '';
+
     const icerik = `
-    <div class="crumb"><a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <a href="${BASE}${dil === 'tr' ? '/blog' : '/' + dil + '/blog'}">${esc(t.blog)}</a> › <span>${esc(p.title)}</span></div>
+    <div class="crumb">${kirinti}</div>
     <h1>${esc(p.title)}</h1>
-    <p class="byline">${esc(t.yazar)} · RedKıbrıs · ${tarih(p.yayin_at || p.created_at, dil)} · ${dk} ${esc(t.dk)}</p>
+    <p class="byline">${profil ? esc(profil.ad) + ' · ' + esc(profil.bolgeAd) + ' · RedKıbrıs · ' + tarih(p.yayin_at || p.created_at, dil) + ' · ' + dk + ' ' + esc(t.dk) : esc(t.yazar) + ' · RedKıbrıs · ' + tarih(p.yayin_at || p.created_at, dil) + ' · ' + dk + ' ' + esc(t.dk)}</p>
     ${p.img ? `<img id="cover" src="${esc(p.img)}" alt="${esc(p.title)}" width="1200" height="750" fetchpriority="high" decoding="async">` : ''}
     <article>${govde(p.body)}</article>
+    ${profilKutu}
     ${f.length ? `<section class="faq"><h2>${esc(t.sssB)}</h2>${f.map(x => `<details><summary>${esc(x[0])}</summary><p>${esc(x[1])}</p></details>`).join('')}</section>` : ''}
     <div class="about"><b>${esc(t.sorun)}</b><br>${esc(t.alt)}
       <br><a class="btn wa" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">${esc(t.wa)}</a>
