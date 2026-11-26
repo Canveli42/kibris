@@ -49,8 +49,9 @@ function onekler(kod) {
 function profilMi(slug, kod) {
   const m = String(slug || '').match(/^([a-z-]+)-escort-(.+)$/);
   if (!m) return false;
-  if (REHBER.has(m[2])) return false;
   const onek = m[1];
+  const kuyruk = m[2].replace(/-(19|20)\d{2}$/, '');
+  if (REHBER.has(kuyruk)) return false;
   const ilk = onek.split('-')[0];
   if (BOLGE[ilk]) return ilk === kod;
   return onekler(kod).some(o => onek === o || onek.endsWith('-' + o));
