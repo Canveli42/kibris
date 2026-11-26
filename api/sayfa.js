@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const S = require('../data/shell.js');
+const F = require('../data/fiyat.js');
 
 const BASE = 'https://www.kibrisgirneescort.com';
 
@@ -63,6 +64,19 @@ function favicon(html) {
   return html.replace('</head>', FAV + '</head>');
 }
 
+// fiyat yer tutucuları — tek kaynak data/fiyat.js
+function fiyatDoldur(html, dil) {
+  if (html.indexOf('<!--FIYAT') === -1) return html;
+  const ld = '<script type="application/ld+json">'
+    + JSON.stringify(F.ld(dil)).replace(/</g, '\\u003c')
+    + '</script>';
+  return html
+    .replace(/<!--FIYAT_LD-->/g, ld)
+    .replace(/<!--FIYAT_KART-->/g, F.kart(dil))
+    .replace(/<!--FIYAT_CUMLE-->/g, F.cevap(dil))
+    .replace(/<!--FIYAT-->/g, F.satir(dil));
+}
+
 module.exports = (req, res) => {
   const k = String((req.query && req.query.f) || '').replace(/[^a-z0-9-]/g, '');
   const sayfa = IZIN[k];
@@ -87,6 +101,7 @@ module.exports = (req, res) => {
 
   // panel kendi başına bir belge, shell parçaları yok
   if (!sayfa.panel) {
+    html = fiyatDoldur(html, sayfa.dil);
     html = html
       .replace('<!--SHELL:HEAD-->', S.head())
       .replace('<!--SHELL:HEADER-->', S.header({ aktif: sayfa.aktif, dil: sayfa.dil, ceviriler: ceviriHaritasi(sayfa.grup) }))
