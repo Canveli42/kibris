@@ -6,7 +6,7 @@ const MOTORLAR = [
   'https://www.bing.com/indexnow',
   'https://yandex.com/indexnow'
 ];
-const EN_FAZLA = 500;
+const EN_FAZLA = 600;
 
 const YEDEK = [
   BASE + '/', BASE + '/blog', BASE + '/fiyatlar', BASE + '/iletisim', BASE + '/hakkinda',
@@ -84,15 +84,21 @@ module.exports = async (req, res) => {
     }
 
     const hepsi = await adresler();
-    const liste = hepsi.slice(0, EN_FAZLA);
+    const bas = Math.max(0, parseInt(String(q.offset || '0'), 10) || 0);
+    const liste = hepsi.slice(bas, bas + EN_FAZLA);
 
     if (q.test) {
-      res.status(200).send(JSON.stringify({ ok: true, test: true, bulunan: hepsi.length, gonderilecek: liste.length }));
+      res.status(200).send(JSON.stringify({ ok: true, test: true, bulunan: hepsi.length, bas, gonderilecek: liste.length }));
+      return;
+    }
+
+    if (!liste.length) {
+      res.status(200).send(JSON.stringify({ ok: true, adet: 0, toplam: hepsi.length, not: 'bu offsette adres yok' }));
       return;
     }
 
     const sonuc = await Promise.all(MOTORLAR.map(m => tekMotor(m, govdeYap(liste))));
-    res.status(200).send(JSON.stringify({ ok: true, adet: liste.length, toplam: hepsi.length, sonuc }));
+    res.status(200).send(JSON.stringify({ ok: true, adet: liste.length, bas, toplam: hepsi.length, sonuc }));
   } catch (e) {
     res.status(200).send(JSON.stringify({
       ok: false,
