@@ -3,10 +3,10 @@ const KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
 
 const KENDI = 'kibrisgirneescort.com';
 
-// sadece bu yollar sayılır: / , /blog..., /en, /ru, sabit sayfalar, *-escort
-const YOL = /^(?:\/(?:$|\?)|blog(?:\/|$|\?)|en(?:\/|$)|ru(?:\/|$)|fiyatlar|iletisim|gizlilik|hakkinda|can|panel|[a-z0-9-]+-escort)/;
+// yalnızca ölçülecek yollar — baştaki / tek yerde
+const YOL = /^\/(?:$|blog(?:\/|$)|en(?:\/|$)|ru(?:\/|$)|fiyatlar|iletisim|gizlilik|hakkinda|can|panel|modeller(?:\/|$)|[a-z0-9-]+-escort)/;
 
-const BOT = /bot|crawl|spider|slurp|yandex|bing|google|facebookexternal|preview|validator|lighthouse|headless|phantom|curl|wget|python|go-http|axios|scrapy|semrush|ahrefs|mj12|dotbot|petal|bytespider|gptbot|claudebot/i;
+const BOT = /bot|crawl|spider|slurp|yandex|bingbot|googlebot|facebookexternalhit|preview|validator|lighthouse|headless|phantom|scrapy|semrush|ahrefs|mj12|dotbot|petal|bytespider|gptbot|claudebot/i;
 
 function kaynak(r) {
   if (!r) return 'direkt';
@@ -22,7 +22,7 @@ function kaynak(r) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|js|data|favicon|apple-touch|takip|robots|sitemap).*)']
+  matcher: ['/((?!api|_next|js|css|data|favicon|apple-touch|takip|robots|sitemap).*)']
 };
 
 export default async function middleware(req, ev) {
@@ -30,16 +30,16 @@ export default async function middleware(req, ev) {
 
   const u = new URL(req.url);
 
-  // bozuk /https://... ve /https:/... adreslerini ana sayfaya çevir
   if (u.pathname.indexOf('/http') === 0) {
     return Response.redirect(new URL('/', u), 307);
   }
 
-  const ua = req.headers.get('user-agent') || '';
-  if (!ua || BOT.test(ua)) return;
   if (req.headers.get('sec-purpose') === 'prefetch') return;
   if (req.headers.get('x-middleware-prefetch')) return;
+  if (req.headers.get('purpose') === 'prefetch') return;
 
+  const ua = req.headers.get('user-agent') || '';
+  if (!ua || BOT.test(ua)) return;
   if (!YOL.test(u.pathname)) return;
 
   ev.waitUntil(
