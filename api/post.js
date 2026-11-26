@@ -6,11 +6,10 @@ const WA = 'https://wa.me/905515420755';
 const TG = 'https://t.me/kibrisescortvip';
 const LOGO = BASE + '/apple-touch-icon.png';
 const S = require('../data/shell.js');
+const F = require('../data/fiyat.js');
 
 const DILLER = ['tr', 'en', 'ru'];
 const DI = { tr: 0, en: 1, ru: 2 };
-
-// planlı yayın: yayin_at boş ya da geçmişte olanlar
 const YAYIN = 'yayin_at.is.null,yayin_at.lte.now()';
 
 const esc = s => String(s == null ? '' : s)
@@ -18,12 +17,8 @@ const esc = s => String(s == null ? '' : s)
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
 const MDLINK = /\[([^\]]+)\]\((\/[^)\s]*|https?:\/\/[^)\s]+)\)/g;
-
 const bag = s => String(s == null ? '' : s).replace(MDLINK, '<a href="$2">$1</a>');
-
-const bagEsc = s => esc(s)
-  .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-  .replace(MDLINK, '<a href="$2">$1</a>');
+const bagEsc = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(MDLINK, '<a href="$2">$1</a>');
 
 const AYLAR = {
   tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
@@ -40,6 +35,51 @@ const tarih = (d, dil) => {
 };
 
 const duz = s => String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+
+/* ---------- profil bloğu ---------- */
+// Gövde şu blokla başlayabilir:
+// :::profil
+// yas: 24
+// boy: 168
+// hizmet: saksoy, kilifsiz-oral, anal
+// saat: 12:00-02:00
+// yer: kendi-yeri
+// :::
+
+const SPEC_ALAN = ['yas', 'boy', 'kilo', 'sac', 'gogus', 'diller', 'hizmet', 'saat', 'yer'];
+const ETIKET = {
+  tr: { yas: 'Yaş', boy: 'Boy', kilo: 'Kilo', sac: 'Saç', gogus: 'Vücut', diller: 'Diller', hizmet: 'Hizmetler', saat: 'Uygun saatler', yer: 'Buluşma' },
+  en: { yas: 'Age', boy: 'Height', kilo: 'Weight', sac: 'Hair', gogus: 'Build', diller: 'Languages', hizmet: 'Services', saat: 'Hours', yer: 'Meeting' },
+  ru: { yas: 'Возраст', boy: 'Рост', kilo: 'Вес', sac: 'Волосы', gogus: 'Фигура', diller: 'Языки', hizmet: 'Услуги', saat: 'Часы', yer: 'Встреча' }
+};
+
+function specAyikla(raw) {
+  const m = String(raw || '').match(/^:::profil\s*\n([\s\S]*?)\n:::[ \t]*\r?\n?/);
+  if (!m) return { spec: null, govde: raw };
+  const spec = {};
+  m[1].split('\n').forEach(sat => {
+    const p = sat.indexOf(':');
+    if (p < 1) return;
+    const k = sat.slice(0, p).trim().toLowerCase();
+    const v = sat.slice(p + 1).trim();
+    if (v && SPEC_ALAN.indexOf(k) > -1) spec[k] = v;
+  });
+  return { spec: Object.keys(spec).length ? spec : null, govde: String(raw).slice(m[0].length) };
+}
+
+function specHtml(spec, dil) {
+  if (!spec) return '';
+  const e = ETIKET[dil] || ETIKET.tr;
+  const satirlar = SPEC_ALAN.filter(k => spec[k]).map(k => {
+    if (k === 'hizmet') {
+      const cip = spec[k].split(',').map(x => x.trim()).filter(Boolean)
+        .map(x => '<span class="cip">' + esc(x) + '</span>').join('');
+      return '<dt>' + esc(e[k]) + '</dt><dd>' + cip + '</dd>';
+    }
+    return '<dt>' + esc(e[k]) + '</dt><dd>' + esc(spec[k]) + '</dd>';
+  }).join('');
+  return satirlar ? '<dl class="spec">' + satirlar + '</dl>' : '';
+}
 
 const govde = raw => {
   const kaynak = String(raw || '').replace(/\r\n?/g, '\n');
@@ -77,78 +117,39 @@ const sss = f => {
     .filter(x => x[0] && x[1]);
 };
 
-const GENEL = ['kibris','escort','rehberi','blog','otel','ne','mi','mu','ve','icin','nasil','nedir','demek','kadar','hangi'];
-const ilgiliAnahtar = slug => String(slug || '').split('-').filter(t => t.length > 2 && !GENEL.includes(t)).slice(0, 2);
-
 /* ---------- profil tespiti ---------- */
-
-// semt/ilçe → görünen ad + bağlı olduğu bölge sayfası
 const BOLGE = {
-  girne: ['Girne', 'girne-escort'],
-  merkez: ['Girne Merkez', 'girne-escort'],
-  liman: ['Girne Liman', 'girne-escort'],
-  zeytinlik: ['Zeytinlik', 'girne-escort'],
-  karakum: ['Karakum', 'girne-escort'],
-  nusmar: ['Nusmar', 'girne-escort'],
-  karaoglanoglu: ['Karaoğlanoğlu', 'karaoglanoglu-escort'],
-  alsancak: ['Alsancak', 'alsancak-escort'],
-  lapta: ['Lapta', 'lapta-escort'],
-  catalkoy: ['Çatalköy', 'catalkoy-escort'],
-  bellapais: ['Bellapais', 'bellapais-escort'],
-  esentepe: ['Esentepe', 'esentepe-escort'],
-  lefkosa: ['Lefkoşa', 'lefkosa-escort'],
-  kumsal: ['Kumsal', 'lefkosa-escort'],
-  surici: ['Suriçi', 'lefkosa-escort'],
-  ortakoy: ['Ortaköy', 'lefkosa-escort'],
-  hamitkoy: ['Hamitköy', 'lefkosa-escort'],
-  koskluciftlik: ['Köşklüçiftlik', 'lefkosa-escort'],
-  gonyeli: ['Gönyeli', 'gonyeli-escort'],
-  haspolat: ['Haspolat', 'lefkosa-escort'],
-  magusa: ['Mağusa', 'magusa-escort'],
-  sakarya: ['Sakarya', 'magusa-escort'],
-  maras: ['Maraş', 'magusa-escort'],
-  tuzla: ['Tuzla', 'magusa-escort'],
-  canakkale: ['Çanakkale', 'magusa-escort'],
-  iskele: ['İskele', 'iskele-escort'],
-  'long-beach': ['Long Beach', 'long-beach-escort'],
-  bafra: ['Bafra', 'bafra-escort'],
-  guzelyurt: ['Güzelyurt', 'guzelyurt-escort']
+  girne: ['Girne', 'girne-escort'], merkez: ['Girne Merkez', 'girne-escort'], liman: ['Girne Liman', 'girne-escort'],
+  zeytinlik: ['Zeytinlik', 'girne-escort'], karakum: ['Karakum', 'girne-escort'], nusmar: ['Nusmar', 'girne-escort'],
+  karaoglanoglu: ['Karaoğlanoğlu', 'karaoglanoglu-escort'], alsancak: ['Alsancak', 'alsancak-escort'],
+  lapta: ['Lapta', 'lapta-escort'], catalkoy: ['Çatalköy', 'catalkoy-escort'], bellapais: ['Bellapais', 'bellapais-escort'],
+  esentepe: ['Esentepe', 'esentepe-escort'], lefkosa: ['Lefkoşa', 'lefkosa-escort'], kumsal: ['Kumsal', 'lefkosa-escort'],
+  surici: ['Suriçi', 'lefkosa-escort'], ortakoy: ['Ortaköy', 'lefkosa-escort'], hamitkoy: ['Hamitköy', 'lefkosa-escort'],
+  koskluciftlik: ['Köşklüçiftlik', 'lefkosa-escort'], gonyeli: ['Gönyeli', 'gonyeli-escort'],
+  haspolat: ['Haspolat', 'lefkosa-escort'], magusa: ['Mağusa', 'magusa-escort'], sakarya: ['Sakarya', 'magusa-escort'],
+  maras: ['Maraş', 'magusa-escort'], tuzla: ['Tuzla', 'magusa-escort'], canakkale: ['Çanakkale', 'magusa-escort'],
+  iskele: ['İskele', 'iskele-escort'], 'long-beach': ['Long Beach', 'long-beach-escort'],
+  bafra: ['Bafra', 'bafra-escort'], guzelyurt: ['Güzelyurt', 'guzelyurt-escort']
 };
 
-// görünen adın dil karşılığı: tr / en / ru
 const BOLGE_AD = {
-  girne: ['Girne', 'Kyrenia', 'Кирения'],
-  merkez: ['Girne Merkez', 'Kyrenia Centre', 'Центр Кирении'],
-  liman: ['Girne Liman', 'Kyrenia Harbour', 'Порт Кирении'],
-  zeytinlik: ['Zeytinlik', 'Zeytinlik', 'Зейтинлик'],
-  karakum: ['Karakum', 'Karakum', 'Каракум'],
-  nusmar: ['Nusmar', 'Nusmar', 'Нусмар'],
-  karaoglanoglu: ['Karaoğlanoğlu', 'Karaoglanoglu', 'Караогланоглу'],
-  alsancak: ['Alsancak', 'Alsancak', 'Алсанчак'],
-  lapta: ['Lapta', 'Lapta', 'Лапта'],
-  catalkoy: ['Çatalköy', 'Catalkoy', 'Чаталкёй'],
-  bellapais: ['Bellapais', 'Bellapais', 'Беллапаис'],
-  esentepe: ['Esentepe', 'Esentepe', 'Эсентепе'],
-  lefkosa: ['Lefkoşa', 'Nicosia', 'Никосия'],
-  kumsal: ['Kumsal', 'Kumsal', 'Кумсал'],
-  surici: ['Suriçi', 'Surici', 'Суриичи'],
-  ortakoy: ['Ortaköy', 'Ortakoy', 'Ортакёй'],
-  hamitkoy: ['Hamitköy', 'Hamitkoy', 'Хамиткёй'],
-  koskluciftlik: ['Köşklüçiftlik', 'Koskluciftlik', 'Кёшключифтлик'],
-  gonyeli: ['Gönyeli', 'Gonyeli', 'Гёнйели'],
-  haspolat: ['Haspolat', 'Haspolat', 'Хасполат'],
-  magusa: ['Mağusa', 'Famagusta', 'Фамагуста'],
-  sakarya: ['Sakarya', 'Sakarya', 'Сакарья'],
-  maras: ['Maraş', 'Maras', 'Мараш'],
-  tuzla: ['Tuzla', 'Tuzla', 'Тузла'],
-  canakkale: ['Çanakkale', 'Canakkale', 'Чанаккале'],
-  iskele: ['İskele', 'Iskele', 'Искеле'],
-  'long-beach': ['Long Beach', 'Long Beach', 'Лонг-Бич'],
-  bafra: ['Bafra', 'Bafra', 'Бафра'],
+  girne: ['Girne', 'Kyrenia', 'Кирения'], merkez: ['Girne Merkez', 'Kyrenia Centre', 'Центр Кирении'],
+  liman: ['Girne Liman', 'Kyrenia Harbour', 'Порт Кирении'], zeytinlik: ['Zeytinlik', 'Zeytinlik', 'Зейтинлик'],
+  karakum: ['Karakum', 'Karakum', 'Каракум'], nusmar: ['Nusmar', 'Nusmar', 'Нусмар'],
+  karaoglanoglu: ['Karaoğlanoğlu', 'Karaoglanoglu', 'Караогланоглу'], alsancak: ['Alsancak', 'Alsancak', 'Алсанчак'],
+  lapta: ['Lapta', 'Lapta', 'Лапта'], catalkoy: ['Çatalköy', 'Catalkoy', 'Чаталкёй'],
+  bellapais: ['Bellapais', 'Bellapais', 'Беллапаис'], esentepe: ['Esentepe', 'Esentepe', 'Эсентепе'],
+  lefkosa: ['Lefkoşa', 'Nicosia', 'Никосия'], kumsal: ['Kumsal', 'Kumsal', 'Кумсал'],
+  surici: ['Suriçi', 'Surici', 'Суриичи'], ortakoy: ['Ortaköy', 'Ortakoy', 'Ортакёй'],
+  hamitkoy: ['Hamitköy', 'Hamitkoy', 'Хамиткёй'], koskluciftlik: ['Köşklüçiftlik', 'Koskluciftlik', 'Кёшключифтлик'],
+  gonyeli: ['Gönyeli', 'Gonyeli', 'Гёнйели'], haspolat: ['Haspolat', 'Haspolat', 'Хасполат'],
+  magusa: ['Mağusa', 'Famagusta', 'Фамагуста'], sakarya: ['Sakarya', 'Sakarya', 'Сакарья'],
+  maras: ['Maraş', 'Maras', 'Мараш'], tuzla: ['Tuzla', 'Tuzla', 'Тузла'],
+  canakkale: ['Çanakkale', 'Canakkale', 'Чанаккале'], iskele: ['İskele', 'Iskele', 'Искеле'],
+  'long-beach': ['Long Beach', 'Long Beach', 'Лонг-Бич'], bafra: ['Bafra', 'Bafra', 'Бафра'],
   guzelyurt: ['Güzelyurt', 'Guzelyurt', 'Гюзельюрт']
 };
 
-// rehber niteliğindeki kuyruklar — profil sayılmaz
 const REHBER = new Set([
   'fiyatlari', 'villa', 'nasil-cagrilir', 'rehberi', 'rehber', 'program',
   '2-saat-program', '4-saat-program', 'gecelik-program', '30-dakika',
@@ -156,19 +157,16 @@ const REHBER = new Set([
   'vip-davet', 'turk-rus-farki', 'ulasim-ve-taksi', 'otelleri'
 ]);
 
-// "girne-merkez-escort-ayse-saksoyu" → { semt: 'merkez', ad: 'Ayşe Saksoyu' }
 function profilCoz(slug) {
   const m = String(slug || '').match(/^([a-z-]+)-escort-(.+)$/);
   if (!m) return null;
   const onek = m[1], kuyruk = m[2].replace(/-(19|20)\d{2}$/, '');
   if (REHBER.has(kuyruk)) return null;
   const ilk = onek.split('-')[0];
-  const anahtar = BOLGE[ilk]
-    ? ilk
-    : Object.keys(BOLGE).find(k => onek.endsWith('-' + k));
+  const anahtar = BOLGE[ilk] ? ilk : Object.keys(BOLGE).find(k => onek.endsWith('-' + k));
   if (!anahtar) return null;
   const parca = kuyruk.split('-').filter(Boolean);
-  const ATIL = new Set(['seviyor','istiyor','yapiyor','geliyor','bekliyor','karsiliyor','oturuyor','yatiyor','cikip','yemegi','sonra','dogru','havasi','tadinda','uzaniyor','cokmus','kalkiyor','sikistiriyor']);
+  const ATIL = new Set(['seviyor','istiyor','yapiyor','geliyor','bekliyor','karsiliyor','oturuyor','yatiyor','cikip','yemegi','sonra','dogru','havasi','tadinda','uzaniyor','cokmus','kalkiyor','sikistiriyor','aliyor','yutuyor','koruyor']);
   const adParca = [];
   for (const p of parca) {
     if (adParca.length >= 2) break;
@@ -182,7 +180,6 @@ function profilCoz(slug) {
 
 const kok = dil => (dil === 'tr' ? '/blog/' : '/' + dil + '/blog/');
 const kokB = dil => (dil === 'tr' ? '/' : '/' + dil + '/');
-
 const ldYaz = x => '<script type="application/ld+json">' + JSON.stringify(x).replace(/</g, '\\u003c') + '</script>';
 
 const M = {
@@ -193,8 +190,10 @@ const M = {
     sorun: 'Sorun mu var, katalog mu lazım?', wa: "WhatsApp'tan yaz", tg: "Telegram'dan yaz",
     alt: 'WhatsApp’tan yaz, kaldığın bölgeye göre liste gönderiyoruz.',
     yuk: 'Yazı yüklenemedi', yukD: 'Sayfa geçici olarak yüklenemedi.', tekrar: 'Birkaç saniye sonra tekrar dene.',
-    ana: 'Ana sayfa', blog: 'Blog', yazar: 'Can', dk: 'dk okuma', don: 'dönebilirsin',
-    bolgeSayfa: 'bölge sayfası', profil: 'Profil', profilCog: 'Profilleri'
+    ana: 'Ana sayfa', blog: 'Blog', yazar: 'Can', dk: 'dk okuma',
+    bolgeSayfa: 'bölge sayfası', profil: 'Profil', profilCog: 'Profilleri',
+    tarifeB: 'Tarife', tarifeNot: 'Ödeme görüşmenin başında, yere girmeden: nakit, IBAN veya USDT. Kapora yok.', tarifeGit: 'Tam tarife',
+    ayniBolge: 'Bu bölgedeki diğer profiller'
   },
   en: {
     yok: 'Article not found', yokD: 'That article does not exist. Browse the Cyprus escort blog.',
@@ -203,8 +202,10 @@ const M = {
     sorun: 'Question or want the catalogue?', wa: 'Message on WhatsApp', tg: 'Message on Telegram',
     alt: 'Write on WhatsApp and we send the current selection for your area.',
     yuk: 'Page could not load', yukD: 'The page is temporarily unavailable.', tekrar: 'Try again in a few seconds.',
-    ana: 'Home', blog: 'Blog', yazar: 'Can', dk: 'min read', don: 'to go back',
-    bolgeSayfa: 'area page', profil: 'Profile', profilCog: 'Profiles'
+    ana: 'Home', blog: 'Blog', yazar: 'Can', dk: 'min read',
+    bolgeSayfa: 'area page', profil: 'Profile', profilCog: 'Profiles',
+    tarifeB: 'Rates', tarifeNot: 'Payment at the start, before you go in: cash, transfer or USDT. No deposit.', tarifeGit: 'Full rates',
+    ayniBolge: 'Other profiles in this area'
   },
   ru: {
     yok: 'Статья не найдена', yokD: 'Такой статьи нет. Посмотрите блог об эскорте на Кипре.',
@@ -213,42 +214,42 @@ const M = {
     sorun: 'Вопрос или нужен каталог?', wa: 'Написать в WhatsApp', tg: 'Написать в Telegram',
     alt: 'Напишите в WhatsApp, пришлём актуальную подборку по вашему району.',
     yuk: 'Страница не загрузилась', yukD: 'Страница временно недоступна.', tekrar: 'Попробуйте через несколько секунд.',
-    ana: 'Главная', blog: 'Блог', yazar: 'Can', dk: 'мин чтения', don: 'чтобы вернуться',
-    bolgeSayfa: 'страница района', profil: 'Профиль', profilCog: 'Профили'
+    ana: 'Главная', blog: 'Блог', yazar: 'Can', dk: 'мин чтения',
+    bolgeSayfa: 'страница района', profil: 'Профиль', profilCog: 'Профили',
+    tarifeB: 'Тариф', tarifeNot: 'Оплата в начале, до входа: наличные, перевод или USDT. Без предоплаты.', tarifeGit: 'Весь тариф',
+    ayniBolge: 'Другие профили района'
   }
 };
 
-async function ilgiliYazilar(slug, dil) {
+async function ilgiliYazilar(slug, dil, profil) {
   let out = [];
-  const anahtar = ilgiliAnahtar(slug);
-  if (anahtar.length) {
-    const or = anahtar.map(t => 'slug.ilike.*' + encodeURIComponent(t) + '*').join(',');
+  if (profil) {
     try {
       const r = await fetch(
-        SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil +
-        '&slug=neq.' + encodeURIComponent(slug) +
-        '&and=(or(' + or + '),or(' + YAYIN + '))&limit=5',
+        SB + '/rest/v1/posts?select=slug,title,img&published=eq.true&lang=eq.' + dil +
+        '&slug=neq.' + encodeURIComponent(slug) + '&slug=like.' + profil.semt + '-escort-*' +
+        '&or=(' + YAYIN + ')&limit=6',
         { headers: H }
       );
       if (r.ok) out = (await r.json()) || [];
     } catch (e) {}
   }
-  if (out.length < 5) {
-    try {
-      const r = await fetch(
-        SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil +
-        '&slug=neq.' + encodeURIComponent(slug) +
-        '&or=(' + YAYIN + ')&order=created_at.desc&limit=12',
-        { headers: H }
-      );
-      if (r.ok) {
-        const a = (await r.json()) || [];
-        for (const x of a) {
-          if (out.length >= 5) break;
-          if (!out.some(y => y.slug === x.slug)) out.push(x);
+  if (out.length < 4) {
+    const tokens = String(slug || '').split('-').filter(t => t.length > 2 && !['kibris','escort','rehberi','blog','otel','ne','mi','mu','ve','icin','nasil','nedir','demek','kadar','hangi'].includes(t)).slice(0, 2);
+    const or = tokens.map(t => 'slug.ilike.*' + encodeURIComponent(t) + '*').join(',');
+    if (or) {
+      try {
+        const r = await fetch(
+          SB + '/rest/v1/posts?select=slug,title,img&published=eq.true&lang=eq.' + dil +
+          '&slug=neq.' + encodeURIComponent(slug) + '&or=(' + or + ')&limit=6',
+          { headers: H }
+        );
+        if (r.ok) {
+          const a = (await r.json()) || [];
+          for (const x of a) { if (out.length >= 5) break; if (!out.some(y => y.slug === x.slug)) out.push(x); }
         }
-      }
-    } catch (e) {}
+      } catch (e) {}
+    }
   }
   return out.slice(0, 5);
 }
@@ -257,13 +258,13 @@ const sayfa = o => `<!DOCTYPE html>
 <html lang="${o.dil}"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(o.title)} | RedKıbrıs</title>
+<title>${esc(o.title)}</title>
 <meta name="description" content="${esc(o.desc)}">
 <link rel="canonical" href="${esc(o.url)}">
 ${o.alternates || ''}
 <link rel="sitemap" type="application/xml" href="${BASE}/sitemap.xml">
 <meta name="robots" content="${o.robots || 'index,follow'}">
-<meta property="og:type" content="article">
+<meta property="og:type" content="${o.tur || 'article'}">
 <meta property="og:site_name" content="RedKıbrıs">
 <meta property="og:title" content="${esc(o.title)}">
 <meta property="og:description" content="${esc(o.desc)}">
@@ -272,20 +273,17 @@ ${o.alternates || ''}
 ${o.img ? `<meta property="og:image" content="${esc(o.img)}">
 <link rel="preload" as="image" href="${esc(o.img)}" fetchpriority="high">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="${esc(o.img)}">` : ''}
+<meta name="twitter:image" content="${esc(o.img)}">` : '<meta name="twitter:card" content="summary">'}
 <meta name="theme-color" content="#0b121b">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin>
-<style>${S.css}
-main a:not(.btn){text-decoration:underline;text-underline-offset:2px}
-</style>
-<style>${S.icerik}</style>
+${S.head()}
 ${o.ld || ''}
 </head><body>
-${S.header({ aktif: o.url, dil: o.dil, ceviriler: o.ceviriler })}
-<main class="wrap">
+${S.header({ aktif: o.aktif || o.url, dil: o.dil, ceviriler: o.ceviriler })}
+<main class="wrap" id="icerik">
 ${o.icerik}
 </main>
 ${S.footer(o.dil)}
@@ -302,7 +300,6 @@ module.exports = async (req, res) => {
     const bolgeAd = profil ? ((BOLGE_AD[profil.semt] || [profil.bolgeAd])[DI[dil]] || profil.bolgeAd) : '';
 
     let p = null;
-    let digerleri = [];
 
     if (slug) {
       try {
@@ -315,7 +312,6 @@ module.exports = async (req, res) => {
       } catch (e) {}
     }
 
-    // çeviri yoksa Türkçesine kalıcı yönlendir
     if (!p && slug && dil !== 'tr') {
       let varMi = false;
       try {
@@ -335,6 +331,7 @@ module.exports = async (req, res) => {
     }
 
     if (!p) {
+      let digerleri = [];
       try {
         const r = await fetch(
           SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil +
@@ -344,7 +341,7 @@ module.exports = async (req, res) => {
         if (r.ok) digerleri = (await r.json()) || [];
       } catch (e) {}
       let h404 = sayfa({
-        dil, title: t.yok, desc: t.yokD, url, robots: 'noindex,follow',
+        dil, title: t.yok + ' | RedKıbrıs', desc: t.yokD, url, robots: 'noindex,follow',
         icerik: `<h1>${esc(t.yok)}</h1>
           <div class="about"><b>${esc(t.buAdres)}</b><br>${esc(t.tumu)} <a href="${BASE}${dil === 'tr' ? '/blog' : '/' + dil + '/blog'}">${esc(t.bloga)}</a> ${esc(t.donebilir)}</div>
           <div class="diger"><h2>${esc(t.diger)}</h2>${digerleri.map(x => `<a href="${BASE}${kok(dil)}${esc(x.slug)}">${esc(x.title)}</a>`).join('')}</div>`
@@ -352,14 +349,17 @@ module.exports = async (req, res) => {
       const n404 = S.nonce();
       h404 = S.noncele(h404, n404);
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=300');
       res.setHeader('Content-Security-Policy', S.csp(n404));
       res.status(404).send(h404);
       return;
     }
 
-    digerleri = await ilgiliYazilar(slug, dil);
+    const ayikla = specAyikla(p.body);
+    const spec = profil ? ayikla.spec : null;
 
-    // aynı yazının mevcut dil sürümleri
+    const digerleri = await ilgiliYazilar(slug, dil, profil);
+
     let diller = [dil];
     try {
       const r = await fetch(
@@ -381,50 +381,51 @@ module.exports = async (req, res) => {
       .map(d => `<link rel="alternate" hreflang="${d}" href="${esc(ceviriler[d])}">`).join('\n') +
       `\n<link rel="alternate" hreflang="x-default" href="${esc(xDefault)}">`;
 
-    const desc = ((p.meta && String(p.meta).trim()) || duz(p.body)).slice(0, 158);
-    const metin = duz(p.body);
-    const dk = Math.max(1, Math.round(metin.split(/\s+/).filter(Boolean).length / 180));
+    const desc = ((p.meta && String(p.meta).trim()) || duz(ayikla.govde)).slice(0, 158);
+    const metin = duz(ayikla.govde);
+    const kelime = metin.split(/\s+/).filter(Boolean).length;
+    const dk = Math.max(1, Math.round(kelime / 180));
     const f = sss(p.faq);
 
     const bolgeYol = profil ? BASE + kokB(dil) + profil.bolgeYol : '';
     const hubYol = profil ? BASE + '/modeller/' + profil.bolgeYol.replace('-escort', '') : '';
 
-    // kırıntı: profil sayfasında blog yerine bölge
     const kirinti = profil
       ? `<a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <a href="${bolgeYol}">${esc(bolgeAd)}</a> › <span>${esc(p.title)}</span>`
       : `<a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <a href="${BASE}${dil === 'tr' ? '/blog' : '/' + dil + '/blog'}">${esc(t.blog)}</a> › <span>${esc(p.title)}</span>`;
 
-    const kirintiLd = profil
-      ? [
-          { '@type': 'ListItem', position: 1, name: t.ana, item: BASE + (dil === 'tr' ? '/' : '/' + dil) },
-          { '@type': 'ListItem', position: 2, name: bolgeAd, item: bolgeYol },
-          { '@type': 'ListItem', position: 3, name: p.title, item: url }
-        ]
-      : [
-          { '@type': 'ListItem', position: 1, name: t.ana, item: BASE + (dil === 'tr' ? '/' : '/' + dil) },
-          { '@type': 'ListItem', position: 2, name: t.blog, item: BASE + (dil === 'tr' ? '/blog' : '/' + dil + '/blog') },
-          { '@type': 'ListItem', position: 3, name: p.title, item: url }
-        ];
+    const kirintiLd = [
+      { '@type': 'ListItem', position: 1, name: t.ana, item: BASE + (dil === 'tr' ? '/' : '/' + dil) },
+      profil
+        ? { '@type': 'ListItem', position: 2, name: bolgeAd, item: bolgeYol }
+        : { '@type': 'ListItem', position: 2, name: t.blog, item: BASE + (dil === 'tr' ? '/blog' : '/' + dil + '/blog') },
+      { '@type': 'ListItem', position: 3, name: p.title, item: url }
+    ];
 
     const ld = [];
 
     if (profil) {
       const dillerKisi = ['tr'];
-      if (/rus|rusca|ukraynali|katerina|anastasia|natalya|veronika|alyona|anjelika|viktoria|olga|oksana|liliya|svetlana|milena|alina|irina|lena|anya|diana|inna|lada|polina|katya/.test(slug)) dillerKisi.push('ru');
+      if (spec && spec.diller) {
+        spec.diller.split(',').forEach(d => { const k = d.trim().toLowerCase(); if (DILLER.includes(k)) dillerKisi.push(k); });
+      } else if (/rus|rusca|ukraynali|katerina|anastasia|natalya|veronika|alyona|anjelika|viktoria|olga|oksana|liliya|svetlana|milena|alina|irina|lena|anya|diana|inna|lada|polina|katya/.test(slug)) {
+        dillerKisi.push('ru');
+      }
       ld.push({
         '@context': 'https://schema.org', '@type': 'Person',
         name: profil.ad, alternateName: p.title, jobTitle: 'Escort',
         url, image: p.img ? [p.img] : undefined,
         knowsLanguage: dillerKisi,
         areaServed: { '@type': 'Place', name: bolgeAd },
-        worksFor: { '@type': 'Organization', name: 'RedKıbrıs', url: BASE + '/' }
+        worksFor: { '@type': 'Organization', name: 'RedKıbrıs', url: BASE + '/' },
+        ...(spec && spec.yas ? { description: desc } : {})
       });
     } else {
       ld.push({
         '@context': 'https://schema.org', '@type': 'Article',
         headline: p.title, description: desc, inLanguage: dil,
         datePublished: p.yayin_at || p.created_at, dateModified: p.updated_at || p.created_at,
-        url: url, image: p.img ? [p.img] : undefined,
+        url, image: p.img ? [p.img] : undefined,
         author: { '@type': 'Person', name: 'Can' },
         publisher: { '@type': 'Organization', name: 'RedKıbrıs', logo: { '@type': 'ImageObject', url: LOGO } }
       });
@@ -444,22 +445,35 @@ module.exports = async (req, res) => {
           · <a href="${hubYol}">${esc(bolgeAd)} ${esc(t.profilCog)}</a></div>`
       : '';
 
+    const tarife = profil
+      ? `<section class="sect"><h2>${esc(t.tarifeB)}</h2><div class="tarife">${F.satir(dil)}</div>
+         <p class="guncel">${esc(t.tarifeNot)} <a href="${BASE}${dil === 'tr' ? '/fiyatlar' : '/' + dil + '/fiyatlar'}">${esc(t.tarifeGit)}</a></p></section>`
+      : '';
+
+    const baslik = profil
+      ? `<h1>${esc(p.title)}</h1>
+         <p class="byline">${esc(profil.ad)} · ${esc(bolgeAd)} · RedKıbrıs · ${tarih(p.yayin_at || p.created_at, dil)}</p>`
+      : `<h1>${esc(p.title)}</h1>
+         <p class="byline">${esc(t.yazar)} · RedKıbrıs · ${tarih(p.yayin_at || p.created_at, dil)} · ${dk} ${esc(t.dk)}</p>`;
+
     const icerik = `
     <div class="crumb">${kirinti}</div>
-    <h1>${esc(p.title)}</h1>
-    <p class="byline">${profil ? esc(profil.ad) + ' · ' + esc(bolgeAd) + ' · RedKıbrıs · ' + tarih(p.yayin_at || p.created_at, dil) + ' · ' + dk + ' ' + esc(t.dk) : esc(t.yazar) + ' · RedKıbrıs · ' + tarih(p.yayin_at || p.created_at, dil) + ' · ' + dk + ' ' + esc(t.dk)}</p>
+    ${baslik}
     ${p.img ? `<img id="cover" src="${esc(p.img)}" alt="${esc(p.title)}" width="560" height="373" fetchpriority="high" decoding="async">` : ''}
-    <article>${govde(p.body)}</article>
+    ${specHtml(spec, dil)}
+    <article>${govde(ayikla.govde)}</article>
+    ${tarife}
     ${profilKutu}
     ${f.length ? `<section class="faq"><h2>${esc(t.sssB)}</h2>${f.map(x => `<details><summary>${esc(x[0])}</summary><p>${esc(x[1])}</p></details>`).join('')}</section>` : ''}
     <div class="about"><b>${esc(t.sorun)}</b><br>${esc(t.alt)}
       <br><a class="btn wa" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">${esc(t.wa)}</a>
       <a class="btn tg" href="${TG}" target="_blank" rel="noopener" data-base="${TG}">${esc(t.tg)}</a>
     </div>
-    ${digerleri.length ? `<div class="diger"><h2>${esc(t.ilgili)}</h2>${digerleri.map(x => `<a href="${BASE}${kok(dil)}${esc(x.slug)}">${esc(x.title)}</a>`).join('')}</div>` : ''}`;
+    ${digerleri.length ? `<div class="diger"><h2>${esc(profil ? t.ayniBolge : t.ilgili)}</h2>${digerleri.map(x => `<a href="${BASE}${kok(dil)}${esc(x.slug)}">${esc(x.title)}</a>`).join('')}</div>` : ''}`;
 
     let html = sayfa({
-      dil, title: p.title, desc, url, img: p.img, icerik, alternates, ceviriler,
+      dil, title: p.title + ' | RedKıbrıs', desc, url, img: p.img, icerik, alternates, ceviriler,
+      aktif: profil ? bolgeYol : url, tur: profil ? 'profile' : 'article',
       ld: ld.map(ldYaz).join('')
     });
     const n = S.nonce();
