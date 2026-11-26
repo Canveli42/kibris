@@ -26,28 +26,27 @@ const profilMi = slug => {
 
 const kok = dil => (dil === 'tr' ? '/blog/' : '/' + dil + '/blog/');
 const kokB = dil => (dil === 'tr' ? '/blog' : '/' + dil + '/blog');
-const u = (dil, p) => BASE + (dil === 'tr' ? '' : '/' + dil) + p;
-
-const BOLGELER = ['girne', 'lefkosa', 'magusa', 'iskele', 'guzelyurt'];
-
-const BOLGE_AD = {
-  tr: { girne: 'Girne', lefkosa: 'Lefkoşa', magusa: 'Mağusa', iskele: 'İskele', guzelyurt: 'Güzelyurt' },
-  en: { girne: 'Kyrenia', lefkosa: 'Nicosia', magusa: 'Famagusta', iskele: 'Iskele', guzelyurt: 'Guzelyurt' },
-  ru: { girne: 'Гирне', lefkosa: 'Никосия', magusa: 'Фамагуста', iskele: 'Искеле', guzelyurt: 'Гюзельюрт' }
-};
 
 const M = {
-  tr: { t: 'Kıbrıs Escort Rehberleri', d: 'Kıbrıs escort rehberleri: bölge farkları, fiyat mantığı, otel çevresi ve ilk görüşmede dikkat edilecekler.', h1: 'Kıbrıs Escort Rehberleri', lead: 'Bölge farkları, fiyat mantığı, otel çevresi ve ilk görüşmede dikkat edilecekler.', bos: 'Bu sayfada yazı yok.', profiller: 'Profillere git', sayfa: 'Sayfa', ana: 'Ana sayfa', blog: 'Blog', bolgeler: 'Bölgeler', fiyat: 'Fiyatlar' },
-  en: { t: 'Cyprus Escort Guides', d: 'Cyprus escort guides: area differences, how pricing works, hotel surroundings and what to watch for on a first meeting.', h1: 'Cyprus Escort Guides', lead: 'Area differences, how pricing works, hotel surroundings and what to watch for on a first meeting.', bos: 'No articles on this page.', profiller: 'Browse profiles', sayfa: 'Page', ana: 'Home', blog: 'Blog', bolgeler: 'Areas', fiyat: 'Prices' },
-  ru: { t: 'Гиды по эскорту на Кипре', d: 'Гиды по эскорту на Кипре: разница районов, как устроены цены, что рядом с отелями и на что смотреть на первой встрече.', h1: 'Гиды по эскорту на Кипре', lead: 'Разница районов, как устроены цены, что рядом с отелями и на что смотреть на первой встрече.', bos: 'На этой странице статей нет.', profiller: 'К профилям', sayfa: 'Страница', ana: 'Главная', blog: 'Блог', bolgeler: 'Районы', fiyat: 'Цены' }
+  tr: { t: 'Kıbrıs Escort Rehberleri', d: 'Kıbrıs escort rehberleri: bölge farkları, fiyat mantığı, otel çevresi ve ilk görüşmede dikkat edilecekler.', h1: 'Kıbrıs Escort Rehberleri', lead: 'Bölge farkları, fiyat mantığı, otel çevresi ve ilk görüşmede dikkat edilecekler.', bos: 'Bu sayfada yazı yok.', ara: 'Rehberlerde ara', bul: 'Ara', sonuc: 'sonuç', temiz: 'Temizle', sayfa: 'Sayfa', ana: 'Ana sayfa', blog: 'Blog' },
+  en: { t: 'Cyprus Escort Guides', d: 'Cyprus escort guides: area differences, how pricing works, hotel surroundings and what to watch for on a first meeting.', h1: 'Cyprus Escort Guides', lead: 'Area differences, how pricing works, hotel surroundings and what to watch for on a first meeting.', bos: 'No articles on this page.', ara: 'Search guides', bul: 'Search', sonuc: 'results', temiz: 'Clear', sayfa: 'Page', ana: 'Home', blog: 'Blog' },
+  ru: { t: 'Гиды по эскорту на Кипре', d: 'Гиды по эскорту на Кипре: разница районов, как устроены цены, что рядом с отелями и на что смотреть на первой встрече.', h1: 'Гиды по эскорту на Кипре', lead: 'Разница районов, как устроены цены, что рядом с отелями и на что смотреть на первой встрече.', bos: 'На этой странице статей нет.', ara: 'Поиск по гидам', bul: 'Найти', sonuc: 'результатов', temiz: 'Сбросить', sayfa: 'Страница', ana: 'Главная', blog: 'Блог' }
 };
+
+const ARA_CSS = `<style>
+.ara{display:flex;gap:8px;margin:0 0 20px;background:none;border:0;padding:0}
+.ara input{flex:1;min-width:0;background:#0e161f;color:#e9eef6;border:1px solid var(--line);border-radius:999px;padding:11px 16px;font:inherit;font-size:15px}
+.ara button{border:0;border-radius:999px;padding:11px 20px;font-weight:700;font-size:14px;background:linear-gradient(180deg,#f3ddb4,#d8b878);color:#121a24;cursor:pointer}
+.ara a{display:flex;align-items:center;padding:0 14px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:#f0d9ae}
+</style>`;
 
 module.exports = async (req, res) => {
   const ham = String((req.query && req.query.dil) || 'tr').toLowerCase();
   const dil = DILLER.includes(ham) ? ham : 'tr';
   const t = M[dil];
+  const q = String((req.query && req.query.q) || '').trim().slice(0, 60);
   const sayfaNo = Math.max(1, parseInt(String((req.query && req.query.s) || '1'), 10) || 1);
-  const url = BASE + kokB(dil) + (sayfaNo > 1 ? '?s=' + sayfaNo : '');
+  const url = BASE + kokB(dil) + (q ? '?q=' + encodeURIComponent(q) : '');
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
@@ -61,7 +60,12 @@ module.exports = async (req, res) => {
     if (r.ok) posts = (await r.json()) || [];
   } catch (e) {}
 
-  const rehberler = posts.filter(p => !profilMi(p.slug));
+  let rehberler = posts.filter(p => !profilMi(p.slug));
+  if (q) {
+    const k = q.toLowerCase();
+    rehberler = rehberler.filter(p => (String(p.title || '') + ' ' + String(p.slug || '')).toLowerCase().indexOf(k) > -1);
+  }
+
   const toplam = rehberler.length;
   const sonSayfa = Math.max(1, Math.ceil(toplam / ADET));
   const dilim = rehberler.slice((sayfaNo - 1) * ADET, sayfaNo * ADET);
@@ -85,13 +89,16 @@ module.exports = async (req, res) => {
   const sayfalamaHtml = sonSayfa > 1 ? '<nav class="sayfalama" aria-label="' + esc(t.sayfa) + '">'
     + sayfalama.map(x => x === '…' ? '<span>…</span>'
       : x === sayfaNo ? '<span class="on">' + x + '</span>'
-        : '<a href="' + BASE + kokB(dil) + (x > 1 ? '?s=' + x : '') + '">' + x + '</a>').join('')
+        : '<a href="' + BASE + kokB(dil) + '?s=' + x + (q ? '&q=' + encodeURIComponent(q) : '') + '">' + x + '</a>').join('')
     + '</nav>' : '';
 
   const kirinti = `<a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <span>${esc(t.blog)}</span>`;
 
-  const bolgeLink = BOLGELER.map(k => `<a href="${u(dil, '/' + k + '-escort')}">${esc((BOLGE_AD[dil] || BOLGE_AD.tr)[k])}</a>`).join(' · ');
-  const profilLink = BOLGELER.map(k => `<a href="${BASE}/modeller/${k}">${esc((BOLGE_AD[dil] || BOLGE_AD.tr)[k])}</a>`).join(' · ');
+  const araForm = `<form class="ara" action="${BASE + kokB(dil)}" method="get" role="search">
+    <input type="search" name="q" value="${esc(q)}" placeholder="${esc(t.ara)}" aria-label="${esc(t.ara)}">
+    <button type="submit">${esc(t.bul)}</button>
+    ${q ? `<a href="${BASE + kokB(dil)}">${esc(t.temiz)}</a>` : ''}
+  </form>`;
 
   const ld = [
     { '@context': 'https://schema.org', '@type': 'CollectionPage', name: t.t, url, inLanguage: dil },
@@ -105,8 +112,8 @@ module.exports = async (req, res) => {
   <div class="crumb">${kirinti}</div>
   <h1>${esc(t.h1)}</h1>
   <p class="lead">${esc(t.lead)}</p>
-  <div class="about"><b>${esc(t.bolgeler)}</b><br>${bolgeLink} · <a href="${u(dil, '/fiyatlar')}">${esc(t.fiyat)}</a></div>
-  <div class="about"><b>${esc(t.profiller)}</b><br>${profilLink}</div>
+  ${araForm}
+  ${q ? `<p class="guncel">${toplam} ${esc(t.sonuc)}</p>` : ''}
   ${dilim.length ? `<div class="liste">${dilim.map(kart).join('')}</div>` : `<div class="about">${esc(t.bos)}</div>`}
   ${sayfalamaHtml}`;
 
@@ -124,7 +131,7 @@ module.exports = async (req, res) => {
 <link rel="canonical" href="${url}">
 ${sayfaNo > 1 ? '' : alternates}
 <link rel="sitemap" type="application/xml" href="${BASE}/sitemap.xml">
-<meta name="robots" content="index,follow">
+<meta name="robots" content="${q ? 'noindex,follow' : 'index,follow'}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="RedKıbrıs">
 <meta property="og:title" content="${esc(t.t)}">
@@ -146,6 +153,7 @@ ${S.header({ aktif: kokB(dil), dil, ceviriler: { tr: BASE + '/blog', en: BASE + 
 ${icerik}
 </main>
 ${S.footer(dil)}
+${ARA_CSS}
 </body></html>`;
 
   const n = S.nonce();
