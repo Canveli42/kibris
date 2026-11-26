@@ -6,6 +6,7 @@ const WA = 'https://wa.me/905515420755';
 const TG = 'https://t.me/kibrisescortvip';
 const S = require('../data/shell.js');
 const F = require('../data/fiyat.js');
+const EK = require('../data/ek.js');
 
 const DILLER = ['tr', 'en', 'ru'];
 const D = { tr: require('../data/regions.js'), en: require('../data/regions.en.js'), ru: require('../data/regions.ru.js') };
@@ -334,7 +335,7 @@ module.exports = async (req, res) => {
 <meta name="theme-color" content="#0b121b">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/sayfa.css?v=3">
+<link rel="stylesheet" href="/css/sayfa.css?v=4">
 ${S.head()}
 </head><body>
 ${S.header({ aktif: '', dil, ceviriler: {} })}
@@ -406,7 +407,7 @@ ${S.footer(dil)}
   const digerleri = Object.keys(D[dil]).filter(k => k !== slug)
     .map(k => `<a class="btn-o" href="${BASE}${kok(dil)}/${k}">${esc(D[dil][k].nm)}</a>`).join('');
 
-  const ekMetin = String(C2.ek || '');
+  const ekMetin = String(C2.ek || (EK[dil] && EK[dil][slug]) || '');
   const kemer = !ekMetin && C2.kemer && KEMER[dil][C2.kemer] ? KEMER[dil][C2.kemer](C2.nm) : '';
 
   const hub = HUB[slug] || '';
@@ -483,7 +484,7 @@ ${img ? `<meta property="og:image" content="${esc(img)}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin>
-<link rel="stylesheet" href="/css/sayfa.css?v=3">
+<link rel="stylesheet" href="/css/sayfa.css?v=4">
 ${S.head()}
 ${ld.map(ldYaz).join('')}
 </head><body>
