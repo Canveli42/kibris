@@ -145,6 +145,9 @@ input[type=checkbox]{width:16px;height:16px;accent-color:var(--k);margin:0;flex:
             <span class="kirli" id="dKirli"></span>
           </div>
           <label>Başlık</label><input id="dBaslik" autocomplete="off">
+          <label>Meta açıklama</label>
+          <textarea id="dMeta" rows="3" maxlength="158" oninput="P.kirli(true);P.metaSayac()"></textarea>
+          <div class="sayac" id="dMetaSayac">0 / 158</div>
           <label>Kapak adresi</label><input id="dImg" autocomplete="off" spellcheck="false">
           <img id="dKapak" class="kapak" alt="">
           <div class="ikili" style="margin-top:12px">
@@ -655,6 +658,7 @@ var P={slug:null,dil:"tr",gecmis:[],kirli:false};window.P=P;
 function yerel(iso){if(!iso)return "";var d=new Date(iso);if(isNaN(d))return "";var p=function(n){return ("0"+n).slice(-2)};return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())+"T"+p(d.getHours())+":"+p(d.getMinutes())}
 function kirli(v){P.kirli=v;el("dKirli").classList.toggle("on",!!v)}P.kirli=kirli;
 function sayac(){var t=el("dMetin").value,k=t.trim()?t.trim().split(/\s+/).length:0;el("dSayac").textContent=t.length+" karakter · "+k+" kelime"}
+P.metaSayac=function(){var v=el("dMeta").value;el("dMetaSayac").textContent=v.length+" / 158"}
 P.ara=function(){var q=el("dAra").value.trim(),d=el("dDil").value;
   api.postBul(q,d).then(function(v){var k=el("dSonuc");k.innerHTML="";
     if(!v.length){k.innerHTML='<p class="alt">Sonuç yok.</p>';return}
@@ -673,6 +677,7 @@ P.yukle=function(s){if(!s)return;
     if(!v.length)return toast("Yazı bulunamadı","err");
     var p=v[0];P.slug=p.slug;P.dil=p.lang;P.gecmis=[];
     el("dBaslik").value=p.title||"";el("dImg").value=p.img||"";el("dKapak").src=p.img||"";
+    el("dMeta").value=p.meta||"";P.metaSayac();
     el("dYayin").value=yerel(p.yayin_at);el("dYayinda").checked=!!p.published;el("dMetin").value=p.body||"";
     el("dRozet").textContent=p.lang.toUpperCase();
     el("dTarih").textContent=p.yayin_at?new Date(p.yayin_at).toLocaleString("tr-TR"):"tarih yok";
@@ -705,7 +710,7 @@ P.geriAl=function(){if(!P.gecmis.length)return toast("Geri alınacak yok","err")
   el("dMetin").value=P.gecmis.pop();P.satirlariCiz();kirli(true);toast("Geri alındı","ok")};
 
 P.kaydet=function(){if(!P.slug)return toast("Önce yazı yükle","err");
-  var a={title:el("dBaslik").value,body:el("dMetin").value,img:el("dImg").value,published:el("dYayinda").checked};
+  var a={title:el("dBaslik").value,body:el("dMetin").value,img:el("dImg").value,meta:el("dMeta").value.trim(),published:el("dYayinda").checked};
   var y=el("dYayin").value;if(y)a.yayin_at=new Date(y).toISOString();
   api.postYaz(P.slug,P.dil,a).then(function(){kirli(false);toast("Kaydedildi","ok")})
   .catch(function(e){toast("Kaydedilemedi: "+e.message,"err")})};
