@@ -8,6 +8,7 @@ const LOGO = BASE + '/apple-touch-icon.png';
 const S = require('../data/shell.js');
 
 const DILLER = ['tr', 'en', 'ru'];
+const DI = { tr: 0, en: 1, ru: 2 };
 
 // planlı yayın: yayin_at boş ya da geçmişte olanlar
 const YAYIN = 'yayin_at.is.null,yayin_at.lte.now()';
@@ -114,6 +115,39 @@ const BOLGE = {
   guzelyurt: ['Güzelyurt', 'guzelyurt-escort']
 };
 
+// görünen adın dil karşılığı: tr / en / ru
+const BOLGE_AD = {
+  girne: ['Girne', 'Kyrenia', 'Кирения'],
+  merkez: ['Girne Merkez', 'Kyrenia Centre', 'Центр Кирении'],
+  liman: ['Girne Liman', 'Kyrenia Harbour', 'Порт Кирении'],
+  zeytinlik: ['Zeytinlik', 'Zeytinlik', 'Зейтинлик'],
+  karakum: ['Karakum', 'Karakum', 'Каракум'],
+  nusmar: ['Nusmar', 'Nusmar', 'Нусмар'],
+  karaoglanoglu: ['Karaoğlanoğlu', 'Karaoglanoglu', 'Караогланоглу'],
+  alsancak: ['Alsancak', 'Alsancak', 'Алсанчак'],
+  lapta: ['Lapta', 'Lapta', 'Лапта'],
+  catalkoy: ['Çatalköy', 'Catalkoy', 'Чаталкёй'],
+  bellapais: ['Bellapais', 'Bellapais', 'Беллапаис'],
+  esentepe: ['Esentepe', 'Esentepe', 'Эсентепе'],
+  lefkosa: ['Lefkoşa', 'Nicosia', 'Никосия'],
+  kumsal: ['Kumsal', 'Kumsal', 'Кумсал'],
+  surici: ['Suriçi', 'Surici', 'Суриичи'],
+  ortakoy: ['Ortaköy', 'Ortakoy', 'Ортакёй'],
+  hamitkoy: ['Hamitköy', 'Hamitkoy', 'Хамиткёй'],
+  koskluciftlik: ['Köşklüçiftlik', 'Koskluciftlik', 'Кёшключифтлик'],
+  gonyeli: ['Gönyeli', 'Gonyeli', 'Гёнйели'],
+  haspolat: ['Haspolat', 'Haspolat', 'Хасполат'],
+  magusa: ['Mağusa', 'Famagusta', 'Фамагуста'],
+  sakarya: ['Sakarya', 'Sakarya', 'Сакарья'],
+  maras: ['Maraş', 'Maras', 'Мараш'],
+  tuzla: ['Tuzla', 'Tuzla', 'Тузла'],
+  canakkale: ['Çanakkale', 'Canakkale', 'Чанаккале'],
+  iskele: ['İskele', 'Iskele', 'Искеле'],
+  'long-beach': ['Long Beach', 'Long Beach', 'Лонг-Бич'],
+  bafra: ['Bafra', 'Bafra', 'Бафра'],
+  guzelyurt: ['Güzelyurt', 'Guzelyurt', 'Гюзельюрт']
+};
+
 // rehber niteliğindeki kuyruklar — profil sayılmaz
 const REHBER = new Set([
   'fiyatlari', 'villa', 'nasil-cagrilir', 'rehberi', 'rehber', 'program',
@@ -160,7 +194,7 @@ const M = {
     alt: 'WhatsApp’tan yaz, kaldığın bölgeye göre liste gönderiyoruz.',
     yuk: 'Yazı yüklenemedi', yukD: 'Sayfa geçici olarak yüklenemedi.', tekrar: 'Birkaç saniye sonra tekrar dene.',
     ana: 'Ana sayfa', blog: 'Blog', yazar: 'Can', dk: 'dk okuma', don: 'dönebilirsin',
-    bolgeSayfa: 'bölge sayfası', profil: 'Profil'
+    bolgeSayfa: 'bölge sayfası', profil: 'Profil', profilCog: 'Profilleri'
   },
   en: {
     yok: 'Article not found', yokD: 'That article does not exist. Browse the Cyprus escort blog.',
@@ -170,7 +204,7 @@ const M = {
     alt: 'Write on WhatsApp and we send the current selection for your area.',
     yuk: 'Page could not load', yukD: 'The page is temporarily unavailable.', tekrar: 'Try again in a few seconds.',
     ana: 'Home', blog: 'Blog', yazar: 'Can', dk: 'min read', don: 'to go back',
-    bolgeSayfa: 'area page', profil: 'Profile'
+    bolgeSayfa: 'area page', profil: 'Profile', profilCog: 'Profiles'
   },
   ru: {
     yok: 'Статья не найдена', yokD: 'Такой статьи нет. Посмотрите блог об эскорте на Кипре.',
@@ -180,7 +214,7 @@ const M = {
     alt: 'Напишите в WhatsApp, пришлём актуальную подборку по вашему району.',
     yuk: 'Страница не загрузилась', yukD: 'Страница временно недоступна.', tekrar: 'Попробуйте через несколько секунд.',
     ana: 'Главная', blog: 'Блог', yazar: 'Can', dk: 'мин чтения', don: 'чтобы вернуться',
-    bolgeSayfa: 'страница района', profil: 'Профиль'
+    bolgeSayfa: 'страница района', profil: 'Профиль', profilCog: 'Профили'
   }
 };
 
@@ -265,6 +299,7 @@ module.exports = async (req, res) => {
     const t = M[dil];
     const url = BASE + kok(dil) + slug;
     const profil = profilCoz(slug);
+    const bolgeAd = profil ? ((BOLGE_AD[profil.semt] || [profil.bolgeAd])[DI[dil]] || profil.bolgeAd) : '';
 
     let p = null;
     let digerleri = [];
@@ -356,13 +391,13 @@ module.exports = async (req, res) => {
 
     // kırıntı: profil sayfasında blog yerine bölge
     const kirinti = profil
-      ? `<a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <a href="${bolgeYol}">${esc(profil.bolgeAd)}</a> › <span>${esc(p.title)}</span>`
+      ? `<a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <a href="${bolgeYol}">${esc(bolgeAd)}</a> › <span>${esc(p.title)}</span>`
       : `<a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <a href="${BASE}${dil === 'tr' ? '/blog' : '/' + dil + '/blog'}">${esc(t.blog)}</a> › <span>${esc(p.title)}</span>`;
 
     const kirintiLd = profil
       ? [
           { '@type': 'ListItem', position: 1, name: t.ana, item: BASE + (dil === 'tr' ? '/' : '/' + dil) },
-          { '@type': 'ListItem', position: 2, name: profil.bolgeAd, item: bolgeYol },
+          { '@type': 'ListItem', position: 2, name: bolgeAd, item: bolgeYol },
           { '@type': 'ListItem', position: 3, name: p.title, item: url }
         ]
       : [
@@ -381,7 +416,7 @@ module.exports = async (req, res) => {
         name: profil.ad, alternateName: p.title, jobTitle: 'Escort',
         url, image: p.img ? [p.img] : undefined,
         knowsLanguage: dillerKisi,
-        areaServed: { '@type': 'Place', name: profil.bolgeAd },
+        areaServed: { '@type': 'Place', name: bolgeAd },
         worksFor: { '@type': 'Organization', name: 'RedKıbrıs', url: BASE + '/' }
       });
     } else {
@@ -403,16 +438,16 @@ module.exports = async (req, res) => {
     });
 
     const profilKutu = profil
-      ? `<div class="about"><b>${esc(profil.ad)}</b> · ${esc(profil.bolgeAd)}<br>
-          <a href="${bolgeYol}">${esc(profil.bolgeAd)} ${esc(t.bolgeSayfa)}</a>
+      ? `<div class="about"><b>${esc(profil.ad)}</b> · ${esc(bolgeAd)}<br>
+          <a href="${bolgeYol}">${esc(bolgeAd)} ${esc(t.bolgeSayfa)}</a>
           · <a href="${BASE}${dil === 'tr' ? '/fiyatlar' : '/' + dil + '/fiyatlar'}">${dil === 'tr' ? 'Fiyatlar' : dil === 'en' ? 'Prices' : 'Цены'}</a>
-          · <a href="${hubYol}">${esc(profil.bolgeAd)} ${esc(t.profil)}leri</a></div>`
+          · <a href="${hubYol}">${esc(bolgeAd)} ${esc(t.profilCog)}</a></div>`
       : '';
 
     const icerik = `
     <div class="crumb">${kirinti}</div>
     <h1>${esc(p.title)}</h1>
-    <p class="byline">${profil ? esc(profil.ad) + ' · ' + esc(profil.bolgeAd) + ' · RedKıbrıs · ' + tarih(p.yayin_at || p.created_at, dil) + ' · ' + dk + ' ' + esc(t.dk) : esc(t.yazar) + ' · RedKıbrıs · ' + tarih(p.yayin_at || p.created_at, dil) + ' · ' + dk + ' ' + esc(t.dk)}</p>
+    <p class="byline">${profil ? esc(profil.ad) + ' · ' + esc(bolgeAd) + ' · RedKıbrıs · ' + tarih(p.yayin_at || p.created_at, dil) + ' · ' + dk + ' ' + esc(t.dk) : esc(t.yazar) + ' · RedKıbrıs · ' + tarih(p.yayin_at || p.created_at, dil) + ' · ' + dk + ' ' + esc(t.dk)}</p>
     ${p.img ? `<img id="cover" src="${esc(p.img)}" alt="${esc(p.title)}" width="560" height="373" fetchpriority="high" decoding="async">` : ''}
     <article>${govde(p.body)}</article>
     ${profilKutu}
