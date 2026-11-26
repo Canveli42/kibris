@@ -62,6 +62,7 @@ h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-
   var KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
   var H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
   var HUB = 'kibrista-yalniz-gelenler-rehberi';
+  var YAYIN = 'yayin_at.is.null,yayin_at.lte.now()';
   var LOC = 'ru-RU';
   var list = document.getElementById('list');
 
@@ -80,7 +81,7 @@ h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-
     if (!arr.length) { list.innerHTML = '<p class="bos">Статей пока нет.</p>'; return; }
     var out = same ? '' : '<p class="bos" style="grid-column:1/-1">Русских статей пока нет — показан турецкий архив.</p>';
     out += arr.map(function (x) {
-      var d = new Date(x.created_at).toLocaleDateString(LOC);
+      var d = new Date(x.yayin_at || x.created_at).toLocaleDateString(LOC);
       var im = x.img ? '<img src="' + esc(x.img) + '" alt="' + esc(x.title) + '" width="92" height="70" loading="lazy" decoding="async">' : '';
       var pin = x.slug === HUB ? '<em class="pin">Избранное</em>' : '';
       var href = (same ? '/ru/blog/' : '/blog/') + esc(x.slug);
@@ -89,11 +90,11 @@ h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-
     list.innerHTML = out;
   }
 
-  fetch(SB + '/rest/v1/posts?select=slug,title,created_at,img&published=eq.true&lang=eq.ru&order=created_at.desc', { headers: H })
+  fetch(SB + '/rest/v1/posts?select=slug,title,yayin_at,created_at,img&published=eq.true&lang=eq.ru&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast', { headers: H })
     .then(function (r) { if (!r.ok) throw new Error('x'); return r.json(); })
     .then(function (p) {
       if (p && p.length) { render(p, true); return; }
-      return fetch(SB + '/rest/v1/posts?select=slug,title,created_at,img&published=eq.true&order=created_at.desc', { headers: H })
+      return fetch(SB + '/rest/v1/posts?select=slug,title,yayin_at,created_at,img&published=eq.true&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast', { headers: H })
         .then(function (r) { if (!r.ok) throw new Error('x'); return r.json(); })
         .then(function (t) { render(t, false); });
     })
