@@ -36,6 +36,8 @@ const cap = s => {
 
 const kok = dil => (dil === 'tr' ? '' : '/' + dil);
 
+const ldYaz = x => '<script type="application/ld+json">' + JSON.stringify(x).replace(/</g, '\\u003c') + '</script>';
+
 const M = {
   tr: {
     ana: 'Ana sayfa', katalog: nm => nm + ' Kataloğu İste', tg: 'Telegram', fiyat: 'Fiyatlar',
@@ -172,7 +174,7 @@ ${o.img ? `<meta property="og:image" content="${esc(o.img)}">
 <meta name="twitter:image" content="${esc(o.img)}">` : '<meta name="twitter:card" content="summary">'}
 <meta name="theme-color" content="#0b121b">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2 62 32 32 62 2 32Z' fill='%231e2a40' stroke='%23f0d9ae' stroke-opacity='.55' stroke-width='2'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='23' font-weight='700' text-anchor='middle'%3E%3Ctspan fill='%23ff3b5c'%3ER%3C/tspan%3E%3Ctspan fill='%23ffffff'%3EK%3C/tspan%3E%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin="">
+<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin>
 <style>${S.css}
 main a:not(.btn):not(.btn-o){text-decoration:underline;text-underline-offset:2px}
 ${S.icerik}</style>
@@ -387,7 +389,7 @@ module.exports = async (req, res) => {
 
   let html = sayfa({
     dil, title, desc, url, img, icerik, alternates, ceviriler,
-    ld: ld.map(x => `<script type="application/ld+json">${JSON.stringify(x)}</script>`).join('')
+    ld: ld.map(ldYaz).join('')
   });
   const n = S.nonce();
   html = S.noncele(html, n);
