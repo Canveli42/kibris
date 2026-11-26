@@ -54,6 +54,14 @@ const BOLGELER = [
   ['vip-escort', '0.6'], ['ogrenci-escort', '0.6'], ['turk-escort', '0.6'], ['rus-escort', '0.6']
 ];
 
+// /modeller/<bolge> hub'ları (yalnızca TR)
+const HUBLAR = [
+  ['girne', '0.8'], ['lefkosa', '0.7'], ['magusa', '0.7'], ['iskele', '0.7'],
+  ['guzelyurt', '0.6'], ['karaoglanoglu', '0.6'], ['alsancak', '0.6'], ['lapta', '0.6'],
+  ['catalkoy', '0.6'], ['bellapais', '0.6'], ['esentepe', '0.6'], ['long-beach', '0.6'],
+  ['bafra', '0.6'], ['gonyeli', '0.6']
+];
+
 const SLUG_OK = /^[a-z0-9-]{3,120}$/;
 
 const kok = d => (d === 'tr' ? '/blog/' : '/' + d + '/blog/');
@@ -126,6 +134,10 @@ module.exports = async (req, res) => {
     const yollar = {};
     DILLER.forEach(d => { if (REG[d][b[0]]) yollar[d] = BASE + kokB(d) + b[0]; });
     if (Object.keys(yollar).length) ekle(yollar, STATIC, 'weekly', b[1]);
+  });
+
+  HUBLAR.forEach(h => {
+    ekle({ tr: BASE + '/modeller/' + h[0] }, enSon, 'weekly', h[1]);
   });
 
   const map = new Map();
