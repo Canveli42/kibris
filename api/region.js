@@ -358,7 +358,7 @@ ${S.footer(dil)}
     + `\n<link rel="alternate" hreflang="x-default" href="${esc(ceviriler.tr || ceviriler[varOlan[0]])}">`;
 
   const nmE = dil === 'ru' ? C2.nm : (/Escort/i.test(C2.nm) ? C2.nm : C2.nm + ' Escort');
-  const altE = /Escort/i.test(C2.alt) ? '' : ' Escort';
+  const altE = (/Escort/i.test(C2.alt) || /Escort/i.test(nmE)) ? '' : ' Escort';
   const title = C2.baslik
     ? C2.baslik + ' | RedKıbrıs'
     : (dil === 'ru'
@@ -439,14 +439,14 @@ ${S.footer(dil)}
   <div class="about">${C2.metin2}</div>
   <div class="about"><b>${esc(t.noktalar)}</b><br>${C2.areas.map(esc).join(' · ')}</div>
   <div class="about"><b>${esc(t.oteller)}</b><br>${C2.otel.map(esc).join(' · ')}</div>
+  ${ekMetin}
+  ${kemer}
   ${hub ? `<div class="about"><b>${esc(t.modeller)}</b><br>${esc(t.modellerAlt)}<br><a class="btn-o" href="${BASE}/modeller/${hub}">${esc(t.modellerBtn)}</a></div>` : ''}
   ${hub ? `<div class="about"><b>${esc(t.rehberB)}</b><br>${esc(t.rehberM)}<br><a class="btn-o" href="${BASE}/blog/kibris-escort-bolgeleri">${esc(t.rehberL)}</a>${rehber ? ` <a class="btn-o" href="${BASE}${rehber}">${esc(t.rehberBtn(C2.nm))}</a>` : ''}</div>` : ''}
   <h2>${esc(t.fiyatB(C2.nm))}</h2>
   <div class="tarife">${F.satir(dil)}</div>
   <div class="about">${t.tarife}</div>
   ${modeller.length ? `<section class="sect"><h2>${esc(t.modeller)}</h2><div class="mgrid">${modeller.map(p => `<a class="kart" href="${BASE}/blog/${esc(p.slug)}">${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="300" height="200">` : ''}<span class="kb"><span class="kt">${esc(p.title)}</span></span></a>`).join('')}</div><p><a class="btn-o" href="${BASE}/modeller/${hub}">${esc(t.modellerBtn)}</a></p></section>` : ''}
-  ${ekMetin}
-  ${kemer}
   <p class="guncel">${esc(t.guncel)}${bugun(dil)}</p>
   <section class="sect">
     <h2>${esc(t.sssB(C2.nm))}</h2>
