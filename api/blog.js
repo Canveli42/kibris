@@ -24,21 +24,45 @@ const profilMi = slug => {
   return !REHBER.has(m[2].replace(/-(19|20)\d{2}$/, ''));
 };
 
+const BOLGE = [
+  ['girne', /^girne-/], ['lefkosa', /^lefkosa-/], ['magusa', /^magusa-/],
+  ['iskele', /^iskele-/], ['guzelyurt', /^guzelyurt-/]
+];
+
+const TUR = [
+  ['fiyat', /fiyat|tarife|ucret|ücret|odeme|ödeme/],
+  ['otel', /otel|hotel|resort|casino|tatil-koyu/]
+];
+
+const BOLGE_AD = {
+  tr: { girne: 'Girne', lefkosa: 'Lefkoşa', magusa: 'Mağusa', iskele: 'İskele', guzelyurt: 'Güzelyurt' },
+  en: { girne: 'Kyrenia', lefkosa: 'Nicosia', magusa: 'Famagusta', iskele: 'Iskele', guzelyurt: 'Guzelyurt' },
+  ru: { girne: 'Гирне', lefkosa: 'Никосия', magusa: 'Фамагуста', iskele: 'Искеле', guzelyurt: 'Гюзельюрт' }
+};
+
 const kok = dil => (dil === 'tr' ? '/blog/' : '/' + dil + '/blog/');
 const kokB = dil => (dil === 'tr' ? '/blog' : '/' + dil + '/blog');
 
 const M = {
-  tr: { t: 'Kıbrıs Escort Rehberleri', d: 'Kıbrıs escort rehberleri: bölge farkları, fiyat mantığı, otel çevresi ve ilk görüşmede dikkat edilecekler.', h1: 'Kıbrıs Escort Rehberleri', lead: 'Bölge farkları, fiyat mantığı, otel çevresi ve ilk görüşmede dikkat edilecekler.', bos: 'Bu sayfada yazı yok.', diger: 'Diğer rehberler', profiller: 'Profillere git', sayfa: 'Sayfa', ana: 'Ana sayfa', blog: 'Blog' },
-  en: { t: 'Cyprus Escort Guides', d: 'Cyprus escort guides: area differences, how pricing works, hotel surroundings and what to watch for on a first meeting.', h1: 'Cyprus Escort Guides', lead: 'Area differences, how pricing works, hotel surroundings and what to watch for on a first meeting.', bos: 'No articles on this page.', diger: 'More guides', profiller: 'Browse profiles', sayfa: 'Page', ana: 'Home', blog: 'Blog' },
-  ru: { t: 'Гиды по эскорту на Кипре', d: 'Гиды по эскорту на Кипре: разница районов, как устроены цены, что рядом с отелями и на что смотреть на первой встрече.', h1: 'Гиды по эскорту на Кипре', lead: 'Разница районов, как устроены цены, что рядом с отелями и на что смотреть на первой встрече.', bos: 'На этой странице статей нет.', diger: 'Другие гиды', profiller: 'К профилям', sayfa: 'Страница', ana: 'Главная', blog: 'Блог' }
+  tr: { t: 'Kıbrıs Escort Rehberleri', d: 'Kıbrıs escort rehberleri: bölge farkları, fiyat mantığı, otel çevresi ve ilk görüşmede dikkat edilecekler.', h1: 'Kıbrıs Escort Rehberleri', lead: 'Bölge farkları, fiyat mantığı, otel çevresi ve ilk görüşmede dikkat edilecekler.', bos: 'Bu filtrede yazı yok.', diger: 'Diğer rehberler', profiller: 'Profillere git', sayfa: 'Sayfa', ana: 'Ana sayfa', blog: 'Blog', hepsi: 'Hepsi', fiyat: 'Fiyat', otel: 'Otel', filtre: 'Filtre' },
+  en: { t: 'Cyprus Escort Guides', d: 'Cyprus escort guides: area differences, how pricing works, hotel surroundings and what to watch for on a first meeting.', h1: 'Cyprus Escort Guides', lead: 'Area differences, how pricing works, hotel surroundings and what to watch for on a first meeting.', bos: 'No articles in this filter.', diger: 'More guides', profiller: 'Browse profiles', sayfa: 'Page', ana: 'Home', blog: 'Blog', hepsi: 'All', fiyat: 'Pricing', otel: 'Hotels', filtre: 'Filter' },
+  ru: { t: 'Гиды по эскорту на Кипре', d: 'Гиды по эскорту на Кипре: разница районов, как устроены цены, что рядом с отелями и на что смотреть на первой встрече.', h1: 'Гиды по эскорту на Кипре', lead: 'Разница районов, как устроены цены, что рядом с отелями и на что смотреть на первой встрече.', bos: 'В этом фильтре статей нет.', diger: 'Другие гиды', profiller: 'К профилям', sayfa: 'Страница', ana: 'Главная', blog: 'Блог', hepsi: 'Все', fiyat: 'Цены', otel: 'Отели', filtre: 'Фильтр' }
+};
+
+const qs = o => {
+  const p = Object.keys(o).filter(k => o[k]).map(k => k + '=' + o[k]);
+  return p.length ? '?' + p.join('&') : '';
 };
 
 module.exports = async (req, res) => {
   const ham = String((req.query && req.query.dil) || 'tr').toLowerCase();
   const dil = DILLER.includes(ham) ? ham : 'tr';
   const t = M[dil];
-  const sayfaNo = Math.max(1, parseInt(String((req.query && req.query.s) || '1'), 10) || 1);
-  const url = BASE + kokB(dil) + (sayfaNo > 1 ? '?s=' + sayfaNo : '');
+  const q = req.query || {};
+  const qBolge = BOLGE.some(x => x[0] === q.bolge) ? q.bolge : '';
+  const qTur = TUR.some(x => x[0] === q.tur) ? q.tur : '';
+  const sayfaNo = Math.max(1, parseInt(String(q.s || '1'), 10) || 1);
+  const url = BASE + kokB(dil) + qs({ bolge: qBolge, tur: qTur, s: sayfaNo > 1 ? sayfaNo : '' });
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
@@ -46,13 +70,23 @@ module.exports = async (req, res) => {
   try {
     const r = await fetch(
       SB + '/rest/v1/posts?select=slug,title,img,created_at,yayin_at&published=eq.true&lang=eq.' + dil +
-      '&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast&limit=400',
+      '&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast&limit=600',
       { headers: H }
     );
     if (r.ok) posts = (await r.json()) || [];
   } catch (e) {}
 
-  const rehberler = posts.filter(p => !profilMi(p.slug));
+  const tum = posts.filter(p => !profilMi(p.slug));
+  let rehberler = tum;
+  if (qBolge) {
+    const r = BOLGE.find(x => x[0] === qBolge)[1];
+    rehberler = rehberler.filter(p => r.test(p.slug));
+  }
+  if (qTur) {
+    const r = TUR.find(x => x[0] === qTur)[1];
+    rehberler = rehberler.filter(p => r.test(p.slug) || r.test(p.title));
+  }
+
   const toplam = rehberler.length;
   const sonSayfa = Math.max(1, Math.ceil(toplam / ADET));
   const dilim = rehberler.slice((sayfaNo - 1) * ADET, sayfaNo * ADET);
@@ -65,6 +99,15 @@ module.exports = async (req, res) => {
       + '<div><b>' + esc(p.title) + '</b><span>' + esc(tar) + '</span></div></a>';
   };
 
+  const cip = (o, etiket, secili, adet) =>
+    `<a href="${BASE + kokB(dil) + qs(o)}"${secili ? ' class="on"' : ''}${adet === 0 ? ' style="opacity:.5"' : ''}>${esc(etiket)} (${adet})</a>`;
+
+  const suz = `<div class="suz">
+    ${cip({}, t.hepsi, !qBolge && !qTur, tum.length)}
+    ${TUR.map(x => cip({ tur: x[0] }, x[0] === 'fiyat' ? t.fiyat : t.otel, qTur === x[0], tum.filter(p => x[1].test(p.slug) || x[1].test(p.title)).length)).join('')}
+    ${BOLGE.map(x => cip({ bolge: x[0] }, (BOLGE_AD[dil] || BOLGE_AD.tr)[x[0]], qBolge === x[0], tum.filter(p => x[1].test(p.slug)).length)).join('')}
+  </div>`;
+
   const sayfalama = [];
   for (let i = 1; i <= sonSayfa; i++) {
     if (sonSayfa > 7 && Math.abs(i - sayfaNo) > 2 && i !== 1 && i !== sonSayfa) {
@@ -76,7 +119,7 @@ module.exports = async (req, res) => {
   const sayfalamaHtml = sonSayfa > 1 ? '<nav class="sayfalama" aria-label="' + esc(t.sayfa) + '">'
     + sayfalama.map(x => x === '…' ? '<span>…</span>'
       : x === sayfaNo ? '<span class="on">' + x + '</span>'
-        : '<a href="' + BASE + kokB(dil) + (x > 1 ? '?s=' + x : '') + '">' + x + '</a>').join('')
+        : '<a href="' + BASE + kokB(dil) + qs({ bolge: qBolge, tur: qTur, s: x > 1 ? x : '' }) + '">' + x + '</a>').join('')
     + '</nav>' : '';
 
   const kirinti = `<a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <span>${esc(t.blog)}</span>`;
@@ -94,6 +137,7 @@ module.exports = async (req, res) => {
   <h1>${esc(t.h1)}</h1>
   <p class="lead">${esc(t.lead)}</p>
   <div class="about"><b>${esc(t.profiller)}</b><br><a href="${BASE}/modeller/girne">Girne</a> · <a href="${BASE}/modeller/lefkosa">Lefkoşa</a> · <a href="${BASE}/modeller/magusa">Mağusa</a> · <a href="${BASE}/fiyatlar">${dil === 'tr' ? 'Fiyatlar' : dil === 'en' ? 'Prices' : 'Цены'}</a></div>
+  ${suz}
   ${dilim.length ? `<div class="liste">${dilim.map(kart).join('')}</div>` : `<div class="about">${esc(t.bos)}</div>`}
   ${sayfalamaHtml}`;
 
@@ -109,7 +153,7 @@ module.exports = async (req, res) => {
 <title>${esc(t.t)} | RedKıbrıs</title>
 <meta name="description" content="${esc(t.d)}">
 <link rel="canonical" href="${url}">
-${sayfaNo > 1 ? '' : alternates}
+${sayfaNo > 1 || qBolge || qTur ? '' : alternates}
 <link rel="sitemap" type="application/xml" href="${BASE}/sitemap.xml">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
@@ -124,7 +168,7 @@ ${sayfaNo > 1 ? '' : alternates}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin>
-<link rel="stylesheet" href="/css/sayfa.css?v=3">
+<link rel="stylesheet" href="/css/sayfa.css?v=4">
 ${S.head()}
 ${ld.map(x => '<script type="application/ld+json">' + JSON.stringify(x).replace(/</g, '\\u003c') + '</script>').join('')}
 </head><body>
