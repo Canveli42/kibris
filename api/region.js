@@ -506,7 +506,7 @@ module.exports = async (req, res) => {
     <a class="btn tg" href="${TG}" target="_blank" rel="noopener" data-base="${TG}">${esc(t.tg)}</a>
     <a class="btn-o" href="${BASE}${kok(dil)}/fiyatlar">${esc(t.fiyat)}</a>
   </div>
-  ${img ? `<img class="rimg" src="${esc(img)}" alt="${esc(nmE)}" width="1200" height="700" fetchpriority="high" decoding="async">` : ''}
+  ${img ? `<img class="rimg" src="${esc(img)}" alt="${esc(nmE)}" width="480" height="320" fetchpriority="high" decoding="async">` : ''}
   <div class="about">${esc(C2.metin)}</div>
   <div class="about">${C2.metin2}</div>
   <div class="about"><b>${esc(t.noktalar)}</b><br>${C2.areas.map(esc).join(' · ')}</div>
