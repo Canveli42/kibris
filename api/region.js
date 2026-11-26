@@ -528,5 +528,5 @@ module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=1800, stale-while-revalidate=86400');
   res.setHeader('Content-Security-Policy', S.csp(n));
-<｜begin▁of▁sentence｜>|  res.status(200).send(html);
+  res.status(200).send(html);
 };
