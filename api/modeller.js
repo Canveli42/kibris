@@ -49,6 +49,13 @@ function profilMi(slug, kod) {
   return onekler(kod).some(o => onek === o || onek.endsWith('-' + o));
 }
 
+const ARA_CSS = `<style>
+.ara{display:flex;gap:8px;margin:0 0 20px;background:none;border:0;padding:0}
+.ara input{flex:1;min-width:0;background:#0e161f;color:#e9eef6;border:1px solid var(--line);border-radius:999px;padding:11px 16px;font:inherit;font-size:15px}
+.ara button{border:0;border-radius:999px;padding:11px 20px;font-weight:700;font-size:14px;background:linear-gradient(180deg,#f3ddb4,#d8b878);color:#121a24;cursor:pointer}
+.ara a{display:flex;align-items:center;padding:0 14px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:#f0d9ae}
+</style>`;
+
 module.exports = async (req, res) => {
   const kod = String((req.query && req.query.bolge) || '').replace(/[^a-z-]/g, '');
   const b = BOLGE[kod];
@@ -62,6 +69,7 @@ module.exports = async (req, res) => {
   }
 
   const ad = b[0], bolgeYol = BASE + '/' + b[1], url = BASE + '/modeller/' + kod;
+  const q = String((req.query && req.query.q) || '').trim().slice(0, 60);
 
   let hepsi = [];
   try {
@@ -73,7 +81,11 @@ module.exports = async (req, res) => {
     if (r.ok) hepsi = (await r.json()) || [];
   } catch (e) {}
 
-  const liste = hepsi.filter(p => profilMi(p.slug, kod));
+  let liste = hepsi.filter(p => profilMi(p.slug, kod));
+  if (q) {
+    const k = q.toLowerCase();
+    liste = liste.filter(p => (String(p.title || '') + ' ' + String(p.slug || '')).toLowerCase().indexOf(k) > -1);
+  }
 
   const kartlar = liste.map(p => `<a class="kart" href="${BASE}/blog/${esc(p.slug)}">
     ${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="300" height="200">` : ''}
@@ -93,12 +105,19 @@ module.exports = async (req, res) => {
     itemListElement: liste.slice(0, 100).map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.title, url: BASE + '/blog/' + p.slug }))
   });
 
+  const araForm = `<form class="ara" action="${url}" method="get" role="search">
+    <input type="search" name="q" value="${esc(q)}" placeholder="Model ara" aria-label="Model ara">
+    <button type="submit">Ara</button>
+    ${q ? `<a href="${url}">Temizle</a>` : ''}
+  </form>`;
+
   const icerik = `
   <div class="crumb"><a href="${BASE}/">Ana sayfa</a> › <a href="${bolgeYol}">${esc(ad)}</a> › <span>Modeller</span></div>
   <h1>${esc(ad)} Escort Modelleri</h1>
   <p class="lead">${esc(ad)} bölgesinde görüşen modellerin tamamı burada. Kapora yok, ödeme görüşmenin başında.</p>
-  <div class="about"><b>Bölgeler</b><br><a href="${BASE}/modeller/girne">Girne</a> · <a href="${BASE}/modeller/alsancak">Alsancak</a> · <a href="${BASE}/modeller/lapta">Lapta</a> · <a href="${BASE}/modeller/catalkoy">Çatalköy</a> · <a href="${BASE}/modeller/lefkosa">Lefkoşa</a> · <a href="${BASE}/modeller/magusa">Mağusa</a> · <a href="${BASE}/modeller/iskele">İskele</a> · <a href="${BASE}/modeller/guzelyurt">Güzelyurt</a></div>
-  ${liste.length ? `<div class="mgrid">${kartlar}</div>` : '<div class="about">Bu bölgede profil yok.</div>'}
+  ${araForm}
+  ${q ? `<p class="guncel">${liste.length} sonuç</p>` : ''}
+  ${liste.length ? `<div class="mgrid">${kartlar}</div>` : '<div class="about">Sonuç yok.</div>'}
   <div class="about"><b>Sorun mu var, katalog mu lazım?</b><br>WhatsApp veya Telegram'dan yaz, kaldığın bölgeye göre liste gönderiyoruz.
     <br><a class="btn wa" href="https://wa.me/905515420755" target="_blank" rel="noopener" data-base="https://wa.me/905515420755">WhatsApp'tan yaz</a>
     <a class="btn tg" href="https://t.me/kibrisescortvip" target="_blank" rel="noopener" data-base="https://t.me/kibrisescortvip">Telegram'dan yaz</a>
@@ -112,7 +131,7 @@ module.exports = async (req, res) => {
 <meta name="description" content="${esc(ad)} escort modellerinin listesi. Sabit tarife, kapora yok, ödeme görüşmenin başında.">
 <link rel="canonical" href="${url}">
 <link rel="sitemap" type="application/xml" href="${BASE}/sitemap.xml">
-<meta name="robots" content="index,follow">
+<meta name="robots" content="${q ? 'noindex,follow' : 'index,follow'}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="RedKıbrıs">
 <meta property="og:title" content="${esc(ad)} Escort Modelleri">
@@ -130,6 +149,7 @@ ${S.header({ aktif: bolgeYol, dil: 'tr', ceviriler: { tr: url } })}
 ${icerik}
 </main>
 ${S.footer('tr')}
+${ARA_CSS}
 </body></html>`;
 
   const n = S.nonce();
