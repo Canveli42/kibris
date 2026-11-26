@@ -33,9 +33,13 @@ const HUB = {
   'guzelyurt-escort': 'guzelyurt'
 };
 
-// bölgeye özel rehber yazısı: [başlık anahtarı, yol]
+// bölgeye özel rehber yazısı
 const REHBER_YAZI = {
-  'girne-escort': '/blog/girne-escort-rehberi-2026'
+  'girne-escort': '/blog/girne-escort-rehberi-2026',
+  'lefkosa-escort': '/blog/lefkosa-escort-rehberi-2026',
+  'magusa-escort': '/blog/magusa-escort-rehberi-2026',
+  'iskele-escort': '/blog/iskele-escort-rehberi-2026',
+  'guzelyurt-escort': '/blog/guzelyurt-escort-rehberi-2026'
 };
 
 const AYLAR = {
@@ -69,7 +73,7 @@ const M = {
     noktalar: 'Hizmet verdiğimiz noktalar', oteller: 'Sık çalıştığımız oteller',
     fiyatB: nm => nm + ' fiyatları',
     modeller: 'Bölgedeki modeller', modellerAlt: 'Bu bölgede görüşen herkesin profili tek listede: yaş, hizmet ve uygun saatler.', modellerBtn: 'Modellerin tamamını gör',
-    rehberB: 'Bölge rehberi', rehberM: 'Bölge seçimi, mesafeler ve buluşma şekilleri tek yazıda.', rehberL: 'Bölgeler rehberi', rehberL2: 'İlk akşam rehberi',
+    rehberB: 'Bölge rehberi', rehberM: 'Bölge seçimi, mesafeler ve buluşma şekilleri tek yazıda.', rehberL: 'Bölgeler rehberi', rehberBtn: nm => nm + ' rehberi',
     tarife: 'Tarife sabit, pazarlık yok, kapıda değişmiyor. Ödeme görüşmenin başında, yere girmeden alınır: nakit, IBAN veya USDT. Tek değişken taksi: her yöne mesafeye göre hesaplanıp önceden söyleniyor. Tam liste <a href="' + BASE + '/fiyatlar">fiyatlar sayfasında</a>.',
     guncel: 'Son güncelleme: ', sssB: nm => nm + ' hakkında sık sorulanlar', diger: 'Diğer sayfalar',
     sorun: 'Sorun mu var, katalog mu lazım?', alt: "WhatsApp veya Telegram'dan yaz, kaldığın bölgeye göre liste gönderiyoruz.",
@@ -84,7 +88,7 @@ const M = {
     noktalar: 'Places we cover', oteller: 'Hotels we visit most',
     fiyatB: nm => nm + ' prices',
     modeller: 'Models in this area', modellerAlt: 'Every model working in this area in one list: age, service and available hours.', modellerBtn: 'See all models',
-    rehberB: 'Area guide', rehberM: 'Choosing an area, distances and how meetings work, in one article.', rehberL: 'Guide to the areas', rehberL2: 'First-night guide',
+    rehberB: 'Area guide', rehberM: 'Choosing an area, distances and how meetings work, in one article.', rehberL: 'Guide to the areas', rehberBtn: nm => nm + ' guide',
     tarife: 'The tariff is fixed, there is no haggling and it does not change at the door. Payment is taken at the start, before you go in: cash, transfer or USDT. The only variable is the taxi: calculated by distance and quoted in advance. Full list on the <a href="' + BASE + '/en/fiyatlar">price page</a>.',
     guncel: 'Last updated: ', sssB: nm => 'Frequently asked questions about ' + nm, diger: 'Other areas',
     sorun: 'Question or want the selection?', alt: 'Write on WhatsApp or Telegram and we send the current list for your area.',
@@ -99,7 +103,7 @@ const M = {
     noktalar: 'Куда выезжаем', oteller: 'Отели, куда ездим чаще всего',
     fiyatB: nm => 'Цены — ' + nm,
     modeller: 'Модели района', modellerAlt: 'Все, кто работает в этом районе, одним списком: возраст, услуги и свободные часы.', modellerBtn: 'Смотреть всех',
-    rehberB: 'Гид по району', rehberM: 'Выбор района, расстояния и как проходят встречи — в одной статье.', rehberL: 'Гид по районам', rehberL2: 'Гид: первый вечер',
+    rehberB: 'Гид по району', rehberM: 'Выбор района, расстояния и как проходят встречи — в одной статье.', rehberL: 'Гид по районам', rehberBtn: nm => 'Гид — ' + nm,
     tarife: 'Тариф фиксированный, торга нет, на месте не меняется. Оплата в начале встречи, до входа: наличные, перевод или USDT. Единственная переменная — такси: считается по расстоянию и называется заранее. Полный список на <a href="' + BASE + '/ru/fiyatlar">странице цен</a>.',
     guncel: 'Обновлено: ', sssB: nm => 'Частые вопросы — ' + nm, diger: 'Другие районы',
     sorun: 'Вопрос или нужен каталог?', alt: 'Напишите в WhatsApp или Telegram, пришлём подборку по вашему району.',
@@ -508,7 +512,7 @@ module.exports = async (req, res) => {
   <div class="about"><b>${esc(t.noktalar)}</b><br>${C2.areas.map(esc).join(' · ')}</div>
   <div class="about"><b>${esc(t.oteller)}</b><br>${C2.otel.map(esc).join(' · ')}</div>
   ${hub ? `<div class="about"><b>${esc(t.modeller)}</b><br>${esc(t.modellerAlt)}<br><a class="btn-o" href="${BASE}/modeller/${hub}">${esc(t.modellerBtn)}</a></div>` : ''}
-  ${hub ? `<div class="about"><b>${esc(t.rehberB)}</b><br>${esc(t.rehberM)}<br><a class="btn-o" href="${BASE}/blog/kibris-escort-bolgeleri">${esc(t.rehberL)}</a>${rehber ? ` <a class="btn-o" href="${BASE}${rehber}">${esc(t.rehberL2)}</a>` : ''}</div>` : ''}
+  ${hub ? `<div class="about"><b>${esc(t.rehberB)}</b><br>${esc(t.rehberM)}<br><a class="btn-o" href="${BASE}/blog/kibris-escort-bolgeleri">${esc(t.rehberL)}</a>${rehber ? ` <a class="btn-o" href="${BASE}${rehber}">${esc(t.rehberBtn(C2.nm))}</a>` : ''}</div>` : ''}
   <h2>${esc(t.fiyatB(C2.nm))}</h2>
   ${fiyatHtml}
   <div class="about">${t.tarife}</div>
