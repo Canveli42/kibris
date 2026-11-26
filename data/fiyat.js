@@ -1,5 +1,5 @@
 // Tek fiyat kaynağı. Zam = yalnızca bu dosya.
-// Renkler sabit hex: bölge sayfalarında --muted/--gold tanımlı olmadığı için var() kullanılmıyor.
+// Renkler sabit hex: --muted / --gold değişkenlerine bağımlı değil.
 
 const PARA = '₺';
 const MUT = '#93a0b4';
@@ -20,18 +20,16 @@ const MAX = Math.max.apply(null, LISTE.map(x => x.fiyat));
 
 const bicim = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' ' + PARA;
 
-// EN/RU için yaklaşık euro karşılığı
 const doviz = (dil, n) => {
   const k = KUR[dil];
   if (!k) return '';
-  const e = Math.round(n * k);
-  return ' <small>≈ €' + e + '</small>';
+  return ' <small style="color:' + MUT + '">≈ €' + Math.round(n * k) + '</small>';
 };
 
 const cevap = dil => LISTE.map(x => x.ad[dil] + ' ' + bicim(x.fiyat) + (KUR[dil] ? ' (≈ €' + Math.round(x.fiyat * KUR[dil]) + ')' : '')).join(', ');
 
 const satir = dil => LISTE.map(x =>
-  '<div><span><b>' + x.ad[dil] + '</b><small style="color:' + MUT + ';font-size:13px">' + x.not[dil] + '</small></span>'
+  '<div><span><b>' + x.ad[dil] + '</b><span style="color:' + MUT + ';font-size:13px">' + x.not[dil] + '</span></span>'
   + '<strong style="color:' + ALTIN + '">' + bicim(x.fiyat) + doviz(dil, x.fiyat) + '</strong></div>'
 ).join('\n        ');
 
