@@ -33,8 +33,12 @@ img{max-width:100%;display:block}
 .crumb{font-size:13px;color:#93a0b4;padding:22px 0 0}
 .crumb a{color:#f0d9ae}
 h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-weight:800;margin:10px 0 12px;color:#fff}
-.lead{color:#93a0b4;font-size:15.5px;margin-bottom:10px;max-width:620px}
-#list{margin-top:24px;display:grid;grid-template-columns:1fr;gap:12px}
+.lead{color:#93a0b4;font-size:15.5px;margin-bottom:14px;max-width:620px}
+#q{width:100%;max-width:420px;background:#111823;border:1px solid rgba(216,184,120,.22);border-radius:999px;color:#e9eef6;font-size:14.5px;padding:11px 18px;outline:none}
+#q:focus{border-color:rgba(216,184,120,.6)}
+#q::placeholder{color:#6d7b8f}
+#say{color:#93a0b4;font-size:12.5px;margin:10px 0 0}
+#list{margin-top:16px;display:grid;grid-template-columns:1fr;gap:12px}
 @media(min-width:700px){#list{grid-template-columns:1fr 1fr;gap:14px}}
 .post{display:flex;gap:12px;align-items:center;background:#111823;border:1px solid rgba(216,184,120,.18);border-radius:12px;padding:10px;transition:.18s}
 .post:hover{border-color:#d8b878;transform:translateY(-2px)}
@@ -53,6 +57,8 @@ h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-
   <div class="crumb"><a href="/ru">Главная</a> › <span>Блог</span></div>
   <h1>Гиды по эскорту на Кипре</h1>
   <p class="lead">Разница между районами, как устроены цены, что рядом с отелями и на что смотреть на первой встрече.</p>
+  <input id="q" type="search" placeholder="Поиск статей: район, тема, имя" autocomplete="off">
+  <p id="say"></p>
   <div id="list"></div>
 </main>
 <!--SHELL:FOOTER-->
@@ -65,6 +71,9 @@ h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-
   var YAYIN = 'yayin_at.is.null,yayin_at.lte.now()';
   var LOC = 'ru-RU';
   var list = document.getElementById('list');
+  var q = document.getElementById('q');
+  var say = document.getElementById('say');
+  var hepsi = [];
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
@@ -72,35 +81,49 @@ h1{font-size:clamp(25px,4.4vw,36px);line-height:1.15;letter-spacing:-.03em;font-
     });
   }
 
-  function render(p, same) {
-    var arr = (p || []).slice().sort(function (a, b) {
-      if (a.slug === HUB) return -1;
-      if (b.slug === HUB) return 1;
-      return 0;
-    });
-    if (!arr.length) { list.innerHTML = '<p class="bos">Статей пока нет.</p>'; return; }
-    var out = same ? '' : '<p class="bos" style="grid-column:1/-1">Русских статей пока нет — показан турецкий архив.</p>';
+  function ciz(arr, same) {
+    if (!arr.length) { list.innerHTML = '<p class="bos">Ничего не найдено.</p>'; return; }
+    var out = same === false ? '<p class="bos" style="grid-column:1/-1">Русских статей пока нет — показан турецкий архив.</p>' : '';
     out += arr.map(function (x) {
       var d = new Date(x.yayin_at || x.created_at).toLocaleDateString(LOC);
       var im = x.img ? '<img src="' + esc(x.img) + '" alt="' + esc(x.title) + '" width="92" height="70" loading="lazy" decoding="async">' : '';
       var pin = x.slug === HUB ? '<em class="pin">Избранное</em>' : '';
-      var href = (same ? '/ru/blog/' : '/blog/') + esc(x.slug);
+      var href = (same === false ? '/blog/' : '/ru/blog/') + esc(x.slug);
       return '<a class="post" href="' + href + '">' + im + '<div><b>' + esc(x.title) + '</b><span>' + d + pin + '</span></div></a>';
     }).join('');
     list.innerHTML = out;
   }
 
+  function yukle(p, same) {
+    hepsi = (p || []).slice().sort(function (a, b) {
+      if (a.slug === HUB) return -1;
+      if (b.slug === HUB) return 1;
+      return 0;
+    });
+    if (!hepsi.length) { list.innerHTML = '<p class="bos">Статей пока нет.</p>'; return; }
+    say.textContent = hepsi.length + ' статей';
+    ciz(hepsi, same);
+  }
+
   fetch(SB + '/rest/v1/posts?select=slug,title,yayin_at,created_at,img&published=eq.true&lang=eq.ru&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast', { headers: H })
     .then(function (r) { if (!r.ok) throw new Error('x'); return r.json(); })
     .then(function (p) {
-      if (p && p.length) { render(p, true); return; }
+      if (p && p.length) { yukle(p, true); return; }
       return fetch(SB + '/rest/v1/posts?select=slug,title,yayin_at,created_at,img&published=eq.true&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast', { headers: H })
         .then(function (r) { if (!r.ok) throw new Error('x'); return r.json(); })
-        .then(function (t) { render(t, false); });
+        .then(function (t) { yukle(t, false); });
     })
     .catch(function () {
       list.innerHTML = '<p class="bos">Не удалось загрузить статьи.</p>';
     });
+
+  q.addEventListener('input', function () {
+    var v = q.value.toLocaleLowerCase(LOC).trim();
+    if (!v) { say.textContent = hepsi.length + ' статей'; ciz(hepsi); return; }
+    var s = hepsi.filter(function (x) { return String(x.title).toLocaleLowerCase(LOC).indexOf(v) > -1; });
+    say.textContent = s.length + ' результатов';
+    ciz(s);
+  });
 })();
 </script>
 </body>
