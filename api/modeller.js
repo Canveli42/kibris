@@ -56,6 +56,23 @@ const ARA_CSS = `<style>
 .ara a{display:flex;align-items:center;padding:0 14px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:#f0d9ae}
 </style>`;
 
+const CANLI = `<script>
+(function(){
+  var f=document.querySelector('.ara'),i=f&&f.querySelector('input'),k=document.querySelector('.mgrid');
+  if(!f||!i||!k)return;
+  var b=document.createElement('div');b.className='about';b.textContent='Sonuç yok.';
+  b.style.display='none';k.parentNode.insertBefore(b,k.nextSibling);
+  i.addEventListener('input',function(){
+    var q=i.value.toLowerCase().trim(),n=0,l=k.children;
+    for(var j=0;j<l.length;j++){
+      var o=!q||(l[j].textContent||'').toLowerCase().indexOf(q)>-1;
+      l[j].style.display=o?'':'none';if(o)n++;
+    }
+    b.style.display=(q&&!n)?'':'none';
+  });
+})();
+</script>`;
+
 module.exports = async (req, res) => {
   const kod = String((req.query && req.query.bolge) || '').replace(/[^a-z-]/g, '');
   const b = BOLGE[kod];
@@ -106,7 +123,7 @@ module.exports = async (req, res) => {
   });
 
   const araForm = `<form class="ara" action="${url}" method="get" role="search">
-    <input type="search" name="q" value="${esc(q)}" placeholder="Model ara" aria-label="Model ara">
+    <input type="search" name="q" value="${esc(q)}" placeholder="Model ara" aria-label="Model ara" autocomplete="off">
     <button type="submit">Ara</button>
     ${q ? `<a href="${url}">Temizle</a>` : ''}
   </form>`;
@@ -150,6 +167,7 @@ ${icerik}
 </main>
 ${S.footer('tr')}
 ${ARA_CSS}
+${CANLI}
 </body></html>`;
 
   const n = S.nonce();
