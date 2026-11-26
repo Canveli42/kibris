@@ -128,10 +128,13 @@ function profilCoz(slug) {
   if (!m) return null;
   const onek = m[1], kuyruk = m[2];
   if (REHBER.has(kuyruk)) return null;
-  const anahtar = Object.keys(BOLGE).find(k => onek === k || onek.endsWith('-' + k));
+  const ilk = onek.split('-')[0];
+  const anahtar = BOLGE[ilk]
+    ? ilk
+    : Object.keys(BOLGE).find(k => onek.endsWith('-' + k));
   if (!anahtar) return null;
   const parca = kuyruk.split('-').filter(Boolean);
-  const ATIL = new Set(['seviyor','istiyor','yapiyor','geliyor','bekliyor','karsiliyor','oturuyor','yatiyor','cikip','geliyor','yemegi','sonra','dogru','havasi','tadinda','uzaniyor','cokmus','kalkiyor','sikistiriyor']);
+  const ATIL = new Set(['seviyor','istiyor','yapiyor','geliyor','bekliyor','karsiliyor','oturuyor','yatiyor','cikip','yemegi','sonra','dogru','havasi','tadinda','uzaniyor','cokmus','kalkiyor','sikistiriyor']);
   const adParca = [];
   for (const p of parca) {
     if (adParca.length >= 2) break;
