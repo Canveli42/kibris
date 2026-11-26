@@ -22,6 +22,10 @@
     { "source": "/blog/escort-gorusmesinde-ev-mi-otel-mi", "destination": "/blog/otel-secimi-havuz-mu-konum-mu", "permanent": true },
     { "source": "/blog/girne-gece-ulasim", "destination": "/blog/kibris-escort-ulasim-ve-taksi", "permanent": true },
     { "source": "/blog/kibris-gece-kulupleri-giris-ucretleri", "destination": "/blog/girne-gece-kulupleri-rehberi", "permanent": true }
+    { "source": "/blog/bafra-escort-kseniya-plaj", "destination": "/blog/bafra-escort-kseniya-plajda", "permanent": true },
+    { "source": "/blog/magusa-escort-sevim-deneyimli", "destination": "/blog/magusa-escort-sevim-deneyimli-sabirli", "permanent": true },
+    { "source": "/blog/magusa-escort-anna-sert", "destination": "/blog/magusa-escort-anna-sert-sevisiyor", "permanent": true },
+    { "source": "/blog/lefkosa-escort-pinar-barda", "destination": "/blog/lefkosa-escort-pinar-barda-calisiyor", "permanent": true },
   ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
