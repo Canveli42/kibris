@@ -5,6 +5,7 @@ const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 const WA = 'https://wa.me/905515420755';
 const TG = 'https://t.me/kibrisescortvip';
 const S = require('../data/shell.js');
+const F = require('../data/fiyat.js');
 
 const DILLER = ['tr', 'en', 'ru'];
 const D = {
@@ -43,12 +44,6 @@ const M = {
     ana: 'Ana sayfa', katalog: nm => nm + ' Kataloğu İste', tg: 'Telegram', fiyat: 'Fiyatlar',
     noktalar: 'Hizmet verdiğimiz noktalar', oteller: 'Sık çalıştığımız oteller',
     fiyatB: nm => nm + ' fiyatları',
-    fiyatlar: [
-      ['30 dakika — 7.000 ₺', 'Yalnızca kendi yerimizde (Girne merkez). Kısa görüşme.'],
-      ['1 saat — 12.000 ₺', 'Otel ve eve çıkışta en çok seçilen süre; adrese çıkışta en alt sınır.'],
-      ['2 saat — 17.000 ₺', 'Yemek ya da gece programı eklemek isteyenler için.'],
-      ['4 saat — 22.000 ₺', 'Uzun eşlik ve gece planı.']
-    ],
     tarife: 'Tarife sabit, pazarlık yok, kapıda değişmiyor. Ödeme görüşmenin başında, yere girmeden alınır: nakit, IBAN veya USDT. Tek değişken taksi: her yöne mesafeye göre hesaplanıp önceden söyleniyor. Tam liste <a href="' + BASE + '/fiyatlar">fiyatlar sayfasında</a>.',
     guncel: 'Son güncelleme: ', sssB: nm => nm + ' hakkında sık sorulanlar', diger: 'Diğer sayfalar',
     sorun: 'Sorun mu var, katalog mu lazım?', alt: "WhatsApp veya Telegram'dan yaz, kaldığın bölgeye göre liste gönderiyoruz.",
@@ -56,36 +51,12 @@ const M = {
     yok: 'Sayfa bulunamadı', yokD: 'Aradığın sayfa bulunamadı.', buAdres: 'Bu adreste bölge yok.', donebilir: 'Ana sayfaya dönebilirsin.',
     s404: 'Bu sayfa bulunamadı', s404alt: 'Adres yanlış yazılmış, sayfa taşınmış ya da artık yayında değil. Aşağıdan bölge seçebilir, kataloğu isteyebilirsin.',
     s404cat: 'Kataloğu gönder', s404bolge: 'Bölge seç', s404pop: 'Sık açılan sayfalar', s404home: 'Ana sayfaya dön',
-    p1: 'Fiyatlar', p2: 'Girne fiyatları', p3: 'Türkçe bilen escort', p4: 'Gecelik fiyat', p5: 'Otele escort', p6: 'Blog', p7: 'İletişim',
-    dolgu: nm => `
-  <h2>${esc(nm)} için ne zaman yazmalı</h2>
-  <div class="about"><b>Gündüz 12:00-17:00</b><br>En sakin aralık. Aynı gün müsaitlik yüksek, 30-45 dakika önceden yazman yeterli.</div>
-  <div class="about"><b>Akşam 18:00-22:00</b><br>En yoğun aralık. 1-2 saat önceden yazman gerekiyor.</div>
-  <div class="about"><b>Gece 22:00-02:00</b><br>Bar ve casino çıkışı talebi burada toplanıyor. 10-15 dakika önceden yazman yeterli.</div>
-  <div class="about"><b>02:00 sonrası</b><br>Müsaitlik düşer. Uzak noktalarda 30 dakika önceden yazman gerekir.</div>
-  <h2>${esc(nm)} — sık yapılan hatalar</h2>
-  <ul>
-    <li>Uzak noktaya son 10 dakikada yazmak.</li>
-    <li>Otel adı vermeden "lobide görüşelim" demek.</li>
-    <li>Otele veya eve 30 dakika istemek.</li>
-    <li>Kalabalık lobide buluşma noktası seçmek.</li>
-    <li>Nakit getirmemek.</li>
-  </ul>
-  <h2>${esc(nm)} ulaşım ve taksi</h2>
-  <div class="about">Taksi ücreti her yöne mesafeye göre hesaplanıyor ve her zaman önceden söyleniyor. Gece 01:00 sonrası kırsalda taksi bulmak zor; dönüş için şoför numarası almanı öneririz. Detaylar <a href="${BASE}/blog/kibris-escort-ulasim-ve-taksi">ulaşım ve taksi</a> yazısında.</div>
-  <h2>İlk kez yazacaksan</h2>
-  <div class="about">Mesajda üç şeyi yaz: bölge, saat, süre. "${esc(nm)}, bu akşam 21:00, 1 saat" yeterli. Uzun tanıtım paragrafı yazmana gerek yok. 30 dakika yalnızca kendi yerimizde; otele veya eve çıkışta en az 1 saat.</div>`
+    p1: 'Fiyatlar', p2: 'Girne fiyatları', p3: 'Türkçe bilen escort', p4: 'Gecelik fiyat', p5: 'Otele escort', p6: 'Blog', p7: 'İletişim'
   },
   en: {
     ana: 'Home', katalog: nm => 'Ask for the ' + nm + ' selection', tg: 'Telegram', fiyat: 'Prices',
     noktalar: 'Places we cover', oteller: 'Hotels we visit most',
     fiyatB: nm => nm + ' prices',
-    fiyatlar: [
-      ['30 minutes — 7.000 ₺', 'At our place only, Girne centre. Short meeting.'],
-      ['1 hour — 12.000 ₺', 'The usual choice for a hotel or home visit; the minimum for an outcall.'],
-      ['2 hours — 17.000 ₺', 'For dinner or a night out on top.'],
-      ['4 hours — 22.000 ₺', 'Long company and a full evening plan.']
-    ],
     tarife: 'The tariff is fixed, there is no haggling and it does not change at the door. Payment is taken at the start, before you go in: cash, transfer or USDT. The only variable is the taxi: calculated by distance and quoted in advance. Full list on the <a href="' + BASE + '/en/fiyatlar">price page</a>.',
     guncel: 'Last updated: ', sssB: nm => 'Frequently asked questions about ' + nm, diger: 'Other areas',
     sorun: 'Question or want the selection?', alt: 'Write on WhatsApp or Telegram and we send the current list for your area.',
@@ -93,36 +64,12 @@ const M = {
     yok: 'Page not found', yokD: 'That page does not exist.', buAdres: 'Nothing at this address.', donebilir: 'You can go back to the home page.',
     s404: 'This page was not found', s404alt: 'The address is mistyped, the page has moved, or it is no longer live. Pick an area below or just ask for the catalogue.',
     s404cat: 'Send catalogue', s404bolge: 'Choose an area', s404pop: 'Popular pages', s404home: 'Back to home',
-    p1: 'Prices', p2: 'Kyrenia prices', p3: 'English speaking', p4: 'Overnight rate', p5: 'To your hotel', p6: 'Blog', p7: 'Contact',
-    dolgu: nm => `
-  <h2>When to write about ${esc(nm)}</h2>
-  <div class="about"><b>Daytime 12:00-17:00</b><br>The quietest window. Same-day availability is high; writing 30-45 minutes ahead is enough.</div>
-  <div class="about"><b>Evening 18:00-22:00</b><br>The busiest window. Write 1-2 hours ahead.</div>
-  <div class="about"><b>Night 22:00-02:00</b><br>Bar and casino exits land here. 10-15 minutes ahead is enough.</div>
-  <div class="about"><b>After 02:00</b><br>Availability drops. At distant points write 30 minutes ahead.</div>
-  <h2>${esc(nm)} — common mistakes</h2>
-  <ul>
-    <li>Writing 10 minutes before a distant meeting.</li>
-    <li>Saying "meet in the lobby" without naming the hotel.</li>
-    <li>Asking for 30 minutes to a hotel or home.</li>
-    <li>Picking a meeting point in a crowded lobby.</li>
-    <li>Not bringing cash.</li>
-  </ul>
-  <h2>${esc(nm)} transport and taxi</h2>
-  <div class="about">The taxi fare is calculated by distance every time and always quoted in advance. After 01:00 taxis are hard to find out of town; take the driver's number for the return. Details in the <a href="${BASE}/en/blog/kibris-escort-ulasim-ve-taksi">transport and taxi</a> article.</div>
-  <h2>If you are writing for the first time</h2>
-  <div class="about">Send three things: area, time, duration. "${esc(nm)}, tonight 21:00, 1 hour" is enough. No long introduction needed. 30 minutes is at our place only; a hotel or home visit starts at 1 hour.</div>`
+    p1: 'Prices', p2: 'Kyrenia prices', p3: 'English speaking', p4: 'Overnight rate', p5: 'To your hotel', p6: 'Blog', p7: 'Contact'
   },
   ru: {
     ana: 'Главная', katalog: nm => 'Каталог — ' + nm, tg: 'Telegram', fiyat: 'Цены',
     noktalar: 'Куда выезжаем', oteller: 'Отели, куда ездим чаще всего',
     fiyatB: nm => 'Цены — ' + nm,
-    fiyatlar: [
-      ['30 минут — 7.000 ₺', 'Только у нас, центр Кирении. Короткая встреча.'],
-      ['1 час — 12.000 ₺', 'Обычный выбор для отеля или квартиры; минимум для выезда.'],
-      ['2 часа — 17.000 ₺', 'Если добавляете ужин или вечернюю программу.'],
-      ['4 часа — 22.000 ₺', 'Долгое сопровождение и весь вечер.']
-    ],
     tarife: 'Тариф фиксированный, торга нет, на месте не меняется. Оплата в начале встречи, до входа: наличные, перевод или USDT. Единственная переменная — такси: считается по расстоянию и называется заранее. Полный список на <a href="' + BASE + '/ru/fiyatlar">странице цен</a>.',
     guncel: 'Обновлено: ', sssB: nm => 'Частые вопросы — ' + nm, diger: 'Другие районы',
     sorun: 'Вопрос или нужен каталог?', alt: 'Напишите в WhatsApp или Telegram, пришлём подборку по вашему району.',
@@ -130,25 +77,179 @@ const M = {
     yok: 'Страница не найдена', yokD: 'Такой страницы нет.', buAdres: 'По этому адресу ничего нет.', donebilir: 'Можно вернуться на главную.',
     s404: 'Страница не найдена', s404alt: 'Адрес написан с ошибкой, страница переехала или больше не работает. Выберите район ниже или просто попросите каталог.',
     s404cat: 'Прислать каталог', s404bolge: 'Выбрать район', s404pop: 'Частые страницы', s404home: 'На главную',
-    p1: 'Цены', p2: 'Цены в Кирении', p3: 'Русскоязычные', p4: 'Цена за ночь', p5: 'В отель', p6: 'Блог', p7: 'Контакты',
-    dolgu: nm => `
-  <h2>Когда писать — ${esc(nm)}</h2>
-  <div class="about"><b>День 12:00-17:00</b><br>Самое спокойное время. Свободные на сегодня есть, писать за 30-45 минут достаточно.</div>
-  <div class="about"><b>Вечер 18:00-22:00</b><br>Самый плотный отрезок. Писать за 1-2 часа.</div>
-  <div class="about"><b>Ночь 22:00-02:00</b><br>Здесь собираются заявки после бара и казино. Хватает 10-15 минут.</div>
-  <div class="about"><b>После 02:00</b><br>Свободных меньше. На дальние точки писать за 30 минут.</div>
-  <h2>${esc(cap(nm))} — частые ошибки</h2>
-  <ul>
-    <li>Писать за 10 минут до дальней встречи.</li>
-    <li>Писать «встретимся в лобби», не назвав отель.</li>
-    <li>Просить 30 минут с выездом в отель или на квартиру.</li>
-    <li>Назначать встречу в людном лобби.</li>
-    <li>Приезжать без наличных.</li>
-  </ul>
-  <h2>${esc(cap(nm))} — транспорт и такси</h2>
-  <div class="about">Стоимость такси всегда считается по расстоянию и называется заранее. После 01:00 за городом такси поймать трудно — возьмите номер водителя на обратный путь. Подробнее в статье <a href="${BASE}/ru/blog/kibris-escort-ulasim-ve-taksi">транспорт и такси</a>.</div>
+    p1: 'Цены', p2: 'Цены в Кирении', p3: 'Русскоязычные', p4: 'Цена за ночь', p5: 'В отель', p6: 'Блог', p7: 'Контакты'
+  }
+};
+
+// Kuşak şablonları: aynı coğrafyadaki bölgeler ortak ama kendine özgü gövde alır
+const KEMER = {
+  tr: {
+    kiyi: nm => `
+  <h2>${esc(nm)} — ne zaman ve nasıl yazmalı</h2>
+  <div class="about"><b>Hat uzun</b><br>"${esc(nm)}" deyip geçmek yetmiyor; hangi sokak, hangi tesis olduğunu yaz. Buluşma noktasını kapı numarasıyla değil, karşıdaki mekânın adıyla netleştiriyoruz.</div>
+  <div class="about"><b>Sezon</b><br>Temmuz-ağustos akşam 19:00-21:00 sahil trafiği kilit; o saat için 1 saat önceden yaz. Ekim sonrası hat boşalır, 20 dakika yeterli.</div>
+  <div class="about"><b>Gece dönüş</b><br>23:00 sonrası sahil yolunda taksi bulmak zor. Dönüş için şoför numarası al, yoksa aynı yolu yürüyerek dönmek gerekir.</div>
+  <h2>${esc(nm)} — sık yapılan hatalar</h2>
+  <ul><li>"${esc(nm)}" yazıp konum linki göndermemek.</li><li>Site kapısında isim gerektiğini önceden söylememek.</li><li>Gece dönüş taksisini konuşmamak.</li><li>Nakit getirmemek.</li></ul>
+  <h2>İlk kez yazacaksan</h2>
+  <div class="about">Bölge, saat, süre ve konum linki. Dördü birden gelirse tek mesajda yer ayarlanıyor. 30 dakika yalnızca kendi yerimizde; bu hatta çıkış en az 1 saat.</div>`,
+    yamac: nm => `
+  <h2>${esc(nm)} — ne zaman ve nasıl yazmalı</h2>
+  <div class="about"><b>Konum linki şart</b><br>Yamaçta sokak adları çoğu zaman haritada yok. Konum linki gelmezse kapıda 10 dakika kaybediliyor, o yüzden rezervasyonda istiyoruz.</div>
+  <div class="about"><b>Dar yol</b><br>Araç bazı villaların kapısına kadar çıkamıyor; buluşmayı alt sokakta yapıyoruz. Bunu baştan söylüyoruz ki sürpriz olmasın.</div>
+  <div class="about"><b>Saat</b><br>Akşam 18:00 sonrası için 1-2 saat önceden yaz; yamaç hattına gece çıkış planlı oluyor.</div>
+  <h2>${esc(nm)} — sık yapılan hatalar</h2>
+  <ul><li>Konum linki yerine tarif yazmak ("manastırı geç, sağa dön").</li><li>Villanın kapı numarasını vermemek.</li><li>Araçla kapıya kadar çıkılabileceğini sanmak.</li><li>Son 20 dakikada yazmak.</li></ul>
+  <h2>İlk kez yazacaksan</h2>
+  <div class="about">Konum linki + saat + süre. Üçü yeterli, tarif gerekmiyor. Adrese çıkışta en az 1 saat geçerli.</div>`,
+    banliyo: nm => `
+  <h2>${esc(nm)} — ne zaman ve nasıl yazmalı</h2>
+  <div class="about"><b>Site kapısı</b><br>Bu hatta girişlerin çoğu kontrollü. Kapıda isim verilmesi gerekiyorsa önceden söyle, ismi bildiriyoruz. Blok ve daire numarası olmadan giriş uzuyor.</div>
+  <div class="about"><b>Mesafe kısa</b><br>Lefkoşa merkeze yakın olduğu için ulaşım hızlı; 20-30 dakika önceden yazmak yeterli.</div>
+  <div class="about"><b>Gündüz</b><br>Öğrenci ve çalışan nüfusu nedeniyle gündüz görüşmesi burada en rahat çalışan hat.</div>
+  <h2>${esc(nm)} — sık yapılan hatalar</h2>
+  <ul><li>Blok ve daire numarasını vermemek.</li><li>Siteye giriş için isim gerektiğini saklamak.</li><li>Gönyeli ile Hamitköy'ü karıştırıp yanlış kapıya yazmak.</li><li>Nakit olmadan çıkmak.</li></ul>
+  <h2>İlk kez yazacaksan</h2>
+  <div class="about">Site adı, blok, daire, saat. Kısa süreli görüşme burada mantıklı; adrese çıkışta yine en az 1 saat.</div>`,
+    resort: nm => `
+  <h2>${esc(nm)} — ne zaman ve nasıl yazmalı</h2>
+  <div class="about"><b>Önceden planla</b><br>Bu hat uzak ve tek girişli. En az 1-2 saat önceden yaz; son dakika burada karşılık bulmuyor.</div>
+  <div class="about"><b>Ziyaretçi kaydı</b><br>Büyük tesislerin bir kısmı dışarıdan gelen için kayıt istiyor. Hangilerinin istediğini önceden sorup haber veriyoruz.</div>
+  <div class="about"><b>Tesis içi mesafe</b><br>Kampüs içi yürümesi uzun; buluşmayı lobide, asansör yanı gibi tek bir noktada netleştiriyoruz.</div>
+  <h2>${esc(nm)} — sık yapılan hatalar</h2>
+  <ul><li>Son yarım saatte yazmak.</li><li>Otel adı vermeden buluşma istemek.</li><li>Kayıt gerektiğini bilmemek.</li><li>Tesis içinde "kapıda buluşalım" demek.</li></ul>
+  <h2>İlk kez yazacaksan</h2>
+  <div class="about">Otel adı, saat, süre. Kayıt gerekiyorsa haber veriyoruz. Adrese çıkışta en az 1 saat.</div>`,
+    format: nm => `
+  <h2>${esc(nm)} — ne zaman ve nasıl yazmalı</h2>
+  <div class="about"><b>Önce kapsam</b><br>Bu format süreden çok kapsamla ilgili: nerede başlayıp nerede biteceğini baştan yaz. Belirsiz kalan tek şey sonradan tartışmaya dönüşüyor.</div>
+  <div class="about"><b>Giyim ve ortam</b><br>Mekân varsa kodunu önceden söyle. Resepsiyon, davet ve iş yemeği gibi ortamlarda kıyafet uyumu sonradan düzeltilemiyor.</div>
+  <div class="about"><b>Plan</b><br>Bu formatta aynı gün müsaitlik sınırlı; 1 gün önceden yazmak seçenek bırakıyor.</div>
+  <h2>${esc(nm)} — sık yapılan hatalar</h2>
+  <ul><li>Kapsamı tek cümleyle geçiştirmek.</li><li>Mekân adı vermeden "davete gelecek" demek.</li><li>Kıyafet kodunu sonradan değiştirmek.</li><li>Aynı gün geniş program istemek.</li></ul>
+  <h2>İlk kez yazacaksan</h2>
+  <div class="about">Ortam, saat, süre ve kapsam. Dördü netse geriye soru kalmıyor. 30 dakika yalnızca kendi yerimizde.</div>`,
+    profil: nm => `
+  <h2>${esc(nm)} — ne zaman ve nasıl yazmalı</h2>
+  <div class="about"><b>Dil ve yaş aralığı</b><br>Bu başlık bir bölge değil, bir tercih. Mesajda dil ve yaş aralığı beklentisini yaz; kör gönderim yapılmıyor.</div>
+  <div class="about"><b>Müsaitlik</b><br>Bu grupta havuz dar, aynı gün seçenek sınırlı. En az yarım gün önceden yazmak seçenek bırakıyor.</div>
+  <div class="about"><b>Bölge</b><br>Profil bölgeye bağlı değil; kaldığın yeri yaz, uygun olanı oraya yönlendiriyoruz. Taksi yine mesafeye göre.</div>
+  <h2>${esc(nm)} — sık yapılan hatalar</h2>
+  <ul><li>Dil beklentisini yazmamak.</li><li>Aynı gün geniş seçenek beklemek.</li><li>Kaldığı bölgeyi söylememek.</li><li>Nakit olmadan çıkmak.</li></ul>
+  <h2>İlk kez yazacaksan</h2>
+  <div class="about">Dil, yaş aralığı, bölge ve saat. Bu dördü olmadan liste gönderilemiyor. Adrese çıkışta en az 1 saat.</div>`
+  },
+  en: {
+    kiyi: nm => `
+  <h2>${esc(nm)} — when and how to write</h2>
+  <div class="about"><b>The strip is long</b><br>Saying "${esc(nm)}" alone is not enough; give the street and the property. We name the meeting point by the venue opposite rather than a door number.</div>
+  <div class="about"><b>Season</b><br>In July and August the coast road locks up between 19:00 and 21:00 — write an hour ahead for that window. After October the strip empties and 20 minutes is plenty.</div>
+  <div class="about"><b>Getting back at night</b><br>After 23:00 taxis are scarce on the coast road. Take the driver's number for the return, otherwise the walk back is long.</div>
+  <h2>${esc(nm)} — common mistakes</h2>
+  <ul><li>Writing "${esc(nm)}" with no location pin.</li><li>Not saying in advance that a name is needed at a complex gate.</li><li>Not settling the taxi for the return.</li><li>Turning up without cash.</li></ul>
+  <h2>If you are writing for the first time</h2>
+  <div class="about">Area, time, duration and a pin. All four in one message and the place is settled in one go. 30 minutes is in-call only; on this strip an outcall starts at 1 hour.</div>`,
+    yamac: nm => `
+  <h2>${esc(nm)} — when and how to write</h2>
+  <div class="about"><b>A pin is essential</b><br>On the hillside the street names are usually missing from the map. Without a pin ten minutes are lost at the gate, which is why we ask for one when booking.</div>
+  <div class="about"><b>Narrow roads</b><br>The car cannot reach some villa gates, so we meet on the lower street. We say so up front rather than leaving it as a surprise.</div>
+  <div class="about"><b>Timing</b><br>After 18:00 write 1-2 hours ahead; hillside visits are always planned rather than improvised.</div>
+  <h2>${esc(nm)} — common mistakes</h2>
+  <ul><li>Writing directions instead of sending a pin ("past the abbey, turn right").</li><li>Not giving the villa number.</li><li>Assuming the car can reach the gate.</li><li>Writing 20 minutes before.</li></ul>
+  <h2>If you are writing for the first time</h2>
+  <div class="about">A pin, a time and a duration. Three things are enough, no directions needed. An outcall starts at 1 hour.</div>`,
+    banliyo: nm => `
+  <h2>${esc(nm)} — when and how to write</h2>
+  <div class="about"><b>Complex gates</b><br>Most entrances here are controlled. If a name has to be given at the barrier, say so in advance and we pass it on. Without a block and flat number entry drags.</div>
+  <div class="about"><b>Short distance</b><br>Close to central Nicosia, so the drive is quick; 20-30 minutes ahead is enough.</div>
+  <div class="about"><b>Daytime</b><br>With a student and working population, a daytime meeting works more easily on this strip than anywhere else.</div>
+  <h2>${esc(nm)} — common mistakes</h2>
+  <ul><li>Not giving the block and flat number.</li><li>Keeping quiet about the name needed at the gate.</li><li>Confusing Gonyeli with Hamitkoy and writing to the wrong door.</li><li>Leaving without cash.</li></ul>
+  <h2>If you are writing for the first time</h2>
+  <div class="about">Complex name, block, flat, time. A short meeting makes sense here; an outcall still starts at 1 hour.</div>`,
+    resort: nm => `
+  <h2>${esc(nm)} — when and how to write</h2>
+  <div class="about"><b>Plan ahead</b><br>This strip is remote with a single entrance. Write at least 1-2 hours ahead; last minute does not land here.</div>
+  <div class="about"><b>Visitor logging</b><br>Some of the large properties log outside visitors. We check which ones do and warn you beforehand.</div>
+  <div class="about"><b>Distance inside the grounds</b><br>Walking a campus is slow; we fix the meeting point at one spot, for example by the lifts in the lobby.</div>
+  <h2>${esc(nm)} — common mistakes</h2>
+  <ul><li>Writing half an hour before.</li><li>Fixing a meeting without naming the hotel.</li><li>Not knowing that logging is required.</li><li>Saying "meet at the gate" inside the grounds.</li></ul>
+  <h2>If you are writing for the first time</h2>
+  <div class="about">Hotel name, time, duration. If logging is needed we tell you. An outcall starts at 1 hour.</div>`,
+    format: nm => `
+  <h2>${esc(nm)} — when and how to write</h2>
+  <div class="about"><b>Scope before duration</b><br>This format is about scope, not minutes: write where it starts and where it ends. Whatever stays vague turns into an argument later.</div>
+  <div class="about"><b>Dress and setting</b><br>If there is a venue, give the code in advance. At a reception, a business dinner or a lobby, the dress cannot be corrected afterwards.</div>
+  <div class="about"><b>Planning</b><br>Same-day availability is thin for this format; a day's notice keeps options open.</div>
+  <h2>${esc(nm)} — common mistakes</h2>
+  <ul><li>Summing up the scope in half a sentence.</li><li>Saying "coming to a reception" without naming the venue.</li><li>Changing the dress code afterwards.</li><li>Asking for a long programme on the same day.</li></ul>
+  <h2>If you are writing for the first time</h2>
+  <div class="about">Setting, time, duration and scope. With those four nothing is left to ask. 30 minutes is in-call only.</div>`,
+    profil: nm => `
+  <h2>${esc(nm)} — when and how to write</h2>
+  <div class="about"><b>Language and age range</b><br>This is a preference, not an area. State the language and age range you expect; we do not send a blind list.</div>
+  <div class="about"><b>Availability</b><br>The pool in this group is small and same-day choice is limited. Half a day's notice keeps options open.</div>
+  <div class="about"><b>Area</b><br>Profiles are not tied to an area; give where you are staying and the suitable one is sent there. The taxi is still by distance.</div>
+  <h2>${esc(nm)} — common mistakes</h2>
+  <ul><li>Not stating the language you need.</li><li>Expecting a wide choice on the same day.</li><li>Not saying where you are staying.</li><li>Leaving without cash.</li></ul>
+  <h2>If you are writing for the first time</h2>
+  <div class="about">Language, age range, area and time. Without those four no list can be sent. An outcall starts at 1 hour.</div>`
+  },
+  ru: {
+    kiyi: nm => `
+  <h2>${esc(nm)} — когда и как писать</h2>
+  <div class="about"><b>Линия длинная</b><br>Сказать только «${esc(nm)}» недостаточно: нужна улица и объект. Точку встречи называем по заведению напротив, а не по номеру калитки.</div>
+  <div class="about"><b>Сезон</b><br>В июле и августе прибрежная дорога встаёт с 19:00 до 21:00 — на это окно писать за час. После октября линия пустеет, хватает 20 минут.</div>
+  <div class="about"><b>Обратная дорога ночью</b><br>После 23:00 такси на прибрежной дороге почти нет. Возьмите номер водителя на обратный путь, иначе идти пешком далеко.</div>
+  <h2>${esc(nm)} — частые ошибки</h2>
+  <ul><li>Писать «${esc(nm)}» без локации.</li><li>Не предупредить, что на воротах комплекса нужно имя.</li><li>Не договориться о такси на обратный путь.</li><li>Приезжать без наличных.</li></ul>
   <h2>Если пишете впервые</h2>
-  <div class="about">Напишите три вещи: район, время, длительность. «${esc(nm)}, сегодня 21:00, 1 час» — достаточно. Длинное вступление не нужно. 30 минут — только у нас; выезд в отель или на квартиру начинается с 1 часа.</div>`
+  <div class="about">Район, время, длительность и локация. Если всё четыре в одном сообщении, место решается сразу. 30 минут — только у нас; на этой линии выезд от 1 часа.</div>`,
+    yamac: nm => `
+  <h2>${esc(nm)} — когда и как писать</h2>
+  <div class="about"><b>Локация обязательна</b><br>На склоне названий улиц на карте обычно нет. Без локации у калитки теряется десять минут, поэтому просим её при брони.</div>
+  <div class="about"><b>Узкие дороги</b><br>Машина не всегда доезжает до калитки виллы — встречаемся на нижней улице. Говорим об этом сразу, чтобы не было сюрприза.</div>
+  <div class="about"><b>Время</b><br>После 18:00 писать за 1-2 часа: выезд на склон всегда планируется.</div>
+  <h2>${esc(nm)} — частые ошибки</h2>
+  <ul><li>Писать объяснение вместо локации («за монастырём, направо»).</li><li>Не назвать номер виллы.</li><li>Считать, что машина доедет до калитки.</li><li>Писать за 20 минут.</li></ul>
+  <h2>Если пишете впервые</h2>
+  <div class="about">Локация, время, длительность. Трёх вещей достаточно, объяснения не нужны. С выездом минимум час.</div>`,
+    banliyo: nm => `
+  <h2>${esc(nm)} — когда и как писать</h2>
+  <div class="about"><b>Ворота комплекса</b><br>Большинство входов здесь контролируемые. Если на воротах нужно имя, предупредите заранее — сообщим. Без блока и квартиры вход затягивается.</div>
+  <div class="about"><b>Близко</b><br>До центра Никосии недалеко, дорога быстрая; хватает 20-30 минут.</div>
+  <div class="about"><b>День</b><br>Здесь живут студенты и работающие, поэтому дневная встреча на этой линии проходит легче всего.</div>
+  <h2>${esc(nm)} — частые ошибки</h2>
+  <ul><li>Не дать блок и квартиру.</li><li>Скрыть, что на воротах нужно имя.</li><li>Путать Гёнйели и Хамиткёй и писать не к той двери.</li><li>Выезжать без наличных.</li></ul>
+  <h2>Если пишете впервые</h2>
+  <div class="about">Название комплекса, блок, квартира, время. Короткая встреча здесь уместна; с выездом всё равно от часа.</div>`,
+    resort: nm => `
+  <h2>${esc(nm)} — когда и как писать</h2>
+  <div class="about"><b>Планировать заранее</b><br>Линия дальняя и с одним входом. Писать минимум за 1-2 часа; в последний момент здесь не получается.</div>
+  <div class="about"><b>Запись посетителя</b><br>Часть больших объектов записывает внешних посетителей. Мы уточняем, где это нужно, и предупреждаем заранее.</div>
+  <div class="about"><b>Расстояния внутри</b><br>Территория большая, идти долго; точку встречи фиксируем в одном месте — например, у лифтов в лобби.</div>
+  <h2>${esc(nm)} — частые ошибки</h2>
+  <ul><li>Писать за полчаса.</li><li>Назначать встречу, не назвав отель.</li><li>Не знать, что нужна запись.</li><li>Говорить «встретимся у ворот» внутри территории.</li></ul>
+  <h2>Если пишете впервые</h2>
+  <div class="about">Название отеля, время, длительность. Если нужна запись — сообщим. С выездом минимум час.</div>`,
+    format: nm => `
+  <h2>${esc(nm)} — когда и как писать</h2>
+  <div class="about"><b>Сначала объём</b><br>Этот формат про объём, а не про минуты: напишите, где начинается и где заканчивается. Всё неясное потом превращается в спор.</div>
+  <div class="about"><b>Одежда и обстановка</b><br>Если есть заведение, назовите дресс-код заранее. На приёме, деловом ужине или в лобби одежду потом не исправить.</div>
+  <div class="about"><b>План</b><br>Свободных в тот же день мало; за день до встречи выбор шире.</div>
+  <h2>${esc(nm)} — частые ошибки</h2>
+  <ul><li>Объяснять объём одной фразой.</li><li>Говорить «приедет на приём», не назвав заведение.</li><li>Менять дресс-код потом.</li><li>Просить длинную программу в тот же день.</li></ul>
+  <h2>Если пишете впервые</h2>
+  <div class="about">Обстановка, время, длительность, объём. Если всё четыре ясны, вопросов не остаётся. 30 минут — только у нас.</div>`,
+    profil: nm => `
+  <h2>${esc(nm)} — когда и как писать</h2>
+  <div class="about"><b>Язык и возраст</b><br>Это не район, а пожелание. Напишите ожидаемый язык и возраст; подборку вслепую не отправляем.</div>
+  <div class="about"><b>Свободные</b><br>В этой группе выбор небольшой, на сегодня — ограничен. За полдня до встречи вариантов больше.</div>
+  <div class="about"><b>Район</b><br>Профиль не привязан к району: напишите, где остановились, и подходящую отправят туда. Такси по-прежнему по расстоянию.</div>
+  <h2>${esc(nm)} — частые ошибки</h2>
+  <ul><li>Не назвать нужный язык.</li><li>Ждать широкий выбор в тот же день.</li><li>Не сказать, где остановились.</li><li>Выезжать без наличных.</li></ul>
+  <h2>Если пишете впервые</h2>
+  <div class="about">Язык, возраст, район и время. Без этих четырёх подборку не отправить. С выездом минимум час.</div>`
   }
 };
 
@@ -197,6 +298,9 @@ module.exports = async (req, res) => {
   const dil = DILLER.includes(ham) ? ham : 'tr';
   const t = M[dil];
   const url = BASE + kok(dil) + '/' + slug;
+  const fiyatCumle = F.cevap(dil);
+  const cevap = s => esc(String(s == null ? '' : s).replace(/\{fiyat\}/g, fiyatCumle));
+  const cevapDuz = s => String(s == null ? '' : s).replace(/\{fiyat\}/g, fiyatCumle);
 
   let C2 = D[dil][slug];
 
@@ -327,7 +431,8 @@ module.exports = async (req, res) => {
       '@context': 'https://schema.org', '@type': 'Service', serviceType: nmE,
       areaServed: C2.areas, url: url,
       ...(img ? { image: img } : {}),
-      provider: { '@type': 'Organization', name: 'RedKıbrıs' }
+      provider: { '@type': 'Organization', name: 'RedKıbrıs' },
+      offers: F.ld(dil).offers
     },
     {
       '@context': 'https://schema.org', '@type': 'BreadcrumbList',
@@ -340,7 +445,7 @@ module.exports = async (req, res) => {
       '@context': 'https://schema.org', '@type': 'FAQPage',
       mainEntity: (C2.sss || []).map(x => ({
         '@type': 'Question', name: x[0],
-        acceptedAnswer: { '@type': 'Answer', text: x[1] }
+        acceptedAnswer: { '@type': 'Answer', text: cevapDuz(x[1]) }
       }))
     }
   ];
@@ -349,10 +454,11 @@ module.exports = async (req, res) => {
     .map(k => `<a class="btn-o" href="${BASE}${kok(dil)}/${k}">${esc(D[dil][k].nm)}</a>`).join('');
 
   const ekMetin = String(C2.ek || '');
-  const dolgu = !ekMetin ? t.dolgu(C2.nm) : '';
+  const kemer = !ekMetin && C2.kemer && KEMER[dil][C2.kemer]
+    ? KEMER[dil][C2.kemer](C2.nm)
+    : '';
 
-  const fiyatHtml = t.fiyatlar
-    .map(x => `<div class="about"><b>${esc(x[0])}</b><br>${esc(x[1])}</div>`).join('\n  ');
+  const fiyatHtml = F.satir(dil);
 
   const icerik = `
   <div class="crumb"><a href="${BASE}${kok(dil)}/">${esc(t.ana)}</a> › <span>${esc(dil === 'ru' ? cap(C2.nm) : C2.nm)}</span></div>
@@ -372,11 +478,11 @@ module.exports = async (req, res) => {
   ${fiyatHtml}
   <div class="about">${t.tarife}</div>
   ${ekMetin}
-  ${dolgu}
+  ${kemer}
   <p class="guncel">${esc(t.guncel)}${bugun(dil)}</p>
   <section class="sect">
     <h2>${esc(t.sssB(C2.nm))}</h2>
-    ${(C2.sss || []).map(x => `<div class="about"><b>${esc(x[0])}</b><br>${esc(x[1])}</div>`).join('')}
+    ${(C2.sss || []).map(x => `<div class="about"><b>${esc(x[0])}</b><br>${cevap(x[1])}</div>`).join('')}
   </section>
   <section class="sect">
     <h2>${esc(t.diger)}</h2>
