@@ -1,9 +1,35 @@
+const fs = require('fs');
+const yol = require('path');
 const SB = 'https://accerzwswgiqhtfgoeqv.supabase.co';
 const KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
 const BASE = 'https://www.kibrisgirneescort.com';
 const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 
-const STATIC = '2026-11-25';
+// statik sayfaların lastmod'u: içeriği belirleyen dosyaların en yeni değişim tarihi
+const IZLENEN = [
+  'data/fiyat.js', 'data/shell.js',
+  'data/regions.js', 'data/regions.en.js', 'data/regions.ru.js',
+  'pages/index.html', 'pages/en.html', 'pages/ru.html',
+  'pages/fiyatlar.html', 'pages/en-fiyatlar.html', 'pages/ru-fiyatlar.html',
+  'pages/hakkinda.html', 'pages/en-hakkinda.html', 'pages/ru-hakkinda.html',
+  'pages/iletisim.html', 'pages/en-iletisim.html', 'pages/ru-iletisim.html',
+  'pages/gizlilik.html', 'pages/en-gizlilik.html', 'pages/ru-gizlilik.html'
+];
+
+const bugun = () => new Date().toISOString().slice(0, 10);
+
+const STATIC = (() => {
+  let en = '2026-11-25';
+  IZLENEN.forEach(f => {
+    try {
+      const t = fs.statSync(yol.join(process.cwd(), f)).mtime.toISOString().slice(0, 10);
+      if (t > en) en = t;
+    } catch (e) {}
+  });
+  const b = bugun();
+  return en > b ? b : en;
+})();
+
 const DILLER = ['tr', 'en', 'ru'];
 
 const REG = {
