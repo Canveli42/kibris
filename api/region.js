@@ -8,32 +8,17 @@ const S = require('../data/shell.js');
 const F = require('../data/fiyat.js');
 
 const DILLER = ['tr', 'en', 'ru'];
-const D = {
-  tr: require('../data/regions.js'),
-  en: require('../data/regions.en.js'),
-  ru: require('../data/regions.ru.js')
-};
+const D = { tr: require('../data/regions.js'), en: require('../data/regions.en.js'), ru: require('../data/regions.ru.js') };
+const YAYIN = 'yayin_at.is.null,yayin_at.lte.now()';
 
-// bölge sayfası -> /modeller hub kodu (hub'ı olmayan bölgeler burada yok)
 const HUB = {
-  'girne-escort': 'girne',
-  'karaoglanoglu-escort': 'karaoglanoglu',
-  'alsancak-escort': 'alsancak',
-  'lapta-escort': 'lapta',
-  'catalkoy-escort': 'catalkoy',
-  'bellapais-escort': 'bellapais',
-  'esentepe-escort': 'esentepe',
-  'lefkosa-escort': 'lefkosa',
-  'lefkosa-hamitkoy-escort': 'lefkosa',
-  'gonyeli-escort': 'gonyeli',
-  'magusa-escort': 'magusa',
-  'iskele-escort': 'iskele',
-  'long-beach-escort': 'long-beach',
-  'bafra-escort': 'bafra',
-  'guzelyurt-escort': 'guzelyurt'
+  'girne-escort': 'girne', 'karaoglanoglu-escort': 'karaoglanoglu', 'alsancak-escort': 'alsancak',
+  'lapta-escort': 'lapta', 'catalkoy-escort': 'catalkoy', 'bellapais-escort': 'bellapais',
+  'esentepe-escort': 'esentepe', 'lefkosa-escort': 'lefkosa', 'lefkosa-hamitkoy-escort': 'lefkosa',
+  'gonyeli-escort': 'gonyeli', 'magusa-escort': 'magusa', 'iskele-escort': 'iskele',
+  'long-beach-escort': 'long-beach', 'bafra-escort': 'bafra', 'guzelyurt-escort': 'guzelyurt'
 };
 
-// bölgeye özel rehber yazısı
 const REHBER_YAZI = {
   'girne-escort': '/blog/girne-escort-rehberi-2026',
   'lefkosa-escort': '/blog/lefkosa-escort-rehberi-2026',
@@ -58,13 +43,8 @@ const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
-const cap = s => {
-  const v = String(s == null ? '' : s);
-  return v ? v.charAt(0).toUpperCase() + v.slice(1) : v;
-};
-
+const cap = s => { const v = String(s == null ? '' : s); return v ? v.charAt(0).toUpperCase() + v.slice(1) : v; };
 const kok = dil => (dil === 'tr' ? '' : '/' + dil);
-
 const ldYaz = x => '<script type="application/ld+json">' + JSON.stringify(x).replace(/</g, '\\u003c') + '</script>';
 
 const M = {
@@ -115,7 +95,6 @@ const M = {
   }
 };
 
-// Kuşak şablonları: aynı coğrafyadaki bölgeler ortak ama kendine özgü gövde alır
 const KEMER = {
   tr: {
     kiyi: nm => `
@@ -287,47 +266,9 @@ const KEMER = {
   }
 };
 
-const sayfa = o => `<!DOCTYPE html>
-<html lang="${o.dil}"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(o.title)}</title>
-<meta name="description" content="${esc(o.desc)}">
-<link rel="canonical" href="${esc(o.url)}">
-${o.alternates || ''}
-<link rel="sitemap" type="application/xml" href="${BASE}/sitemap.xml">
-<meta name="robots" content="${o.robots || 'index,follow'}">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="RedKıbrıs">
-<meta property="og:title" content="${esc(o.title)}">
-<meta property="og:description" content="${esc(o.desc)}">
-<meta property="og:url" content="${esc(o.url)}">
-<meta property="og:locale" content="${o.dil === 'tr' ? 'tr_TR' : o.dil === 'en' ? 'en_US' : 'ru_RU'}">
-${o.img ? `<meta property="og:image" content="${esc(o.img)}">
-<link rel="preload" as="image" href="${esc(o.img)}" fetchpriority="high">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="${esc(o.img)}">` : '<meta name="twitter:card" content="summary">'}
-<meta name="theme-color" content="#0b121b">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2 62 32 32 62 2 32Z' fill='%231e2a40' stroke='%23f0d9ae' stroke-opacity='.55' stroke-width='2'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='23' font-weight='700' text-anchor='middle'%3E%3Ctspan fill='%23ff3b5c'%3ER%3C/tspan%3E%3Ctspan fill='%23ffffff'%3EK%3C/tspan%3E%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin>
-<style>${S.css}
-main a:not(.btn):not(.btn-o){text-decoration:underline;text-underline-offset:2px}
-${S.icerik}</style>
-${o.ld || ''}
-</head><body>
-${S.header({ aktif: o.url, dil: o.dil, ceviriler: o.ceviriler })}
-<main class="wrap">
-${o.icerik}
-</main>
-${S.footer(o.dil)}
-</body></html>`;
-
 module.exports = async (req, res) => {
   const slug = String((req.query && req.query.slug) || '')
-    .toLowerCase()
-    .replace(/[^a-z0-9-]/g, '')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
+    .toLowerCase().replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
   const ham = String((req.query && req.query.lang) || 'tr').toLowerCase();
   const dil = DILLER.includes(ham) ? ham : 'tr';
   const t = M[dil];
@@ -338,34 +279,21 @@ module.exports = async (req, res) => {
 
   let C2 = D[dil][slug];
 
-  // çeviri yoksa Türkçesine kalıcı yönlendir
   if (!C2 && dil !== 'tr' && D.tr[slug]) {
     const hedef = BASE + '/' + slug;
-    res.writeHead(301, {
-      Location: hedef,
-      'Content-Type': 'text/html; charset=utf-8',
-      'Cache-Control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800'
-    });
+    res.writeHead(301, { Location: hedef, 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800' });
     res.end('<!DOCTYPE html><html><body><a href="' + hedef + '">' + hedef + '</a></body></html>');
     return;
   }
 
   if (!C2) {
-    // eski düz bağlantılar: /slug -> /blog/slug
     try {
-      const rp = await fetch(
-        SB + '/rest/v1/posts?select=slug&slug=eq.' + encodeURIComponent(slug) + '&published=eq.true&limit=1',
-        { headers: H }
-      );
+      const rp = await fetch(SB + '/rest/v1/posts?select=slug&slug=eq.' + encodeURIComponent(slug) + '&published=eq.true&limit=1', { headers: H });
       if (rp.ok) {
         const ap = await rp.json();
         if (ap && ap.length) {
           const hedef = BASE + kok(dil) + '/blog/' + slug;
-          res.writeHead(301, {
-            Location: hedef,
-            'Content-Type': 'text/html; charset=utf-8',
-            'Cache-Control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800'
-          });
+          res.writeHead(301, { Location: hedef, 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800' });
           res.end('<!DOCTYPE html><html><body><a href="' + hedef + '">' + hedef + '</a></body></html>');
           return;
         }
@@ -374,30 +302,13 @@ module.exports = async (req, res) => {
 
     const kk = kok(dil);
     const bolgeler = ['girne-escort','lefkosa-escort','magusa-escort','iskele-escort','guzelyurt-escort']
-      .filter(k => D[dil][k])
-      .map(k => `<a class="btn-o" href="${BASE}${kk}/${k}">${esc(D[dil][k].nm)}</a>`).join('');
+      .filter(k => D[dil][k]).map(k => `<a class="btn-o" href="${BASE}${kk}/${k}">${esc(D[dil][k].nm)}</a>`).join('');
     const populer = [
       ['fiyatlar', t.p1], ['blog/girne-escort-fiyatlari', t.p2], ['blog/turkce-bilen-escort', t.p3],
       ['blog/gecelik-escort-fiyat', t.p4], ['blog/otele-escort', t.p5], ['blog', t.p6], ['iletisim', t.p7]
     ].map(x => `<a class="btn-o" href="${BASE}${kk}/${x[0]}">${esc(x[1])}</a>`).join('');
 
     const y404 = `
-<style>
-.y404{text-align:center;padding:6px 0 0}
-.y404-mark{width:86px;height:86px;margin:4px auto 20px;position:relative}
-.y404-mark i{position:absolute;inset:0;border:1px solid rgba(216,184,120,.35);transform:rotate(45deg);border-radius:16px}
-.y404-mark i:nth-child(2){inset:14px;border-color:rgba(216,184,120,.6)}
-.y404-mark i:nth-child(3){inset:29px;background:linear-gradient(160deg,#f0d9ae,#d8b878);border:0;border-radius:9px;box-shadow:0 0 34px rgba(216,184,120,.35)}
-.y404-code{font-family:Georgia,serif;font-size:clamp(58px,14vw,96px);line-height:1;letter-spacing:-.03em;color:transparent;background:linear-gradient(180deg,#fff,#d8b878);-webkit-background-clip:text;background-clip:text;margin-bottom:4px}
-.y404 h1{font-size:clamp(22px,4.6vw,32px);margin:0 0 10px}
-.y404 p{max-width:54ch;margin:0 auto 24px}
-.y404-acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:6px}
-.y404-acts .btn{background:linear-gradient(180deg,#3ae07d,#1fbb56);color:#04270f;padding:13px 24px;font-size:14.5px;box-shadow:0 10px 26px -14px #25d366}
-.y404-acts .btn.tg{background:linear-gradient(180deg,#4bb8ea,#229ed9);color:#04202e;box-shadow:0 10px 26px -14px #229ed9}
-.y404-home{background:linear-gradient(180deg,#f0d9ae,#d8b878);color:#121a24;font-weight:700;padding:13px 24px;font-size:14.5px}
-.y404 h2{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#d8b878;margin:34px 0 12px}
-.y404-links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-</style>
 <div class="y404">
   <div class="y404-mark" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="y404-code" aria-hidden="true">404</div>
@@ -406,7 +317,7 @@ module.exports = async (req, res) => {
   <div class="y404-acts">
     <a class="btn" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">${esc(t.s404cat)}</a>
     <a class="btn tg" href="${TG}" target="_blank" rel="noopener" data-base="${TG}">${esc(t.tgY)}</a>
-    <a class="btn-o y404-home" href="${BASE}${kk}/">${esc(t.s404home)}</a>
+    <a class="btn-o" href="${BASE}${kk}/">${esc(t.s404home)}</a>
   </div>
   <h2>${esc(t.s404bolge)}</h2>
   <div class="y404-links">${bolgeler}</div>
@@ -414,20 +325,31 @@ module.exports = async (req, res) => {
   <div class="y404-links">${populer}</div>
 </div>`;
 
-    let h404 = sayfa({
-      dil, title: t.yok + ' | RedKıbrıs', desc: t.yokD, url, robots: 'noindex,follow',
-      icerik: y404
-    });
+    let h404 = `<!DOCTYPE html><html lang="${dil}"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(t.yok)} | RedKıbrıs</title>
+<meta name="description" content="${esc(t.yokD)}">
+<link rel="canonical" href="${url}">
+<meta name="robots" content="noindex,follow">
+<meta name="theme-color" content="#0b121b">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/sayfa.css?v=3">
+${S.head()}
+</head><body>
+${S.header({ aktif: '', dil, ceviriler: {} })}
+<main class="wrap" id="icerik">${y404}</main>
+${S.footer(dil)}
+</body></html>`;
     const n404 = S.nonce();
     h404 = S.noncele(h404, n404);
-
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=300');
     res.setHeader('Content-Security-Policy', S.csp(n404));
     res.status(404).send(h404);
     return;
   }
 
-  // hangi dillerde bu bölge var
   const varOlan = DILLER.filter(d => D[d][slug]);
   const ceviriler = {};
   varOlan.forEach(d => { ceviriler[d] = BASE + kok(d) + '/' + slug; });
@@ -457,8 +379,8 @@ module.exports = async (req, res) => {
   } catch (e) {}
 
   const h1 = dil === 'ru'
-    ? 'Эскорт ' + esc(C2.nm) + ' — <span style="font-size:.55em;color:#93a0b4;font-weight:400">' + esc(C2.alt) + '</span>'
-    : esc(nmE) + ' — <span style="font-size:.55em;color:#93a0b4;font-weight:400">' + esc(C2.alt) + '</span>';
+    ? 'Эскорт ' + esc(C2.nm) + ' — <span class="altad">' + esc(C2.alt) + '</span>'
+    : esc(nmE) + ' — <span class="altad">' + esc(C2.alt) + '</span>';
 
   const ld = [
     {
@@ -477,10 +399,7 @@ module.exports = async (req, res) => {
     },
     {
       '@context': 'https://schema.org', '@type': 'FAQPage',
-      mainEntity: (C2.sss || []).map(x => ({
-        '@type': 'Question', name: x[0],
-        acceptedAnswer: { '@type': 'Answer', text: cevapDuz(x[1]) }
-      }))
+      mainEntity: (C2.sss || []).map(x => ({ '@type': 'Question', name: x[0], acceptedAnswer: { '@type': 'Answer', text: cevapDuz(x[1]) } }))
     }
   ];
 
@@ -488,21 +407,29 @@ module.exports = async (req, res) => {
     .map(k => `<a class="btn-o" href="${BASE}${kok(dil)}/${k}">${esc(D[dil][k].nm)}</a>`).join('');
 
   const ekMetin = String(C2.ek || '');
-  const kemer = !ekMetin && C2.kemer && KEMER[dil][C2.kemer]
-    ? KEMER[dil][C2.kemer](C2.nm)
-    : '';
+  const kemer = !ekMetin && C2.kemer && KEMER[dil][C2.kemer] ? KEMER[dil][C2.kemer](C2.nm) : '';
 
   const hub = HUB[slug] || '';
   const rehber = REHBER_YAZI[slug] || '';
 
-  const fiyatHtml = F.satir(dil);
+  let modeller = [];
+  if (hub) {
+    try {
+      const r = await fetch(
+        SB + '/rest/v1/posts?select=slug,title,img&published=eq.true&lang=eq.' + dil +
+        '&slug=like.' + slug.split('-')[0] + '-escort-*&or=(' + YAYIN + ')&limit=8',
+        { headers: H }
+      );
+      if (r.ok) modeller = (await r.json()) || [];
+    } catch (e) {}
+  }
 
   const icerik = `
   <div class="crumb"><a href="${BASE}${kok(dil)}/">${esc(t.ana)}</a> › <span>${esc(dil === 'ru' ? cap(C2.nm) : C2.nm)}</span></div>
   <h1>${h1}</h1>
   <p class="lead">${esc(C2.lead)}</p>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
-    <a class="btn wa" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">${esc(t.katalog(C2.nm))}</a>
+  <div class="acts">
+    <a class="btn" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">${esc(t.katalog(C2.nm))}</a>
     <a class="btn tg" href="${TG}" target="_blank" rel="noopener" data-base="${TG}">${esc(t.tg)}</a>
     <a class="btn-o" href="${BASE}${kok(dil)}/fiyatlar">${esc(t.fiyat)}</a>
   </div>
@@ -514,8 +441,9 @@ module.exports = async (req, res) => {
   ${hub ? `<div class="about"><b>${esc(t.modeller)}</b><br>${esc(t.modellerAlt)}<br><a class="btn-o" href="${BASE}/modeller/${hub}">${esc(t.modellerBtn)}</a></div>` : ''}
   ${hub ? `<div class="about"><b>${esc(t.rehberB)}</b><br>${esc(t.rehberM)}<br><a class="btn-o" href="${BASE}/blog/kibris-escort-bolgeleri">${esc(t.rehberL)}</a>${rehber ? ` <a class="btn-o" href="${BASE}${rehber}">${esc(t.rehberBtn(C2.nm))}</a>` : ''}</div>` : ''}
   <h2>${esc(t.fiyatB(C2.nm))}</h2>
-  ${fiyatHtml}
+  <div class="tarife">${F.satir(dil)}</div>
   <div class="about">${t.tarife}</div>
+  ${modeller.length ? `<section class="sect"><h2>${esc(t.modeller)}</h2><div class="mgrid">${modeller.map(p => `<a class="kart" href="${BASE}/blog/${esc(p.slug)}">${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="300" height="200">` : ''}<span class="kb"><span class="kt">${esc(p.title)}</span></span></a>`).join('')}</div><p><a class="btn-o" href="${BASE}/modeller/${hub}">${esc(t.modellerBtn)}</a></p></section>` : ''}
   ${ekMetin}
   ${kemer}
   <p class="guncel">${esc(t.guncel)}${bugun(dil)}</p>
@@ -525,17 +453,47 @@ module.exports = async (req, res) => {
   </section>
   <section class="sect">
     <h2>${esc(t.diger)}</h2>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">${digerleri}</div>
+    <div class="acts">${digerleri}</div>
   </section>
   <div class="about"><b>${esc(t.sorun)}</b><br>${esc(t.alt)}
-    <br><a class="btn wa" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">${esc(t.wa)}</a>
+    <br><a class="btn" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">${esc(t.wa)}</a>
     <a class="btn tg" href="${TG}" target="_blank" rel="noopener" data-base="${TG}">${esc(t.tgY)}</a>
   </div>`;
 
-  let html = sayfa({
-    dil, title, desc, url, img, icerik, alternates, ceviriler,
-    ld: ld.map(ldYaz).join('')
-  });
+  let html = `<!DOCTYPE html><html lang="${dil}"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(desc)}">
+<link rel="canonical" href="${esc(url)}">
+${alternates}
+<link rel="sitemap" type="application/xml" href="${BASE}/sitemap.xml">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RedKıbrıs">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(desc)}">
+<meta property="og:url" content="${esc(url)}">
+<meta property="og:locale" content="${dil === 'tr' ? 'tr_TR' : dil === 'en' ? 'en_US' : 'ru_RU'}">
+${img ? `<meta property="og:image" content="${esc(img)}">
+<link rel="preload" as="image" href="${esc(img)}" fetchpriority="high">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${esc(img)}">` : '<meta name="twitter:card" content="summary">'}
+<meta name="theme-color" content="#0b121b">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin>
+<link rel="stylesheet" href="/css/sayfa.css?v=3">
+${S.head()}
+${ld.map(ldYaz).join('')}
+</head><body>
+${S.header({ aktif: url, dil, ceviriler })}
+<main class="wrap" id="icerik">
+${icerik}
+</main>
+${S.footer(dil)}
+</body></html>`;
+
   const n = S.nonce();
   html = S.noncele(html, n);
 
