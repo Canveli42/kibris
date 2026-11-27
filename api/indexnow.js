@@ -40,7 +40,10 @@ async function tekMotor(m, govde) {
 async function adresler() {
   const z = zaman(8000);
   try {
-    const r = await fetch(BASE + '/sitemap.xml', { signal: z.sinyal });
+    const r = await fetch(BASE + '/sitemap.xml', {
+      signal: z.sinyal,
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' }
+    });
     if (!r.ok) return YEDEK;
     const xml = await r.text();
     const m = xml.match(/<loc>[^<]+<\/loc>/g) || [];
