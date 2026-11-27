@@ -15,7 +15,7 @@ Kıbrıs escort sitesi. TR/EN/RU, sunucu tarafında üretilen sayfalar, ön yüz
 - `data/ek/` — bölge metin parçaları (`magusa.js`, `lefkosa.js`, …)
 - `data/bolge.js` — bölge kayıt defteri: `pg` (açılacak adres), `hb` (model hub'ı), `ust` (üst bölge)
 - `api/` — `sayfa` (`/panel` dahil), `region`, `modeller`, `post`, `blog`, `sitemap`, `indexnow`, `takip`, `temizle`
-- `vercel.json` — rewrites, redirects, headers, cron
+- `vercel.json` — rewrites, redirects, headers
 
 ## Bölge mekaniği (bozulursa 404 çıkar)
 
@@ -47,7 +47,7 @@ Ana sayfalar `FIYAT_LD` kullanmaz; teklifler `LocalBusiness` içindeki `hasOffer
 
 ## Ortam değişkenleri
 
-- `CRON_SECRET` — tanımlanırsa `/api/temizle` yalnızca `Authorization: Bearer <secret>` ile çalışır (Vercel cron bunu otomatik gönderir).
+- Ölçüm kayıtlarının 30 günlük temizliği Supabase Cron üzerinden günlük çalışır (04:00 UTC). Yönetim panelindeki elle temizleme seçeneği oturum gerektirir. Vercel üzerinden ayrı temizleme görevi çalıştırılmaz.
 
 Supabase anahtarları `api/` dosyalarında gömülüdür (publishable). Tablolar: `posts`, `models`.
 

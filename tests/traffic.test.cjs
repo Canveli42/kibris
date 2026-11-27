@@ -78,9 +78,19 @@ test('panel distinguishes clicks from scroll depth and handles numeric-string co
   ]), [['25%', 8], ['50%', 0], ['75%', 0], ['100%', 2]]);
 });
 
-test('scheduled cleanup is configured daily with a thirty-day target', () => {
+test('cleanup uses database scheduling; the retired HTTP route cannot trigger cleanup', () => {
   const config = JSON.parse(read('vercel.json'));
-  assert.ok(config.crons.some(job => job.path === '/api/temizle' &&
-    /^\d+\s+\d+\s+\*\s+\*\s+\*$/.test(job.schedule)));
-  assert.match(read('api/temizle.js'), /\bp_gun:\s*30\b/);
+  assert.ok(!(config.crons || []).some(job => job.path === '/api/temizle'));
+  const module = { exports: {} };
+  vm.runInNewContext(read('api/temizle.js'), { module });
+  const result = {};
+  const res = {
+    setHeader(name, value) { result[name] = value; },
+    status(code) { result.status = code; return this; },
+    json(body) { result.body = body; }
+  };
+  module.exports({}, res);
+  assert.equal(result.status, 410);
+  assert.equal(result['Cache-Control'], 'no-store');
+  assert.equal(result.body.ok, false);
 });
