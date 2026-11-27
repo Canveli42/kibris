@@ -1,6 +1,6 @@
-// data/regions.ek.js — bölge ek içerikleri
+// data/regions.ek.js — bölge ek içerikleri (parça dosyalarını birleştirir)
 
-module.exports = {
+const A = {
   "girne-merkez-escort":{nm:"Girne Merkez",alt:"Şehir içi, liman arkası ve çarşı hattı",kemer:"banliyo",
     lead:"Girne merkez escort: çarşı, liman arkası ve şehir içi sokaklar. Yürüyerek buluşma, otel lobisi, kapora yok.",
     areas:["Çarşı içi","Liman arkası","Belediye çevresi","Ana cadde"],
@@ -421,3 +421,8 @@ module.exports = {
 <div class="about">Gündüz 12:00-17:00 en sakin aralık. Akşam için 1 saat önceden yaz.</div>`,
     sss:[["Yenişehir escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Araçla geliş kolay mı?","Evet, caddeler geniş ve park sorunu yok."],["Merkeze uzak mı?","Beş dakika, taksi kolay bulunuyor."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]}
 };
+
+module.exports = Object.assign({}, A,
+  require('./ek/magusa.js'),
+  require('./ek/lefkosa.js')
+);
