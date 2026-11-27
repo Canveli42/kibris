@@ -7,6 +7,7 @@ const TG = 'https://t.me/kibrisescortvip';
 const LOGO = BASE + '/apple-touch-icon.png';
 const S = require('../data/shell.js');
 const F = require('../data/fiyat.js');
+const B = require('../data/bolge.js');
 
 const DILLER = ['tr', 'en', 'ru'];
 const DI = { tr: 0, en: 1, ru: 2 };
@@ -37,15 +38,6 @@ const tarih = (d, dil) => {
 const duz = s => String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
 /* ---------- profil bloğu ---------- */
-// Gövde şu blokla başlayabilir:
-// :::profil
-// yas: 24
-// boy: 168
-// hizmet: saksoy, kilifsiz-oral, anal
-// saat: 12:00-02:00
-// yer: kendi-yeri
-// :::
-
 const SPEC_ALAN = ['yas', 'boy', 'kilo', 'sac', 'gogus', 'diller', 'hizmet', 'saat', 'yer'];
 const ETIKET = {
   tr: { yas: 'Yaş', boy: 'Boy', kilo: 'Kilo', sac: 'Saç', gogus: 'Vücut', diller: 'Diller', hizmet: 'Hizmetler', saat: 'Uygun saatler', yer: 'Buluşma' },
@@ -118,55 +110,24 @@ const sss = f => {
 };
 
 /* ---------- profil tespiti ---------- */
-const BOLGE = {
-  girne: ['Girne', 'girne-escort'], merkez: ['Girne Merkez', 'girne-escort'], liman: ['Girne Liman', 'girne-escort'],
-  zeytinlik: ['Zeytinlik', 'girne-escort'], karakum: ['Karakum', 'girne-escort'], nusmar: ['Nusmar', 'girne-escort'],
-  karaoglanoglu: ['Karaoğlanoğlu', 'karaoglanoglu-escort'], alsancak: ['Alsancak', 'alsancak-escort'],
-  lapta: ['Lapta', 'lapta-escort'], catalkoy: ['Çatalköy', 'catalkoy-escort'], bellapais: ['Bellapais', 'bellapais-escort'],
-  esentepe: ['Esentepe', 'esentepe-escort'], lefkosa: ['Lefkoşa', 'lefkosa-escort'], kumsal: ['Kumsal', 'lefkosa-escort'],
-  surici: ['Suriçi', 'lefkosa-escort'], ortakoy: ['Ortaköy', 'lefkosa-escort'], hamitkoy: ['Hamitköy', 'lefkosa-escort'],
-  koskluciftlik: ['Köşklüçiftlik', 'lefkosa-escort'], gonyeli: ['Gönyeli', 'gonyeli-escort'],
-  haspolat: ['Haspolat', 'lefkosa-escort'], magusa: ['Mağusa', 'magusa-escort'], sakarya: ['Sakarya', 'magusa-escort'],
-  maras: ['Maraş', 'magusa-escort'], tuzla: ['Tuzla', 'magusa-escort'], canakkale: ['Çanakkale', 'magusa-escort'],
-  iskele: ['İskele', 'iskele-escort'], 'long-beach': ['Long Beach', 'long-beach-escort'],
-  bafra: ['Bafra', 'bafra-escort'], guzelyurt: ['Güzelyurt', 'guzelyurt-escort']
-};
-
-const BOLGE_AD = {
-  girne: ['Girne', 'Kyrenia', 'Кирения'], merkez: ['Girne Merkez', 'Kyrenia Centre', 'Центр Кирении'],
-  liman: ['Girne Liman', 'Kyrenia Harbour', 'Порт Кирении'], zeytinlik: ['Zeytinlik', 'Zeytinlik', 'Зейтинлик'],
-  karakum: ['Karakum', 'Karakum', 'Каракум'], nusmar: ['Nusmar', 'Nusmar', 'Нусмар'],
-  karaoglanoglu: ['Karaoğlanoğlu', 'Karaoglanoglu', 'Караогланоглу'], alsancak: ['Alsancak', 'Alsancak', 'Алсанчак'],
-  lapta: ['Lapta', 'Lapta', 'Лапта'], catalkoy: ['Çatalköy', 'Catalkoy', 'Чаталкёй'],
-  bellapais: ['Bellapais', 'Bellapais', 'Беллапаис'], esentepe: ['Esentepe', 'Esentepe', 'Эсентепе'],
-  lefkosa: ['Lefkoşa', 'Nicosia', 'Никосия'], kumsal: ['Kumsal', 'Kumsal', 'Кумсал'],
-  surici: ['Suriçi', 'Surici', 'Суриичи'], ortakoy: ['Ortaköy', 'Ortakoy', 'Ортакёй'],
-  hamitkoy: ['Hamitköy', 'Hamitkoy', 'Хамиткёй'], koskluciftlik: ['Köşklüçiftlik', 'Koskluciftlik', 'Кёшключифтлик'],
-  gonyeli: ['Gönyeli', 'Gonyeli', 'Гёнйели'], haspolat: ['Haspolat', 'Haspolat', 'Хасполат'],
-  magusa: ['Mağusa', 'Famagusta', 'Фамагуста'], sakarya: ['Sakarya', 'Sakarya', 'Сакарья'],
-  maras: ['Maraş', 'Maras', 'Мараш'], tuzla: ['Tuzla', 'Tuzla', 'Тузла'],
-  canakkale: ['Çanakkale', 'Canakkale', 'Чанаккале'], iskele: ['İskele', 'Iskele', 'Искеле'],
-  'long-beach': ['Long Beach', 'Long Beach', 'Лонг-Бич'], bafra: ['Bafra', 'Bafra', 'Бафра'],
-  guzelyurt: ['Güzelyurt', 'Guzelyurt', 'Гюзельюрт']
-};
-
 const REHBER = new Set([
   'fiyatlari', 'villa', 'nasil-cagrilir', 'rehberi', 'rehber', 'program',
   '2-saat-program', '4-saat-program', 'gecelik-program', '30-dakika',
   'ilk-gorusme', 'lobi-mi-oda-mi', 'mitleri', 'sabah-gorusmesi',
-  'vip-davet', 'turk-rus-farki', 'ulasim-ve-taksi', 'otelleri'
+  'vip-davet', 'turk-rus-farki', 'ulasim-ve-taksi', 'otelleri',
+  'resort', 'site-apart'
 ]);
 
-function profilCoz(slug) {
+const ATIL = new Set(['seviyor','istiyor','yapiyor','geliyor','bekliyor','karsiliyor','oturuyor','yatiyor','cikip','yemegi','sonra','dogru','havasi','tadinda','uzaniyor','cokmus','kalkiyor','sikistiriyor','aliyor','yutuyor','koruyor']);
+
+function profilCoz(slug, kayit) {
   const m = String(slug || '').match(/^([a-z-]+)-escort-(.+)$/);
   if (!m) return null;
-  const onek = m[1], kuyruk = m[2].replace(/-(19|20)\d{2}$/, '');
-  if (REHBER.has(kuyruk)) return null;
-  const ilk = onek.split('-')[0];
-  const anahtar = BOLGE[ilk] ? ilk : Object.keys(BOLGE).find(k => onek.endsWith('-' + k));
-  if (!anahtar) return null;
+  const kuyruk = m[2].replace(/-(19|20)\d{2}$/, '');
+  if (REHBER.has(kuyruk) || !kuyruk) return null;
+  const bolge = (kayit && kayit.bolge) || B.slugBolge(slug);
+  if (!bolge || !B.varMi(bolge)) return null;
   const parca = kuyruk.split('-').filter(Boolean);
-  const ATIL = new Set(['seviyor','istiyor','yapiyor','geliyor','bekliyor','karsiliyor','oturuyor','yatiyor','cikip','yemegi','sonra','dogru','havasi','tadinda','uzaniyor','cokmus','kalkiyor','sikistiriyor','aliyor','yutuyor','koruyor']);
   const adParca = [];
   for (const p of parca) {
     if (adParca.length >= 2) break;
@@ -175,7 +136,7 @@ function profilCoz(slug) {
   }
   const ad = (adParca.length ? adParca : parca.slice(0, 2))
     .map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
-  return { semt: anahtar, bolgeAd: BOLGE[anahtar][0], bolgeYol: BOLGE[anahtar][1], ad };
+  return { bolge, il: B.il(bolge), ad };
 }
 
 const kok = dil => (dil === 'tr' ? '/blog/' : '/' + dil + '/blog/');
@@ -221,36 +182,47 @@ const M = {
   }
 };
 
+const profilCek = async (filtre, dil, slug, limit) => {
+  try {
+    const r = await fetch(
+      SB + '/rest/v1/posts?select=slug,title,img&published=eq.true&lang=eq.' + dil +
+      '&slug=neq.' + encodeURIComponent(slug) + '&bolge=not.is.null&' + filtre +
+      '&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast&limit=' + limit,
+      { headers: H }
+    );
+    if (r.ok) return (await r.json()) || [];
+  } catch (e) {}
+  return [];
+};
+
 async function ilgiliYazilar(slug, dil, profil) {
-  let out = [];
-  if (profil) {
+  if (!profil) {
+    const tokens = String(slug || '').split('-').filter(t => t.length > 2 && !['kibris','escort','rehberi','blog','otel','ne','mi','mu','ve','icin','nasil','nedir','demek','kadar','hangi'].includes(t)).slice(0, 2);
+    const or = tokens.map(t => 'slug.ilike.*' + encodeURIComponent(t) + '*').join(',');
+    if (!or) return [];
     try {
       const r = await fetch(
         SB + '/rest/v1/posts?select=slug,title,img&published=eq.true&lang=eq.' + dil +
-        '&slug=neq.' + encodeURIComponent(slug) + '&slug=like.' + profil.semt + '-escort-*' +
-        '&or=(' + YAYIN + ')&limit=6',
+        '&slug=neq.' + encodeURIComponent(slug) + '&or=(' + or + ')&or=(' + YAYIN + ')&limit=6',
         { headers: H }
       );
-      if (r.ok) out = (await r.json()) || [];
+      if (r.ok) return ((await r.json()) || []).slice(0, 5);
     } catch (e) {}
+    return [];
   }
-  if (out.length < 4) {
-    const tokens = String(slug || '').split('-').filter(t => t.length > 2 && !['kibris','escort','rehberi','blog','otel','ne','mi','mu','ve','icin','nasil','nedir','demek','kadar','hangi'].includes(t)).slice(0, 2);
-    const or = tokens.map(t => 'slug.ilike.*' + encodeURIComponent(t) + '*').join(',');
-    if (or) {
-      try {
-        const r = await fetch(
-          SB + '/rest/v1/posts?select=slug,title,img&published=eq.true&lang=eq.' + dil +
-          '&slug=neq.' + encodeURIComponent(slug) + '&or=(' + or + ')&limit=6',
-          { headers: H }
-        );
-        if (r.ok) {
-          const a = (await r.json()) || [];
-          for (const x of a) { if (out.length >= 5) break; if (!out.some(y => y.slug === x.slug)) out.push(x); }
-        }
-      } catch (e) {}
+  const gorulen = new Set([slug]);
+  const out = [];
+  const ekle = a => {
+    for (const x of a) {
+      if (out.length >= 5) break;
+      if (!x || gorulen.has(x.slug)) continue;
+      gorulen.add(x.slug);
+      out.push(x);
     }
-  }
+  };
+  ekle(await profilCek('bolge=eq.' + profil.bolge, dil, slug, 6));
+  if (out.length < 5 && profil.il !== profil.bolge) ekle(await profilCek('il=eq.' + profil.il, dil, slug, 8));
+  if (out.length < 5) ekle(await profilCek('bolge=not.is.null', dil, slug, 8));
   return out.slice(0, 5);
 }
 
@@ -296,8 +268,6 @@ module.exports = async (req, res) => {
     const dil = DILLER.includes(ham) ? ham : 'tr';
     const t = M[dil];
     const url = BASE + kok(dil) + slug;
-    const profil = profilCoz(slug);
-    const bolgeAd = profil ? ((BOLGE_AD[profil.semt] || [profil.bolgeAd])[DI[dil]] || profil.bolgeAd) : '';
 
     let p = null;
 
@@ -355,8 +325,10 @@ module.exports = async (req, res) => {
       return;
     }
 
+    const profil = profilCoz(slug, p);
     const ayikla = specAyikla(p.body);
     const spec = profil ? ayikla.spec : null;
+    const bolgeAd = profil ? B.ad(profil.bolge, dil) : '';
 
     const digerleri = await ilgiliYazilar(slug, dil, profil);
 
@@ -387,20 +359,26 @@ module.exports = async (req, res) => {
     const dk = Math.max(1, Math.round(kelime / 180));
     const f = sss(p.faq);
 
-    const bolgeYol = profil ? BASE + kokB(dil) + profil.bolgeYol : '';
-    const hubYol = profil ? BASE + '/modeller/' + profil.bolgeYol.replace('-escort', '') : '';
+    const bolgeYol = profil ? BASE + kokB(dil) + B.yol(profil.bolge) : '';
+    const hubYol = profil ? BASE + B.hub(profil.bolge) : '';
+    const ustAd = profil && B.ust(profil.bolge) ? B.ad(B.ust(profil.bolge), dil) : '';
+    const ustYol = profil && B.ust(profil.bolge) ? BASE + kokB(dil) + B.yol(B.ust(profil.bolge)) : '';
 
     const kirinti = profil
-      ? `<a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <a href="${bolgeYol}">${esc(bolgeAd)}</a> › <span>${esc(p.title)}</span>`
+      ? `<a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › ` +
+        (ustAd ? `<a href="${ustYol}">${esc(ustAd)}</a> › ` : '') +
+        `<a href="${bolgeYol}">${esc(bolgeAd)}</a> › <span>${esc(p.title)}</span>`
       : `<a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <a href="${BASE}${dil === 'tr' ? '/blog' : '/' + dil + '/blog'}">${esc(t.blog)}</a> › <span>${esc(p.title)}</span>`;
 
-    const kirintiLd = [
-      { '@type': 'ListItem', position: 1, name: t.ana, item: BASE + (dil === 'tr' ? '/' : '/' + dil) },
-      profil
-        ? { '@type': 'ListItem', position: 2, name: bolgeAd, item: bolgeYol }
-        : { '@type': 'ListItem', position: 2, name: t.blog, item: BASE + (dil === 'tr' ? '/blog' : '/' + dil + '/blog') },
-      { '@type': 'ListItem', position: 3, name: p.title, item: url }
-    ];
+    const kirintiLd = [{ '@type': 'ListItem', position: 1, name: t.ana, item: BASE + (dil === 'tr' ? '/' : '/' + dil) }];
+    if (profil) {
+      let pos = 2;
+      if (ustAd) { kirintiLd.push({ '@type': 'ListItem', position: pos++, name: ustAd, item: ustYol }); }
+      kirintiLd.push({ '@type': 'ListItem', position: pos++, name: bolgeAd, item: bolgeYol });
+    } else {
+      kirintiLd.push({ '@type': 'ListItem', position: 2, name: t.blog, item: BASE + (dil === 'tr' ? '/blog' : '/' + dil + '/blog') });
+    }
+    kirintiLd.push({ '@type': 'ListItem', position: kirintiLd.length + 1, name: p.title, item: url });
 
     const ld = [];
 
@@ -446,7 +424,7 @@ module.exports = async (req, res) => {
       : '';
 
     const tarife = profil
-      ? `<section class="sect"><h2>${esc(t.tarifeB)}</h2><div class="tarife">${F.satir(dil)}</div>
+      ? `<section class="sect"><h2>${esc(t.tarifeB)}</h2><div class="tarife">${F.satir(dil, profil.bolge)}</div>
          <p class="guncel">${esc(t.tarifeNot)} <a href="${BASE}${dil === 'tr' ? '/fiyatlar' : '/' + dil + '/fiyatlar'}">${esc(t.tarifeGit)}</a></p></section>`
       : '';
 
