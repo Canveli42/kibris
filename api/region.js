@@ -405,7 +405,13 @@ ${S.footer(dil)}
     }
   ];
 
-  const digerleri = Object.keys(D[dil]).filter(k => k !== slug)
+  const ANA = ['girne-escort','lefkosa-escort','magusa-escort','iskele-escort','guzelyurt-escort'];
+  const FORMAT = ['otele-escort','eve-gelen-escort','ogrenci-escort','gecelik-escort','vip-escort','turk-escort','rus-escort'];
+  const kardes = bolgeVar
+    ? Object.keys(D[dil]).filter(k => k !== slug && B.varMi(k.replace(/-escort$/, '')) && B.il(k.replace(/-escort$/, '')) === B.il(bolgeKod))
+    : [];
+  const digerleri = [].concat(ANA, kardes, FORMAT)
+    .filter((k, i, a) => k !== slug && a.indexOf(k) === i && D[dil][k])
     .map(k => `<a class="btn-o" href="${BASE}${kok(dil)}/${k}">${esc(D[dil][k].nm)}</a>`).join('');
 
   const ekMetin = String(C2.ek || (EK[dil] && EK[dil][slug]) || '');
