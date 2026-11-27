@@ -185,6 +185,13 @@ areas:["Arasta","Saat kulesi çevresi","Çarşı arası sokaklar","Kale çevresi
 otel:["Merkez butik oteller","Çarşı üstü pansiyonlar","Kale çevresi oteller"],
 metin:"Girne Çarşı gündüz de hareketli bir hat: arasta, saat kulesi çevresi ve ara sokaklar. Dükkânlar geç saate kadar açık olduğu için buluşma noktası bulmak kolay, kalabalıkta göze batmıyor.",
 metin2:"Çarşı içine araç girmiyor; en yakın noktada inip yürümek gerekiyor. Buluşmayı dükkân ya da meydan adıyla veriyoruz. Ödeme görüşmenin başında, kapora yok.",
+ek:`<h2>Çarşıda nerede buluşulur</h2>
+<div class="about"><b>Arasta ve saat kulesi</b><br>En kolay bulunan nokta. Gündüz kalabalık olduğu için buluşma göze batmıyor.</div>
+<div class="about"><b>Çarşı arası sokaklar</b><br>Dar ve gölgeli; yaz aylarında gündüz buluşması için en rahatı.</div>
+<div class="about"><b>Kale çevresi</b><br>Kısa yürüyüş, akşam üstü sakin. Buluşmadan sonra limana inmek kolay.</div>
+<h2>Saat ve ulaşım</h2>
+<div class="about">Çarşı gündüz en verimli hat; akşam üstü dükkânlar kapanınca kalabalık azalıyor.</div>
+<div class="about">Araç çarşı içine girmiyor. En yakın noktayı mesajda netleştiriyoruz.</div>`,
 sss:[["Girne Çarşı escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Çarşıda gündüz buluşma olur mu?","Evet, çarşı gündüz de canlı. Arasta ve saat kulesi çevresi en kolay noktalar."],["Araç çarşı içine giriyor mu?","Girmiyor. En yakın noktada inip birkaç dakika yürümen gerekiyor."],["Otele 30 dakika olur mu?","Olmaz. 30 dakika yalnızca kendi yerimizde, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]},
 
 "girne-karaman-escort":{nm:"Karaman",alt:"Köy dokusu, bahçeli evler ve zeytinlikler",kemer:"banliyo",
@@ -193,5 +200,12 @@ areas:["Karaman köy içi","Zeytinlik yolu","Karmi sırtı","Bahçeli evler"],
 otel:["Köy pansiyonları","Karmi butik oteller","Merkez otelleri"],
 metin:"Karaman Girne'nin batısında, köy dokusunu korumuş sakin bir yerleşim. Bahçeli evler ve zeytinlikler arasında; merkez gibi kalabalık değil, araçla altı dakika. Buluşma genelde köy içindeki kahve önünde ya da ev kapısında oluyor.",
 metin2:"Köy içi sokaklar dar ve isimsiz; konum linki göndermeden yola çıkılmıyor. Taksi ücreti mesafeye göre önceden söylenir. Ödeme görüşmenin başında, kapora yok.",
+ek:`<h2>Karaman'da nerede buluşulur</h2>
+<div class="about"><b>Köy içi</b><br>Kahve önü en kolay nokta. Akşam üstü sakin, gündüz bahçe işleriyle hareketli.</div>
+<div class="about"><b>Bahçeli evler</b><br>Kapıda buluşma. Kapı numarası ve bahçe tarifi mesajda net olmalı.</div>
+<div class="about"><b>Karmi sırtı</b><br>Yol yamaca tırmanıyor; taksi ücreti merkeze göre biraz yüksek ve önceden söylenir.</div>
+<h2>Ulaşım</h2>
+<div class="about">Girne merkezden altı dakika. Köy içinde boş taksi geçmiyor, dönüş için şoför numarası al.</div>
+<div class="about">Zeytinlik ve Karmi yolu üzerinden gelmek en kısa güzergâh.</div>`,
 sss:[["Karaman escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Karaman'da kapıda buluşma olur mu?","Evet, bahçeli evlerde kapıda buluşuyoruz. Kapı numarası ve tarif net olmalı."],["Karaman'a taksi ücreti ne kadar?","Mesafeye göre değişir, mesajda önceden söylenir ve kapıda değişmez."],["Otele 30 dakika olur mu?","Olmaz. 30 dakika yalnızca kendi yerimizde, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]}
 };
