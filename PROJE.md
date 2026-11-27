@@ -27,7 +27,7 @@ Kullanıcı istemeden bunlardan hiçbirine girilmez. **Site bozulmasın** — en
 
 - Marka: **RedKıbrıs**
 - Site: https://www.kibrisgirneescort.com
-- Repo: `Canveli42/kibris` (public, kullanıcının GitHub'a yazma yetkisi yok)
+- Repo: `Canveli42/kibris` (public, asistanın GitHub'a yazma yetkisi yok)
 - Stack: Node serverless fonksiyonları + `pages/*.html` şablonları, Vercel; veri Supabase
 - Diller: TR (kök), `/en/...`, `/ru/...`
 - İletişim: WhatsApp `wa.me/905515420755`, Telegram `t.me/kibrisescortvip`, Instagram `kibrisgirneescort`
@@ -36,11 +36,50 @@ Kullanıcı istemeden bunlardan hiçbirine girilmez. **Site bozulmasın** — en
 
 ---
 
-## 3. FİYAT VE ÖDEME — SABİT
+## 3. PROFİL KONUSU — KİLİTLİ
+
+Profil slug'ı `bolge-escort-konu` desenindedir ve konu zorunludur. Konu, **aranan** bir şey olacak; süsleme olmayacak.
+
+**Kural:** Konu kelimesi Google'ın arama kutusuna yazılır mı? Yazılmıyorsa kullanılmaz.
+
+### Yasak — bunlar süs, arama hacmi yok
+
+`dantel` · `slip` · `bornoz` · `tezgah` · `kanepe` · `kapı` · `pazar` · `şeffaf` · `halı` · `perde` · `çarşaf` · `koltuk` · `ayna` · `saksoyu seviyor` · `girtlaga alıyor`
+
+Bu kelimeler bir eşyayı tarif ediyor, aranan bir şeyi değil. Kimse "girne escort tezgah" diye aramıyor.
+
+### Sıra — bu sırayla tercih et
+
+1. **Yaş bandı** — `25-yas`, `30-yas`, `40-yas`
+2. **Vücut / saç** — `ince`, `balik-etli`, `uzun-boylu`, `esmer`, `sarisin`
+3. **Saat** — `gece`, `gunduz`, `sabah`, `gec-saat`
+4. **Dil** — `rusca-bilen`, `ingilizce-bilen`, `turkce-bilen`
+5. **Hizmet** — `masajli`, `yemekli`, `cift-bay-bayan`
+6. **Durum** — `ogrenci`, `calisan`, `yeni`
+7. **Semt detayı** — `sahilde`, `limanda`, `otel-yakininda`
+
+Slug'da bu yedi kategoriden **en az biri** bulunacak. Sadece süs kelimesiyle slug kurulmaz.
+
+### Konu bulamazsan
+
+Uydurma. İki yol var:
+
+1. Kullanıcıya sor: "Bu model için hangi ayırt edici özellik doğru?"
+2. Kullanıcıdan **referans site** iste, oradan bak.
+
+Referans örneği: **www.konyajo.com** — "konya escort" kelimesinde 1. sırada, hep aranan şeyler yazmış. Rakip sitelerde tutan konu başlıkları örnek alınır, birebir kopyalanmaz.
+
+### Mevcut durum
+
+Yayındaki ~800 profilin konusu bu kurala uymuyor, **dokunulmuyor**. Kural yeni yazılanlar için. Eski slug'lar örnek sayılmaz; "eskiden dantel yazılmış" gerekçe değildir.
+
+---
+
+## 4. FİYAT VE ÖDEME — SABİT
 
 | Süre | Ücret |
 |---|---|
-| 30 dakika | 7.000 ₺ (yalnızca kendi yerimizde Girne Merkez) |
+| 30 dakika | 7.000 ₺ (yalnızca Girne merkez) |
 | 1 saat | 12.000 ₺ |
 | 2 saat | 17.000 ₺ |
 | 4 saat | 22.000 ₺ |
@@ -51,7 +90,7 @@ Kullanıcı istemeden bunlardan hiçbirine girilmez. **Site bozulmasın** — en
 
 ---
 
-## 4. VERİTABANI
+## 5. VERİTABANI
 
 - `posts`: `slug, lang, title, meta, body, faq, published, bolge, profil, updated_at`
 - `models`: kilo/saç/göğüs kolonu **YOK**, eklenmeyecek
@@ -59,7 +98,7 @@ Kullanıcı istemeden bunlardan hiçbirine girilmez. **Site bozulmasın** — en
 
 ---
 
-## 5. ROTALAR
+## 6. ROTALAR
 
 - `/blog/:slug` → `api/post.js`
 - `/en/blog/:slug`, `/ru/blog/:slug` → aynı fonksiyon, `lang` parametreli
@@ -72,7 +111,7 @@ Eksik EN/RU yazıda `post.js` **302**, `region.js` **301** ile TR'ye atar.
 
 ---
 
-## 6. VERİ DOSYALARI
+## 7. VERİ DOSYALARI
 
 - `data/bolge.js` — bölge kayıtları. `pg` alanı zorunlu ve önekle birebir aynı olmalı
 - `data/ek.js` + `data/regions.ek.js` — bölgeye özel HTML; `regions.ek.js` içeriği `pg` ile eşleşir
@@ -84,7 +123,7 @@ Eksik EN/RU yazıda `post.js` **302**, `region.js` **301** ile TR'ye atar.
 
 ---
 
-## 7. GÖVDE VE SSS BİÇİMİ
+## 8. GÖVDE VE SSS BİÇİMİ
 
 `govde()` hem HTML hem markdown işler:
 
@@ -96,7 +135,7 @@ Eksik EN/RU yazıda `post.js` **302**, `region.js` **301** ile TR'ye atar.
 
 ---
 
-## 8. SLUG DESENİ VE TUZAK
+## 9. SLUG DESENİ VE TUZAK
 
 Desen: `bolge-escort-konu`
 
@@ -113,7 +152,7 @@ Desen: `bolge-escort-konu`
 
 ---
 
-## 9. TON VE YAZI FORMATI
+## 10. TON VE YAZI FORMATI
 
 - H1, 700-900 kelime, H2 alt başlıklar
 - Sonunda SSS
@@ -124,7 +163,7 @@ Desen: `bolge-escort-konu`
 
 ---
 
-## 10. ÇALIŞMA DÜZENİ
+## 11. ÇALIŞMA DÜZENİ
 
 1. Her dosya **komple** verilir. "Şu satırı değiştir" denmez. Kullanıcı siler, yapıştırır, commit eder
 2. SQL'i asistan yazar, kullanıcı Supabase'de çalıştırır
@@ -136,7 +175,7 @@ Desen: `bolge-escort-konu`
 
 ---
 
-## 11. BİTTİ — TEKRAR YAPMA
+## 12. BİTTİ — TEKRAR YAPMA
 
 - 55 bölge sayfası yayında, sitemap 676, 404 yok (kullanıcı doğruladı)
 - `saat` boş 150 satır dolduruldu, 11 eksik `models` kaydı eklendi
@@ -150,7 +189,7 @@ Desen: `bolge-escort-konu`
 
 ---
 
-## 12. AÇIK İŞLER (sırada)
+## 13. AÇIK İŞLER (sırada)
 
 **Yazılar:** girne-escort-tekne-turu, ercan-havalimani-escort-karsilama, kibris-escort-whatsapp, otel-lobisinde-bulusma-girne, kibris-escort-kapora-ister-mi, girne-mi-magusa-mi-escort, escort-ile-ilk-bulusma-kontrol-listesi, kibris-escort-4-saat-program-nasil-gecer, lefkosa-escort-is-seyahati, magusa-surici-escort-rehberi
 
@@ -171,11 +210,11 @@ Desen: `bolge-escort-konu`
 - 4 sayfada başlıklar yalnızca H3, H2 yok
 - `README.md` "tek JS istisnası model filtresi" diyor, blog arama betiği de var
 
-**Karar bekleyen:** 17 profil çifti (dantel, slip, kanepe, tezgah, seffaf temaları) — birleştirme değil, profile ayırt edici paragraf.
+**Karar bekleyen:** 17 profil çifti — birleştirme değil, profile ayırt edici paragraf.
 
 ---
 
-## 13. KISITLAR
+## 14. KISITLAR
 
 - CSP nonce'lu, trusted-types açık. Gövdeye `<script>` eklersen `noncele()` hallediyor
 - `api/indexnow.js`: POST + Bearer + `INDEXNOW_ADMIN_SECRET`
