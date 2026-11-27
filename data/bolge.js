@@ -1,16 +1,13 @@
 // data/bolge.js — tek bölge kayıt defteri
-// pg: bölgenin kendi sayfası (yoksa null, en yakın üst sayfaya katlanır)
-// hb: modeller listesi adresi (benzersiz)
-// alt: ana bölge mi (liste il'i de kapsar)
 
 const K = {
   girne:                { ad:['Girne','Kyrenia','Кирения'], il:'girne', ust:null, alt:true, pg:'girne-escort', hb:'girne' },
-  'girne-merkez':       { ad:['Girne Merkez','Kyrenia Centre','Центр Кирении'], il:'girne', ust:'girne', pg:null, hb:'girne-merkez' },
-  'girne-liman':        { ad:['Girne Liman','Kyrenia Harbour','Порт Кирении'], il:'girne', ust:'girne', pg:null, hb:'girne-liman' },
-  'girne-zeytinlik':    { ad:['Zeytinlik','Zeytinlik','Зейтинлик'], il:'girne', ust:'girne', pg:null, hb:'zeytinlik' },
-  'girne-karakum':      { ad:['Karakum','Karakum','Каракум'], il:'girne', ust:'girne', pg:null, hb:'karakum' },
-  'girne-nusmar':       { ad:['Nusmar','Nusmar','Нусмар'], il:'girne', ust:'girne', pg:null, hb:'nusmar' },
-  'girne-karmi':        { ad:['Karmi','Karmi','Карми'], il:'girne', ust:'girne', pg:null, hb:'karmi' },
+  'girne-merkez':       { ad:['Girne Merkez','Kyrenia Centre','Центр Кирении'], il:'girne', ust:'girne', pg:'girne-merkez-escort', hb:'girne-merkez' },
+  'girne-liman':        { ad:['Girne Liman','Kyrenia Harbour','Порт Кирении'], il:'girne', ust:'girne', pg:'girne-liman-escort', hb:'girne-liman' },
+  'girne-zeytinlik':    { ad:['Zeytinlik','Zeytinlik','Зейтинлик'], il:'girne', ust:'girne', pg:'girne-zeytinlik-escort', hb:'zeytinlik' },
+  'girne-karakum':      { ad:['Karakum','Karakum','Каракум'], il:'girne', ust:'girne', pg:'girne-karakum-escort', hb:'karakum' },
+  'girne-nusmar':       { ad:['Nusmar','Nusmar','Нусмар'], il:'girne', ust:'girne', pg:'girne-nusmar-escort', hb:'nusmar' },
+  'girne-karmi':        { ad:['Karmi','Karmi','Карми'], il:'girne', ust:'girne', pg:'girne-karmi-escort', hb:'karmi' },
   'girne-karaoglanoglu':{ ad:['Karaoğlanoğlu','Karaoglanoglu','Караогланоглу'], il:'girne', ust:'girne', pg:'karaoglanoglu-escort', hb:'karaoglanoglu' },
   'girne-catalkoy':     { ad:['Çatalköy','Catalkoy','Чаталкёй'], il:'girne', ust:'girne', pg:'catalkoy-escort', hb:'catalkoy' },
   'girne-bellapais':    { ad:['Bellapais','Bellapais','Беллапаис'], il:'girne', ust:'girne', pg:'bellapais-escort', hb:'bellapais' },
@@ -33,13 +30,13 @@ const K = {
 
   lefkosa:              { ad:['Lefkoşa','Nicosia','Никосия'], il:'lefkosa', ust:null, alt:true, pg:'lefkosa-escort', hb:'lefkosa' },
   'lefkosa-merkez':     { ad:['Lefkoşa Merkez','Nicosia Centre','Центр Никосии'], il:'lefkosa', ust:'lefkosa', pg:null, hb:'lefkosa-merkez' },
-  'lefkosa-kumsal':     { ad:['Kumsal','Kumsal','Кумсал'], il:'lefkosa', ust:'lefkosa', pg:null, hb:'kumsal' },
+  'lefkosa-kumsal':     { ad:['Kumsal','Kumsal','Кумсал'], il:'lefkosa', ust:'lefkosa', pg:'lefkosa-kumsal-escort', hb:'kumsal' },
   'lefkosa-surici':     { ad:['Suriçi','Surici','Суриичи'], il:'lefkosa', ust:'lefkosa', pg:null, hb:'surici' },
   'lefkosa-ortakoy':    { ad:['Ortaköy','Ortakoy','Ортакёй'], il:'lefkosa', ust:'lefkosa', pg:null, hb:'ortakoy' },
   'lefkosa-hamitkoy':   { ad:['Hamitköy','Hamitkoy','Хамиткёй'], il:'lefkosa', ust:'lefkosa', pg:'lefkosa-hamitkoy-escort', hb:'hamitkoy' },
   'lefkosa-koskluciftlik':{ ad:['Köşklüçiftlik','Koskluciftlik','Кёшключифтлик'], il:'lefkosa', ust:'lefkosa', pg:null, hb:'koskluciftlik' },
   'lefkosa-gonyeli':    { ad:['Gönyeli','Gonyeli','Гёньели'], il:'lefkosa', ust:'lefkosa', pg:'gonyeli-escort', hb:'gonyeli' },
-  'lefkosa-haspolat':   { ad:['Haspolat','Haspolat','Хасполат'], il:'lefkosa', ust:'lefkosa', pg:null, hb:'haspolat' },
+  'lefkosa-haspolat':   { ad:['Haspolat','Haspolat','Хасполат'], il:'lefkosa', ust:'lefkosa', pg:'lefkosa-haspolat-escort', hb:'haspolat' },
   'lefkosa-yenisehir':  { ad:['Yenişehir','Yenisehir','Енишехир'], il:'lefkosa', ust:'lefkosa', pg:null, hb:'yenisehir' },
   'lefkosa-marmara':    { ad:['Marmara','Marmara','Мармара'], il:'lefkosa', ust:'lefkosa', pg:null, hb:'marmara' },
   'lefkosa-kermiya':    { ad:['Kermiya','Kermiya','Кермия'], il:'lefkosa', ust:'lefkosa', pg:null, hb:'kermiya' },
@@ -53,10 +50,10 @@ const K = {
 
   magusa:               { ad:['Mağusa','Famagusta','Фамагуста'], il:'magusa', ust:null, alt:true, pg:'magusa-escort', hb:'magusa' },
   'magusa-merkez':      { ad:['Mağusa Merkez','Famagusta Centre','Центр Фамагусты'], il:'magusa', ust:'magusa', pg:null, hb:'magusa-merkez' },
-  'magusa-maras':       { ad:['Maraş','Maras','Мараш'], il:'magusa', ust:'magusa', pg:null, hb:'maras' },
-  'magusa-tuzla':       { ad:['Tuzla','Tuzla','Тузла'], il:'magusa', ust:'magusa', pg:null, hb:'tuzla' },
-  'magusa-sakarya':     { ad:['Sakarya','Sakarya','Сакарья'], il:'magusa', ust:'magusa', pg:null, hb:'sakarya' },
-  'magusa-canakkale':   { ad:['Çanakkale','Canakkale','Чанаккале'], il:'magusa', ust:'magusa', pg:null, hb:'canakkale' },
+  'magusa-maras':       { ad:['Maraş','Maras','Мараш'], il:'magusa', ust:'magusa', pg:'magusa-maras-escort', hb:'maras' },
+  'magusa-tuzla':       { ad:['Tuzla','Tuzla','Тузла'], il:'magusa', ust:'magusa', pg:'magusa-tuzla-escort', hb:'tuzla' },
+  'magusa-sakarya':     { ad:['Sakarya','Sakarya','Сакарья'], il:'magusa', ust:'magusa', pg:'magusa-sakarya-escort', hb:'sakarya' },
+  'magusa-canakkale':   { ad:['Çanakkale','Canakkale','Чанаккале'], il:'magusa', ust:'magusa', pg:'magusa-canakkale-escort', hb:'canakkale' },
   'magusa-surici':      { ad:['Mağusa Suriçi','Famagusta Walled City','Старый город Фамагусты'], il:'magusa', ust:'magusa', pg:null, hb:'magusa-surici' },
   'magusa-karakol':     { ad:['Karakol','Karakol','Каракол'], il:'magusa', ust:'magusa', pg:null, hb:'karakol' },
   'magusa-yenibogazici':{ ad:['Yeniboğaziçi','Yenibogazici','Енибогазичи'], il:'magusa', ust:'magusa', pg:null, hb:'yenibogazici' },
