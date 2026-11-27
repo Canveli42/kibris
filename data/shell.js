@@ -3,7 +3,8 @@ const crypto = require('crypto');
 const BASE = 'https://www.kibrisgirneescort.com';
 const WA = 'https://wa.me/905515420755';
 const TG = 'https://t.me/kibrisescortvip';
-const SURUM = '4';
+const GIT_SURUM = process.env.VERCEL_GIT_COMMIT_SHA || '';
+const SURUM = /^[a-f0-9]{7,64}$/i.test(GIT_SURUM) ? GIT_SURUM.slice(0, 12) : '4';
 
 const u = (dil, p) => BASE + (dil === 'tr' ? '' : '/' + dil) + p;
 

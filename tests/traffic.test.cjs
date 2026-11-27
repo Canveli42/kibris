@@ -26,13 +26,14 @@ test('visitor measurement omits query strings and records each scroll threshold 
     fetch: (_url, options) => { events.push(JSON.parse(options.body)); return Promise.resolve(); }
   });
   listeners.click({ target: { closest: () => ({
-    textContent: 'Example', getAttribute: (name) => name === 'href' ? '/example' : null
+    textContent: 'Example', getAttribute: (name) => name === 'href' ? '/blog/example?private=example#fragment' : null
   }) } });
   now += 500;
   listeners.scroll();
   now += 500;
   listeners.scroll();
   assert.equal(events.length, 5);
+  assert.equal(events[0].etiket, 'iç link: /blog/example');
   assert.ok(events.every(event => event.yol === '/example'));
   assert.deepEqual(events.slice(1).map(event => event.etiket),
     [25, 50, 75, 100].map(n => 'kaydirma: ' + n));

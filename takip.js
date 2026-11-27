@@ -13,8 +13,8 @@
     if (h.indexOf("wa.me") > -1 || h.indexOf("whatsapp") > -1) return "whatsapp: " + t;
     if (h.indexOf("t.me") > -1) return "telegram: " + t;
     if (h.indexOf("tel:") > -1) return "telefon: " + t;
-    if (/^\/(blog|girne|lefkosa|magusa|iskele|guzelyurt)/.test(h)) return "iç link: " + h;
-    return t || h.slice(0, 60) || "bilinmeyen";
+    if (/^\/(blog|girne|lefkosa|magusa|iskele|guzelyurt)/.test(h)) return "iç link: " + h.split(/[?#]/, 1)[0];
+    return t || "bağlantı";
   }
 
   function gonder(veri) {
