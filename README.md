@@ -1,6 +1,6 @@
 # RedKıbrıs
 
-Kıbrıs escort sitesi. TR/EN/RU, sunucu tarafında üretilen sayfalar, ön yüzde JS minimumda (tek istisna model listesi filtresi, satır içi ve nonce'lu).
+Kıbrıs escort sitesi. TR/EN/RU, sunucu tarafında üretilen sayfalar, ön yüzde JavaScript sınırlı tutulur. Model listesi filtresi, blog arama, dil seçimi, metin katmanı, ziyaret ölçümü ve yönetim panelinin ihtiyaç duyduğu betikler kullanılır.
 
 - Canlı: https://www.kibrisgirneescort.com
 - GitHub: https://github.com/Canveli42/kibris
@@ -16,6 +16,9 @@ Kıbrıs escort sitesi. TR/EN/RU, sunucu tarafında üretilen sayfalar, ön yüz
 - `data/bolge.js` — bölge kayıt defteri: `pg` (açılacak adres), `hb` (model hub'ı), `ust` (üst bölge)
 - `api/` — `sayfa` (`/panel` dahil), `region`, `modeller`, `post`, `blog`, `sitemap`, `indexnow`, `takip`, `temizle`
 - `vercel.json` — rewrites, redirects, headers
+- `middleware.js`, `takip.js`, `js/analytics.js` — ölçüm ve istemci tarafındaki yardımcı işlemler
+- `css/sitemap.css` — XML site haritasının tarayıcıdaki okunaklı görünümü
+- `tests/` — otomatik sözdizimi ve trafik sistemi kontrolleri
 
 ## Bölge mekaniği (bozulursa 404 çıkar)
 
@@ -49,10 +52,29 @@ Ana sayfalar `FIYAT_LD` kullanmaz; teklifler `LocalBusiness` içindeki `hasOffer
 
 - Ölçüm kayıtlarının 30 günlük temizliği Supabase Cron üzerinden günlük çalışır (04:00 UTC). Yönetim panelindeki elle temizleme seçeneği oturum gerektirir. Vercel üzerinden ayrı temizleme görevi çalıştırılmaz.
 
-Supabase anahtarları `api/` dosyalarında gömülüdür (publishable). Tablolar: `posts`, `models`.
+- `INDEXNOW_ADMIN_SECRET` yalnızca Vercel Production ortamında gizli değişken olarak tutulur. Bildirim uç noktası yetkili POST isteği gerektirir; otomatik bildirim tetikleyicisi doğrulanmış değildir.
+- Supabase publishable anahtarları istemci ve API kodunda bulunabilir; gizli anahtarlar kaynak kodda tutulmaz. İçerik, model, bölge ve ayar tabloları kullanılır.
+
+## Yayın ve çalışma davranışı
+
+- Panelde ileri tarihli planlama kaldırıldı; taslak durumu korunur. İlk yayına alınma tarihi otomatik kaydedilir, mevcut yayındaki yazı düzenlenirse tarihi değişmez.
+- Site haritası standart XML'dir; `css/sitemap.css` yalnızca tarayıcı görünümünü değiştirir. `lastmod` güvenilir yayın/güncelleme tarihine dayanır.
+- Yazı, blog listesi veya eksik adres çözümlemesinde geçici veritabanı hataları 503 ve `no-store` ile ele alınır; gerçekten bulunmayan sayfalar 404 döner.
+- Görsel dosyası adı değiştirilmeden önce kayıtlı bağlantılar kontrol edilmeli, değişiklik sonrası canlı görsel erişimi doğrulanmalıdır.
 
 ## Geliştirme
 
 ```bash
 npm i -g vercel
 vercel dev
+```
+
+Otomatik testler:
+
+```bash
+npm test
+# veya
+node --test tests/*.test.cjs
+```
+
+GitHub Actions her push ve pull request sonrasında testleri çalıştırır. Kod değişikliği sonrası ilgili canlı sayfalar da kontrol edilmelidir.
