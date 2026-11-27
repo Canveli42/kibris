@@ -1,0 +1,53 @@
+@charset "UTF-8";
+@namespace sm url("http://www.sitemaps.org/schemas/sitemap/0.9");
+@namespace alt url("http://www.w3.org/1999/xhtml");
+
+sm|urlset {
+  display: block;
+  min-height: 100vh;
+  margin: 0;
+  padding: 32px max(18px, calc((100vw - 1024px) / 2));
+  background: #101722;
+  color: #eaf0f7;
+  font: 15px/1.6 system-ui, sans-serif;
+  box-sizing: border-box;
+}
+sm|urlset::before {
+  content: "XML Site Haritası";
+  display: block;
+  color: #ffffff;
+  font-size: 27px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+sm|urlset::after {
+  content: "XML biçimi korunmaktadır.";
+  display: block;
+  color: #aab9ca;
+  padding: 12px 0;
+}
+sm|url {
+  display: block;
+  border-bottom: 1px solid #334155;
+  padding: 12px 0;
+}
+sm|loc {
+  display: block;
+  color: #c7e0ff;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+sm|lastmod, sm|changefreq, sm|priority {
+  display: inline-block;
+  margin-right: 18px;
+  color: #b7c6d7;
+  font-size: 13px;
+}
+sm|lastmod::before { content: "Son güncelleme: "; }
+sm|changefreq::before { content: "Sıklık: "; }
+sm|priority::before { content: "Öncelik: "; }
+alt|link { display: none; }
+@media (max-width: 520px) {
+  sm|urlset { padding: 20px 14px; }
+  sm|lastmod, sm|changefreq, sm|priority { margin-right: 12px; }
+}
