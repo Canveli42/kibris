@@ -5,6 +5,7 @@ const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 const S = require('../data/shell.js');
 const B = require('../data/bolge.js');
 const R = require('../data/regions.js');
+Object.assign(R, require('../data/regions.ek.js'));
 
 const YAYIN = 'yayin_at.is.null,yayin_at.lte.now()';
 
@@ -32,7 +33,7 @@ const FILTRE_JS = `<script>
   function uygula(){
     var n=0,l=k.children;
     for(var i=0;i<l.length;i++){
-      var c=l[i],g=c.dataset,y=g.yas||'',h=g.hizmet||'',d=g.dil||'',o=true;
+      var c=l[i],g=c.dataset,h=g.hizmet||'',d=g.dil||'',o=true;
       if(sec.yas.length&&sec.yas.indexOf(g.yasb)===-1)o=false;
       if(o&&sec.hizmet.length){o=false;for(var j=0;j<sec.hizmet.length;j++)if(h.indexOf(sec.hizmet[j])>-1)o=true}
       if(o&&sec.dil.length){o=false;for(var t=0;t<sec.dil.length;t++)if(d.indexOf(sec.dil[t])>-1)o=true}
@@ -253,7 +254,7 @@ module.exports = async (req, res) => {
     <h2>Sık sorulanlar</h2>
     <details><summary>${esc(ad)} bölgesinde kaç model var?</summary><p>Şu anda ${liste.length} profil yayında. Liste müsaitliğe göre değişiyor.</p></details>
     <details><summary>Hangi saatlerde görüşülüyor?</summary><p>${bolgeKayit && bolgeKayit.metin2 ? 'Bölge sayfasında saat dilimleri yazılı; merkezde 10-15 dakika önceden yazmak yeterli.' : 'Bölgeye göre değişiyor, yazdığında saati birlikte netleştiriyoruz.'}</p></details>
-    <details><summary>Yol payı alınıyor mu?</summary><p>Merkez dışındaki adreslerde 2.000 ₺ yol payı baştan söylenir. Merkezde yok.</p></details>
+    <details><summary>Yol payı alınıyor mu?</summary><p>Merkez dışındaki adreslerde mesafeye göre değişir, mesajda önceden söylenir ve kapıda değişmez. Merkezde yok.</p></details>
   </section>`;
 
   bitir(res, kabuk({
