@@ -88,7 +88,7 @@ module.exports = async (req, res) => {
 
   try {
     const r = await fetch(
-      SB + '/rest/v1/posts?select=slug,lang,created_at,updated_at&published=eq.true&or=(yayin_at.is.null,yayin_at.lte.now())&order=updated_at.desc&limit=2000',
+      SB + '/rest/v1/posts?select=slug,lang,bolge,il,created_at,updated_at&published=eq.true&or=(yayin_at.is.null,yayin_at.lte.now())&order=updated_at.desc&limit=2000',
       { headers: H }
     );
     if (r.ok) { const rows = await r.json(); posts = Array.isArray(rows) ? rows : []; }
@@ -123,7 +123,12 @@ module.exports = async (req, res) => {
     if (Object.keys(yollar).length) ekle(yollar, STATIC, 'weekly', '0.6');
   });
 
-  B.hepsi().forEach(k => ekle({ tr: BASE + '/modeller/' + B.hb(k) }, enSon, 'weekly', ONCELIK[k] ? '0.7' : '0.6'));
+  const dolu = new Set();
+  posts.forEach(p => { if (p.bolge) dolu.add(p.bolge); if (p.il) dolu.add(p.il); });
+  B.hepsi().forEach(k => {
+    if (!dolu.has(k) && !(B.alt(k) && [...dolu].some(x => B.il(x) === k))) return;
+    ekle({ tr: BASE + '/modeller/' + B.hb(k) }, enSon, 'weekly', ONCELIK[k] ? '0.7' : '0.6');
+  });
 
   const map = new Map();
   posts.forEach(p => {
