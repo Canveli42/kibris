@@ -3,7 +3,6 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "functions": { "api/sayfa.js": { "includeFiles": "pages/*.html" } },
-  "crons": [{ "path": "/api/temizle", "schedule": "0 4 * * *" }],
   "redirects": [
     { "source": "/blog/bafra-escort-kseniya-plaj", "destination": "/blog/bafra-escort-kseniya-plajda", "permanent": true },
     { "source": "/blog/magusa-escort-sevim-deneyimli", "destination": "/blog/magusa-escort-sevim-deneyimli-sabirli", "permanent": true },
