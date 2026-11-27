@@ -37,10 +37,98 @@ const CANLI = `<script>
 })();
 </script>`;
 
+const kabuk = o => `<!DOCTYPE html>
+<html lang="tr"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(o.title)}</title>
+<meta name="description" content="${esc(o.desc)}">
+<link rel="canonical" href="${esc(o.url)}">
+<link rel="sitemap" type="application/xml" href="${BASE}/sitemap.xml">
+<meta name="robots" content="${o.robots || 'index,follow'}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RedKıbrıs">
+<meta property="og:title" content="${esc(o.title)}">
+<meta property="og:description" content="${esc(o.desc)}">
+<meta property="og:url" content="${esc(o.url)}">
+<meta name="theme-color" content="#0b121b">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin>
+${S.head()}
+${(o.ld || []).map(ldYaz).join('')}
+</head><body>
+${S.header({ aktif: o.aktif || '/modeller', dil: 'tr', ceviriler: { tr: o.url } })}
+<main class="wrap" id="icerik">
+${o.icerik}
+</main>
+${S.footer('tr')}
+${ARA_CSS}
+${CANLI}
+</body></html>`;
+
+const bitir = (res, html) => {
+  const n = S.nonce();
+  html = S.noncele(html, n);
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=1800, stale-while-revalidate=86400');
+  res.setHeader('Content-Security-Policy', S.csp(n));
+  res.status(200).send(html);
+};
+
+const cek = async () => {
+  try {
+    const r = await fetch(
+      SB + '/rest/v1/posts?select=slug,title,img,bolge,il&published=eq.true&lang=eq.tr' +
+      '&bolge=not.is.null&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast&limit=2000',
+      { headers: H }
+    );
+    if (r.ok) return (await r.json()) || [];
+  } catch (e) {}
+  return [];
+};
+
 module.exports = async (req, res) => {
   const istek = String((req.query && req.query.bolge) || '').replace(/[^a-z-]/g, '');
-  const kod = B.hubdan(istek);
+  const kod = istek ? B.hubdan(istek) : '';
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
+
+  /* --- kök: bölge dizini --- */
+  if (!istek) {
+    const hepsi = await cek();
+    const sayim = {};
+    hepsi.forEach(p => {
+      if (p.bolge && B.varMi(p.bolge)) sayim[p.bolge] = (sayim[p.bolge] || 0) + 1;
+    });
+    const sirali = Object.keys(sayim).sort((a, b) => sayim[b] - sayim[a]);
+
+    const kartlar = sirali.map(b => `<a class="kart" href="${BASE}/modeller/${esc(B.hb(b))}">
+      <span class="kb"><span class="kt">${esc(B.ad(b, 'tr'))}</span><span class="kc">${sayim[b]} profil</span></span></a>`).join('\n');
+
+    const url = BASE + '/modeller';
+    const icerik = `
+    <div class="crumb"><a href="${BASE}/">Ana sayfa</a> › <span>Modeller</span></div>
+    <h1>Escort Modelleri — Bölge Bölge</h1>
+    <p class="lead">Profillerin tamamı bölge bölge ayrıldı. Bölgeyi seç, o bölgede görüşen modelleri gör. Kapora yok, ödeme görüşmenin başında.</p>
+    ${sirali.length ? `<div class="mgrid">${kartlar}</div>` : '<div class="about">Henüz yayında profil yok.</div>'}
+    <div class="about"><b>Sorun mu var, katalog mu lazım?</b><br>WhatsApp veya Telegram'dan yaz, kaldığın bölgeye göre liste gönderiyoruz.
+      <br><a class="btn wa" href="https://wa.me/905515420755" target="_blank" rel="noopener" data-base="https://wa.me/905515420755">WhatsApp'tan yaz</a>
+      <a class="btn tg" href="https://t.me/kibrisescortvip" target="_blank" rel="noopener" data-base="https://t.me/kibrisescortvip">Telegram'dan yaz</a>
+    </div>`;
+
+    bitir(res, kabuk({
+      title: 'Escort Modelleri — Bölge Bölge Liste | RedKıbrıs',
+      desc: 'Kıbrıs escort modelleri bölge bölge. Girne, Lefkoşa, Mağusa, İskele ve diğer bölgelerin profilleri tek listede.',
+      url, icerik, aktif: '/modeller',
+      ld: [
+        { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Escort modelleri', url, inLanguage: 'tr' },
+        { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Ana sayfa', item: BASE + '/' },
+          { '@type': 'ListItem', position: 2, name: 'Modeller', item: url }
+        ] }
+      ]
+    }));
+    return;
+  }
 
   if (!kod) {
     res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600');
@@ -54,16 +142,7 @@ module.exports = async (req, res) => {
   const q = String((req.query && req.query.q) || '').trim().slice(0, 60);
   const ust = B.ust(kod);
 
-  let hepsi = [];
-  try {
-    const r = await fetch(
-      SB + '/rest/v1/posts?select=slug,title,img,bolge,il&published=eq.true&lang=eq.tr' +
-      '&bolge=not.is.null&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast&limit=2000',
-      { headers: H }
-    );
-    if (r.ok) hepsi = (await r.json()) || [];
-  } catch (e) {}
-
+  const hepsi = await cek();
   let liste = B.alt(kod) ? hepsi.filter(p => p.il === kod) : hepsi.filter(p => p.bolge === kod);
 
   if (q) {
@@ -112,40 +191,10 @@ module.exports = async (req, res) => {
     <a class="btn tg" href="https://t.me/kibrisescortvip" target="_blank" rel="noopener" data-base="https://t.me/kibrisescortvip">Telegram'dan yaz</a>
   </div>`;
 
-  let html = `<!DOCTYPE html>
-<html lang="tr"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(ad)} Escort Modelleri | RedKıbrıs</title>
-<meta name="description" content="${esc(ad)} escort modellerinin listesi. Sabit tarife, kapora yok, ödeme görüşmenin başında.">
-<link rel="canonical" href="${url}">
-<link rel="sitemap" type="application/xml" href="${BASE}/sitemap.xml">
-<meta name="robots" content="${q || !liste.length ? 'noindex,follow' : 'index,follow'}">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="RedKıbrıs">
-<meta property="og:title" content="${esc(ad)} Escort Modelleri">
-<meta property="og:description" content="${esc(ad)} bölgesindeki modellerin listesi.">
-<meta property="og:url" content="${url}">
-<meta name="theme-color" content="#0b121b">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preconnect" href="https://accerzwswgiqhtfgoeqv.supabase.co/" crossorigin>
-${S.head()}
-${ld.map(ldYaz).join('')}
-</head><body>
-${S.header({ aktif: bolgeYol, dil: 'tr', ceviriler: { tr: url } })}
-<main class="wrap" id="icerik">
-${icerik}
-</main>
-${S.footer('tr')}
-${ARA_CSS}
-${CANLI}
-</body></html>`;
-
-  const n = S.nonce();
-  html = S.noncele(html, n);
-
-  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=1800, stale-while-revalidate=86400');
-  res.setHeader('Content-Security-Policy', S.csp(n));
-  res.status(200).send(html);
+  bitir(res, kabuk({
+    title: ad + ' Escort Modelleri | RedKıbrıs',
+    desc: ad + ' escort modellerinin listesi. Sabit tarife, kapora yok, ödeme görüşmenin başında.',
+    url, icerik, aktif: bolgeYol, ld,
+    robots: q || !liste.length ? 'noindex,follow' : 'index,follow'
+  }));
 };
