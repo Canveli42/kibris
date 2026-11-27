@@ -7,18 +7,11 @@ const TG = 'https://t.me/kibrisescortvip';
 const S = require('../data/shell.js');
 const F = require('../data/fiyat.js');
 const EK = require('../data/ek.js');
+const B = require('../data/bolge.js');
 
 const DILLER = ['tr', 'en', 'ru'];
 const D = { tr: require('../data/regions.js'), en: require('../data/regions.en.js'), ru: require('../data/regions.ru.js') };
 const YAYIN = 'yayin_at.is.null,yayin_at.lte.now()';
-
-const HUB = {
-  'girne-escort': 'girne', 'karaoglanoglu-escort': 'karaoglanoglu', 'alsancak-escort': 'alsancak',
-  'lapta-escort': 'lapta', 'catalkoy-escort': 'catalkoy', 'bellapais-escort': 'bellapais',
-  'esentepe-escort': 'esentepe', 'lefkosa-escort': 'lefkosa', 'lefkosa-hamitkoy-escort': 'lefkosa',
-  'gonyeli-escort': 'gonyeli', 'magusa-escort': 'magusa', 'iskele-escort': 'iskele',
-  'long-beach-escort': 'long-beach', 'bafra-escort': 'bafra', 'guzelyurt-escort': 'guzelyurt'
-};
 
 const REHBER_YAZI = {
   'girne-escort': '/blog/girne-escort-rehberi-2026',
@@ -278,6 +271,9 @@ module.exports = async (req, res) => {
   const cevap = s => esc(String(s == null ? '' : s).replace(/\{fiyat\}/g, fiyatCumle));
   const cevapDuz = s => String(s == null ? '' : s).replace(/\{fiyat\}/g, fiyatCumle);
 
+  const bolgeKod = slug.replace(/-escort$/, '');
+  const bolgeVar = B.varMi(bolgeKod);
+
   let C2 = D[dil][slug];
 
   if (!C2 && dil !== 'tr' && D.tr[slug]) {
@@ -410,7 +406,7 @@ ${S.footer(dil)}
   const ekMetin = String(C2.ek || (EK[dil] && EK[dil][slug]) || '');
   const kemer = !ekMetin && C2.kemer && KEMER[dil][C2.kemer] ? KEMER[dil][C2.kemer](C2.nm) : '';
 
-  const hub = HUB[slug] || '';
+  const hub = bolgeVar ? B.hub(bolgeKod).replace('/modeller/', '') : '';
   const rehber = REHBER_YAZI[slug] || '';
 
   let modeller = [];
@@ -418,7 +414,8 @@ ${S.footer(dil)}
     try {
       const r = await fetch(
         SB + '/rest/v1/posts?select=slug,title,img&published=eq.true&lang=eq.' + dil +
-        '&slug=like.' + slug.split('-')[0] + '-escort-*&or=(' + YAYIN + ')&limit=8',
+        '&bolge=not.is.null&' + (B.alt(bolgeKod) ? 'il=eq.' : 'bolge=eq.') + bolgeKod +
+        '&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast&limit=8',
         { headers: H }
       );
       if (r.ok) modeller = (await r.json()) || [];
@@ -444,7 +441,7 @@ ${S.footer(dil)}
   ${hub ? `<div class="about"><b>${esc(t.modeller)}</b><br>${esc(t.modellerAlt)}<br><a class="btn-o" href="${BASE}/modeller/${hub}">${esc(t.modellerBtn)}</a></div>` : ''}
   ${hub ? `<div class="about"><b>${esc(t.rehberB)}</b><br>${esc(t.rehberM)}<br><a class="btn-o" href="${BASE}/blog/kibris-escort-bolgeleri">${esc(t.rehberL)}</a>${rehber ? ` <a class="btn-o" href="${BASE}${rehber}">${esc(t.rehberBtn(C2.nm))}</a>` : ''}</div>` : ''}
   <h2>${esc(t.fiyatB(C2.nm))}</h2>
-  <div class="tarife">${F.satir(dil)}</div>
+  <div class="tarife">${F.satir(dil, bolgeVar ? bolgeKod : null)}</div>
   <div class="about">${t.tarife}</div>
   ${modeller.length ? `<section class="sect"><h2>${esc(t.modeller)}</h2><div class="mgrid">${modeller.map(p => `<a class="kart" href="${BASE}/blog/${esc(p.slug)}">${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="300" height="200">` : ''}<span class="kb"><span class="kt">${esc(p.title)}</span></span></a>`).join('')}</div><p><a class="btn-o" href="${BASE}/modeller/${hub}">${esc(t.modellerBtn)}</a></p></section>` : ''}
   <p class="guncel">${esc(t.guncel)}${bugun(dil)}</p>
