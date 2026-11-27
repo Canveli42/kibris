@@ -118,6 +118,7 @@ Eksik EN/RU yazıda `post.js`, Türkçe sürüm gerçekten varsa **302** ile Tü
 - `data/regions.js` / `.en.js` / `.ru.js` — bölge metinleri
 - `kemer` alanı hazır blok seçer: `kiyi`, `yamac`, `banliyo`, `resort`, `format`, `profil`
 - `data/shell.js` — ortak sayfa bileşenleri ve güvenlik başlıkları
+- `data/rehber.js` — blog, yazı ve sitemap için ortak sunucu sınıflandırması
 
 **Her bölgeye kendi `ek` bloğu şart**, yoksa başka şehrin metni sızar.
 
@@ -141,7 +142,7 @@ Desen: `bolge-escort-konu`
 
 `^([a-z-]+)-escort-(.+)$` yakalanır ve `m[2]` bir `REHBER` listesinde aranır. Listede yoksa **profil sayılır** ve bölge adı profilin adı olur.
 
-`REHBER` üç dosyada ve farklı uzunlukta: `api/blog.js` (17), `api/post.js` (19), `api/sitemap.js` (19). Yeni yazı eklerken konu kelimesi üçüne de eklenir.
+`REHBER` listesi artık `data/rehber.js` içinde tek ortak sunucu kaynağındadır; `api/blog.js`, `api/post.js` ve `api/sitemap.js` aynı listeyi okur. Sınıflandırma değişikliği yalnızca ortak dosyada yapılır.
 
 **Bilinen tuzaklar:**
 

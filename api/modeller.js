@@ -193,29 +193,31 @@ const bitir = (res, html) => {
   res.status(200).send(html);
 };
 
-const cek = async () => {
-  try {
-    const r = await fetch(
-      SB + '/rest/v1/posts?select=slug,title,img,bolge,il&published=eq.true&lang=eq.tr' +
-      '&bolge=not.is.null&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast&limit=2000',
-      { headers: H }
-    );
-    if (r.ok) return (await r.json()) || [];
-  } catch (e) {}
-  return [];
+const pagedRows = async (query) => {
+  const out = [];
+  for (let offset = 0; ; ) {
+    const r = await fetch(query + '&limit=500&offset=' + offset, { headers: H });
+    if (!r.ok) throw new Error('Model data unavailable');
+    const rows = await r.json();
+    if (!Array.isArray(rows)) throw new Error('Invalid model data');
+    if (!rows.length) break;
+    if (out.length + rows.length > 50000) throw new Error('Model listing exceeds limit');
+    out.push(...rows);
+    offset += rows.length;
+  }
+  return out;
 };
 
+const cek = (dil = 'tr', regionOnly = true) => pagedRows(
+  SB + '/rest/v1/posts?select=slug,title,img,bolge,il&published=eq.true&lang=eq.' + dil +
+  (regionOnly ? '&bolge=not.is.null' : '') + '&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast,id.asc'
+);
+
 const modelCek = async () => {
-  try {
-    const r = await fetch(SB + '/rest/v1/models?select=slug,yas,boy,hizmet,diller,saat,yer&limit=3000', { headers: H });
-    if (r.ok) {
-      const a = (await r.json()) || [];
-      const m = {};
-      a.forEach(x => { if (x && x.slug) m[x.slug] = x; });
-      return m;
-    }
-  } catch (e) {}
-  return {};
+  const rows = await pagedRows(SB + '/rest/v1/models?select=slug,yas,boy,hizmet,diller,saat,yer&order=slug.asc');
+  const out = Object.create(null);
+  for (const x of rows) if (x && x.slug) out[x.slug] = x;
+  return out;
 };
 
 const yasBand = y => (!y ? '' : y <= 24 ? '18-24' : y <= 30 ? '25-30' : '31');
@@ -240,6 +242,7 @@ module.exports = async (req, res) => {
   const t = M[dil];
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
+  try {
   /* --- kök: bölge dizini --- */
   if (!istek) {
     const hepsi = await cek();
@@ -289,8 +292,16 @@ module.exports = async (req, res) => {
   const ust = B.ust(kod);
   const bolgeKayit = R[B.yol(kod)] || null;
 
-  const [hepsi, modeller] = await Promise.all([cek(), modelCek()]);
-  const liste = B.alt(kod) ? hepsi.filter(p => p.il === kod) : hepsi.filter(p => p.bolge === kod);
+  const [hepsi, modeller, ceviriler] = await Promise.all([
+    cek(), modelCek(), dil === 'tr' ? Promise.resolve([]) : cek(dil, false)
+  ]);
+  const ceviriMap = new Map(ceviriler.map(p => [p.slug, p]));
+  const liste = (B.alt(kod) ? hepsi.filter(p => p.il === kod) : hepsi.filter(p => p.bolge === kod))
+    .map(p => {
+      const translated = ceviriMap.get(p.slug);
+      return translated ? { ...p, title: translated.title || p.title, img: translated.img || p.img, cardLang: dil } : { ...p, cardLang: 'tr' };
+    });
+  const articlePath = p => (p.cardLang === 'tr' ? '/blog/' : '/' + p.cardLang + '/blog/') + p.slug;
 
   /* filtre sayaçları */
   const say = { '18-24': 0, '25-30': 0, '31': 0 };
@@ -325,7 +336,7 @@ module.exports = async (req, res) => {
       m.boy ? m.boy + ' cm' : '',
       m.saat ? esc(m.saat) : ''
     ].filter(Boolean).map(x => `<span>${x}</span>`).join('');
-    return `<a class="kart" href="${BASE}/blog/${esc(p.slug)}" data-yasb="${esc(yb)}" data-hizmet="${esc(hiz)}" data-dil="${esc(dil2)}">
+    return `<a class="kart" href="${BASE}${esc(articlePath(p))}" data-yasb="${esc(yb)}" data-hizmet="${esc(hiz)}" data-dil="${esc(dil2)}">
     ${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="300" height="200">` : ''}
     <span class="kb"><span class="kt">${esc(p.title)}</span>${rozet ? `<span class="meta">${rozet}</span>` : ''}</span></a>`;
   }).join('\n');
@@ -346,7 +357,7 @@ module.exports = async (req, res) => {
   if (liste.length) ld.push({
     '@context': 'https://schema.org', '@type': 'ItemList',
     numberOfItems: liste.length,
-    itemListElement: liste.slice(0, 100).map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.title, url: BASE + '/blog/' + p.slug }))
+    itemListElement: liste.slice(0, 100).map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.title, url: BASE + articlePath(p) }))
   });
 
   const giris = bolgeKayit && bolgeKayit.metin && dil === 'tr' ? esc(bolgeKayit.metin) : esc(t.lead(ad));
@@ -375,4 +386,11 @@ module.exports = async (req, res) => {
     aktif: bolgeYol, ceviriler: cevir(dil, kod), alternate: alternatif(dil, kod), ld,
     robots: !liste.length ? 'noindex,follow' : 'index,follow'
   }));
+  } catch (e) {
+    const msg = { tr: 'Liste geçici olarak yüklenemiyor.', en: 'List temporarily unavailable.', ru: 'Список временно недоступен.' }[dil];
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('Retry-After', '60');
+    return res.status(503).send(msg);
+  }
 };

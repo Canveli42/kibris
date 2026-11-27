@@ -458,12 +458,12 @@ ${S.footer(dil)}
   <div class="about"><b>${esc(t.oteller)}</b><br>${C2.otel.map(esc).join(' · ')}</div>
   ${ekMetin}
   ${kemer}
-  ${hub ? `<div class="about"><b>${esc(t.modeller)}</b><br>${esc(t.modellerAlt)}<br><a class="btn-o" href="${BASE}/modeller/${hub}">${esc(t.modellerBtn)}</a></div>` : ''}
+  ${hub ? `<div class="about"><b>${esc(t.modeller)}</b><br>${esc(t.modellerAlt)}<br><a class="btn-o" href="${BASE}${kok(dil)}/modeller/${hub}">${esc(t.modellerBtn)}</a></div>` : ''}
   ${hub ? `<div class="about"><b>${esc(t.rehberB)}</b><br>${esc(t.rehberM)}<br><a class="btn-o" href="${BASE}/blog/kibris-escort-bolgeleri">${esc(t.rehberL)}</a>${rehber ? ` <a class="btn-o" href="${BASE}${rehber}">${esc(t.rehberBtn(C2.nm))}</a>` : ''}</div>` : ''}
   <h2>${esc(t.fiyatB(C2.nm))}</h2>
   <div class="tarife">${F.satir(dil, bolgeVar ? bolgeKod : null)}</div>
   <div class="about">${t.tarife}</div>
-  ${modeller.length ? `<section class="sect"><h2>${esc(t.modeller)}</h2><div class="mgrid">${modeller.map(p => `<a class="kart" href="${BASE}/blog/${esc(p.slug)}">${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="300" height="200">` : ''}<span class="kb"><span class="kt">${esc(p.title)}</span></span></a>`).join('')}</div><p><a class="btn-o" href="${BASE}/modeller/${hub}">${esc(t.modellerBtn)}</a></p></section>` : ''}
+  ${modeller.length ? `<section class="sect"><h2>${esc(t.modeller)}</h2><div class="mgrid">${modeller.map(p => `<a class="kart" href="${BASE}${kok(dil)}/blog/${esc(p.slug)}">${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="300" height="200">` : ''}<span class="kb"><span class="kt">${esc(p.title)}</span></span></a>`).join('')}</div><p><a class="btn-o" href="${BASE}${kok(dil)}/modeller/${hub}">${esc(t.modellerBtn)}</a></p></section>` : ''}
   <p class="guncel">${esc(t.guncel)}${bugun(dil)}</p>
   <section class="sect">
     <h2>${esc(t.sssB(C2.nm))}</h2>

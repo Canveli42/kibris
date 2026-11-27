@@ -9,6 +9,7 @@ Kıbrıs escort sitesi. TR/EN/RU, sunucu tarafında üretilen sayfalar, ön yüz
 
 - `pages/` — HTML şablonları (`<!--SHELL:HEAD-->`, `<!--SHELL:HEADER-->`, `<!--SHELL:FOOTER-->` sunucuda doldurulur)
 - `data/shell.js` — ortak head/header/footer, CSP nonce
+- `data/rehber.js` — blog, yazı ve sitemap tarafından paylaşılan sunucu tarafı sınıflandırma listesi
 - `data/fiyat.js` — **fiyat kaynağı**; yeni fiyat buraya yazılır
 - `data/regions.js` / `.en.js` / `.ru.js` — dil bazlı bölge metinleri
 - `data/regions.ek.js` — bölge ek metinleri; `data/ek/*.js` dosyalarını birleştirir

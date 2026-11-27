@@ -113,12 +113,7 @@ const sss = f => {
 };
 
 /* ---------- profil tespiti ---------- */
-const REHBER = new Set([
-  'fiyatlari', 'villa', 'nasil-cagrilir', 'rehberi', 'rehber', 'program',
-  '2-saat-program', '4-saat-program', 'gecelik-program', '30-dakika', 'ilk-gorusme', 'lobi-mi-oda-mi',
-  'mitleri', 'sabah-gorusmesi', 'vip-davet', 'turk-rus-farki', 'ulasim-ve-taksi', 'otelleri',
-  'resort', 'site-apart', 'tekne-turu', 'is-seyahati'
-]);
+const REHBER = require('../data/rehber.js');
 
 const ATIL = new Set(['seviyor','istiyor','yapiyor','geliyor','bekliyor','karsiliyor','oturuyor','yatiyor','cikip','yemegi','sonra','dogru','havasi','tadinda','uzaniyor','cokmus','kalkiyor','sikistiriyor','aliyor','yutuyor','koruyor']);
 
@@ -424,10 +419,14 @@ module.exports = async (req, res) => {
         ...(spec && spec.yas ? { description: desc } : {})
       });
     } else {
+      const publicationDate = p.yayin_at || p.created_at;
+      const modificationDate = [p.updated_at, p.created_at, publicationDate]
+        .filter(d => d && Number.isFinite(Date.parse(d)))
+        .sort((a, b) => Date.parse(b) - Date.parse(a))[0];
       ld.push({
         '@context': 'https://schema.org', '@type': 'Article',
         headline: p.title, description: desc, inLanguage: dil,
-        datePublished: p.yayin_at || p.created_at, dateModified: p.updated_at || p.created_at,
+        datePublished: publicationDate, dateModified: modificationDate,
         url, image: p.img ? [p.img] : undefined,
         author: { '@type': 'Person', name: 'Can' },
         publisher: { '@type': 'Organization', name: 'RedKıbrıs', logo: { '@type': 'ImageObject', url: LOGO } }
