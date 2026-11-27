@@ -4,6 +4,7 @@ const BASE = 'https://www.kibrisgirneescort.com';
 const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 const S = require('../data/shell.js');
 const B = require('../data/bolge.js');
+const R = require('../data/regions.js');
 
 const YAYIN = 'yayin_at.is.null,yayin_at.lte.now()';
 
@@ -13,26 +14,43 @@ const esc = s => String(s == null ? '' : s)
 
 const ldYaz = x => '<script type="application/ld+json">' + JSON.stringify(x).replace(/</g, '\\u003c') + '</script>';
 
-const ARA_CSS = `<style>
-.ara{display:flex;gap:8px;margin:0 0 20px;background:none;border:0;padding:0}
-.ara input{flex:1;min-width:0;background:#0e161f;color:#e9eef6;border:1px solid var(--line);border-radius:999px;padding:11px 16px;font:inherit;font-size:15px}
-.ara button{border:0;border-radius:999px;padding:11px 20px;font-weight:700;font-size:14px;background:linear-gradient(180deg,#f3ddb4,#d8b878);color:#121a24;cursor:pointer}
-.ara a{display:flex;align-items:center;padding:0 14px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:#f0d9ae}
+const FILTRE_CSS = `<style>
+.cip-row{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.cip-row b{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#8d9aab;width:100%;margin:6px 0 0}
+.cip{border:1px solid var(--line);background:#0e161f;color:#e9eef6;border-radius:999px;padding:7px 13px;font:inherit;font-size:13px;cursor:pointer}
+.cip[aria-pressed="true"]{background:linear-gradient(180deg,#f3ddb4,#d8b878);color:#121a24;border-color:transparent;font-weight:700}
+.cip-row .temiz{color:#f0d9ae;font-size:13px;align-self:center;margin-left:4px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.meta span{font-size:11.5px;color:#9fb0c4;border:1px solid var(--line);border-radius:6px;padding:2px 6px}
 </style>`;
 
-const CANLI = `<script>
+const FILTRE_JS = `<script>
 (function(){
-  var f=document.querySelector('.ara'),i=f&&f.querySelector('input'),k=document.querySelector('.mgrid');
-  if(!f||!i||!k)return;
-  var b=document.createElement('div');b.className='about';b.textContent='Sonuç yok.';
-  b.style.display='none';k.parentNode.insertBefore(b,k.nextSibling);
-  i.addEventListener('input',function(){
-    var q=i.value.toLowerCase().trim(),n=0,l=k.children;
-    for(var j=0;j<l.length;j++){
-      var o=!q||(l[j].textContent||'').toLowerCase().indexOf(q)>-1;
-      l[j].style.display=o?'':'none';if(o)n++;
+  var k=document.querySelector('.mgrid');if(!k)return;
+  var cips=document.querySelectorAll('.cip'),bos=document.querySelector('.bos');
+  var sec={yas:[],hizmet:[],dil:[]};
+  function uygula(){
+    var n=0,l=k.children;
+    for(var i=0;i<l.length;i++){
+      var c=l[i],g=c.dataset,y=g.yas||'',h=g.hizmet||'',d=g.dil||'',o=true;
+      if(sec.yas.length&&sec.yas.indexOf(g.yasb)===-1)o=false;
+      if(o&&sec.hizmet.length){o=false;for(var j=0;j<sec.hizmet.length;j++)if(h.indexOf(sec.hizmet[j])>-1)o=true}
+      if(o&&sec.dil.length){o=false;for(var t=0;t<sec.dil.length;t++)if(d.indexOf(sec.dil[t])>-1)o=true}
+      c.style.display=o?'':'none';if(o)n++;
     }
-    b.style.display=(q&&!n)?'':'none';
+    if(bos)bos.style.display=n?'none':'';
+  }
+  for(var i=0;i<cips.length;i++)cips[i].addEventListener('click',function(){
+    var f=this.dataset.f,v=this.dataset.v,a=sec[f],p=a.indexOf(v);
+    if(p>-1){a.splice(p,1);this.setAttribute('aria-pressed','false')}
+    else{a.push(v);this.setAttribute('aria-pressed','true')}
+    uygula();
+  });
+  var t=document.querySelector('.temiz');
+  if(t)t.addEventListener('click',function(e){
+    e.preventDefault();sec.yas=[];sec.hizmet=[];sec.dil=[];
+    for(var i=0;i<cips.length;i++)cips[i].setAttribute('aria-pressed','false');
+    uygula();
   });
 })();
 </script>`;
@@ -63,8 +81,8 @@ ${S.header({ aktif: o.aktif || '/modeller', dil: 'tr', ceviriler: { tr: o.url } 
 ${o.icerik}
 </main>
 ${S.footer('tr')}
-${ARA_CSS}
-${CANLI}
+${FILTRE_CSS}
+${FILTRE_JS}
 </body></html>`;
 
 const bitir = (res, html) => {
@@ -86,6 +104,21 @@ const cek = async () => {
   } catch (e) {}
   return [];
 };
+
+const modelCek = async () => {
+  try {
+    const r = await fetch(SB + '/rest/v1/models?select=slug,yas,boy,hizmet,diller,saat,yer&limit=3000', { headers: H });
+    if (r.ok) {
+      const a = (await r.json()) || [];
+      const m = {};
+      a.forEach(x => { if (x && x.slug) m[x.slug] = x; });
+      return m;
+    }
+  } catch (e) {}
+  return {};
+};
+
+const yasBand = y => (!y ? '' : y <= 24 ? '18-24' : y <= 30 ? '25-30' : '31');
 
 module.exports = async (req, res) => {
   const istek = String((req.query && req.query.bolge) || '').replace(/[^a-z-]/g, '');
@@ -139,20 +172,48 @@ module.exports = async (req, res) => {
   const ad = B.ad(kod, 'tr');
   const bolgeYol = BASE + '/' + B.yol(kod);
   const url = BASE + '/modeller/' + B.hb(kod);
-  const q = String((req.query && req.query.q) || '').trim().slice(0, 60);
   const ust = B.ust(kod);
+  const bolgeKayit = R[B.yol(kod)] || null;
 
-  const hepsi = await cek();
-  let liste = B.alt(kod) ? hepsi.filter(p => p.il === kod) : hepsi.filter(p => p.bolge === kod);
+  const [hepsi, modeller] = await Promise.all([cek(), modelCek()]);
+  const liste = B.alt(kod) ? hepsi.filter(p => p.il === kod) : hepsi.filter(p => p.bolge === kod);
 
-  if (q) {
-    const k = q.toLowerCase();
-    liste = liste.filter(p => (String(p.title || '') + ' ' + String(p.slug || '')).toLowerCase().indexOf(k) > -1);
-  }
+  /* filtre sayaçları */
+  const say = { '18-24': 0, '25-30': 0, '31': 0 };
+  const hizmetSet = {}, dilSet = {};
+  liste.forEach(p => {
+    const m = modeller[p.slug];
+    if (!m) return;
+    const yb = yasBand(m.yas);
+    if (yb) say[yb]++;
+    (m.hizmet || []).forEach(h => { const k = String(h).trim().toLowerCase(); if (k) hizmetSet[k] = (hizmetSet[k] || 0) + 1; });
+    (m.diller || []).forEach(d => { const k = String(d).trim().toLowerCase(); if (k) dilSet[k] = (dilSet[k] || 0) + 1; });
+  });
 
-  const kartlar = liste.map(p => `<a class="kart" href="${BASE}/blog/${esc(p.slug)}">
+  const cip = (f, v, et) => `<button type="button" class="cip" data-f="${f}" data-v="${esc(v)}" aria-pressed="false">${esc(et)}</button>`;
+  let cipHtml = '';
+  const yasCip = Object.keys(say).filter(k => say[k]).map(k => cip('yas', k, k + ' yaş')).join('');
+  const hizCip = Object.keys(hizmetSet).sort((a, b) => hizmetSet[b] - hizmetSet[a]).slice(0, 8).map(k => cip('hizmet', k, k)).join('');
+  const dilCip = Object.keys(dilSet).sort((a, b) => dilSet[b] - dilSet[a]).slice(0, 4).map(k => cip('dil', k, k)).join('');
+  if (yasCip) cipHtml += `<div class="cip-row"><b>Yaş</b>${yasCip}</div>`;
+  if (hizCip) cipHtml += `<div class="cip-row"><b>Hizmet</b>${hizCip}</div>`;
+  if (dilCip) cipHtml += `<div class="cip-row"><b>Dil</b>${dilCip}</div>`;
+  if (cipHtml) cipHtml += `<div class="cip-row"><a href="${url}" class="temiz">Filtreleri temizle</a></div>`;
+
+  const kartlar = liste.map(p => {
+    const m = modeller[p.slug] || {};
+    const yb = yasBand(m.yas);
+    const hiz = (m.hizmet || []).map(x => String(x).trim().toLowerCase()).join('|');
+    const dil = (m.diller || []).map(x => String(x).trim().toLowerCase()).join('|');
+    const rozet = [
+      m.yas ? m.yas + ' yaş' : '',
+      m.boy ? m.boy + ' cm' : '',
+      m.saat ? esc(m.saat) : ''
+    ].filter(Boolean).map(x => `<span>${x}</span>`).join('');
+    return `<a class="kart" href="${BASE}/blog/${esc(p.slug)}" data-yasb="${esc(yb)}" data-hizmet="${esc(hiz)}" data-dil="${esc(dil)}">
     ${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="300" height="200">` : ''}
-    <span class="kb"><span class="kt">${esc(p.title)}</span></span></a>`).join('\n');
+    <span class="kb"><span class="kt">${esc(p.title)}</span>${rozet ? `<span class="meta">${rozet}</span>` : ''}</span></a>`;
+  }).join('\n');
 
   const kirinti = `<a href="${BASE}/">Ana sayfa</a> › ` +
     (ust ? `<a href="${BASE}/${B.yol(ust)}">${esc(B.ad(ust, 'tr'))}</a> › ` : '') +
@@ -173,28 +234,31 @@ module.exports = async (req, res) => {
     itemListElement: liste.slice(0, 100).map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.title, url: BASE + '/blog/' + p.slug }))
   });
 
-  const araForm = `<form class="ara" action="${url}" method="get" role="search">
-    <input type="search" name="q" value="${esc(q)}" placeholder="Model ara" aria-label="Model ara" autocomplete="off">
-    <button type="submit">Ara</button>
-    ${q ? `<a href="${url}">Temizle</a>` : ''}
-  </form>`;
+  const giris = bolgeKayit && bolgeKayit.metin ? esc(bolgeKayit.metin) : `${esc(ad)} bölgesinde görüşen modellerin tamamı burada.`;
 
   const icerik = `
   <div class="crumb">${kirinti}</div>
   <h1>${esc(ad)} Escort Modelleri</h1>
-  <p class="lead">${esc(ad)} bölgesinde görüşen modellerin tamamı burada. Kapora yok, ödeme görüşmenin başında.</p>
-  ${araForm}
-  ${q ? `<p class="guncel">${liste.length} sonuç</p>` : ''}
+  <p class="lead">${giris}</p>
+  ${cipHtml}
   ${liste.length ? `<div class="mgrid">${kartlar}</div>` : '<div class="about">Sonuç yok.</div>'}
-  <div class="about"><b>Sorun mu var, katalog mu lazım?</b><br>WhatsApp veya Telegram'dan yaz, kaldığın bölgeye göre liste gönderiyoruz.
+  <div class="about bos" style="display:none"><b>Bu filtrede model yok.</b><br>Filtreyi temizleyip tekrar bak veya WhatsApp'tan yaz, uygun olanı gönderelim.</div>
+  <div class="about"><b>Bölge sayfası:</b> <a href="${bolgeYol}">${esc(ad)} escort</a> — buluşma noktaları, oteller ve saatler.
+    <br><b>Tarife:</b> <a href="${BASE}/fiyatlar">fiyatlar</a> — sabit, kapıda değişmez.
     <br><a class="btn wa" href="https://wa.me/905515420755" target="_blank" rel="noopener" data-base="https://wa.me/905515420755">WhatsApp'tan yaz</a>
     <a class="btn tg" href="https://t.me/kibrisescortvip" target="_blank" rel="noopener" data-base="https://t.me/kibrisescortvip">Telegram'dan yaz</a>
-  </div>`;
+  </div>
+  <section class="faq">
+    <h2>Sık sorulanlar</h2>
+    <details><summary>${esc(ad)} bölgesinde kaç model var?</summary><p>Şu anda ${liste.length} profil yayında. Liste müsaitliğe göre değişiyor.</p></details>
+    <details><summary>Hangi saatlerde görüşülüyor?</summary><p>${bolgeKayit && bolgeKayit.metin2 ? 'Bölge sayfasında saat dilimleri yazılı; merkezde 10-15 dakika önceden yazmak yeterli.' : 'Bölgeye göre değişiyor, yazdığında saati birlikte netleştiriyoruz.'}</p></details>
+    <details><summary>Yol payı alınıyor mu?</summary><p>Merkez dışındaki adreslerde 2.000 ₺ yol payı baştan söylenir. Merkezde yok.</p></details>
+  </section>`;
 
   bitir(res, kabuk({
     title: ad + ' Escort Modelleri | RedKıbrıs',
-    desc: ad + ' escort modellerinin listesi. Sabit tarife, kapora yok, ödeme görüşmenin başında.',
+    desc: ad + ' escort modellerinin listesi. Yaş, hizmet ve dile göre filtrele. Sabit tarife, kapora yok, ödeme görüşmenin başında.',
     url, icerik, aktif: bolgeYol, ld,
-    robots: q || !liste.length ? 'noindex,follow' : 'index,follow'
+    robots: !liste.length ? 'noindex,follow' : 'index,follow'
   }));
 };
