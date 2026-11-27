@@ -194,7 +194,8 @@ module.exports = async (req, res) => {
   let cipHtml = '';
   const yasCip = Object.keys(say).filter(k => say[k]).map(k => cip('yas', k, k + ' yaş')).join('');
   const hizCip = Object.keys(hizmetSet).sort((a, b) => hizmetSet[b] - hizmetSet[a]).slice(0, 8).map(k => cip('hizmet', k, k)).join('');
-  const dilCip = Object.keys(dilSet).sort((a, b) => dilSet[b] - dilSet[a]).slice(0, 4).map(k => cip('dil', k, k)).join('');
+  const dilAnahtar = Object.keys(dilSet).sort((a, b) => dilSet[b] - dilSet[a]);
+  const dilCip = dilAnahtar.length > 1 ? dilAnahtar.slice(0, 4).map(k => cip('dil', k, k)).join('') : '';
   if (yasCip) cipHtml += `<div class="cip-row"><b>Yaş</b>${yasCip}</div>`;
   if (hizCip) cipHtml += `<div class="cip-row"><b>Hizmet</b>${hizCip}</div>`;
   if (dilCip) cipHtml += `<div class="cip-row"><b>Dil</b>${dilCip}</div>`;
