@@ -122,7 +122,7 @@ module.exports = async (req, res) => {
     if (Object.keys(yollar).length) ekle(yollar, STATIC, 'weekly', '0.6');
   });
 
-  B.hepsi().forEach(k => ekle({ tr: BASE + '/modeller/' + k }, enSon, 'weekly', ONCELIK[k] ? '0.7' : '0.6'));
+  B.hepsi().forEach(k => ekle({ tr: BASE + '/modeller/' + B.hb(k) }, enSon, 'weekly', ONCELIK[k] ? '0.7' : '0.6'));
 
   const map = new Map();
   posts.forEach(p => {
