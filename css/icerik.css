@@ -12,7 +12,7 @@ p{margin:0 0 1em}
 .btn{background:#25d366;color:#04270f}
 .btn.tg{background:#229ed9;color:#04202e}
 .btn-o{border:1px solid var(--line);color:var(--gold2);background:transparent}
-.rimg{display:block;width:100%;max-width:560px;height:auto;aspect-ratio:3/2;max-height:620px;object-fit:cover;object-position:center top;border-radius:14px;margin:12px auto;background:#151e2c}
+.rimg{display:block;width:100%;max-width:560px;height:auto;aspect-ratio:3/2;max-height:620px;object-fit:contain;object-position:center top;border-radius:14px;margin:12px auto;background:#151e2c}
 #cover{display:block;width:100%;max-width:560px;height:auto;border-radius:14px;margin:12px auto;background:#151e2c}
 @media(max-width:640px){.rimg{max-height:420px}}
 .guncel{color:var(--mut);font-size:13px}
@@ -42,7 +42,7 @@ ul,ol{padding-left:20px}
 @media(min-width:640px){.mgrid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:960px){.mgrid{grid-template-columns:repeat(4,1fr)}}
 .mgrid .kart{display:block;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
-.mgrid .kart img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.mgrid .kart img{width:100%;aspect-ratio:3/2;object-fit:contain;object-position:center top;background:#151e2c}
 .mgrid .kart .kb{padding:9px 10px}
 .mgrid .kart .kt{display:block;font-size:13.5px;color:#e9eef6;line-height:1.35;margin-bottom:5px}
 .mgrid .kart .km{display:block;font-size:11.5px;color:var(--mut)}
@@ -50,3 +50,7 @@ ul,ol{padding-left:20px}
 .suz{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
 .suz a{font-size:12.5px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--mut)}
 .suz a.on{background:var(--gold);color:#141008;border-color:var(--gold);font-weight:700}
+
+/* Fotoğrafın tamamını göster; yüz ve baş bölgesini kırpma. */
+main .post img,main .rcard img{object-fit:contain;object-position:center top;background:#151e2c}
+main .rcard:hover img{transform:none}
