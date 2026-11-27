@@ -96,7 +96,7 @@ const yol = b => {
   return pg(x) || 'girne-escort';
 };
 
-const hub = b => '/modeller/' + (hb(b) || hb(yol(b).replace(/-escort$/, '')) || 'girne');
+const hub = b => '/modeller/' + (hb(b) || 'girne');
 
 const slugBolge = slug => {
   const m = String(slug || '').match(/^([a-z-]+)-escort-/);
