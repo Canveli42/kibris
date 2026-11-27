@@ -1,7 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "buildCommand": "node --test tests/*.test.cjs",
   "trailingSlash": false,
   "functions": { "api/sayfa.js": { "includeFiles": "pages/*.html" } },
   "redirects": [
