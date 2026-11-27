@@ -71,15 +71,28 @@ module.exports = async (req, res) => {
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
-  let posts = [];
+  const posts = [];
   try {
-    const r = await fetch(
-      SB + '/rest/v1/posts?select=slug,title,img,created_at,yayin_at&published=eq.true&lang=eq.' + dil +
-      '&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast&limit=600',
-      { headers: H }
-    );
-    if (r.ok) posts = (await r.json()) || [];
-  } catch (e) {}
+    for (let offset = 0; ; ) {
+      const r = await fetch(
+        SB + '/rest/v1/posts?select=slug,title,img,created_at,yayin_at&published=eq.true&lang=eq.' + dil +
+        '&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast,id.asc&limit=500&offset=' + offset,
+        { headers: H }
+      );
+      if (!r.ok) throw new Error('Post list unavailable');
+      const rows = await r.json();
+      if (!Array.isArray(rows)) throw new Error('Invalid post list');
+      if (!rows.length) break;
+      if (posts.length + rows.length > 50000) throw new Error('Post list exceeds limit');
+      posts.push(...rows);
+      offset += rows.length;
+    }
+  } catch (e) {
+    const msg = { tr: 'Yazılar geçici olarak yüklenemiyor.', en: 'Posts are temporarily unavailable.', ru: 'Записи временно недоступны.' }[dil];
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('Retry-After', '60');
+    return res.status(503).send(msg);
+  }
 
   let rehberler = posts.filter(p => !profilMi(p.slug));
   if (q) {
@@ -89,6 +102,12 @@ module.exports = async (req, res) => {
 
   const toplam = rehberler.length;
   const sonSayfa = Math.max(1, Math.ceil(toplam / ADET));
+  if (sayfaNo > sonSayfa) {
+    const hedef = temel + (q ? '?q=' + encodeURIComponent(q) + (sonSayfa > 1 ? '&s=' + sonSayfa : '') : (sonSayfa > 1 ? '?s=' + sonSayfa : ''));
+    res.setHeader('Location', hedef);
+    res.setHeader('Cache-Control', 'no-store');
+    return res.status(302).send('');
+  }
   const dilim = rehberler.slice((sayfaNo - 1) * ADET, sayfaNo * ADET);
 
   const sayfaLink = n => temel + '?s=' + n + (q ? '&q=' + encodeURIComponent(q) : '');
