@@ -4,9 +4,10 @@ const SB = 'https://accerzwswgiqhtfgoeqv.supabase.co';
 const KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
 const BASE = 'https://www.kibrisgirneescort.com';
 const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
+const B = require('../data/bolge.js');
 
 const IZLENEN = [
-  'data/fiyat.js', 'data/shell.js',
+  'data/fiyat.js', 'data/shell.js', 'data/bolge.js',
   'data/regions.js', 'data/regions.en.js', 'data/regions.ru.js', 'data/ek.js',
   'pages/index.html', 'pages/en.html', 'pages/ru.html',
   'pages/fiyatlar.html', 'pages/en-fiyatlar.html', 'pages/ru-fiyatlar.html',
@@ -41,7 +42,7 @@ const day = d => { const t = new Date(d); return isNaN(t) ? STATIC : t.toISOStri
 const REHBER = new Set([
   'fiyatlari','villa','nasil-cagrilir','rehberi','rehber','program','2-saat-program',
   '4-saat-program','gecelik-program','30-dakika','ilk-gorusme','lobi-mi-oda-mi','mitleri',
-  'sabah-gorusmesi','vip-davet','turk-rus-farki','ulasim-ve-taksi','otelleri'
+  'sabah-gorusmesi','vip-davet','turk-rus-farki','ulasim-ve-taksi','otelleri','resort','site-apart'
 ]);
 
 const profilMi = slug => {
@@ -50,20 +51,8 @@ const profilMi = slug => {
   return !REHBER.has(m[2].replace(/-(19|20)\d{2}$/, ''));
 };
 
-const BOLGELER = [
-  ['girne-escort','0.9'],['lefkosa-escort','0.8'],['magusa-escort','0.8'],['iskele-escort','0.8'],
-  ['guzelyurt-escort','0.8'],['karaoglanoglu-escort','0.7'],['alsancak-escort','0.7'],['lapta-escort','0.7'],
-  ['catalkoy-escort','0.7'],['bellapais-escort','0.7'],['esentepe-escort','0.7'],['long-beach-escort','0.7'],
-  ['bafra-escort','0.7'],['gonyeli-escort','0.7'],['lefkosa-hamitkoy-escort','0.6'],['otele-escort','0.6'],
-  ['eve-gelen-escort','0.6'],['gecelik-escort','0.6'],['vip-escort','0.6'],['ogrenci-escort','0.6'],
-  ['turk-escort','0.6'],['rus-escort','0.6']
-];
-
-const HUBLAR = [
-  ['girne','0.8'],['lefkosa','0.7'],['magusa','0.7'],['iskele','0.7'],['guzelyurt','0.6'],
-  ['karaoglanoglu','0.6'],['alsancak','0.6'],['lapta','0.6'],['catalkoy','0.6'],['bellapais','0.6'],
-  ['esentepe','0.6'],['long-beach','0.6'],['bafra','0.6'],['gonyeli','0.6']
-];
+const FORMAT = ['otele-escort','eve-gelen-escort','gecelik-escort','vip-escort','ogrenci-escort','turk-escort','rus-escort'];
+const ONCELIK = { girne: '0.9', lefkosa: '0.8', magusa: '0.8', iskele: '0.8', guzelyurt: '0.8' };
 
 const SLUG_OK = /^[a-z0-9-]{3,120}$/;
 const kok = d => (d === 'tr' ? '/blog/' : '/' + d + '/blog/');
@@ -120,13 +109,20 @@ module.exports = async (req, res) => {
   ekle({ tr: BASE + '/fiyatlar', en: BASE + '/en/fiyatlar', ru: BASE + '/ru/fiyatlar' }, STATIC, 'weekly', '0.9');
   ekle({ tr: BASE + '/blog', en: BASE + '/en/blog', ru: BASE + '/ru/blog' }, enSon, 'daily', '0.8');
 
-  BOLGELER.forEach(b => {
+  B.sayfali().forEach(k => {
+    const pg = B.pg(k);
     const yollar = {};
-    DILLER.forEach(d => { if (REG[d][b[0]]) yollar[d] = BASE + kokB(d) + b[0]; });
-    if (Object.keys(yollar).length) ekle(yollar, STATIC, 'weekly', b[1]);
+    DILLER.forEach(d => { if (REG[d] && REG[d][pg]) yollar[d] = BASE + kokB(d) + pg; });
+    if (Object.keys(yollar).length) ekle(yollar, STATIC, 'weekly', ONCELIK[k] || '0.7');
   });
 
-  HUBLAR.forEach(h => ekle({ tr: BASE + '/modeller/' + h[0] }, enSon, 'weekly', h[1]));
+  FORMAT.forEach(k => {
+    const yollar = {};
+    DILLER.forEach(d => { if (REG[d] && REG[d][k]) yollar[d] = BASE + kokB(d) + k; });
+    if (Object.keys(yollar).length) ekle(yollar, STATIC, 'weekly', '0.6');
+  });
+
+  B.hepsi().forEach(k => ekle({ tr: BASE + '/modeller/' + k }, enSon, 'weekly', ONCELIK[k] ? '0.7' : '0.6'));
 
   const map = new Map();
   posts.forEach(p => {
