@@ -7,7 +7,7 @@ const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 const B = require('../data/bolge.js');
 
 const IZLENEN = [
-  'data/fiyat.js', 'data/shell.js', 'data/bolge.js',
+  'data/fiyat.js', 'data/shell.js', 'data/bolge.js', 'data/regions.ek.js',
   'data/regions.js', 'data/regions.en.js', 'data/regions.ru.js', 'data/ek.js',
   'pages/index.html', 'pages/en.html', 'pages/ru.html',
   'pages/fiyatlar.html', 'pages/en-fiyatlar.html', 'pages/ru-fiyatlar.html',
@@ -32,6 +32,7 @@ const STATIC = (() => {
 
 const DILLER = ['tr', 'en', 'ru'];
 const REG = { tr: require('../data/regions.js'), en: require('../data/regions.en.js'), ru: require('../data/regions.ru.js') };
+Object.assign(REG.tr, require('../data/regions.ek.js'));
 
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
