@@ -207,5 +207,75 @@ ek:`<h2>Karaman'da nerede buluşulur</h2>
 <h2>Ulaşım</h2>
 <div class="about">Girne merkezden altı dakika. Köy içinde boş taksi geçmiyor, dönüş için şoför numarası al.</div>
 <div class="about">Zeytinlik ve Karmi yolu üzerinden gelmek en kısa güzergâh.</div>`,
-sss:[["Karaman escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Karaman'da kapıda buluşma olur mu?","Evet, bahçeli evlerde kapıda buluşuyoruz. Kapı numarası ve tarif net olmalı."],["Karaman'a taksi ücreti ne kadar?","Mesafeye göre değişir, mesajda önceden söylenir ve kapıda değişmez."],["Otele 30 dakika olur mu?","Olmaz. 30 dakika yalnızca kendi yerimizde, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]}
+sss:[["Karaman escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Karaman'da kapıda buluşma olur mu?","Evet, bahçeli evlerde kapıda buluşuyoruz. Kapı numarası ve tarif net olmalı."],["Karaman'a taksi ücreti ne kadar?","Mesafeye göre değişir, mesajda önceden söylenir ve kapıda değişmez."],["Otele 30 dakika olur mu?","Olmaz. 30 dakika yalnızca kendi yerimizde, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]},
+
+"girne-karsiyaka-escort":{nm:"Karşıyaka",alt:"Merkeze yakın site ve apart hattı",kemer:"banliyo",
+lead:"Karşıyaka escort: merkeze yakın site ve apart ağırlıklı hat. Gündüz görüşmesi, kapıda isim, kapora yok.",
+areas:["Karşıyaka merkez","Site içleri","Apart blokları","Merkez bağlantısı"],
+otel:["Site konaklamaları","Apart daireler","Merkez otelleri"],
+metin:"Karşıyaka Girne merkezine bitişik, site ve apart ağırlıklı bir hat. Mesafe kısa olduğu için yürüyerek de gidilebiliyor. Gündüz görüşmesi ve kısa program burada rahat çalışıyor; akşam üstü hat sakinleşiyor.",
+metin2:"Site girişlerinin bir kısmı kontrollü; kapıda isim verilmesi gerekiyorsa önceden söyle, bildiriyoruz. Blok ve daire numarası girişi hızlandırıyor. Ödeme görüşmenin başında, kapora yok.",
+ek:`<h2>Karşıyaka'da nerede buluşulur</h2>
+<div class="about"><b>Site kapısı</b><br>Kontrollü girişlerde isim gerekiyor; önceden haber veriyorsun, kapıya bildiriyoruz.</div>
+<div class="about"><b>Apart ve blok</b><br>Blok, kat ve daire olmadan giriş uzuyor. Üçünü tek mesajda yaz.</div>
+<div class="about"><b>Merkez bağlantısı</b><br>Yürüme mesafesinde; taksi çoğu zaman gerekmiyor, gece dönüşte mesafeye göre ücret alınır.</div>
+<h2>Saat</h2>
+<div class="about">Gündüz 12:00-17:00 en rahat aralık. Akşam için 1 saat önceden yaz.</div>`,
+sss:[["Karşıyaka escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Siteye girişte isim gerekiyor mu?","Gerekiyorsa önceden söyle, kapıya bildiriyoruz."],["Merkeze yürüme mesafesinde mi?","Evet, Karşıyaka merkeze bitişik."],["Otele 30 dakika olur mu?","Olmaz. 30 dakika yalnızca kendi yerimizde, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]},
+
+"girne-ozankoy-escort":{nm:"Ozanköy",alt:"Köy dokusu, zeytinlikler ve bahçeli evler",kemer:"banliyo",
+lead:"Ozanköy escort: köy dokusu, zeytinlikler ve bahçeli evler. Sakin hat, kapıda buluşma, kapora yok.",
+areas:["Ozanköy köy içi","Zeytinlikler","Bahçeli evler","Bellapais yolu"],
+otel:["Köy pansiyonları","Butik konaklama","Merkez otelleri"],
+metin:"Ozanköy Girne'nin doğusunda, köy dokusunu korumuş sakin bir yerleşim. Zeytinlikler ve bahçeli evler arasında; gürültü yok, otopark sorunu yok. Buluşma genelde köy meydanında ya da ev kapısında oluyor.",
+metin2:"Köy içi sokaklar dar; konum linki göndermeden yola çıkılmıyor. Taksi ücreti mesafeye göre önceden söylenir. Ödeme görüşmenin başında, kapora yok.",
+ek:`<h2>Ozanköy'de nerede buluşulur</h2>
+<div class="about"><b>Köy meydanı</b><br>En kolay bulunan nokta, akşam üstü sakin. Buluşmayı meydandaki mekân adıyla ver.</div>
+<div class="about"><b>Bahçeli evler</b><br>Kapıda buluşma; kapı numarası ve tarif mesajda net olmalı.</div>
+<div class="about"><b>Bellapais yolu</b><br>Yol daralıyor, araç bazı noktalarda zorlanıyor. Yamaç tarafında konum linki şart.</div>
+<h2>Saat</h2>
+<div class="about">Gündüz 12:00-17:00 arası en rahat. Akşam için 1 saat önceden yaz, köy hattı planlı çalışıyor.</div>`,
+sss:[["Ozanköy escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Ozanköy'de kapıda buluşma olur mu?","Evet, bahçeli evlerde kapıda buluşuyoruz. Kapı numarası net olmalı."],["Araç köy içine giriyor mu?","Dar sokaklarda zorlanıyor. Konum linki gönder, en yakın noktada buluşuruz."],["Otele 30 dakika olur mu?","Olmaz. 30 dakika yalnızca kendi yerimizde, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]},
+
+"girne-edremit-escort":{nm:"Edremit",alt:"Sahil köyü, plaj ve site hattı",kemer:"kiyi",
+lead:"Edremit escort: sahil köyü, plaj hattı ve siteler. Gündüz görüşmesi, denize yakın buluşma, kapora yok.",
+areas:["Edremit sahil hattı","Plaj çevresi","Siteler","Karaoğlanoğlu bağlantısı"],
+otel:["Sahil tesisleri","Site konaklamaları","Plaj çevresi apartlar"],
+metin:"Edremit Girne'nin doğusunda küçük bir sahil köyü: plaj, birkaç tesis ve siteler. Kalabalık değil, gündüz görüşmesi rahat. Buluşma genelde plaj girişinde ya da site kapısında oluyor.",
+metin2:"Sahil yolunda akşam saatlerinde trafik yoğun; o saat için 1 saat önceden yaz. Taksi ücreti mesafeye göre önceden söylenir. Ödeme görüşmenin başında, kapora yok.",
+ek:`<h2>Edremit'te nerede buluşulur</h2>
+<div class="about"><b>Plaj girişi</b><br>Gündüz görüşmesi için en rahat nokta. Buluşmayı karşıdaki tesis adıyla ver.</div>
+<div class="about"><b>Site kapısı</b><br>Kontrollü girişlerde isim gerekiyor; önceden haber veriyorsun.</div>
+<div class="about"><b>Sahil yolu</b><br>Yaz akşamları tıkanıyor. O saat dilimi için 1 saat önceden yazman gerekir.</div>
+<h2>Dönüş</h2>
+<div class="about">Gece boş taksi azalıyor, dönüş için şoför numarası almanı öneririz.</div>`,
+sss:[["Edremit escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Plajda buluşma olur mu?","Evet, gündüz plaj girişinde buluşuyoruz."],["Siteye girişte isim gerekiyor mu?","Gerekiyorsa önceden söyle, bildiriyoruz."],["Otele 30 dakika olur mu?","Olmaz. 30 dakika yalnızca kendi yerimizde, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]},
+
+"girne-bogaz-escort":{nm:"Boğaz",alt:"Sahil hattı, plajlar ve tatil siteleri",kemer:"kiyi",
+lead:"Boğaz escort: sahil hattı, plajlar ve tatil siteleri. Sezonluk yoğunluk, otel lobisi, kapora yok.",
+areas:["Boğaz sahil hattı","Plajlar","Tatil siteleri","Esentepe bağlantısı"],
+otel:["Sahil tesisleri","Tatil siteleri","Plaj çevresi oteller"],
+metin:"Boğaz Girne'nin doğusunda sahil hattı: plajlar ve tatil siteleri. Yazın hareketli, kışın neredeyse boş. Buluşma genelde tesis girişinde ya da plaj otoparkında oluyor; adres önceden netleşmeden yola çıkılmıyor.",
+metin2:"Sezon içinde akşam için 2 saat önceden yazmak gerekiyor, kışın yarım saat yetiyor. Taksi ücreti mesafeye göre önceden söylenir. Ödeme görüşmenin başında, kapora yok.",
+ek:`<h2>Boğaz'da nerede buluşulur</h2>
+<div class="about"><b>Tesis girişi</b><br>Lobi ya da giriş kapısı; tesis adı olmadan buluşma uzuyor.</div>
+<div class="about"><b>Plaj otoparkı</b><br>Gündüz için en pratik nokta, araç bırakmak kolay.</div>
+<div class="about"><b>Sezon</b><br>Temmuz-ağustos akşam saatlerinde hat kilitleniyor. O saat dilimi için 2 saat önceden yaz.</div>
+<h2>Dönüş</h2>
+<div class="about">Kışın bu hatta gece boş taksi geçmiyor, şoför numarası almadan çıkma.</div>`,
+sss:[["Boğaz escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Ne kadar önceden yazmalıyım?","Sezon içinde akşam için 2 saat, kışın yarım saat yeterli."],["Hangi tesislere geliyorsunuz?","Sahil tesisleri ve tatil siteleri başta olmak üzere."],["Otele 30 dakika olur mu?","Olmaz. 30 dakika yalnızca kendi yerimizde, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]},
+
+"girne-tatlisu-escort":{nm:"Tatlısu",alt:"Batı sahil köyü, sakin hat",kemer:"resort",
+lead:"Tatlısu escort: batı sahil köyü ve sakin çevre. Planlı randevu, konum linki, kapora yok.",
+areas:["Tatlısu merkez","Sahil hattı","Köy çevresi","Esentepe bağlantısı"],
+otel:["Sahil tesisleri","Köy konaklamaları","Sahil apartları"],
+metin:"Tatlısu Girne'nin batısında küçük bir sahil köyü. Hat uzak olduğu için planlı randevu mantığı işliyor; son dakika karşılık bulmuyor. Köy içinde adres tarifi zor, konum linki istiyoruz.",
+metin2:"En az 45 dakika önceden yazman gerekiyor. Taksi ücreti mesafeye göre hesaplanıp önceden söylenir, kapıda değişmez. Ödeme görüşmenin başında, kapora yok.",
+ek:`<h2>Tatlısu'da nasıl buluşulur</h2>
+<div class="about"><b>Planlı randevu</b><br>Hat uzak ve tek girişli. Son yarım saatte yazmak karşılık bulmuyor.</div>
+<div class="about"><b>Konum linki</b><br>Köy içi adresler karışık; link olmadan kapıda arama kaçınılmaz.</div>
+<div class="about"><b>Dönüş</b><br>Gece boş taksi azalıyor, dönüş için şoför numarası almanı öneririz.</div>
+<h2>Saat</h2>
+<div class="about">Gündüz 12:00-17:00 arası en rahat. Akşam için en az 45 dakika önceden yaz.</div>`,
+sss:[["Tatlısu escort fiyatları ne kadar?","{fiyat}. Tarife sabit."],["Ne kadar önceden yazmalıyım?","En az 45 dakika. Hat uzak."],["Tatlısu'ya gerçekten geliyor musunuz?","Evet, ama planlı olması şart."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT."]]}
 };
