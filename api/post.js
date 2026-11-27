@@ -37,6 +37,9 @@ const tarih = (d, dil) => {
 
 const duz = s => String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
+/* gövdede zaten SSS var mı */
+const SSS_VAR = /s[ıi]k[çc]?a?\s*sorulan|frequently asked|частые вопросы|\bsss\b/i;
+
 /* ---------- profil bloğu ---------- */
 const SPEC_ALAN = ['yas', 'boy', 'kilo', 'sac', 'gogus', 'diller', 'hizmet', 'saat', 'yer'];
 const ETIKET = {
@@ -358,6 +361,8 @@ module.exports = async (req, res) => {
     const kelime = metin.split(/\s+/).filter(Boolean).length;
     const dk = Math.max(1, Math.round(kelime / 180));
     const f = sss(p.faq);
+    const govdeHtml = govde(ayikla.govde);
+    const govdeSss = SSS_VAR.test(ayikla.govde);
 
     const bolgeYol = profil ? BASE + kokB(dil) + B.yol(profil.bolge) : '';
     const hubYol = profil ? BASE + B.hub(profil.bolge) : '';
@@ -434,15 +439,19 @@ module.exports = async (req, res) => {
       : `<h1>${esc(p.title)}</h1>
          <p class="byline">${esc(t.yazar)} · RedKıbrıs · ${tarih(p.yayin_at || p.created_at, dil)} · ${dk} ${esc(t.dk)}</p>`;
 
+    const sssBolumu = f.length && !govdeSss
+      ? `<section class="faq"><h2>${esc(t.sssB)}</h2>${f.map(x => `<details><summary>${esc(x[0])}</summary><p>${esc(x[1])}</p></details>`).join('')}</section>`
+      : '';
+
     const icerik = `
     <div class="crumb">${kirinti}</div>
     ${baslik}
     ${p.img ? `<img id="cover" src="${esc(p.img)}" alt="${esc(p.title)}" width="560" height="373" fetchpriority="high" decoding="async">` : ''}
     ${specHtml(spec, dil)}
-    <article>${govde(ayikla.govde)}</article>
+    <article>${govdeHtml}</article>
     ${tarife}
     ${profilKutu}
-    ${f.length ? `<section class="faq"><h2>${esc(t.sssB)}</h2>${f.map(x => `<details><summary>${esc(x[0])}</summary><p>${esc(x[1])}</p></details>`).join('')}</section>` : ''}
+    ${sssBolumu}
     <div class="about"><b>${esc(t.sorun)}</b><br>${esc(t.alt)}
       <br><a class="btn wa" href="${WA}" target="_blank" rel="noopener" data-base="${WA}">${esc(t.wa)}</a>
       <a class="btn tg" href="${TG}" target="_blank" rel="noopener" data-base="${TG}">${esc(t.tg)}</a>
