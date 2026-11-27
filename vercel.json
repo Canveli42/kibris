@@ -98,7 +98,7 @@
     { "source": "/lefkosa-marmara-escort", "destination": "/api/region?slug=lefkosa-marmara-escort" },
     { "source": "/lefkosa-kermiya-escort", "destination": "/api/region?slug=lefkosa-kermiya-escort" },
     { "source": "/lefkosa-demirhan-escort", "destination": "/api/region?slug=lefkosa-demirhan-escort" },
-    { "source": "/lefkosa-kucukkaymakli-escort", "destination": "/api/region?slug=lefkosa-kucukmakli-escort" },
+    { "source": "/lefkosa-kucukkaymakli-escort", "destination": "/api/region?slug=lefkosa-kucukkaymakli-escort" },
     { "source": "/lefkosa-taskinkoy-escort", "destination": "/api/region?slug=lefkosa-taskinkoy-escort" },
     { "source": "/lefkosa-aydemet-escort", "destination": "/api/region?slug=lefkosa-aydemet-escort" },
     { "source": "/lefkosa-alaykoy-escort", "destination": "/api/region?slug=lefkosa-alaykoy-escort" },
