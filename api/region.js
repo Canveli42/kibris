@@ -22,21 +22,16 @@ const REHBER_YAZI = {
   'guzelyurt-escort': '/blog/guzelyurt-escort-rehberi-2026'
 };
 
-const AYLAR = {
-  tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
-  en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
-  ru: ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
-};
-
-const bugun = dil => {
-  const d = new Date(), a = AYLAR[dil] || AYLAR.tr;
-  if (dil === 'en') return a[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-  return d.getDate() + ' ' + a[d.getMonth()] + ' ' + d.getFullYear();
-};
 
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+// Escape all markup first; preserve only the existing, strictly relative links.
+function safeInlineText(s) {
+  return esc(s).replace(/&lt;a href=&quot;(\/(?:(?:en|ru)\/)?blog\/[a-z0-9-]{1,120})&quot;&gt;([\s\S]*?)&lt;\/a&gt;/g,
+    (_all,href,text)=>'<a href="'+href+'">'+text+'</a>');
+}
 
 const cap = s => { const v = String(s == null ? '' : s); return v ? v.charAt(0).toUpperCase() + v.slice(1) : v; };
 const kok = dil => (dil === 'tr' ? '' : '/' + dil);
@@ -279,7 +274,7 @@ module.exports = async (req, res) => {
 
   if (!C2 && dil !== 'tr' && D.tr[slug]) {
     const hedef = BASE + '/' + slug;
-    res.writeHead(301, { Location: hedef, 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800' });
+    res.writeHead(302, { Location: hedef, 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
     res.end('<!DOCTYPE html><html><body><a href="' + hedef + '">' + hedef + '</a></body></html>');
     return;
   }
@@ -414,8 +409,7 @@ ${S.footer(dil)}
     }
   ];
 
-  const ANA = ['girne-escort','lefkosa-escort','magusa-escort','iskele-escort','guzelyurt-escort'];
-  const FORMAT = ['otele-escort','eve-gelen-escort','ogrenci-escort','gecelik-escort','vip-escort','turk-escort','rus-escort'];
+  const {ANA,FORMAT}=require('../data/region-keys.js');
   const kardes = bolgeVar
     ? Object.keys(D[dil]).filter(k => k !== slug && B.varMi(k.replace(/-escort$/, '')) && B.il(k.replace(/-escort$/, '')) === B.il(bolgeKod))
     : [];
@@ -453,7 +447,7 @@ ${S.footer(dil)}
   </div>
   ${img ? `<img class="rimg" src="${esc(img)}" alt="${esc(nmE)}" width="480" height="320" fetchpriority="high" decoding="async">` : ''}
   <div class="about">${esc(C2.metin)}</div>
-  <div class="about">${C2.metin2}</div>
+  <div class="about">${safeInlineText(C2.metin2)}</div>
   <div class="about"><b>${esc(t.noktalar)}</b><br>${C2.areas.map(esc).join(' · ')}</div>
   <div class="about"><b>${esc(t.oteller)}</b><br>${C2.otel.map(esc).join(' · ')}</div>
   ${ekMetin}
@@ -464,7 +458,7 @@ ${S.footer(dil)}
   <div class="tarife">${F.satir(dil, bolgeVar ? bolgeKod : null)}</div>
   <div class="about">${t.tarife}</div>
   ${modeller.length ? `<section class="sect"><h2>${esc(t.modeller)}</h2><div class="mgrid">${modeller.map(p => `<a class="kart" href="${BASE}${kok(dil)}/blog/${esc(p.slug)}">${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="300" height="200">` : ''}<span class="kb"><span class="kt">${esc(p.title)}</span></span></a>`).join('')}</div><p><a class="btn-o" href="${BASE}${kok(dil)}/modeller/${hub}">${esc(t.modellerBtn)}</a></p></section>` : ''}
-  <p class="guncel">${esc(t.guncel)}${bugun(dil)}</p>
+  
   <section class="sect">
     <h2>${esc(t.sssB(C2.nm))}</h2>
     ${(C2.sss || []).map(x => `<div class="about"><b>${esc(x[0])}</b><br>${cevap(x[1])}</div>`).join('')}
@@ -520,3 +514,4 @@ ${S.footer(dil)}
   res.setHeader('Content-Security-Policy', S.csp(n));
   res.status(200).send(html);
 };
+

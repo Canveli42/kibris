@@ -1,5 +1,4 @@
-const SB = 'https://accerzwswgiqhtfgoeqv.supabase.co';
-const KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
+import traffic from './data/traffic-server.js';
 
 const KENDI = 'kibrisgirneescort.com';
 
@@ -30,7 +29,7 @@ export default async function middleware(req, ev) {
 
   const u = new URL(req.url);
 
-  if (u.pathname.indexOf('/http') === 0) {
+  if (/^\/https?:\/\//i.test(u.pathname)) {
     return Response.redirect(new URL('/', u), 307);
   }
 
@@ -43,10 +42,7 @@ export default async function middleware(req, ev) {
   if (!YOL.test(u.pathname)) return;
 
   ev.waitUntil(
-    fetch(SB + '/rest/v1/rpc/event_yaz', {
-      method: 'POST',
-      headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ p_yol: u.pathname, p_kaynak: kaynak(req.headers.get('referer')), p_tur: 'sayfa', p_etiket: '' })
-    }).catch(() => {})
+    traffic.writeEvent(req.headers, { p_yol: u.pathname, p_kaynak: kaynak(req.headers.get('referer')), p_tur: 'sayfa', p_etiket: '' })
   );
 }
+

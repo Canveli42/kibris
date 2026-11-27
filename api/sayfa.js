@@ -10,8 +10,8 @@ const FAV = '<link rel="icon" href="/favicon.svg" type="image/svg+xml">'
   + '<link rel="apple-touch-icon" href="/apple-touch-icon.png">';
 
 // panel kendi CSP'sini ister: Turnstile + GitHub API + blob önizleme
-const PANEL_CSP = "default-src 'self'; "
-  + "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; "
+const PANEL_CSP = n => "default-src 'self'; "
+  + "script-src 'self' 'nonce-" + n + "' https://challenges.cloudflare.com; "
   + "style-src 'self' 'unsafe-inline'; "
   + "img-src 'self' data: blob: https://accerzwswgiqhtfgoeqv.supabase.co; "
   + "connect-src 'self' https://accerzwswgiqhtfgoeqv.supabase.co https://api.github.com https://challenges.cloudflare.com; "
@@ -79,12 +79,7 @@ const AH = { apikey: AKEY, Authorization: 'Bearer ' + AKEY };
 
 const RG = { tr: require('../data/regions.js'), en: require('../data/regions.en.js'), ru: require('../data/regions.ru.js') };
 
-const SIRA = [
-  'girne-escort', 'lefkosa-escort', 'magusa-escort', 'iskele-escort', 'guzelyurt-escort',
-  'alsancak-escort', 'lapta-escort', 'karaoglanoglu-escort', 'catalkoy-escort', 'bellapais-escort', 'esentepe-escort',
-  'long-beach-escort', 'bafra-escort', 'gonyeli-escort', 'lefkosa-hamitkoy-escort',
-  'otele-escort', 'eve-gelen-escort', 'ogrenci-escort', 'gecelik-escort', 'vip-escort', 'turk-escort', 'rus-escort'
-];
+const {ARSIV:SIRA}=require('../data/region-keys.js');
 
 // Rusça'da format kalıpları isim tamlaması olduğu için önüne "эскорт" gelir
 const RU_AD = {
@@ -239,7 +234,7 @@ module.exports = async (req, res) => {
 
   const n = S.nonce();
   html = S.noncele(html, n);
-  res.setHeader('Content-Security-Policy', sayfa.panel ? PANEL_CSP : S.csp(n));
+  res.setHeader('Content-Security-Policy', sayfa.panel ? PANEL_CSP(n) : S.csp(n));
 
   res.status(200).send(html);
 };
