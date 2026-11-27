@@ -312,7 +312,7 @@ module.exports = async (req, res) => {
       .filter(k => D[dil][k]).map(k => `<a class="btn-o" href="${BASE}${kk}/${k}">${esc(D[dil][k].nm)}</a>`).join('');
     const populer = [
       ['fiyatlar', t.p1], ['blog/girne-escort-fiyatlari', t.p2], ['blog/turkce-bilen-escort', t.p3],
-      ['blog/gecelik-escort-fiyat', t.p4], ['blog/otele-escort', t.p5], ['blog', t.p6], ['iletisim', t.p7]
+      ['blog/gecelik-escort-fiyat', t.p4], ['otele-escort', t.p5], ['blog', t.p6], ['iletisim', t.p7]
     ].map(x => `<a class="btn-o" href="${BASE}${kk}/${x[0]}">${esc(x[1])}</a>`).join('');
 
     const y404 = `
