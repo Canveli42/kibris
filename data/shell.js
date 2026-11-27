@@ -8,9 +8,9 @@ const SURUM = '4';
 const u = (dil, p) => BASE + (dil === 'tr' ? '' : '/' + dil) + p;
 
 const NAVLAR = {
-  tr: [['/', 'Ana Sayfa'], ['/girne-escort', 'Girne'], ['/lefkosa-escort', 'Lefkoşa'], ['/magusa-escort', 'Mağusa'], ['/iskele-escort', 'İskele'], ['/guzelyurt-escort', 'Güzelyurt'], ['/blog', 'Blog'], ['/fiyatlar', 'Fiyatlar'], ['/iletisim', 'İletişim']],
-  en: [['/en', 'Home'], ['/en/girne-escort', 'Kyrenia'], ['/en/lefkosa-escort', 'Nicosia'], ['/en/magusa-escort', 'Famagusta'], ['/en/iskele-escort', 'Iskele'], ['/en/guzelyurt-escort', 'Guzelyurt'], ['/en/blog', 'Blog'], ['/en/fiyatlar', 'Prices'], ['/en/iletisim', 'Contact']],
-  ru: [['/ru', 'Главная'], ['/ru/girne-escort', 'Кирения'], ['/ru/lefkosa-escort', 'Никосия'], ['/ru/magusa-escort', 'Фамагуста'], ['/ru/iskele-escort', 'Искеле'], ['/ru/guzelyurt-escort', 'Гюзельюрт'], ['/ru/blog', 'Блог'], ['/ru/fiyatlar', 'Цены'], ['/ru/iletisim', 'Контакты']]
+  tr: [['/', 'Ana Sayfa'], ['/girne-escort', 'Girne'], ['/lefkosa-escort', 'Lefkoşa'], ['/magusa-escort', 'Mağusa'], ['/iskele-escort', 'İskele'], ['/guzelyurt-escort', 'Güzelyurt'], ['/blog', 'Blog'], ['/fiyatlar', 'Fiyatlar'], ['/hakkinda', 'Hakkında'], ['/iletisim', 'İletişim']],
+  en: [['/en', 'Home'], ['/en/girne-escort', 'Kyrenia'], ['/en/lefkosa-escort', 'Nicosia'], ['/en/magusa-escort', 'Famagusta'], ['/en/iskele-escort', 'Iskele'], ['/en/guzelyurt-escort', 'Guzelyurt'], ['/en/blog', 'Blog'], ['/en/fiyatlar', 'Prices'], ['/en/hakkinda', 'About'], ['/en/iletisim', 'Contact']],
+  ru: [['/ru', 'Главная'], ['/ru/girne-escort', 'Кирения'], ['/ru/lefkosa-escort', 'Никосия'], ['/ru/magusa-escort', 'Фамагуста'], ['/ru/iskele-escort', 'Искеле'], ['/ru/guzelyurt-escort', 'Гюзельюрт'], ['/ru/blog', 'Блог'], ['/ru/fiyatlar', 'Цены'], ['/ru/hakkinda', 'О нас'], ['/ru/iletisim', 'Контакты']]
 };
 
 const KATALOG = { tr: 'Katalog', en: 'Catalogue', ru: 'Каталог' };
