@@ -198,6 +198,17 @@ const profilCek = async (filtre, dil, slug, limit) => {
   return [];
 };
 
+const modelCek = async slug => {
+  try {
+    const r = await fetch(
+      SB + '/rest/v1/models?select=yas,boy,hizmet,diller,saat&slug=eq.' + encodeURIComponent(slug) + '&limit=1',
+      { headers: H }
+    );
+    if (r.ok) { const a = await r.json(); return (a && a[0]) || null; }
+  } catch (e) {}
+  return null;
+};
+
 async function ilgiliYazilar(slug, dil, profil) {
   if (!profil) {
     const tokens = String(slug || '').split('-').filter(t => t.length > 2 && !['kibris','escort','rehberi','blog','otel','ne','mi','mu','ve','icin','nasil','nedir','demek','kadar','hangi'].includes(t)).slice(0, 2);
@@ -330,8 +341,18 @@ module.exports = async (req, res) => {
 
     const profil = profilCoz(slug, p);
     const ayikla = specAyikla(p.body);
-    const spec = profil ? ayikla.spec : null;
     const bolgeAd = profil ? B.ad(profil.bolge, dil) : '';
+
+    const model = profil ? await modelCek(slug) : null;
+    const modelSpec = model ? {
+      yas: model.yas ? String(model.yas) : '',
+      boy: model.boy ? model.boy + ' cm' : '',
+      hizmet: (model.hizmet || []).join(', '),
+      diller: (model.diller || []).join(', '),
+      saat: model.saat || '',
+      yer: bolgeAd
+    } : null;
+    const spec = profil ? (ayikla.spec || modelSpec) : null;
 
     const digerleri = await ilgiliYazilar(slug, dil, profil);
 
