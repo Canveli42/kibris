@@ -86,6 +86,17 @@ const SIRA = [
   'otele-escort', 'eve-gelen-escort', 'ogrenci-escort', 'gecelik-escort', 'vip-escort', 'turk-escort', 'rus-escort'
 ];
 
+// Rusça'da format kalıpları isim tamlaması olduğu için önüne "эскорт" gelir
+const RU_AD = {
+  'otele-escort': 'эскорт в отель',
+  'eve-gelen-escort': 'эскорт на квартиру',
+  'ogrenci-escort': 'студенческий эскорт',
+  'gecelik-escort': 'эскорт на ночь',
+  'vip-escort': 'VIP-эскорт',
+  'turk-escort': 'турецкий эскорт',
+  'rus-escort': 'русский эскорт'
+};
+
 const AR = {
   tr: { b: 'Bölgeler', y: 'Rehber yazıları', kok: '/', blog: '/blog/' },
   en: { b: 'Areas', y: 'Guides', kok: '/en/', blog: '/en/blog/' },
@@ -107,8 +118,12 @@ async function arsivDoldur(dil) {
   const r = RG[d] || RG.tr;
 
   const bolge = SIRA.filter(s => r[s]).map(s => {
-    const nm = String((r[s] && r[s].nm) || s);
-    const et = /escort/i.test(nm) ? nm : nm + ' escort';
+    let et;
+    if (d === 'ru' && RU_AD[s]) et = RU_AD[s];
+    else {
+      const nm = String((r[s] && r[s].nm) || s);
+      et = /escort/i.test(nm) ? nm : nm + ' escort';
+    }
     return '<a href="' + a.kok + s + '">' + esc(et) + '</a>';
   }).join(' · ');
 
