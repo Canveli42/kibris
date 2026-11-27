@@ -3,51 +3,15 @@ const KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
 const BASE = 'https://www.kibrisgirneescort.com';
 const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 const S = require('../data/shell.js');
+const B = require('../data/bolge.js');
 
 const YAYIN = 'yayin_at.is.null,yayin_at.lte.now()';
-
-const BOLGE = {
-  girne: ['Girne', 'girne-escort'], karaoglanoglu: ['Karaoğlanoğlu', 'karaoglanoglu-escort'],
-  alsancak: ['Alsancak', 'alsancak-escort'], lapta: ['Lapta', 'lapta-escort'],
-  catalkoy: ['Çatalköy', 'catalkoy-escort'], bellapais: ['Bellapais', 'bellapais-escort'],
-  esentepe: ['Esentepe', 'esentepe-escort'], lefkosa: ['Lefkoşa', 'lefkosa-escort'],
-  gonyeli: ['Gönyeli', 'gonyeli-escort'], magusa: ['Mağusa', 'magusa-escort'],
-  iskele: ['İskele', 'iskele-escort'], 'long-beach': ['Long Beach', 'long-beach-escort'],
-  bafra: ['Bafra', 'bafra-escort'], guzelyurt: ['Güzelyurt', 'guzelyurt-escort']
-};
-
-const SEMT = {
-  girne: ['merkez', 'liman', 'zeytinlik', 'karakum', 'nusmar'],
-  lefkosa: ['kumsal', 'surici', 'ortakoy', 'hamitkoy', 'koskluciftlik', 'haspolat'],
-  magusa: ['sakarya', 'maras', 'tuzla', 'canakkale'],
-  iskele: []
-};
-
-const REHBER = new Set([
-  'fiyatlari', 'villa', 'nasil-cagrilir', 'rehberi', 'rehber', 'program',
-  '2-saat-program', '4-saat-program', 'gecelik-program', '30-dakika',
-  'ilk-gorusme', 'lobi-mi-oda-mi', 'mitleri', 'sabah-gorusmesi',
-  'vip-davet', 'turk-rus-farki', 'ulasim-ve-taksi', 'otelleri'
-]);
 
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
 const ldYaz = x => '<script type="application/ld+json">' + JSON.stringify(x).replace(/</g, '\\u003c') + '</script>';
-
-function onekler(kod) { return [kod].concat(SEMT[kod] || []); }
-
-function profilMi(slug, kod) {
-  const m = String(slug || '').match(/^([a-z-]+)-escort-(.+)$/);
-  if (!m) return false;
-  const onek = m[1];
-  const kuyruk = m[2].replace(/-(19|20)\d{2}$/, '');
-  if (REHBER.has(kuyruk)) return false;
-  const ilk = onek.split('-')[0];
-  if (BOLGE[ilk]) return ilk === kod;
-  return onekler(kod).some(o => onek === o || onek.endsWith('-' + o));
-}
 
 const ARA_CSS = `<style>
 .ara{display:flex;gap:8px;margin:0 0 20px;background:none;border:0;padding:0}
@@ -75,30 +39,32 @@ const CANLI = `<script>
 
 module.exports = async (req, res) => {
   const kod = String((req.query && req.query.bolge) || '').replace(/[^a-z-]/g, '');
-  const b = BOLGE[kod];
-
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
-  if (!b) {
+  if (!kod || !B.varMi(kod)) {
     res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600');
     res.status(404).send('Bölge bulunamadı');
     return;
   }
 
-  const ad = b[0], bolgeYol = BASE + '/' + b[1], url = BASE + '/modeller/' + kod;
+  const ad = B.ad(kod, 'tr');
+  const bolgeYol = BASE + '/' + B.yol(kod);
+  const url = BASE + '/modeller/' + kod;
   const q = String((req.query && req.query.q) || '').trim().slice(0, 60);
+  const ust = B.ust(kod);
 
   let hepsi = [];
   try {
     const r = await fetch(
-      SB + '/rest/v1/posts?select=slug,title,img&published=eq.true&lang=eq.tr' +
-      '&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast&limit=2000',
+      SB + '/rest/v1/posts?select=slug,title,img,bolge,il&published=eq.true&lang=eq.tr' +
+      '&bolge=not.is.null&or=(' + YAYIN + ')&order=yayin_at.desc.nullslast&limit=2000',
       { headers: H }
     );
     if (r.ok) hepsi = (await r.json()) || [];
   } catch (e) {}
 
-  let liste = hepsi.filter(p => profilMi(p.slug, kod));
+  let liste = B.alt(kod) ? hepsi.filter(p => p.il === kod) : hepsi.filter(p => p.bolge === kod);
+
   if (q) {
     const k = q.toLowerCase();
     liste = liste.filter(p => (String(p.title || '') + ' ' + String(p.slug || '')).toLowerCase().indexOf(k) > -1);
@@ -108,13 +74,18 @@ module.exports = async (req, res) => {
     ${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="300" height="200">` : ''}
     <span class="kb"><span class="kt">${esc(p.title)}</span></span></a>`).join('\n');
 
+  const kirinti = `<a href="${BASE}/">Ana sayfa</a> › ` +
+    (ust ? `<a href="${BASE}/${B.yol(ust)}">${esc(B.ad(ust, 'tr'))}</a> › ` : '') +
+    `<a href="${bolgeYol}">${esc(ad)}</a> › <span>Modeller</span>`;
+
+  const kirintiLd = [{ '@type': 'ListItem', position: 1, name: 'Ana sayfa', item: BASE + '/' }];
+  if (ust) kirintiLd.push({ '@type': 'ListItem', position: 2, name: B.ad(ust, 'tr'), item: BASE + '/' + B.yol(ust) });
+  kirintiLd.push({ '@type': 'ListItem', position: kirintiLd.length + 1, name: ad, item: bolgeYol });
+  kirintiLd.push({ '@type': 'ListItem', position: kirintiLd.length + 1, name: 'Modeller', item: url });
+
   const ld = [
     { '@context': 'https://schema.org', '@type': 'CollectionPage', name: ad + ' escort modelleri', url, inLanguage: 'tr', about: { '@type': 'Place', name: ad } },
-    { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Ana sayfa', item: BASE + '/' },
-      { '@type': 'ListItem', position: 2, name: ad, item: bolgeYol },
-      { '@type': 'ListItem', position: 3, name: 'Modeller', item: url }
-    ] }
+    { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: kirintiLd }
   ];
   if (liste.length) ld.push({
     '@context': 'https://schema.org', '@type': 'ItemList',
@@ -129,7 +100,7 @@ module.exports = async (req, res) => {
   </form>`;
 
   const icerik = `
-  <div class="crumb"><a href="${BASE}/">Ana sayfa</a> › <a href="${bolgeYol}">${esc(ad)}</a> › <span>Modeller</span></div>
+  <div class="crumb">${kirinti}</div>
   <h1>${esc(ad)} Escort Modelleri</h1>
   <p class="lead">${esc(ad)} bölgesinde görüşen modellerin tamamı burada. Kapora yok, ödeme görüşmenin başında.</p>
   ${araForm}
