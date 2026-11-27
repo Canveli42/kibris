@@ -7,7 +7,7 @@ const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
 
 const IZLENEN = [
   'data/fiyat.js', 'data/shell.js',
-  'data/regions.js', 'data/regions.en.js', 'data/regions.ru.js',
+  'data/regions.js', 'data/regions.en.js', 'data/regions.ru.js', 'data/ek.js',
   'pages/index.html', 'pages/en.html', 'pages/ru.html',
   'pages/fiyatlar.html', 'pages/en-fiyatlar.html', 'pages/ru-fiyatlar.html',
   'pages/hakkinda.html', 'pages/en-hakkinda.html', 'pages/ru-hakkinda.html',
@@ -78,6 +78,18 @@ const xmlGrup = g => {
     '</changefreq><priority>' + g.pri + '</priority>' + alt + '</url>').join('\n');
 };
 
+const BOT = /googlebot|bingbot|yandex|duckduckbot|baiduspider|slurp|applebot|petalbot|seznambot|semrush|ahrefs|screaming|mj12|curl|wget|python|axios|headless|facebookexternalhit|twitterbot/i;
+
+const HTML_CSS = `*{box-sizing:border-box}
+body{margin:0;background:#0b121b;color:#e9eef6;font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:24px 18px}
+h1{font-family:Georgia,serif;font-size:22px;margin:0 0 6px;color:#fff}
+p{color:#93a0b4;font-size:13.5px;margin:0 0 18px}
+a{color:#f0d9ae;text-decoration:none;word-break:break-all}
+li{margin:0 0 6px;padding:0 0 6px;border-bottom:1px solid rgba(216,184,120,.14);font-size:13.5px}
+li span{color:#93a0b4;font-size:12px;margin-left:8px}
+ol{margin:0;padding-left:20px}
+@media(min-width:900px){ol{columns:2;column-gap:34px}li{break-inside:avoid}}`;
+
 module.exports = async (req, res) => {
   const gruplar = [];
   const gorulen = new Set();
@@ -136,6 +148,29 @@ module.exports = async (req, res) => {
   ekle({ tr: BASE + '/hakkinda', en: BASE + '/en/hakkinda', ru: BASE + '/ru/hakkinda' }, STATIC, 'monthly', '0.5');
   ekle({ tr: BASE + '/iletisim', en: BASE + '/en/iletisim', ru: BASE + '/ru/iletisim' }, STATIC, 'monthly', '0.6');
   ekle({ tr: BASE + '/gizlilik', en: BASE + '/en/gizlilik', ru: BASE + '/ru/gizlilik' }, STATIC, 'yearly', '0.3');
+
+  const ua = String((req.headers && req.headers['user-agent']) || '');
+
+  if (!BOT.test(ua)) {
+    const satir = gruplar.map(g => {
+      const u = g.yollar.tr || g.yollar[Object.keys(g.yollar)[0]];
+      return '<li><a href="' + esc(u) + '">' + esc(u) + '</a><span>' + g.lastmod + ' · ' + g.pri + '</span></li>';
+    }).join('');
+    const h = `<!DOCTYPE html><html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Site haritası · ${gruplar.length} adres | RedKıbrıs</title>
+<meta name="robots" content="noindex,follow">
+<style>${HTML_CSS}</style></head><body>
+<h1>Site haritası</h1>
+<p>${gruplar.length} adres. Arama motorları bu sayfayı XML olarak görür.</p>
+<ol>${satir}</ol>
+</body></html>`;
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=900, stale-while-revalidate=86400');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.status(200).send(h);
+    return;
+  }
 
   const xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
