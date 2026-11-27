@@ -1,12 +1,28 @@
+const { timingSafeEqual } = require('node:crypto');
 const BASE = 'https://www.kibrisgirneescort.com';
 const ANAHTAR = 'kibrisgirneescort2026indexnow';
-const SIR = 'kg-index-2026';
 const MOTORLAR = [
   'https://api.indexnow.org/indexnow',
   'https://www.bing.com/indexnow',
   'https://yandex.com/indexnow'
 ];
 const EN_FAZLA = 600;
+
+function yetkili(req, sir) {
+  const auth = String((req.headers || {}).authorization || '');
+  const prefix = 'Bearer ';
+  if (!auth.startsWith(prefix)) return false;
+  const a = Buffer.from(auth.slice(prefix.length));
+  const b = Buffer.from(sir);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
+function guvenliAdres(value) {
+  try {
+    const url = new URL(String(value));
+    return url.origin === BASE && !url.username && !url.password && !url.hash;
+  } catch { return false; }
+}
 
 const YEDEK = [
   BASE + '/', BASE + '/blog', BASE + '/fiyatlar', BASE + '/iletisim', BASE + '/hakkinda',
@@ -47,7 +63,7 @@ async function adresler() {
     if (!r.ok) return YEDEK;
     const xml = await r.text();
     const m = xml.match(/<loc>[^<]+<\/loc>/g) || [];
-    const l = m.map(x => x.replace(/<\/?loc>/g, '').trim()).filter(u => u.indexOf(BASE) === 0);
+    const l = m.map(x => x.replace(/<\/?loc>/g, '').trim()).filter(guvenliAdres);
     return l.length ? l : YEDEK;
   } catch (e) {
     return YEDEK;
@@ -61,10 +77,19 @@ module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
 
   try {
+    const sir = process.env.INDEXNOW_ADMIN_SECRET;
+    if (!sir || sir.length < 32) {
+      res.status(503).send(JSON.stringify({ ok: false, hata: 'Bildirim sistemi yapılandırılmamış' }));
+      return;
+    }
+    if (!yetkili(req, sir)) {
+      res.status(401).send(JSON.stringify({ ok: false, hata: 'Yetkisiz istek' }));
+      return;
+    }
     const q = req.query || {};
-
-    if (String(q.sir || '') !== SIR) {
-      res.status(401).send(JSON.stringify({ ok: false, hata: 'sir yanlis' }));
+    if (req.method !== 'POST') {
+      res.setHeader('Allow', 'POST');
+      res.status(405).send(JSON.stringify({ ok: false, hata: 'POST gerekli' }));
       return;
     }
 
@@ -77,8 +102,12 @@ module.exports = async (req, res) => {
 
     if (q.url) {
       const u = String(q.url);
-      if (u.indexOf(BASE) !== 0) {
+      if (!guvenliAdres(u)) {
         res.status(400).send(JSON.stringify({ ok: false, hata: 'url disarida' }));
+        return;
+      }
+      if (q.test) {
+        res.status(200).send(JSON.stringify({ ok: true, test: true, gonderilecek: 1 }));
         return;
       }
       const sonuc = await Promise.all(MOTORLAR.map(m => tekMotor(m, govdeYap([u]))));
@@ -103,9 +132,6 @@ module.exports = async (req, res) => {
     const sonuc = await Promise.all(MOTORLAR.map(m => tekMotor(m, govdeYap(liste))));
     res.status(200).send(JSON.stringify({ ok: true, adet: liste.length, bas, toplam: hepsi.length, sonuc }));
   } catch (e) {
-    res.status(200).send(JSON.stringify({
-      ok: false,
-      hata: String((e && e.message) || e).slice(0, 200)
-    }));
+    res.status(500).send(JSON.stringify({ ok: false, hata: 'Bildirim işlemi başarısız' }));
   }
 };
