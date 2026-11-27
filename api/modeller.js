@@ -120,7 +120,7 @@ module.exports = async (req, res) => {
 <meta name="description" content="${esc(ad)} escort modellerinin listesi. Sabit tarife, kapora yok, ödeme görüşmenin başında.">
 <link rel="canonical" href="${url}">
 <link rel="sitemap" type="application/xml" href="${BASE}/sitemap.xml">
-<meta name="robots" content="${q ? 'noindex,follow' : 'index,follow'}">
+<meta name="robots" content="${q || !liste.length ? 'noindex,follow' : 'index,follow'}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="RedKıbrıs">
 <meta property="og:title" content="${esc(ad)} Escort Modelleri">
