@@ -4,12 +4,15 @@ const S = require('../data/shell.js');
 const F = require('../data/fiyat.js');
 
 const BASE = 'https://www.kibrisgirneescort.com';
+const SB = 'https://accerzwswgiqhtfgoeqv.supabase.co';
+const KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
+const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
+const ARSIV_ADET = 150;
 
 const FAV = '<link rel="icon" href="/favicon.svg" type="image/svg+xml">'
   + '<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">'
   + '<link rel="apple-touch-icon" href="/apple-touch-icon.png">';
 
-// panel kendi CSP'sini ister: Turnstile + GitHub API + blob önizleme
 const PANEL_CSP = "default-src 'self'; "
   + "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; "
   + "style-src 'self' 'unsafe-inline'; "
@@ -36,6 +39,10 @@ const IZIN = {
   'en-gizlilik': { f: 'en-gizlilik.html', yedek: 'gizlilik.html', aktif: '/en/gizlilik', dil: 'en', grup: 'gizlilik' },
   'ru-gizlilik': { f: 'ru-gizlilik.html', yedek: 'gizlilik.html', aktif: '/ru/gizlilik', dil: 'ru', grup: 'gizlilik' }
 };
+
+const esc = s => String(s == null ? '' : s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
 const oku = f => {
   try { return fs.readFileSync(path.join(process.cwd(), 'pages/' + f), 'utf8'); }
@@ -72,6 +79,31 @@ function fiyatDoldur(html, dil) {
     .replace(/<!--FIYAT-->/g, F.satir(dil));
 }
 
+async function arsivBlok(dil) {
+  const kok = dil === 'tr' ? '' : '/' + dil;
+  const R = require('../data/regions.js');
+  const bolge = Object.keys(R)
+    .map(k => `<a href="${kok}/${esc(k)}">${esc(R[k].nm)}</a>`).join(' · ');
+
+  let yazilar = [];
+  try {
+    const r = await fetch(
+      SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil +
+      '&or=(yayin_at.is.null,yayin_at.lte.now())&order=yayin_at.desc.nullslast&limit=' + ARSIV_ADET,
+      { headers: H }
+    );
+    if (r.ok) yazilar = (await r.json()) || [];
+  } catch (e) {}
+
+  const liste = yazilar
+    .map(p => `<a href="${kok}/blog/${esc(p.slug)}">${esc(p.title)}</a>`).join(' · ');
+
+  return '<p class="pnote" style="margin-top:10px">' + bolge
+    + ' · <a href="' + kok + '/fiyatlar">Fiyatlar</a>'
+    + ' · <a href="' + kok + '/iletisim">İletişim</a></p>'
+    + (liste ? '<p class="pnote">' + liste + ' · <a href="' + kok + '/blog">Tüm yazılar</a></p>' : '');
+}
+
 const YOK = {
   tr: { b: 'Sayfa bulunamadı', m: 'Bu adreste sayfa yok. Ana sayfaya dönebilir, bölge seçebilir veya kataloğu isteyebilirsin.', a: 'Ana sayfa', f: 'Fiyatlar', c: 'Katalog' },
   en: { b: 'Page not found', m: 'Nothing at this address. Go back home, pick an area or just ask for the catalogue.', a: 'Home', f: 'Prices', c: 'Catalogue' },
@@ -89,7 +121,7 @@ function yokSayfa(dil) {
 <meta name="theme-color" content="#0b121b">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/sayfa.css?v=3">
+<link rel="stylesheet" href="/css/sayfa.css?v=4">
 ${S.head()}
 </head><body>
 ${S.header({ aktif: '', dil, ceviriler: {} })}
@@ -110,7 +142,7 @@ ${S.footer(dil)}
 </body></html>`;
 }
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   const k = String((req.query && req.query.f) || '').replace(/[^a-z0-9-]/g, '');
   const sayfa = IZIN[k];
 
@@ -145,6 +177,15 @@ module.exports = (req, res) => {
 
   if (!sayfa.panel) {
     html = fiyatDoldur(html, sayfa.dil);
+
+    if (html.indexOf('<!--ARSIV-->') > -1) {
+      try {
+        html = html.replace('<!--ARSIV-->', await arsivBlok(sayfa.dil));
+      } catch (e) {
+        html = html.replace('<!--ARSIV-->', '');
+      }
+    }
+
     html = html
       .replace('<!--SHELL:HEAD-->', S.head())
       .replace('<!--SHELL:HEADER-->', S.header({ aktif: sayfa.aktif, dil: sayfa.dil, ceviriler: ceviriHaritasi(sayfa.grup) }))
