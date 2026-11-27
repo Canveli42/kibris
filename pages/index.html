@@ -168,6 +168,23 @@
     }
   }catch(e){}
 })();
+(function(){
+  var SB='https://accerzwswgiqhtfgoeqv.supabase.co';
+  var KEY='sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
+  var H={apikey:KEY,Authorization:'Bearer '+KEY};
+  var bg=document.querySelector('.hero-bg');
+  if(!bg)return;
+  fetch(SB+'/rest/v1/settings?select=value&key=eq.hero',{headers:H})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(rows){
+      var u=rows&&rows[0]&&rows[0].value;
+      if(!u)return;
+      bg.removeAttribute('srcset');
+      bg.removeAttribute('sizes');
+      bg.src=u;
+    })
+    .catch(function(){});
+})();
 </script>
 </body>
 </html>
