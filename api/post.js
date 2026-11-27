@@ -286,29 +286,29 @@ module.exports = async (req, res) => {
     let p = null;
 
     if (slug) {
-      try {
-        const r = await fetch(
-          SB + '/rest/v1/posts?select=*&slug=eq.' + encodeURIComponent(slug) +
-          '&lang=eq.' + dil + '&published=eq.true&or=(' + YAYIN + ')',
-          { headers: H }
-        );
-        if (r.ok) { const a = await r.json(); p = a && a[0]; }
-      } catch (e) {}
+      const r = await fetch(
+        SB + '/rest/v1/posts?select=*&slug=eq.' + encodeURIComponent(slug) +
+        '&lang=eq.' + dil + '&published=eq.true&or=(' + YAYIN + ')',
+        { headers: H }
+      );
+      if (!r.ok) throw new Error('Post lookup unavailable');
+      const a = await r.json();
+      if (!Array.isArray(a)) throw new Error('Invalid post response');
+      p = a[0] || null;
     }
 
     if (!p && slug && dil !== 'tr') {
-      let varMi = false;
-      try {
-        const r = await fetch(
-          SB + '/rest/v1/posts?select=slug&slug=eq.' + encodeURIComponent(slug) +
-          '&published=eq.true&or=(' + YAYIN + ')&limit=1',
-          { headers: H }
-        );
-        if (r.ok) { const a = await r.json(); varMi = !!(a && a.length); }
-      } catch (e) {}
-      if (varMi) {
+      const r = await fetch(
+        SB + '/rest/v1/posts?select=slug&slug=eq.' + encodeURIComponent(slug) +
+        '&lang=eq.tr&published=eq.true&or=(' + YAYIN + ')&limit=1',
+        { headers: H }
+      );
+      if (!r.ok) throw new Error('Post lookup unavailable');
+      const a = await r.json();
+      if (!Array.isArray(a)) throw new Error('Invalid post response');
+      if (a.length) {
         const hedef = BASE + '/blog/' + slug;
-        res.writeHead(301, { Location: hedef, 'Content-Type': 'text/html; charset=utf-8' });
+        res.writeHead(302, { Location: hedef, 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
         res.end('<!DOCTYPE html><html><body><a href="' + hedef + '">' + hedef + '</a></body></html>');
         return;
       }
@@ -501,6 +501,8 @@ module.exports = async (req, res) => {
     h = S.noncele(h, n);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Content-Security-Policy', S.csp(n));
-    res.status(500).send(h);
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('Retry-After', '60');
+    res.status(503).send(h);
   }
 };
