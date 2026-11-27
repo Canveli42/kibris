@@ -11,6 +11,7 @@ const B = require('../data/bolge.js');
 
 const DILLER = ['tr', 'en', 'ru'];
 const D = { tr: require('../data/regions.js'), en: require('../data/regions.en.js'), ru: require('../data/regions.ru.js') };
+Object.assign(D.tr, require('../data/regions.ek.js'));
 const YAYIN = 'yayin_at.is.null,yayin_at.lte.now()';
 
 const REHBER_YAZI = {
@@ -379,6 +380,9 @@ ${S.footer(dil)}
     ? 'Эскорт ' + esc(C2.nm) + ' — <span class="altad">' + esc(C2.alt) + '</span>'
     : esc(nmE) + ' — <span class="altad">' + esc(C2.alt) + '</span>';
 
+  const ustK = bolgeVar ? B.ust(bolgeKod) : null;
+  const crumbUst = ustK ? `<a href="${BASE}${kok(dil)}/${B.yol(ustK)}">${esc(B.ad(ustK, dil))}</a> › ` : '';
+
   const ld = [
     {
       '@context': 'https://schema.org', '@type': 'Service', serviceType: nmE,
@@ -391,7 +395,8 @@ ${S.footer(dil)}
       '@context': 'https://schema.org', '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: t.ana, item: BASE + kok(dil) + '/' },
-        { '@type': 'ListItem', position: 2, name: C2.nm, item: url }
+        ...(ustK ? [{ '@type': 'ListItem', position: 2, name: B.ad(ustK, dil), item: BASE + kok(dil) + '/' + B.yol(ustK) }] : []),
+        { '@type': 'ListItem', position: ustK ? 3 : 2, name: C2.nm, item: url }
       ]
     },
     {
@@ -423,7 +428,7 @@ ${S.footer(dil)}
   }
 
   const icerik = `
-  <div class="crumb"><a href="${BASE}${kok(dil)}/">${esc(t.ana)}</a> › <span>${esc(dil === 'ru' ? cap(C2.nm) : C2.nm)}</span></div>
+  <div class="crumb"><a href="${BASE}${kok(dil)}/">${esc(t.ana)}</a> › ${crumbUst}<span>${esc(dil === 'ru' ? cap(C2.nm) : C2.nm)}</span></div>
   <h1>${h1}</h1>
   <p class="lead">${esc(C2.lead)}</p>
   <div class="acts">
