@@ -29,6 +29,7 @@
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
     { "source": "/panel", "destination": "/api/sayfa?f=can" },
+    { "source": "/modeller", "destination": "/api/modeller" },
     { "source": "/modeller/:bolge", "destination": "/api/modeller?bolge=:bolge" },
     { "source": "/blog", "destination": "/api/blog?dil=tr" },
     { "source": "/en/blog", "destination": "/api/blog?dil=en" },
