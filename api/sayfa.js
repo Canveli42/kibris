@@ -4,15 +4,12 @@ const S = require('../data/shell.js');
 const F = require('../data/fiyat.js');
 
 const BASE = 'https://www.kibrisgirneescort.com';
-const SB = 'https://accerzwswgiqhtfgoeqv.supabase.co';
-const KEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
-const H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
-const ARSIV_ADET = 150;
 
 const FAV = '<link rel="icon" href="/favicon.svg" type="image/svg+xml">'
   + '<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">'
   + '<link rel="apple-touch-icon" href="/apple-touch-icon.png">';
 
+// panel kendi CSP'sini ister: Turnstile + GitHub API + blob önizleme
 const PANEL_CSP = "default-src 'self'; "
   + "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; "
   + "style-src 'self' 'unsafe-inline'; "
@@ -39,10 +36,6 @@ const IZIN = {
   'en-gizlilik': { f: 'en-gizlilik.html', yedek: 'gizlilik.html', aktif: '/en/gizlilik', dil: 'en', grup: 'gizlilik' },
   'ru-gizlilik': { f: 'ru-gizlilik.html', yedek: 'gizlilik.html', aktif: '/ru/gizlilik', dil: 'ru', grup: 'gizlilik' }
 };
-
-const esc = s => String(s == null ? '' : s)
-  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-  .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
 const oku = f => {
   try { return fs.readFileSync(path.join(process.cwd(), 'pages/' + f), 'utf8'); }
@@ -79,30 +72,68 @@ function fiyatDoldur(html, dil) {
     .replace(/<!--FIYAT-->/g, F.satir(dil));
 }
 
-async function arsivBlok(dil) {
-  const kok = dil === 'tr' ? '' : '/' + dil;
-  const R = require('../data/regions.js');
-  const bolge = Object.keys(R)
-    .map(k => `<a href="${kok}/${esc(k)}">${esc(R[k].nm)}</a>`).join(' · ');
+/* ---- arşiv: ana sayfaların altındaki açılır link bloğu ---- */
+const SB = 'https://accerzwswgiqhtfgoeqv.supabase.co';
+const AKEY = 'sb_publishable_MghJlNwUcMgsHY6UfQ9hSw_gDfS_HfG';
+const AH = { apikey: AKEY, Authorization: 'Bearer ' + AKEY };
 
-  let yazilar = [];
+const RG = { tr: require('../data/regions.js'), en: require('../data/regions.en.js'), ru: require('../data/regions.ru.js') };
+
+const SIRA = [
+  'girne-escort', 'lefkosa-escort', 'magusa-escort', 'iskele-escort', 'guzelyurt-escort',
+  'alsancak-escort', 'lapta-escort', 'karaoglanoglu-escort', 'catalkoy-escort', 'bellapais-escort', 'esentepe-escort',
+  'long-beach-escort', 'bafra-escort', 'gonyeli-escort', 'lefkosa-hamitkoy-escort',
+  'otele-escort', 'eve-gelen-escort', 'ogrenci-escort', 'gecelik-escort', 'vip-escort', 'turk-escort', 'rus-escort'
+];
+
+const AR = {
+  tr: { b: 'Bölgeler', y: 'Rehber yazıları', kok: '/', blog: '/blog/' },
+  en: { b: 'Areas', y: 'Guides', kok: '/en/', blog: '/en/blog/' },
+  ru: { b: 'Районы', y: 'Гиды', kok: '/ru/', blog: '/ru/blog/' }
+};
+
+const ACACHE = new Map();
+
+const esc = s => String(s == null ? '' : s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+async function arsivDoldur(dil) {
+  const d = AR[dil] ? dil : 'tr';
+  const c = ACACHE.get(d);
+  if (c && Date.now() - c.t < 600000) return c.h;
+
+  const a = AR[d];
+  const r = RG[d] || RG.tr;
+
+  const bolge = SIRA.filter(s => r[s]).map(s => {
+    const nm = String((r[s] && r[s].nm) || s);
+    const et = /escort/i.test(nm) ? nm : nm + ' escort';
+    return '<a href="' + a.kok + s + '">' + esc(et) + '</a>';
+  }).join(' · ');
+
+  let yazi = '';
   try {
-    const r = await fetch(
-      SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + dil +
-      '&or=(yayin_at.is.null,yayin_at.lte.now())&order=yayin_at.desc.nullslast&limit=' + ARSIV_ADET,
-      { headers: H }
-    );
-    if (r.ok) yazilar = (await r.json()) || [];
+    const u = SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + d
+      + '&or=(yayin_at.is.null,yayin_at.lte.now())&order=yayin_at.desc.nullslast&limit=150';
+    const res = await fetch(u, { headers: AH });
+    if (res.ok) {
+      const rows = (await res.json()) || [];
+      yazi = rows.filter(p => p && p.slug && p.title)
+        .map(p => '<a href="' + a.blog + esc(p.slug) + '">' + esc(p.title) + '</a>')
+        .join(' · ');
+    }
   } catch (e) {}
 
-  const liste = yazilar
-    .map(p => `<a href="${kok}/blog/${esc(p.slug)}">${esc(p.title)}</a>`).join(' · ');
+  let h = '<div style="line-height:2.05;font-size:13.5px;margin-top:14px">';
+  if (bolge) h += '<p style="margin:0 0 12px"><b>' + esc(a.b) + '</b><br>' + bolge + '</p>';
+  if (yazi) h += '<p style="margin:0"><b>' + esc(a.y) + '</b><br>' + yazi + '</p>';
+  h += '</div>';
 
-  return '<p class="pnote" style="margin-top:10px">' + bolge
-    + ' · <a href="' + kok + '/fiyatlar">Fiyatlar</a>'
-    + ' · <a href="' + kok + '/iletisim">İletişim</a></p>'
-    + (liste ? '<p class="pnote">' + liste + ' · <a href="' + kok + '/blog">Tüm yazılar</a></p>' : '');
+  ACACHE.set(d, { t: Date.now(), h });
+  return h;
 }
+/* ---- arşiv sonu ---- */
 
 const YOK = {
   tr: { b: 'Sayfa bulunamadı', m: 'Bu adreste sayfa yok. Ana sayfaya dönebilir, bölge seçebilir veya kataloğu isteyebilirsin.', a: 'Ana sayfa', f: 'Fiyatlar', c: 'Katalog' },
@@ -177,15 +208,9 @@ module.exports = async (req, res) => {
 
   if (!sayfa.panel) {
     html = fiyatDoldur(html, sayfa.dil);
-
-    if (html.indexOf('<!--ARSIV-->') > -1) {
-      try {
-        html = html.replace('<!--ARSIV-->', await arsivBlok(sayfa.dil));
-      } catch (e) {
-        html = html.replace('<!--ARSIV-->', '');
-      }
+    if (sayfa.grup === 'ana' && html.indexOf('<!--ARSIV-->') > -1) {
+      html = html.replace('<!--ARSIV-->', await arsivDoldur(sayfa.dil));
     }
-
     html = html
       .replace('<!--SHELL:HEAD-->', S.head())
       .replace('<!--SHELL:HEADER-->', S.header({ aktif: sayfa.aktif, dil: sayfa.dil, ceviriler: ceviriHaritasi(sayfa.grup) }))
