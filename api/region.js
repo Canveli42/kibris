@@ -286,17 +286,26 @@ module.exports = async (req, res) => {
 
   if (!C2) {
     try {
-      const rp = await fetch(SB + '/rest/v1/posts?select=slug&slug=eq.' + encodeURIComponent(slug) + '&published=eq.true&limit=1', { headers: H });
-      if (rp.ok) {
+      const rp = await fetch(SB + '/rest/v1/posts?select=slug,lang&slug=eq.' + encodeURIComponent(slug) + '&lang=in.(' + (dil === 'tr' ? 'tr' : dil + ',tr') + ')&published=eq.true&or=(' + YAYIN + ')&limit=2', { headers: H });
+      if (!rp.ok) throw new Error('Post lookup unavailable');
+      {
         const ap = await rp.json();
-        if (ap && ap.length) {
-          const hedef = BASE + kok(dil) + '/blog/' + slug;
-          res.writeHead(301, { Location: hedef, 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800' });
+        if (!Array.isArray(ap)) throw new Error('Invalid post response');
+        const mevcut = ap.find(p => p.lang === dil) || ap.find(p => p.lang === 'tr');
+        if (mevcut) {
+          const hedef = BASE + kok(mevcut.lang) + '/blog/' + slug;
+          res.writeHead(302, { Location: hedef, 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
           res.end('<!DOCTYPE html><html><body><a href="' + hedef + '">' + hedef + '</a></body></html>');
           return;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      const msg = { tr: 'Sayfa geçici olarak kullanılamıyor.', en: 'Page temporarily unavailable.', ru: 'Страница временно недоступна.' }[dil];
+      res.setHeader('Cache-Control', 'no-store');
+      res.setHeader('Retry-After', '60');
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.status(503).send(msg);
+    }
 
     const kk = kok(dil);
     const bolgeler = ['girne-escort','lefkosa-escort','magusa-escort','iskele-escort','guzelyurt-escort']
