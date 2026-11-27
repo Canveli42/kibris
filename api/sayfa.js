@@ -98,9 +98,9 @@ const RU_AD = {
 };
 
 const AR = {
-  tr: { b: 'Bölgeler', y: 'Rehber yazıları', kok: '/', blog: '/blog/' },
-  en: { b: 'Areas', y: 'Guides', kok: '/en/', blog: '/en/blog/' },
-  ru: { b: 'Районы', y: 'Гиды', kok: '/ru/', blog: '/ru/blog/' }
+  tr: { b: 'Bölgeler', y: 'Rehber yazıları', p: 'Profiller', kok: '/', blog: '/blog/' },
+  en: { b: 'Areas', y: 'Guides', p: 'Profiles', kok: '/en/', blog: '/en/blog/' },
+  ru: { b: 'Районы', y: 'Гиды', p: 'Профили', kok: '/ru/', blog: '/ru/blog/' }
 };
 
 const ACACHE = new Map();
@@ -108,6 +108,20 @@ const ACACHE = new Map();
 const esc = s => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+const liste = async (d, filtre, limit) => {
+  try {
+    const u = SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + d
+      + '&' + filtre
+      + '&or=(yayin_at.is.null,yayin_at.lte.now())&order=yayin_at.desc.nullslast&limit=' + limit;
+    const res = await fetch(u, { headers: AH });
+    if (!res.ok) return '';
+    const rows = (await res.json()) || [];
+    return rows.filter(p => p && p.slug && p.title)
+      .map(p => '<a href="' + AR[d].blog + esc(p.slug) + '">' + esc(p.title) + '</a>')
+      .join(' · ');
+  } catch (e) { return ''; }
+};
 
 async function arsivDoldur(dil) {
   const d = AR[dil] ? dil : 'tr';
@@ -127,22 +141,13 @@ async function arsivDoldur(dil) {
     return '<a href="' + a.kok + s + '">' + esc(et) + '</a>';
   }).join(' · ');
 
-  let yazi = '';
-  try {
-    const u = SB + '/rest/v1/posts?select=slug,title&published=eq.true&lang=eq.' + d
-      + '&or=(yayin_at.is.null,yayin_at.lte.now())&order=yayin_at.desc.nullslast&limit=150';
-    const res = await fetch(u, { headers: AH });
-    if (res.ok) {
-      const rows = (await res.json()) || [];
-      yazi = rows.filter(p => p && p.slug && p.title)
-        .map(p => '<a href="' + a.blog + esc(p.slug) + '">' + esc(p.title) + '</a>')
-        .join(' · ');
-    }
-  } catch (e) {}
+  const yazi = await liste(d, 'bolge=is.null', 140);
+  const profil = await liste(d, 'bolge=not.is.null', 60);
 
   let h = '<div style="line-height:2.05;font-size:13.5px;margin-top:14px">';
   if (bolge) h += '<p style="margin:0 0 12px"><b>' + esc(a.b) + '</b><br>' + bolge + '</p>';
-  if (yazi) h += '<p style="margin:0"><b>' + esc(a.y) + '</b><br>' + yazi + '</p>';
+  if (yazi) h += '<p style="margin:0 0 12px"><b>' + esc(a.y) + '</b><br>' + yazi + '</p>';
+  if (profil) h += '<p style="margin:0"><b>' + esc(a.p) + '</b><br>' + profil + '</p>';
   h += '</div>';
 
   ACACHE.set(d, { t: Date.now(), h });
