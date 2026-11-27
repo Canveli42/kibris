@@ -20,9 +20,10 @@ const day = d => {
 const latest = (...dates) => dates.map(day).filter(Boolean).sort().pop() || null;
 
 const REHBER = new Set([
-  'fiyatlari','villa','nasil-cagrilir','rehberi','rehber','program','2-saat-program',
-  '4-saat-program','gecelik-program','30-dakika','ilk-gorusme','lobi-mi-oda-mi','mitleri',
-  'sabah-gorusmesi','vip-davet','turk-rus-farki','ulasim-ve-taksi','otelleri','resort','site-apart'
+  'fiyatlari', 'villa', 'nasil-cagrilir', 'rehberi', 'rehber', 'program',
+  '2-saat-program', '4-saat-program', 'gecelik-program', '30-dakika', 'ilk-gorusme', 'lobi-mi-oda-mi',
+  'mitleri', 'sabah-gorusmesi', 'vip-davet', 'turk-rus-farki', 'ulasim-ve-taksi', 'otelleri',
+  'resort', 'site-apart', 'tekne-turu', 'is-seyahati'
 ]);
 
 const profilMi = slug => {

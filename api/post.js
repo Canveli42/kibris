@@ -115,10 +115,9 @@ const sss = f => {
 /* ---------- profil tespiti ---------- */
 const REHBER = new Set([
   'fiyatlari', 'villa', 'nasil-cagrilir', 'rehberi', 'rehber', 'program',
-  '2-saat-program', '4-saat-program', 'gecelik-program', '30-dakika',
-  'ilk-gorusme', 'lobi-mi-oda-mi', 'mitleri', 'sabah-gorusmesi',
-  'vip-davet', 'turk-rus-farki', 'ulasim-ve-taksi', 'otelleri',
-  'resort', 'site-apart'
+  '2-saat-program', '4-saat-program', 'gecelik-program', '30-dakika', 'ilk-gorusme', 'lobi-mi-oda-mi',
+  'mitleri', 'sabah-gorusmesi', 'vip-davet', 'turk-rus-farki', 'ulasim-ve-taksi', 'otelleri',
+  'resort', 'site-apart', 'tekne-turu', 'is-seyahati'
 ]);
 
 const ATIL = new Set(['seviyor','istiyor','yapiyor','geliyor','bekliyor','karsiliyor','oturuyor','yatiyor','cikip','yemegi','sonra','dogru','havasi','tadinda','uzaniyor','cokmus','kalkiyor','sikistiriyor','aliyor','yutuyor','koruyor']);
