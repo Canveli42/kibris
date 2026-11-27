@@ -27,7 +27,7 @@ const profilMi = slug => {
   return !REHBER.has(m[2].replace(/-(19|20)\d{2}$/, ''));
 };
 
-const FORMAT = ['otele-escort','eve-gelen-escort','gecelik-escort','vip-escort','ogrenci-escort','turk-escort','rus-escort'];
+const {FORMAT_SITEMAP:FORMAT}=require('../data/region-keys.js');
 const ONCELIK = { girne: '0.9', lefkosa: '0.8', magusa: '0.8', iskele: '0.8', guzelyurt: '0.8' };
 
 const SLUG_OK = /^[a-z0-9-]{3,120}$/;
@@ -138,3 +138,4 @@ module.exports = async (req, res) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.status(200).send(xml);
 };
+

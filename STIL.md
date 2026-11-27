@@ -8,7 +8,7 @@
 
 **İddia olarak:**
 - Sabit yol ücreti ("2.000 ₺ yol payı")
-- Kapora
+- Kapora alındığını veya istendiğini söylemek (gerçek politika: kapora yok)
 - "Gerçek fotoğraf", "sitedeki fotoğraflar"
 - "7/24", "her saat ulaşılabilir"
 - "En iyi", "Kıbrıs'ın 1 numarası"

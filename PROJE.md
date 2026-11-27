@@ -94,7 +94,7 @@ Yayındaki ~800 profilin konusu bu kurala uymuyor, **dokunulmuyor**. Kural yeni 
 
 - `posts`: `slug, lang, title, meta, body, faq, published, bolge, profil, updated_at`
 - `models`: kilo/saç/göğüs kolonu **YOK**, eklenmeyecek
-- `event_yaz` RPC: `takip.js` üzerinden, IP başına dakikada 30 istek
+- `event_yaz_v2` RPC: sunucu tarafı gizli anahtar + veritabanı düzeyinde 30/dakika istemci ve 1.200/dakika genel sınır (geçiş için database/ dosyalarına bak)
 
 ---
 
@@ -226,3 +226,4 @@ Desen: `bolge-escort-konu`
 - `middleware.js` matcher'ı `/api`, `/js`, `/css`, `/data`, `/takip`, `robots`, `sitemap` hariç
 - Testler `node --test tests/*.test.cjs` (veya `npm test`); CI her push'ta çalışır
 - `temizle.js` 410 döner; temizlik Supabase Cron'a taşındı
+

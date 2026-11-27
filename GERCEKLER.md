@@ -24,7 +24,7 @@
 
 ## Fotoğraf ve profil
 
-- **Profil sayfalarındaki isim ve tarifler personadır.** Sitede gerçek fotoğraf yoktur.
+- **Profil sayfalarındaki isim ve tarifler personadır.** Profil görselleri temsili olup gerçek kişilerin fotoğrafı olarak sunulmaz.
 - **Fotoğraflar yalnızca Telegram veya WhatsApp üzerinden** gönderilir.
 - Yazarken "galerideki fotoğraf", "sitedeki resim" denmez. "Fotoğrafı WhatsApp'tan isteyin" denir.
 - Yaş, boy, saç gibi tarifler persona tarifidir; kesin ölçü vaadi değildir.
@@ -37,7 +37,7 @@
 
 ## Bölgeler
 
-- Site 55 bölge sayfası taşır; hepsi hizmet verilebilir bölgedir.
+- Site 65 bölge sayfası ve 7 kategori tanımı taşır; hepsi hizmet verilebilir bölgedir.
 - Bölge sayfaları "gidilir mi" sorusuna değil, "nasıl gidilir, ne kadar sürer" sorusuna cevap verir.
 
 ## Fiyat
