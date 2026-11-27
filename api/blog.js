@@ -62,8 +62,12 @@ module.exports = async (req, res) => {
   const dil = DILLER.includes(ham) ? ham : 'tr';
   const t = M[dil];
   const q = String((req.query && req.query.q) || '').trim().slice(0, 60);
-  const sayfaNo = Math.max(1, parseInt(String((req.query && req.query.s) || '1'), 10) || 1);
-  const url = BASE + kokB(dil) + (q ? '?q=' + encodeURIComponent(q) : '');
+  const hamSayfa = String((req.query && (req.query.s || req.query.sayfa)) || '1');
+  const sayfaNo = Math.max(1, parseInt(hamSayfa, 10) || 1);
+  const temel = BASE + kokB(dil);
+  const url = temel + (q
+    ? '?q=' + encodeURIComponent(q) + (sayfaNo > 1 ? '&s=' + sayfaNo : '')
+    : (sayfaNo > 1 ? '?s=' + sayfaNo : ''));
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
@@ -87,6 +91,10 @@ module.exports = async (req, res) => {
   const sonSayfa = Math.max(1, Math.ceil(toplam / ADET));
   const dilim = rehberler.slice((sayfaNo - 1) * ADET, sayfaNo * ADET);
 
+  const sayfaLink = n => temel + '?s=' + n + (q ? '&q=' + encodeURIComponent(q) : '');
+  const onceki = sayfaNo > 1 ? sayfaLink(sayfaNo - 1) : '';
+  const sonraki = sayfaNo < sonSayfa ? sayfaLink(sayfaNo + 1) : '';
+
   const kart = p => {
     const d = new Date(p.yayin_at || p.created_at);
     const tar = isNaN(d) ? '' : d.toLocaleDateString(dil === 'en' ? 'en-GB' : dil === 'ru' ? 'ru-RU' : 'tr-TR');
@@ -106,15 +114,15 @@ module.exports = async (req, res) => {
   const sayfalamaHtml = sonSayfa > 1 ? '<nav class="sayfalama" aria-label="' + esc(t.sayfa) + '">'
     + sayfalama.map(x => x === '…' ? '<span>…</span>'
       : x === sayfaNo ? '<span class="on">' + x + '</span>'
-        : '<a href="' + BASE + kokB(dil) + '?s=' + x + (q ? '&q=' + encodeURIComponent(q) : '') + '">' + x + '</a>').join('')
+        : '<a href="' + sayfaLink(x) + '">' + x + '</a>').join('')
     + '</nav>' : '';
 
   const kirinti = `<a href="${BASE}${dil === 'tr' ? '/' : '/' + dil}">${esc(t.ana)}</a> › <span>${esc(t.blog)}</span>`;
 
-  const araForm = `<form class="ara" action="${BASE + kokB(dil)}" method="get" role="search">
+  const araForm = `<form class="ara" action="${temel}" method="get" role="search">
     <input type="search" name="q" value="${esc(q)}" placeholder="${esc(t.ara)}" aria-label="${esc(t.ara)}" autocomplete="off">
     <button type="submit">${esc(t.bul)}</button>
-    ${q ? `<a href="${BASE + kokB(dil)}">${esc(t.temiz)}</a>` : ''}
+    ${q ? `<a href="${temel}">${esc(t.temiz)}</a>` : ''}
   </form>`;
 
   const ld = [
@@ -143,10 +151,12 @@ module.exports = async (req, res) => {
 <html lang="${dil}"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(t.t)} | RedKıbrıs</title>
+<title>${esc(t.t)}${sayfaNo > 1 ? ' — ' + sayfaNo + '. ' + esc(t.sayfa) : ''} | RedKıbrıs</title>
 <meta name="description" content="${esc(t.d)}">
 <link rel="canonical" href="${url}">
-${sayfaNo > 1 ? '' : alternates}
+${onceki ? `<link rel="prev" href="${onceki}">` : ''}
+${sonraki ? `<link rel="next" href="${sonraki}">` : ''}
+${sayfaNo > 1 || q ? '' : alternates}
 <link rel="sitemap" type="application/xml" href="${BASE}/sitemap.xml">
 <meta name="robots" content="${q ? 'noindex,follow' : 'index,follow'}">
 <meta property="og:type" content="website">
