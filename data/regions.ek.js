@@ -349,5 +349,75 @@ module.exports = {
 <div class="about"><b>Merkez</b><br>Altı dakika; dönüşte taksi kolay bulunuyor.</div>
 <h2>Saat</h2>
 <div class="about">Gündüz 12:00-17:00 en sakin aralık. Akşam için 1 saat önceden yaz.</div>`,
-    sss:[["Yukarı Girne escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Araçla geliş kolay mı?","Evet, caddeler geniş ve park sorunu yok."],["Merkeze uzak mı?","Altı dakika, taksi kolay bulunuyor."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]}
+    sss:[["Yukarı Girne escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Araçla geliş kolay mı?","Evet, caddeler geniş ve park sorunu yok."],["Merkeze uzak mı?","Altı dakika, taksi kolay bulunuyor."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]},
+
+  "lefkosa-merkez-escort":{nm:"Lefkoşa Merkez",alt:"Sarayönü, iş hanları ve çarşı hattı",kemer:"banliyo",
+    lead:"Lefkoşa merkez escort: Sarayönü, iş hanları ve çarşı hattı. Yürüyerek buluşma, otel lobisi, kapora yok.",
+    areas:["Sarayönü çevresi","İş hanları","Çarşı hattı","Kumsal bağlantısı"],
+    otel:["Merkez şehir otelleri","İş hanı üstü daireler","Kumsal çevresi apartlar"],
+    metin:"Lefkoşa merkez gündüz en yoğun hat: kamu binaları, iş hanları ve çarşı aynı birkaç sokakta. Akşam mesai bitince boşalıyor, buluşmayı gündüze almak daha pratik.",
+    metin2:"Merkezde park yeri bulmak zor, kısa mesafede yürümek daha hızlı. İş hanı dairelerinde kat ve zemin bilgisi şart. Ödeme görüşmenin başında, kapora yok.",
+    ek:`<h2>Lefkoşa merkezde nerede buluşulur</h2>
+<div class="about"><b>Sarayönü çevresi</b><br>Açık alan, gündüz kalabalık; buluşmayı mekân adıyla veriyoruz.</div>
+<div class="about"><b>İş hanları</b><br>Kat ve zemin bilgisi olmadan bulmak uzuyor, bina adı net verilmeli.</div>
+<div class="about"><b>Otel lobisi</b><br>Merkez otellerinde standart, resepsiyona isim bırakmadan çıkılıyor.</div>
+<h2>Saat</h2>
+<div class="about">Gündüz 10:00-17:00 en canlı aralık. Akşam için 1 saat önceden yaz.</div>`,
+    sss:[["Lefkoşa merkez escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Merkezde park yeri var mı?","Zor, yakın otopark bırakıp yürümek daha hızlı."],["Akşam buluşma olur mu?","Olur ama merkez boşalır, gündüz daha pratik."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]},
+
+  "lefkosa-surici-escort":{nm:"Suriçi",alt:"Sur içi, Arasta ve Selimiye çevresi",kemer:"banliyo",
+    lead:"Suriçi escort: sur içi, Arasta ve Selimiye çevresi. Yürüyerek buluşma, tarihi sokaklar, kapora yok.",
+    areas:["Arasta sokakları","Selimiye çevresi","Büyük Han hattı","Sur içi sokaklar"],
+    otel:["Butik oteller","Restore konaklar","Merkez otelleri (5 dk)"],
+    metin:"Suriçi Lefkoşa'nın sur içindeki tarihi bölgesi: Arasta, Selimiye ve dar taş sokaklar. Araç çoğu sokağa girmiyor, yürüyerek buluşmak tek yol.",
+    metin2:"Sokak isimleri karışık, buluşmayı dükkân ya da han adıyla veriyoruz. Akşam dükkânlar kapanınca ıssızlaşıyor, gündüz daha iyi. Ödeme görüşmenin başında, kapora yok.",
+    ek:`<h2>Suriçi'nde nerede buluşulur</h2>
+<div class="about"><b>Arasta hattı</b><br>Gündüz canlı, akşam kapanıyor. Buluşmayı dükkân adıyla veriyoruz.</div>
+<div class="about"><b>Selimiye çevresi</b><br>Açık meydan, araç yaklaşamıyor; yürüyerek gelinmeli.</div>
+<div class="about"><b>Butik oteller</b><br>Lobi buluşması standart, resepsiyona isim bırakmadan çıkılıyor.</div>
+<h2>Saat</h2>
+<div class="about">Gündüz 10:00-17:00 en canlı aralık. Akşam için 1 saat önceden yaz.</div>`,
+    sss:[["Suriçi escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Suriçi'ne araçla girilir mi?","Çoğu sokağa girilmiyor, sur dışında bırakıp yürümek gerekiyor."],["Akşam buluşma olur mu?","Olur ama sokaklar ıssızlaşır, gündüz daha rahat."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]},
+
+  "lefkosa-ortakoy-escort":{nm:"Ortaköy",alt:"Villa ve site hattı, Gönyeli yanı",kemer:"banliyo",
+    lead:"Ortaköy escort: villa ve site hattı, Gönyeli yanı. Site kapısı, villa tarifi, kapora yok.",
+    areas:["Villa siteleri","Ortaköy yolu","Bahçeli evler","Gönyeli bağlantısı"],
+    otel:["Villa site evleri","Gönyeli otelleri (4 dk)","Bahçeli konaklar"],
+    metin:"Ortaköy Lefkoşa'nın kuzeyindeki villa ve site hattı: geniş bahçeler, kontrollü kapılar ve sessiz sokaklar. Araç şart, girişler kontrollü.",
+    metin2:"Site kapısında isim gerekebiliyor, önceden söylemen yeterli. Villa numarası olmadan giriş uzuyor. Ödeme görüşmenin başında, kapora yok.",
+    ek:`<h2>Ortaköy'de nasıl buluşulur</h2>
+<div class="about"><b>Site kapısı</b><br>Kontrollü giriş; isim gerekiyorsa önceden bildiriyoruz.</div>
+<div class="about"><b>Villa numarası</b><br>Numara ve sokak adı olmadan giriş uzuyor.</div>
+<div class="about"><b>Araç</b><br>Mesafeler uzun, yürüyerek gelmek zor.</div>
+<h2>Saat</h2>
+<div class="about">Gündüz 12:00-17:00 en sakin aralık. Akşam için 1 saat önceden yaz.</div>`,
+    sss:[["Ortaköy escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Siteye girişte isim gerekiyor mu?","Gerekiyorsa önceden söyle, bildiriyoruz."],["Villa numarası şart mı?","Evet, girişi bu kadar kısaltıyor."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]},
+
+  "lefkosa-koskluciftlik-escort":{nm:"Köşklüçiftlik",alt:"Merkez, kafe ve öğrenci hattı",kemer:"banliyo",
+    lead:"Köşklüçiftlik escort: merkez kafe ve öğrenci hattı. Yürüyerek buluşma, apart daireler, kapora yok.",
+    areas:["Kafe hattı","Öğrenci sokakları","Apart daireler","Kumsal bağlantısı"],
+    otel:["Apart daireler","Merkez otelleri (3 dk)","Öğrenci rezidansları"],
+    metin:"Köşklüçiftlik Lefkoşa merkezinin en genç hattı: kafeler, öğrenci sokakları ve apart daireler. Akşam geç saate kadar hareketli.",
+    metin2:"Sokaklar dar ve park sıkıntılı, yürüyerek gelmek daha hızlı. Apartmanlarda kat ve daire net verilmeli. Ödeme görüşmenin başında, kapora yok.",
+    ek:`<h2>Köşklüçiftlik'te nerede buluşulur</h2>
+<div class="about"><b>Kafe hattı</b><br>Akşam da canlı; buluşmayı kafe adıyla veriyoruz.</div>
+<div class="about"><b>Apart daireler</b><br>Kat ve daire bilgisi olmadan giriş uzuyor.</div>
+<div class="about"><b>Yürüyüş</b><br>Park sıkıntılı, yakın sokaktan yürümek en hızlı yol.</div>
+<h2>Saat</h2>
+<div class="about">Akşam 19:00-23:00 en hareketli aralık. Gündüz için de yazabilirsin.</div>`,
+    sss:[["Köşklüçiftlik escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Akşam geç saat olur mu?","Olur, hat geç saate kadar canlı."],["Park yeri var mı?","Sıkıntılı, yakın sokaktan yürümek daha hızlı."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]},
+
+  "lefkosa-yenisehir-escort":{nm:"Yenişehir",alt:"Yerleşik mahalle, apartman hattı",kemer:"banliyo",
+    lead:"Yenişehir escort: yerleşik mahalle ve apartman hattı. Araçla buluşma, cadde üstü, kapora yok.",
+    areas:["Ana cadde","Apartman hattı","Yerleşik mahalleler","Kermiya bağlantısı"],
+    otel:["Mahalle apartları","Merkez otelleri (5 dk)","Cadde üstü pansiyonlar"],
+    metin:"Yenişehir Lefkoşa'nın yerleşik mahallelerinden biri: apartmanlar, geniş caddeler ve gündelik bir doku. Turistik değil, araçla geliş kolay.",
+    metin2:"Cadde üstü buluşma en pratik yöntem. Apartmanlarda kat, daire ve zil bilgisi girişi kısaltıyor. Ödeme görüşmenin başında, kapora yok.",
+    ek:`<h2>Yenişehir'de nasıl buluşulur</h2>
+<div class="about"><b>Cadde üstü</b><br>En kolay nokta; araçla yaklaşmak ve park etmek mümkün.</div>
+<div class="about"><b>Kat ve daire</b><br>Apartmanlarda kat, daire ve zil olmadan giriş uzuyor.</div>
+<div class="about"><b>Merkez</b><br>Beş dakika; dönüşte taksi kolay bulunuyor.</div>
+<h2>Saat</h2>
+<div class="about">Gündüz 12:00-17:00 en sakin aralık. Akşam için 1 saat önceden yaz.</div>`,
+    sss:[["Yenişehir escort fiyatları ne kadar?","{fiyat}. Tarife sabit, kapıda değişmez."],["Araçla geliş kolay mı?","Evet, caddeler geniş ve park sorunu yok."],["Merkeze uzak mı?","Beş dakika, taksi kolay bulunuyor."],["Otele 30 dakika olur mu?","Olmaz, adrese çıkışta en az 1 saat."],["Ödeme nasıl yapılıyor?","Görüşmenin başında nakit, IBAN veya USDT. Kapora yok."]]}
 };
