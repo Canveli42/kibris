@@ -32,7 +32,7 @@
     var now = Date.now();
     if (now - son < 400) return;
     son = now;
-    gonder({ yol: location.pathname + location.search, etiket: etiket(a) });
+    gonder({ yol: location.pathname, etiket: etiket(a) });
   }, true);
 
   var gecti = {}, zaman = 0;
@@ -46,7 +46,7 @@
     [25, 50, 75, 100].forEach(function (p) {
       if (oran >= p && !gecti[p]) {
         gecti[p] = 1;
-        gonder({ yol: location.pathname + location.search, etiket: "kaydirma: " + p });
+        gonder({ yol: location.pathname, etiket: "kaydirma: " + p });
       }
     });
   }, { passive: true });

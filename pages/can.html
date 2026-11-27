@@ -203,6 +203,9 @@ input[type=checkbox]{width:16px;height:16px;accent-color:var(--k);margin:0;flex:
       </div>
       <label style="margin-top:18px">Tıklamalar</label>
       <div id="tTik"></div>
+      <label style="margin-top:18px">Kaydırma derinliği (olay sayısı)</label>
+      <div id="tKaydirma"></div>
+      <p class="alt">Görüntüleme ve etkileşim sayıları tekil ziyaretçi sayısı değildir.</p>
     </div>
 
     <!-- DOSYALAR -->
@@ -740,10 +743,13 @@ function tarih(g){var d=new Date();d.setDate(d.getDate()-g+1);return d.toISOStri
 T.yukle=function(){
   var g=parseInt(el("tAralik").value,10);
   api.trafik(tarih(g)).then(function(v){
-    var sayfa=v.filter(function(x){return x.tur==="sayfa"}),tik=v.filter(function(x){return x.tur==="tik"});
-    var toplam=sayfa.reduce(function(a,x){return a+x.adet},0);
-    var tiklama=tik.reduce(function(a,x){return a+x.adet},0);
-    var kaynaklar={};sayfa.forEach(function(x){kaynaklar[x.kaynak]=(kaynaklar[x.kaynak]||0)+x.adet});
+    var sayfa=v.filter(function(x){return x.tur==="sayfa"}),olay=v.filter(function(x){return x.tur==="tik"});
+    function kaydirmaMi(x){return /^kaydirma:\s*(25|50|75|100)$/.test(String(x.etiket||""))}
+    var kaydirma=olay.filter(kaydirmaMi),tik=olay.filter(function(x){return !kaydirmaMi(x)});
+    function adet(x){var n=Number(x.adet);return Number.isFinite(n)&&n>=0?n:0}
+    var toplam=sayfa.reduce(function(a,x){return a+adet(x)},0);
+    var tiklama=tik.reduce(function(a,x){return a+adet(x)},0);
+    var kaynaklar={};sayfa.forEach(function(x){kaynaklar[x.kaynak]=(kaynaklar[x.kaynak]||0)+adet(x)});
     var arama=Object.keys(kaynaklar).filter(function(k){return k.indexOf("arama")===0}).reduce(function(a,k){return a+kaynaklar[k]},0);
     var direkt=kaynaklar["direkt"]||0;
 
@@ -756,7 +762,7 @@ T.yukle=function(){
     function cubuk(kutu,liste,bas){
       kutu.innerHTML="";
       if(!liste.length){kutu.innerHTML='<p class="alt">Kayıt yok.</p>';return}
-      var en=liste[0][1]||1;
+      var en=Math.max.apply(null,liste.map(function(x){return x[1]}))||1;
       liste.slice(0,15).forEach(function(x){
         var d=document.createElement("div");d.style.marginBottom="8px";
         d.innerHTML='<div style="display:flex;justify-content:space-between;font-size:12.5px"><span></span><b>'+x[1]+'</b></div><div class="cubuk2"><i style="width:'+Math.round(x[1]/en*100)+'%"></i></div>';
@@ -765,12 +771,14 @@ T.yukle=function(){
       });
     }
     function grupla(arr,alan){
-      var m={};arr.forEach(function(x){m[x[alan]]=(m[x[alan]]||0)+x.adet});
+      var m={};arr.forEach(function(x){m[x[alan]]=(m[x[alan]]||0)+adet(x)});
       return Object.keys(m).map(function(k){return [k,m[k]]}).sort(function(a,b){return b[1]-a[1]});
     }
     cubuk(el("tKaynak"),grupla(sayfa,"kaynak"));
     cubuk(el("tSayfa"),grupla(sayfa,"yol"));
     cubuk(el("tTik"),grupla(tik,"etiket"));
+    var seviyeler=[25,50,75,100].map(function(p){return [p+"%",kaydirma.filter(function(x){return Number(String(x.etiket).split(":")[1])===p}).reduce(function(a,x){return a+adet(x)},0)]});
+    cubuk(el("tKaydirma"),seviyeler);
   }).catch(function(e){el("tKartlar").innerHTML='<p class="alt">'+e.message+'</p>'})};
 el("tAralik").onchange=T.yukle;
 T.temizle=function(){
