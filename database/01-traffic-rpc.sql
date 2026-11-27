@@ -14,6 +14,8 @@ create table if not exists traffic_private.rate (
   adet integer not null check(adet > 0),
   primary key(bucket,scope)
 );
+alter table traffic_private.config enable row level security;
+alter table traffic_private.rate enable row level security;
 revoke all on all tables in schema traffic_private from public, anon, authenticated;
 -- Replace the placeholder with a SHA-256 hex digest before running.
 insert into traffic_private.config(singleton,secret_hash)

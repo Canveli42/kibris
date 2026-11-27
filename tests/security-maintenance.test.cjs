@@ -33,12 +33,12 @@ test('region fallback is temporary and no fabricated current date is rendered',(
     assert.doesNotMatch(read('api/region.js'),/bugun\(dil\)/);
   });
 });
-test('traffic uses shared server-only secret and does not write when unconfigured',async()=>{
+test('traffic uses the capped legacy RPC until the new secret is configured',async()=>{
   const mod={exports:{}};
-  let called=0;
-  vm.runInNewContext(read('data/traffic-server.js'),{module:mod,process:{env:{}},fetch:async()=>{called++;}});
-  assert.equal(await mod.exports.writeEvent({},{}),false);
-  assert.equal(called,0);
+  const calls=[];
+  vm.runInNewContext(read('data/traffic-server.js'),{module:mod,process:{env:{}},AbortSignal,fetch:async(url,options)=>{calls.push({url,body:JSON.parse(options.body)});return {ok:true}}});
+  assert.equal(await mod.exports.writeEvent({}, {p_yol:'/example'}),true);
+  assert.equal(calls.length,1);assert.ok(calls[0].url.endsWith('/rpc/event_yaz'));assert.equal(calls[0].body.p_ip_hash,undefined);
   assert.match(read('api/takip.js'),/writeEvent/);
   assert.match(read('middleware.js'),/traffic\.writeEvent/);
 });

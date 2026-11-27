@@ -8,8 +8,7 @@ create or replace function public.event_temizle(p_gun integer default 30)
 returns integer language plpgsql security definer set search_path=pg_catalog,public as $fn$
 declare n integer;
 begin
-  if session_user not in ('postgres','supabase_admin')
-     and auth.uid() is distinct from 'ADMIN_UUID'::uuid then
+  if not (coalesce(auth.uid() = 'ADMIN_UUID'::uuid and auth.role()='authenticated',false) or (session_user='postgres' and auth.role() is null)) then
     raise exception 'Not authorized' using errcode='42501';
   end if;
   if p_gun is distinct from 30 then raise exception 'Only 30-day retention is allowed'; end if;
