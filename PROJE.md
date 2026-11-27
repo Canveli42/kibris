@@ -15,7 +15,7 @@
 
 - Genel tasarım, CSS, renkler, tipografi
 - Anasayfa
-- Bölge sayfaları (55 adet, hepsi yayında)
+- Bölge sayfaları (65 bölge + 7 kategori tanımı)
 - Navigasyon, footer, header
 - Sitemap yapısı, 404 sayfası
 
@@ -107,7 +107,7 @@ Yayındaki ~800 profilin konusu bu kurala uymuyor, **dokunulmuyor**. Kural yeni 
 - `/panel` → `api/sayfa?f=can` (66 KB yönetim paneli, ayrı CSP)
 - `cleanUrls: true`, `trailingSlash: false`
 
-Eksik EN/RU yazıda `post.js` **302**, `region.js` **301** ile TR'ye atar.
+Eksik EN/RU yazıda `post.js`, Türkçe sürüm gerçekten varsa **302** ile Türkçe adrese yönlendirir. `region.js` yazıya yönlendirirken mevcut hedef dili doğrular ve **302** döner; sabit bölge çevirisi eksikse Türkçe bölge adresine **301** dönebilir. Gerçekten bulunmayan içerik 404, geçici veritabanı hatası 503 döner.
 
 ---
 
@@ -117,7 +117,7 @@ Eksik EN/RU yazıda `post.js` **302**, `region.js` **301** ile TR'ye atar.
 - `data/ek.js` + `data/regions.ek.js` — bölgeye özel HTML; `regions.ek.js` içeriği `pg` ile eşleşir
 - `data/regions.js` / `.en.js` / `.ru.js` — bölge metinleri
 - `kemer` alanı hazır blok seçer: `kiyi`, `yamac`, `banliyo`, `resort`, `format`, `profil`
-- `data/rehber.js`, `data/shell.js`
+- `data/shell.js` — ortak sayfa bileşenleri ve güvenlik başlıkları
 
 **Her bölgeye kendi `ek` bloğu şart**, yoksa başka şehrin metni sızar.
 
@@ -172,15 +172,18 @@ Desen: `bolge-escort-konu`
 5. Kullanıcı teknik değil: kısa, net, Türkçe, emoji ölçülü
 6. Her SQL sonrası **kontrol SELECT'i** verilir. Kontrol yanlış kurulursa yanlış sonuç üretir; ör. `'2.000 ₺'` araması `12.000 ₺` ile de eşleşir
 7. Türkçe karakterli başlıklarda `length()` bölmesi hatalı sonuç verir, `regexp_matches` + `count(*)` kullanılır
+8. Görsel dosyası adı veya yolu değiştirilecekse, önce veritabanı ve sayfalardaki mevcut referansları kontrol et; sonra her değiştirilen görselin erişimini doğrula.
+9. Planlı ileri tarihli yayın seçeneği kaldırıldı. Taslak sistemi korunur; yayınlanmış yazı düzenlenirken mevcut yayın tarihi değişmez.
+10. Kod değişikliği sonrası otomatik testleri ve ilgili canlı sayfaları kontrol et. Kullanıcı açıkça istemeden tasarıma, çalışan sistemlere veya kapsam dışı dosyalara müdahale etme.
 
 ---
 
 ## 12. BİTTİ — TEKRAR YAPMA
 
-- 55 bölge sayfası yayında, sitemap 676, 404 yok (kullanıcı doğruladı)
+- 65 bölge + 7 kategori tanımı mevcut; 27.11.2026 canlı kontrolde sitemap 1.048 benzersiz adres (676 TR, 186 EN, 186 RU). Önceki erişim kontrolünde tespit edilen tek 404 düzeltildi; bu sayı yeni yayınlarla değişebilir.
 - `saat` boş 150 satır dolduruldu, 11 eksik `models` kaydı eklendi
 - `modeller.js`: `regions.ek` merge, yol payı mesafeye çevrildi, ölü kod silindi, EN/RU desteği
-- `README.md` düzeltildi, `data/rehber.js` oluşturuldu
+- `README.md` güncellendi
 - 2 kırık link düzeltildi (Şevval, 1 saat)
 - Sabit "2.000 ₺" / "1.500-3.000 TL" yol payı Tuzla ve İskele'de kaldırıldı
 - Mare Monte EN/RU sonundaki çift "Payment/Оплата" bloğu silindi, "террасы stacked" düzeltildi
@@ -217,8 +220,8 @@ Desen: `bolge-escort-konu`
 ## 14. KISITLAR
 
 - CSP nonce'lu, trusted-types açık. Gövdeye `<script>` eklersen `noncele()` hallediyor
-- `api/indexnow.js`: POST + Bearer + `INDEXNOW_ADMIN_SECRET`
-- Sitemap 50.000 URL'de 503
+- `api/indexnow.js`: POST + Bearer + `INDEXNOW_ADMIN_SECRET`; gizli anahtar yalnızca Vercel Production ortam değişkeninde tutulur, GitHub'a yazılmaz. Otomatik bildirim tetikleyicisi doğrulanmış değildir.
+- Sitemap XML olarak sunulur; `css/sitemap.css` yalnızca tarayıcı görünümünü düzenler. URL sayısı 50.000 sınırını aşarsa veya veritabanı erişilemezse 503 döner. `lastmod` gerçek yayın/güncelleme tarihinden alınır; güvenilir tarih yoksa yazılmaz.
 - `middleware.js` matcher'ı `/api`, `/js`, `/css`, `/data`, `/takip`, `robots`, `sitemap` hariç
-- Testler `node --test`, CI her push'ta çalışır
+- Testler `node --test tests/*.test.cjs` (veya `npm test`); CI her push'ta çalışır
 - `temizle.js` 410 döner; temizlik Supabase Cron'a taşındı
