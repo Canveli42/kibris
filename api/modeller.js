@@ -38,10 +38,11 @@ const CANLI = `<script>
 </script>`;
 
 module.exports = async (req, res) => {
-  const kod = String((req.query && req.query.bolge) || '').replace(/[^a-z-]/g, '');
+  const istek = String((req.query && req.query.bolge) || '').replace(/[^a-z-]/g, '');
+  const kod = B.hubdan(istek);
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
-  if (!kod || !B.varMi(kod)) {
+  if (!kod) {
     res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600');
     res.status(404).send('Bölge bulunamadı');
     return;
@@ -49,7 +50,7 @@ module.exports = async (req, res) => {
 
   const ad = B.ad(kod, 'tr');
   const bolgeYol = BASE + '/' + B.yol(kod);
-  const url = BASE + '/modeller/' + kod;
+  const url = BASE + '/modeller/' + B.hb(kod);
   const q = String((req.query && req.query.q) || '').trim().slice(0, 60);
   const ust = B.ust(kod);
 
