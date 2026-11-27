@@ -14,7 +14,8 @@ const LISTE = [
   { kod: '30dk', fiyat: 7000, ad: { tr: '30 dakika', en: '30 minutes', ru: '30 минут' }, not: { tr: 'Yalnızca kendi yerimizde', en: 'At our place only', ru: 'Только у нас' }, kisa: { tr: 'Yalnızca kendi yerimizde', en: 'In-call only', ru: 'Только у нас' } },
   { kod: '1sa', fiyat: 12000, ad: { tr: '1 saat', en: '1 hour', ru: '1 час' }, not: { tr: 'Otel ve eve çıkışta en çok seçilen süre; adrese çıkışta en alt sınır.', en: 'The usual choice for a hotel or home visit; the minimum for an outcall.', ru: 'Обычный выбор для отеля или квартиры; минимум для выезда.' }, kisa: { tr: 'En çok seçilen', en: 'Most booked', ru: 'Берут чаще всего' } },
   { kod: '2sa', fiyat: 17000, ad: { tr: '2 saat', en: '2 hours', ru: '2 часа' }, not: { tr: 'Yemek ya da gece programı eklemek isteyenler için.', en: 'For dinner or a night out on top.', ru: 'Если добавляете ужин или вечернюю программу.' }, kisa: { tr: 'Yemek dahil', en: 'Dinner on top', ru: 'С ужином' } },
-  { kod: '4sa', fiyat: 22000, ad: { tr: '4 saat', en: '4 hours', ru: '4 часа' }, not: { tr: 'Uzun eşlik ve gece planı.', en: 'Long company and a full evening plan.', ru: 'Долгое сопровождение и весь вечер.' }, kisa: { tr: 'Bütün akşam', en: 'Whole evening', ru: 'Весь вечер' } }
+  { kod: '4sa', fiyat: 22000, ad: { tr: '4 saat', en: '4 hours', ru: '4 часа' }, not: { tr: 'Uzun eşlik ve gece planı.', en: 'Long company and a full evening plan.', ru: 'Долгое сопровождение и весь вечер.' }, kisa: { tr: 'Bütün akşam', en: 'Whole evening', ru: 'Весь вечер' } },
+  { kod: 'gece', fiyat: 40000, ad: { tr: 'Gece (8 saat)', en: 'Overnight (8 hours)', ru: 'Ночь (8 часов)' }, not: { tr: 'Sabah çıkışlı; başlangıç ve bitiş saati baştan yazılır.', en: 'Morning exit; start and end agreed in writing first.', ru: 'С утренним выходом; начало и конец согласуются заранее.' }, kisa: { tr: 'Sabaha kadar', en: 'Until morning', ru: 'До утра' } }
 ];
 
 const MIN = Math.min.apply(null, LISTE.map(x => x.fiyat));
