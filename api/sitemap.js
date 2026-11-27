@@ -133,7 +133,7 @@ module.exports = async (req, res) => {
     return res.status(503).send('Site haritası geçici olarak kullanılamıyor.');
   }
 
-  const xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+  const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' + '<?xml-stylesheet type="text/css" href="/css/sitemap.css?v=1"?>\n'
     + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
     + gruplar.map(xmlGrup).join('\n') + '\n</urlset>';
 
