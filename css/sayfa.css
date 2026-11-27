@@ -138,3 +138,21 @@ form textarea{min-height:100px}
 .home-page .why div,.home-page .price{padding:16px 12px}
 }
 @media(prefers-reduced-motion:reduce){.home-page .rcard img{transition:none}.home-page .rcard:hover img{transform:none}}
+
+/* Lüks Gece önizlemesine daha kompakt yakınlaşma. */
+.home-page .site-header .wordmark{display:block;white-space:nowrap;line-height:1.1}
+.home-page .site-header .wordmark i{display:block;letter-spacing:.16em}
+.home-page .hero{margin-top:18px;border-radius:15px}
+.home-page main>section:not(.hero){padding-top:clamp(28px,3.2vw,40px);padding-bottom:clamp(28px,3.2vw,40px)}
+@media(min-width:761px){
+.home-page .hero{min-height:clamp(330px,38vw,405px)}
+.home-page .hero .wrap{padding:28px clamp(22px,3.6vw,38px)}
+.home-page .hero h1{max-width:47%;font-size:clamp(28px,3.55vw,42px);line-height:1.12}
+.home-page .hero .lead{max-width:46%;font-size:15px;line-height:1.65;margin-bottom:18px}
+.home-page .hero-bg{width:54%;object-position:73% center;mask-image:linear-gradient(to right,transparent 0%,#000 21%)}
+.home-page .hero::before{background:linear-gradient(90deg,#142236 0%,#18283b 40%,rgba(20,34,54,.3) 52%,transparent 70%)}
+.home-page .badge{margin-bottom:13px}
+.home-page .hero-acts .btn-lg{padding:10px 15px;font-size:13px}
+}
+@media(max-width:859px){.home-page .site-header .wordmark i{display:none}}
+@media(max-width:760px){.home-page .hero{margin-top:14px}.home-page .hero .wrap{padding:17px 16px 20px}}
