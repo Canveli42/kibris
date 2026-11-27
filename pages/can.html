@@ -84,6 +84,26 @@ input[type=checkbox]{width:16px;height:16px;accent-color:var(--k);margin:0;flex:
 .kart b{font-size:24px;font-variant-numeric:tabular-nums;display:block;margin-top:4px}
 .cubuk2{height:6px;background:#15151d;border-radius:99px;overflow:hidden;margin-top:6px}
 .cubuk2 i{display:block;height:100%;background:linear-gradient(90deg,var(--k3),var(--k2))}
+
+#vTrafik .trafik-baslik{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+#vTrafik .trafik-filtre{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0}
+#vTrafik .trafik-filtre select,#vTrafik .trafik-filtre input{width:auto;min-width:135px}
+#vTrafik .trafik-not{padding:12px 14px;background:#0b1120;border:1px solid var(--line);border-left:3px solid var(--k2);border-radius:10px;margin:12px 0;color:var(--s);font-size:12.5px;line-height:1.65}
+#vTrafik .trafik-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+#vTrafik .trafik-box{background:#0a0a11;border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+#vTrafik .trafik-box h3{margin:0 0 12px;font-size:14px}
+#vTrafik .trafik-tab-wrap{overflow:auto;margin-top:12px}
+#vTrafik .trafik-tab{border-collapse:collapse;width:100%;min-width:610px;font-size:12.5px;white-space:nowrap}
+#vTrafik .trafik-tab th,#vTrafik .trafik-tab td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+#vTrafik .trafik-tab th:first-child,#vTrafik .trafik-tab td:first-child{text-align:left}
+#vTrafik .trafik-tab th{color:var(--s);font-weight:600}
+#vTrafik .trafik-tab td:first-child button{background:transparent;border:0;padding:0;color:var(--k2);font-size:12.5px;cursor:pointer}
+#vTrafik .trafik-row{margin-bottom:10px}
+#vTrafik .trafik-row-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12.5px}
+#vTrafik .trafik-row-head span{min-width:0;overflow-wrap:anywhere}
+#vTrafik .trafik-row-head b{flex:none;font-variant-numeric:tabular-nums}
+#vTrafik .kart small{display:block;color:var(--s);font-size:11px;margin-top:5px;line-height:1.45}
+@media(max-width:680px){#vTrafik .trafik-grid{grid-template-columns:1fr}#vTrafik .trafik-filtre select,#vTrafik .trafik-filtre input{flex:1}}
 #toastlar{position:fixed;right:16px;bottom:16px;z-index:99;display:flex;flex-direction:column;gap:8px;max-width:320px}
 .toast{background:#16202e;border:1px solid var(--line2);border-left:3px solid var(--k);color:var(--t);padding:11px 14px;border-radius:10px;font-size:13px;box-shadow:0 18px 40px -20px #000;transition:.3s}
 .toast.ok{border-left-color:var(--ok)}.toast.err{border-left-color:var(--err)}
@@ -179,33 +199,34 @@ input[type=checkbox]{width:16px;height:16px;accent-color:var(--k);margin:0;flex:
 
     <!-- TRAFİK -->
     <div class="bx view hide" id="vTrafik">
-      <h2>Trafik</h2>
-      <p class="alt">Sunucu tarafında, çerezsiz sayılır. Botlar ayıklanır, 30 günden eski kayıtlar her gece silinir.</p>
-      <div class="uc">
-        <select id="tAralik">
-          <option value="1">Bugün</option>
-          <option value="7" selected>7 gün</option>
-          <option value="30">30 gün</option>
+      <div class="trafik-baslik"><div><h2>Trafik analizleri</h2><p class="alt">Çerezsiz, toplu olay sayımları · son 30 gün</p></div><button class="ghost" onclick="T.yukle()">Yenile</button></div>
+      <div class="trafik-filtre">
+        <select id="tAralik" aria-label="Tarih aralığı">
+          <option value="today" selected>Bugün</option>
+          <option value="yesterday">Dün</option>
+          <option value="day2">Evvelsi gün</option>
+          <option value="7">Son 7 gün</option>
+          <option value="30">Son 30 gün</option>
+          <option value="custom">Belirli gün</option>
         </select>
-        <button class="ghost" onclick="T.yukle()">Yenile</button>
-        <button class="ghost" onclick="T.temizle()">Şimdi temizle</button>
+        <input type="date" id="tGun" aria-label="Tarih seç" hidden>
+        <span class="rozet" id="tDonem"></span>
       </div>
+      <p class="alt" id="tDurum" role="status" aria-live="polite"></p>
       <div class="kartlar" id="tKartlar"></div>
-      <div class="ikili">
-        <div>
-          <label>Kaynak</label>
-          <div id="tKaynak"></div>
-        </div>
-        <div>
-          <label>Sayfalar</label>
-          <div id="tSayfa"></div>
-        </div>
+      <div class="trafik-not"><strong>Ölçümleri doğru okuyun:</strong> Google/arama sayısı, arama motoru yönlendirmesiyle ilişkilendirilmiş <em>sayfa görüntülemeleridir</em>; tekil kişi ya da kesin insan sayısı değildir. Aynı ziyaretçi birden fazla görüntüleme oluşturabilir. Bilinen botlar filtrelenir ancak tüm otomatik trafiğin ayrılması garanti edilemez. Günler veritabanının UTC tarihine göre hesaplanır (Türkiye saati 03.00 gün başlangıcı).</div>
+      <div class="trafik-box">
+        <h3>Günlük performans</h3><p class="alt">Tarih seçerek o günün ayrıntılarını açın.</p>
+        <div class="trafik-tab-wrap" id="tGunler"></div>
       </div>
-      <label style="margin-top:18px">Tıklamalar</label>
-      <div id="tTik"></div>
-      <label style="margin-top:18px">Kaydırma derinliği (olay sayısı)</label>
-      <div id="tKaydirma"></div>
-      <p class="alt">Görüntüleme ve etkileşim sayıları tekil ziyaretçi sayısı değildir.</p>
+      <div class="trafik-grid">
+        <section class="trafik-box"><h3>Trafik kanalları</h3><div id="tKanallar"></div></section>
+        <section class="trafik-box"><h3>Kaynak ayrıntıları</h3><div id="tKaynak"></div></section>
+        <section class="trafik-box"><h3>En çok görüntülenen sayfalar</h3><div id="tSayfa"></div></section>
+        <section class="trafik-box"><h3>Bağlantı tıklamaları</h3><div id="tTik"></div></section>
+        <section class="trafik-box"><h3>Kaydırma derinliği</h3><div id="tKaydirma"></div><p class="alt">Her eşik ayrı bir olaydır; kişi sayısı değildir.</p></section>
+      </div>
+      <p class="alt" style="margin-top:16px">30 günden eski ölçüm kayıtları otomatik temizlenir. <button class="ghost" onclick="T.temizle()">Eski kayıtları şimdi temizle</button></p>
     </div>
 
     <!-- DOSYALAR -->
@@ -376,7 +397,7 @@ var api={
   postBul:function(q,d){var f=q?"&or=(slug.ilike.*"+encodeURIComponent(q)+"*,title.ilike.*"+encodeURIComponent(q)+"*)":"";return istek("/rest/v1/posts?select=slug,title,img,yayin_at&lang=eq."+d+"&order=updated_at.desc&limit=40"+f).then(function(r){if(!r.ok)throw new Error("arama hatası");return r.json()})},
   postAl:function(s,d){return istek("/rest/v1/posts?slug=eq."+encodeURIComponent(s)+"&lang=eq."+d+"&select=*").then(function(r){return r.json()})},
   postYaz:function(s,d,a){return istek("/rest/v1/posts?slug=eq."+encodeURIComponent(s)+"&lang=eq."+d,{method:"PATCH",headers:{"Prefer":"return=representation"},json:a}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t)});return r.json()})},
-  trafik:function(gun){return istek("/rest/v1/events?select=*&gun=gte."+gun+"&order=adet.desc").then(function(r){if(!r.ok)throw new Error("trafik okunamadı");return r.json()})}
+  trafik:function(bas,son){return trafikSayfalari(istek,bas,son)}
 };
 
 /* GİRİŞ */
@@ -738,49 +759,111 @@ el("dYayin").oninput=function(){kirli(true)};
 el("dYayinda").onchange=function(){kirli(true)};
 
 /* TRAFİK */
-var T={};
-function tarih(g){var d=new Date();d.setDate(d.getDate()-g+1);return d.toISOString().slice(0,10)}
-T.yukle=function(){
-  var g=parseInt(el("tAralik").value,10);
-  api.trafik(tarih(g)).then(function(v){
-    var sayfa=v.filter(function(x){return x.tur==="sayfa"}),olay=v.filter(function(x){return x.tur==="tik"});
-    function kaydirmaMi(x){return /^kaydirma:\s*(25|50|75|100)$/.test(String(x.etiket||""))}
-    var kaydirma=olay.filter(kaydirmaMi),tik=olay.filter(function(x){return !kaydirmaMi(x)});
-    function adet(x){var n=Number(x.adet);return Number.isFinite(n)&&n>=0?n:0}
-    var toplam=sayfa.reduce(function(a,x){return a+adet(x)},0);
-    var tiklama=tik.reduce(function(a,x){return a+adet(x)},0);
-    var kaynaklar={};sayfa.forEach(function(x){kaynaklar[x.kaynak]=(kaynaklar[x.kaynak]||0)+adet(x)});
-    var arama=Object.keys(kaynaklar).filter(function(k){return k.indexOf("arama")===0}).reduce(function(a,k){return a+kaynaklar[k]},0);
-    var direkt=kaynaklar["direkt"]||0;
-
-    el("tKartlar").innerHTML=
-      '<div class="kart"><span>Görüntüleme</span><b>'+toplam+'</b></div>'+
-      '<div class="kart"><span>Arama</span><b>'+arama+'</b></div>'+
-      '<div class="kart"><span>Direkt</span><b>'+direkt+'</b></div>'+
-      '<div class="kart"><span>Tıklama</span><b>'+tiklama+'</b></div>';
-
-    function cubuk(kutu,liste,bas){
-      kutu.innerHTML="";
-      if(!liste.length){kutu.innerHTML='<p class="alt">Kayıt yok.</p>';return}
-      var en=Math.max.apply(null,liste.map(function(x){return x[1]}))||1;
-      liste.slice(0,15).forEach(function(x){
-        var d=document.createElement("div");d.style.marginBottom="8px";
-        d.innerHTML='<div style="display:flex;justify-content:space-between;font-size:12.5px"><span></span><b>'+x[1]+'</b></div><div class="cubuk2"><i style="width:'+Math.round(x[1]/en*100)+'%"></i></div>';
-        d.querySelector("span").textContent=(bas||"")+x[0];
-        kutu.appendChild(d);
-      });
-    }
-    function grupla(arr,alan){
-      var m={};arr.forEach(function(x){m[x[alan]]=(m[x[alan]]||0)+adet(x)});
-      return Object.keys(m).map(function(k){return [k,m[k]]}).sort(function(a,b){return b[1]-a[1]});
-    }
-    cubuk(el("tKaynak"),grupla(sayfa,"kaynak"));
-    cubuk(el("tSayfa"),grupla(sayfa,"yol"));
-    cubuk(el("tTik"),grupla(tik,"etiket"));
-    var seviyeler=[25,50,75,100].map(function(p){return [p+"%",kaydirma.filter(function(x){return Number(String(x.etiket).split(":")[1])===p}).reduce(function(a,x){return a+adet(x)},0)]});
-    cubuk(el("tKaydirma"),seviyeler);
-  }).catch(function(e){el("tKartlar").innerHTML='<p class="alt">'+e.message+'</p>'})};
+var T={istekNo:0};
+function trafikTarih(geri,simdi){
+  return new Date((simdi===undefined?Date.now():simdi)-geri*86400000).toISOString().slice(0,10);
+}
+function trafikAralik(secim,ozel,simdi){
+  var bugun=trafikTarih(0,simdi), enEski=trafikTarih(29,simdi);
+  if(secim==="custom" && /^\d{4}-\d{2}-\d{2}$/.test(ozel||"") && ozel>=enEski && ozel<=bugun)return [ozel,ozel];
+  if(secim==="yesterday")return [trafikTarih(1,simdi),trafikTarih(1,simdi)];
+  if(secim==="day2")return [trafikTarih(2,simdi),trafikTarih(2,simdi)];
+  if(secim==="7"||secim==="30")return [trafikTarih(Number(secim)-1,simdi),bugun];
+  return [bugun,bugun];
+}
+async function trafikSayfalari(istekFn,bas,son){
+  var tum=[],limit=500;
+  for(var offset=0;offset<100000;offset+=limit){
+    var url="/rest/v1/events?select=gun,yol,kaynak,tur,etiket,adet&gun=gte."+encodeURIComponent(bas)+"&gun=lte."+encodeURIComponent(son)+"&order=gun.asc,yol.asc,kaynak.asc,tur.asc,etiket.asc&limit="+limit+"&offset="+offset;
+    var r=await istekFn(url);
+    if(!r.ok)throw new Error("Trafik verisi alınamadı ("+r.status+").");
+    var parca=await r.json();
+    if(!Array.isArray(parca))throw new Error("Trafik verisi geçersiz.");
+    tum.push.apply(tum,parca);
+    if(parca.length<limit)return tum;
+  }
+  throw new Error("Bu aralık çok büyük. Daha kısa bir tarih aralığı seçin.");
+}
+function trafikAdet(x){var n=Number(x.adet);return Number.isFinite(n)&&n>=0?Math.floor(n):0}
+function trafikKaydirma(x){return /^kaydirma:\s*(25|50|75|100)$/.test(String(x.etiket||""))}
+function trafikKanal(k){
+  k=String(k||"").toLowerCase();
+  if(k.indexOf("arama:google.")===0 || k==="arama:google")return "Google arama";
+  if(k.indexOf("arama:")===0)return "Diğer arama";
+  if(k==="direkt")return "Doğrudan / kaynak yok";
+  if(k==="ic")return "Site içi";
+  if(k.indexOf("sosyal:")===0)return "Sosyal / yönlendirme";
+  if(k.indexOf("site:")===0)return "Diğer siteler";
+  return "Diğer / bilinmiyor";
+}
+function trafikSay(v){
+  var m={views:0,search:0,google:0,direct:0,clicks:0,full:0};
+  v.forEach(function(x){
+    var n=trafikAdet(x),k=trafikKanal(x.kaynak);
+    if(x.tur==="sayfa"){m.views+=n;if(k==="Google arama"||k==="Diğer arama")m.search+=n;if(k==="Google arama")m.google+=n;if(k==="Doğrudan / kaynak yok")m.direct+=n}
+    else if(x.tur==="tik"){if(trafikKaydirma(x)){if(Number(String(x.etiket).split(":")[1])===100)m.full+=n}else m.clicks+=n}
+  });
+  return m;
+}
+function trafikGrup(arr,alan){
+  var m=Object.create(null);
+  arr.forEach(function(x){var k=typeof alan==="function"?alan(x):String(x[alan]||"Bilinmiyor");m[k]=(m[k]||0)+trafikAdet(x)});
+  return Object.keys(m).map(function(k){return [k,m[k]]}).sort(function(a,b){return b[1]-a[1]});
+}
+function trafikFmt(n){return Number(n).toLocaleString("tr-TR")}
+function trafikYuzde(n,d){return d?Math.round(n/d*100)+"%":"—"}
+function trafikCubuk(kutu,liste,limit){
+  kutu.innerHTML="";
+  if(!liste.length){kutu.innerHTML='<p class="alt">Kayıt yok.</p>';return}
+  var en=Math.max.apply(null,liste.map(function(x){return x[1]}))||1;
+  liste.slice(0,limit||15).forEach(function(x){
+    var d=document.createElement("div");d.className="trafik-row";
+    d.innerHTML='<div class="trafik-row-head"><span></span><b>'+trafikFmt(x[1])+'</b></div><div class="cubuk2"><i style="width:'+Math.round(x[1]/en*100)+'%"></i></div>';
+    d.querySelector("span").textContent=x[0];kutu.appendChild(d);
+  });
+}
+function trafikGunler(v,bas,son){
+  var m=Object.create(null);
+  v.forEach(function(x){if(typeof x.gun==="string"){if(!m[x.gun])m[x.gun]=[];m[x.gun].push(x)}});
+  var rows=[];
+  for(var d=Date.parse(son+"T00:00:00Z"),min=Date.parse(bas+"T00:00:00Z");d>=min;d-=86400000){
+    var gun=new Date(d).toISOString().slice(0,10);
+    rows.push([gun,trafikSay(m[gun]||[])]);
+  }
+  return rows;
+}
+T.gunSec=function(gun){el("tAralik").value="custom";el("tGun").value=gun;T.yukle()};
+T.yukle=async function(){
+  var id=++T.istekNo,filtre=el("tAralik").value,ozel=el("tGun"),bugun=trafikTarih(0);
+  ozel.min=trafikTarih(29);ozel.max=bugun;
+  if(!ozel.value||ozel.value<ozel.min||ozel.value>ozel.max)ozel.value=bugun;
+  ozel.hidden=filtre!=="custom";
+  var ar=trafikAralik(filtre,ozel.value);
+  el("tDonem").textContent=ar[0]===ar[1]?ar[0]:ar[0]+" – "+ar[1];
+  el("tDurum").textContent="Veriler yükleniyor…";
+  try{
+    var v=await api.trafik(ar[0],ar[1]);
+    if(id!==T.istekNo)return;
+    var m=trafikSay(v),sayfa=v.filter(function(x){return x.tur==="sayfa"}),tik=v.filter(function(x){return x.tur==="tik"&&!trafikKaydirma(x)}),kaydirma=v.filter(function(x){return x.tur==="tik"&&trafikKaydirma(x)});
+    function kart(bas,n,alt){return '<div class="kart"><span>'+bas+'</span><b>'+trafikFmt(n)+'</b><small>'+alt+'</small></div>'}
+    el("tKartlar").innerHTML=kart("Görüntüleme",m.views,"Tekil ziyaretçi değil")+
+      kart("Arama kaynaklı",m.search,trafikYuzde(m.search,m.views)+" · tüm görüntülemeler içinde")+
+      kart("Google kaynaklı",m.google,trafikYuzde(m.google,m.views)+" · Google arama")+
+      kart("Doğrudan",m.direct,"Kaynak bilgisi yok veya direkt")+
+      kart("Tıklama",m.clicks,"Kaydırmalar hariç")+
+      kart("Tam kaydırma",m.full,"%100 eşik olayları");
+    trafikCubuk(el("tKanallar"),trafikGrup(sayfa,function(x){return trafikKanal(x.kaynak)}));
+    trafikCubuk(el("tKaynak"),trafikGrup(sayfa,"kaynak"));
+    trafikCubuk(el("tSayfa"),trafikGrup(sayfa,"yol"));
+    trafikCubuk(el("tTik"),trafikGrup(tik,"etiket"));
+    trafikCubuk(el("tKaydirma"),[25,50,75,100].map(function(n){return [n+"%",kaydirma.filter(function(x){return Number(String(x.etiket).split(":")[1])===n}).reduce(function(a,x){return a+trafikAdet(x)},0)]}));
+    el("tGunler").innerHTML='<table class="trafik-tab"><thead><tr><th>Tarih (UTC)</th><th>Görüntüleme</th><th>Arama</th><th>Google</th><th>Direkt</th><th>Tıklama</th><th>%100</th></tr></thead><tbody>'+
+      trafikGunler(v,ar[0],ar[1]).map(function(row){var d=row[0],n=row[1];return '<tr><td><button type="button" onclick="T.gunSec(\''+d+'\')">'+d+'</button></td>'+[n.views,n.search,n.google,n.direct,n.clicks,n.full].map(function(k){return '<td>'+trafikFmt(k)+'</td>'}).join("")+'</tr>'}).join("")+'</tbody></table>';
+    el("tDurum").textContent="Güncellendi · "+trafikFmt(v.length)+" toplu kayıt okundu";
+  }catch(e){if(id!==T.istekNo)return;el("tDurum").textContent=e.message||"Trafik verisi alınamadı.";["tKartlar","tGunler","tKanallar","tKaynak","tSayfa","tTik","tKaydirma"].forEach(function(k){el(k).innerHTML=""})}
+};
 el("tAralik").onchange=T.yukle;
+el("tGun").onchange=T.yukle;
 T.temizle=function(){
   istek("/rest/v1/rpc/event_temizle",{method:"POST",json:{p_gun:30}})
   .then(function(){toast("Eski kayıtlar silindi","ok");T.yukle()}).catch(function(e){toast(e.message,"err")})};
