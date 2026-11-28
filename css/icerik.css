@@ -13,7 +13,7 @@ p{margin:0 0 1em}
 .btn.tg{background:#229ed9;color:#04202e}
 .btn-o{border:1px solid var(--line);color:var(--gold2);background:transparent}
 .rimg{display:block;width:100%;max-width:560px;height:auto;aspect-ratio:3/2;max-height:620px;object-fit:contain;object-position:center top;border-radius:14px;margin:12px auto;background:#151e2c}
-#cover{display:block;width:100%;max-width:560px;height:auto;border-radius:14px;margin:12px auto;background:#151e2c}
+#cover{display:block;width:auto;max-width:min(100%,560px);height:auto;max-height:480px;object-fit:contain;border-radius:14px;margin:12px auto;background:#151e2c}
 @media(max-width:640px){.rimg{max-height:420px}}
 .guncel{color:var(--mut);font-size:13px}
 .sect{margin-top:30px}
