@@ -47,7 +47,7 @@ function csp(n) {
   return "default-src 'self'; "
     + "script-src 'self' 'nonce-" + n + "' 'strict-dynamic'; "
     + "style-src 'self' 'unsafe-inline'; "
-    + "img-src 'self' data: https://accerzwswgiqhtfgoeqv.supabase.co https://static.escortnews.eu; "
+    + "img-src 'self' data: https://accerzwswgiqhtfgoeqv.supabase.co https://static.escortnews.eu https://www.happyescorts.com; "
     + "connect-src 'self' https://accerzwswgiqhtfgoeqv.supabase.co; "
     + "frame-src 'none'; font-src 'self' data:; object-src 'none'; "
     + "base-uri 'self'; form-action 'self'; frame-ancestors 'self'; "
@@ -112,7 +112,10 @@ function footer(dil, banner) {
     .map(function (x) { return '<a href="' + u(dil, '/' + x[0] + '-escort') + '">' + x[1] + '</a>'; }).join('');
 
   const partner = banner
-    ? '<div style="width:min(1120px,100%);margin:0 auto;padding:14px 18px 0;text-align:center"><a href="https://escortnews.eu/" title="Escort Girls" target="_blank" rel="noopener" style="display:inline-block"><img src="https://static.escortnews.eu/125x60.gif" alt="Escort Girls" width="125" height="60" loading="lazy" decoding="async" style="display:block"></a></div>'
+    ? '<div style="width:min(1120px,100%);margin:0 auto;padding:14px 18px 0;text-align:center">'
+      + '<a href="https://escortnews.eu/" title="Escort Girls" target="_blank" rel="noopener" style="display:inline-block;vertical-align:middle"><img src="https://static.escortnews.eu/125x60.gif" alt="Escort Girls" width="125" height="60" loading="lazy" decoding="async" style="display:block"></a>'
+      + '<a href="https://www.happyescorts.com/tr/" title="HappyEscorts.com" target="_blank" rel="noopener" style="display:inline-block;vertical-align:middle;margin-left:10px"><img src="https://www.happyescorts.com/images/stories/banner/happy_escorts/en/120x60__en_05__007.jpg" alt="HappyEscorts.com" width="120" height="60" loading="lazy" decoding="async" style="display:block"></a>'
+      + '</div>'
     : '';
 
   return '<footer class="chrome-footer">'
