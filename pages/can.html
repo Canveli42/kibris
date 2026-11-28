@@ -317,7 +317,7 @@ input[type=checkbox]{width:16px;height:16px;accent-color:var(--k);margin:0;flex:
     <!-- TEMİZLİK -->
     <div class="bx view hide" id="vTemiz">
       <h2>Temizlik</h2>
-      <p class="alt">Sayfaları ve veritabanını tarar; kullanılmayan görselleri ve birebir kopyaları bulur. Silmeden önce listeler.</p>
+      <p class="alt">Bilinen sayfaları ve veritabanı kaynaklarını kontrol eder. Sonuçlar yalnızca inceleme adayıdır; eksiksiz referans doğrulaması olmadan bu bölümden dosya silinemez.</p>
       <label>Korunacak ek adresler</label>
       <textarea id="koru" rows="4"></textarea>
       <div class="ikili">
@@ -329,7 +329,7 @@ input[type=checkbox]{width:16px;height:16px;accent-color:var(--k);margin:0;flex:
       <div id="temizListe"></div>
       <div class="ikili" style="margin-top:10px">
         <button class="ghost" id="btnSec">Seçimi ters çevir</button>
-        <button class="btn" id="btnSilSec">Seçilenleri sil</button>
+        <button class="btn" id="btnSilSec" disabled>Silme kapalı — inceleme modu</button>
       </div>
     </div>
 
@@ -397,7 +397,7 @@ var api={
   imgYaz:function(s,l,u){return istek("/rest/v1/posts?slug=eq."+encodeURIComponent(s)+"&lang=eq."+l,{method:"PATCH",headers:{"Prefer":"return=representation"},json:{img:u}}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t)});return r.json()}).then(function(d){return !!(d&&d.length)})},
   settings:function(){return istek("/rest/v1/settings?select=key,value").then(function(r){return r.json()})},
   setSetting:function(k,v){return istek("/rest/v1/settings?on_conflict=key",{method:"POST",headers:{"Prefer":"resolution=merge-duplicates,return=minimal"},json:[{key:k,value:v}]}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t)})})},
-  tablo:function(t,s){return istek("/rest/v1/"+t+"?select="+s).then(function(r){if(!r.ok)throw new Error(t);return r.json()})},
+  tablo:function(t,s){var out=[],offset=0;function sayfa(){return istek("/rest/v1/"+t+"?select="+encodeURIComponent(s)+"&offset="+offset+"&limit=500",{headers:{"Prefer":"count=exact"}}).then(function(r){if(!r.ok)throw new Error(t+" okunamadı");var total=Number((r.headers.get("content-range")||"").split("/")[1]);if(!Number.isSafeInteger(total)||total<0)throw new Error(t+" toplam satır doğrulanamadı");return r.json().then(function(v){if(!Array.isArray(v))throw new Error(t+" geçersiz sonuç");out=out.concat(v);offset+=v.length;if(offset===total)return out;if(!v.length||offset>total)throw new Error(t+" eksik liste");return sayfa()})})}return sayfa()},
   postBul:function(q,d){var f=q?"&or=(slug.ilike.*"+encodeURIComponent(q)+"*,title.ilike.*"+encodeURIComponent(q)+"*)":"";return istek("/rest/v1/posts?select=slug,title,img,yayin_at&lang=eq."+d+"&order=updated_at.desc&limit=40"+f).then(function(r){if(!r.ok)throw new Error("arama hatası");return r.json()})},
   postAl:function(s,d){return istek("/rest/v1/posts?slug=eq."+encodeURIComponent(s)+"&lang=eq."+d+"&select=*").then(function(r){return r.json()})},
   postYaz:function(s,d,a){return istek("/rest/v1/posts?slug=eq."+encodeURIComponent(s)+"&lang=eq."+d,{method:"PATCH",headers:{"Prefer":"return=representation"},json:a}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t)});return r.json()})},
@@ -629,14 +629,14 @@ function harita(){
   });
   return sira.then(function(){
     return Promise.all([
-      api.tablo("posts","img,body,meta,faq").catch(function(){return[]}),
-      api.tablo("settings","value").catch(function(){return[]}),
-      api.tablo("regions","img").catch(function(){return[]})
+      api.tablo("posts","img,body,meta,faq"),
+      api.tablo("settings","value"),
+      api.tablo("regions","img")
     ]).then(function(x){
       (x[0]||[]).forEach(function(p){topla(p.img);topla(p.body);topla(p.meta);topla(p.faq)});
       (x[1]||[]).forEach(function(p){topla(p.value)});
       (x[2]||[]).forEach(function(p){topla(p.img)});
-      return {tarandi:tarandi};
+      if(sonHata)throw new Error(sonHata+" sayfa okunamadı; sonuçlar eksik.");return {tarandi:tarandi};
     });
   });
 }
@@ -653,7 +653,7 @@ el("btnKullanilmayan").onclick=function(){say("temizMsg","Taranıyor…",true);e
   listAll("").then(function(v){veri=v;return harita().then(function(r){
     temizVeri=veri.filter(function(f){return !korunan.has(f.yol)&&!korunan.has(f.ad)}).map(function(f){return {ad:f.ad,yol:f.yol,boyut:f.boyut,sec:true}});
     temizCiz();
-    say("temizMsg",temizVeri.length+" kullanılmayan bulundu ("+r.tarandi+" sayfa tarandı"+(sonHata?", "+sonHata+" sayfa yüklenemedi":"")+").",true)})})
+    say("temizMsg",temizVeri.length+" doğrulanmamış kullanılmayan aday ("+r.tarandi+" sayfa tarandı"+(sonHata?", "+sonHata+" sayfa yüklenemedi":"")+").",true)})})
   .catch(function(e){say("temizMsg","HATA: "+e.message)})};
 
 el("btnKopya").onclick=function(){say("temizMsg","Taranıyor…",true);el("temizListe").innerHTML="";
@@ -667,19 +667,13 @@ el("btnKopya").onclick=function(){say("temizMsg","Taranıyor…",true);el("temiz
           var hx=[].slice.call(new Uint8Array(d)).map(function(b){return ("0"+b.toString(16)).slice(-2)}).join("");(h[hx]=h[hx]||[]).push(f)})})}).catch(function(){})})
           .then(function(){isl++;el("cbTemiz").style.width=(isl/aday.length*100)+"%"})});
         return ic.then(function(){Object.keys(h).forEach(function(hx){var gr2=h[hx];if(gr2.length<2)return;
-          var koru=gr2.filter(function(f){return korunan.has(f.yol)})[0]||gr2[0];
-          gr2.forEach(function(f){if(f!==koru)temizVeri.push({ad:f.ad,yol:f.yol,boyut:f.boyut,sec:true})})})})})});
-    return sira.then(function(){temizCiz();say("temizMsg",temizVeri.length?temizVeri.length+" fazla kopya bulundu.":"Kopya yok.",true)})})})
+          var koru=gr2.filter(function(f){return korunan.has(f.yol)||korunan.has(f.ad)})[0]||gr2[0];
+          gr2.forEach(function(f){if(f!==koru&&!korunan.has(f.yol)&&!korunan.has(f.ad))temizVeri.push({ad:f.ad,yol:f.yol,boyut:f.boyut,sec:true})})})})})});
+    return sira.then(function(){temizCiz();say("temizMsg",temizVeri.length?temizVeri.length+" doğrulanmamış kopya adayı bulundu.":"Kopya yok.",true)})})})
   .catch(function(e){say("temizMsg","HATA: "+e.message)})};
 
 el("btnSec").onclick=function(){temizVeri.forEach(function(x){x.sec=!x.sec});temizCiz()};
-el("btnSilSec").onclick=function(){var s=temizVeri.filter(function(x){return x.sec}).map(function(x){return x.yol});
-  if(!s.length)return say("temizMsg","Seçim yok.");
-  if(sonHata>0&&!confirm(sonHata+" sayfa yüklenemedi, o sayfalardaki görseller kullanılmıyor görünebilir. Yine de silinsin mi?"))return;
-  if(!confirm(s.length+" dosya silinsin mi?"))return;var i=0;
-  function p(){if(i>=s.length){temizVeri=temizVeri.filter(function(x){return !x.sec});temizCiz();listeCek();say("temizMsg",s.length+" silindi.",true);return Promise.resolve()}
-    return api.remove(s.slice(i,i+20)).then(function(){i+=20;el("cbTemiz").style.width=(Math.min(i,s.length)/s.length*100)+"%";return p()})}
-  p().catch(function(e){say("temizMsg","HATA: "+e.message)})};
+el("btnSilSec").onclick=function(){say("temizMsg","Eksiksiz referans doğrulaması yok; bu bölümden silme kapalı.")};
 
 /* DÜZENLE */
 var P={slug:null,dil:"tr",gecmis:[],kirli:false,yayinda:false};window.P=P;
