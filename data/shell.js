@@ -105,7 +105,7 @@ function header(o) {
     + '</div></header>';
 }
 
-function footer(dil) {
+function footer(dil, options = {}) {
   dil = dil || 'tr';
   const f = FT[dil] || FT.tr;
   const bolge = [['girne', 'Girne'], ['lefkosa', 'Lefkoşa'], ['magusa', 'Mağusa'], ['iskele', 'İskele'], ['guzelyurt', 'Güzelyurt']]
@@ -119,7 +119,7 @@ function footer(dil) {
     + '<div><h3>' + f.s + '</h3>'
     + '<a href="' + u(dil, '') + '">' + f.ana + '</a><a href="' + u(dil, '/blog') + '">' + f.blog + '</a>'
     + '<a href="' + u(dil, '/fiyatlar') + '">' + f.fiyat + '</a><a href="' + u(dil, '/iletisim') + '">' + f.ilet + '</a>'
-    + '<a href="tel:+905515420755">+90 551 542 07 55</a>'
+    + (options.hidePhone ? '' : '<a href="tel:+905515420755">+90 551 542 07 55</a>')
     + '<a href="' + u(dil, '/hakkinda') + '">' + f.hak + '</a><a href="' + u(dil, '/gizlilik') + '">' + f.giz + '</a>'
     + '<a href="/sitemap.xml">' + f.harita + '</a></div>'
     + '</div></div>'

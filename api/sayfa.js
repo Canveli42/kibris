@@ -229,7 +229,7 @@ module.exports = async (req, res) => {
     html = html
       .replace('<!--SHELL:HEAD-->', S.head())
       .replace('<!--SHELL:HEADER-->', S.header({ aktif: sayfa.aktif, dil: sayfa.dil, ceviriler: ceviriHaritasi(sayfa.grup) }))
-      .replace('<!--SHELL:FOOTER-->', S.footer(sayfa.dil));
+      .replace('<!--SHELL:FOOTER-->', S.footer(sayfa.dil, { hidePhone: sayfa.grup === 'ana' }));
   }
 
   const n = S.nonce();
