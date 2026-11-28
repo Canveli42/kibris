@@ -19,7 +19,7 @@ const PANEL_CSP = n => "default-src 'self'; "
   + "font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'";
 
 const IZIN = {
-  index: { f: 'index.html', aktif: '/', dil: 'tr', grup: 'ana' },
+  index: { f: 'index.html', aktif: '/', dil: 'tr', grup: 'ana' }, banner: true },
   en: { f: 'en.html', aktif: '/en', dil: 'en', grup: 'ana' },
   ru: { f: 'ru.html', aktif: '/ru', dil: 'ru', grup: 'ana' },
   can: { f: 'can.html', aktif: '/panel', dil: 'tr', panel: true },
