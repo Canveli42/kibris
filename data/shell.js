@@ -112,7 +112,7 @@ function footer(dil, banner) {
     .map(function (x) { return '<a href="' + u(dil, '/' + x[0] + '-escort') + '">' + x[1] + '</a>'; }).join('');
 
   const partner = banner
-    ? '<div style="padding:14px 0 18px;text-align:center"><a href="https://escortnews.eu" title="Escort Girls" target="_blank" rel="noopener"><img src="https://static.escortnews.eu/125x60.gif" alt="Escort Girls" width="125" height="60" loading="lazy" decoding="async"></a></div>'
+    ? '<div style="flex:1 0 100%;padding:14px 0 18px;text-align:center"><a href="https://escortnews.eu" title="Escort Girls" target="_blank" rel="noopener"><img src="https://static.escortnews.eu/125x60.gif" alt="Escort Girls" width="125" height="60" loading="lazy" decoding="async"></a></div>'
     : '';
 
   return '<footer class="chrome-footer">'
